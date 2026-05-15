@@ -1,0 +1,41 @@
+{
+  "name": "mindbridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataforma SaaS de Salud Mental con IA + Psicólogos — Colombia",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "test:clinical": "node tests/ai-clinical/run-all.js",
+    "db:migrate": "npm run -w packages/database migrate:dev",
+    "db:migrate:prod": "npm run -w packages/database migrate:deploy",
+    "db:seed": "npm run -w packages/database seed",
+    "db:studio": "npm run -w packages/database studio",
+    "db:reset": "npm run -w packages/database reset",
+    "audit:security": "npm audit --audit-level=moderate",
+    "audit:clinical": "node tests/ai-clinical/protocol-crisis-test.js",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0",
+    "@types/node": "^20.12.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "author": "MindBridge Colombia SAS",
+  "license": "UNLICENSED"
+}

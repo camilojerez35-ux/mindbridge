@@ -1,0 +1,513 @@
+// MindBridge Colombia — Esquema de Base de Datos
+// Prisma ORM + PostgreSQL
+// Cumple: Ley 1581/2012 (datos sensibles), Resolución 2654/2019 (historia clínica)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// USUARIOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Usuario {
+  id                String         @id @default(cuid())
+  email             String         @unique
+  emailVerificado   DateTime?
+  nombre            String?
+  apellido          String?
+  telefono          String?
+  ciudadColombia    String?
+  fechaNacimiento   DateTime?
+  imagen            String?
+  hashedPassword    String?
+  
+  // Consentimiento (Ley 1581/2012 — OBLIGATORIO)
+  consentimientoDatos     Boolean   @default(false)
+  fechaConsentimiento     DateTime?
+  consentimientoIA        Boolean   @default(false) // Res. 2654/2019
+  fechaConsentimientoIA   DateTime?
+  consentimientoMarketing Boolean   @default(false)
+
+  // Perfil clínico (datos sensibles — máxima protección)
+  motivoConsulta      String?
+  condicionesPrevias  String?   // Cifrado en aplicación
+  medicamentos        String?   // Cifrado en aplicación
+  
+  // Estado de cuenta
+  estado              EstadoUsuario  @default(ACTIVO)
+  rol                 RolUsuario     @default(USUARIO)
+  
+  // Suscripción
+  planActual          PlanSuscripcion @default(GRATIS)
+  suscripcionId       String?
+  suscripcionVence    DateTime?
+  
+  // Metadatos
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  ultimoAcceso  DateTime?
+  
+  // Relaciones
+  suscripciones   Suscripcion[]
+  sesionesChat    SesionChat[]
+  mensajesChat    MensajeChat[]
+  entradasDiario  EntradaDiario[]
+  registrosAnimo  RegistroAnimo[]
+  citasUsuario    Cita[]           @relation("CitasUsuario")
+  incidentesCrisis IncidenteCrisis[]
+  consentimientos  Consentimiento[]
+  
+  @@map("usuarios")
+  @@index([email])
+  @@index([planActual])
+}
+
+enum EstadoUsuario {
+  ACTIVO
+  SUSPENDIDO
+  ELIMINADO
+  PENDIENTE_VERIFICACION
+}
+
+enum RolUsuario {
+  USUARIO
+  ADMIN
+  PSICOLOGO
+  SUPERADMIN
+}
+
+enum PlanSuscripcion {
+  GRATIS
+  PLUS
+  FAMILIA
+  EMPRESARIAL
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUSCRIPCIONES
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Suscripcion {
+  id              String            @id @default(cuid())
+  usuarioId       String
+  usuario         Usuario           @relation(fields: [usuarioId], references: [id])
+  plan            PlanSuscripcion
+  estado          EstadoSuscripcion @default(ACTIVA)
+  montoCOP        Int               // En centavos
+  fechaInicio     DateTime          @default(now())
+  fechaVencimiento DateTime
+  fechaCancelacion DateTime?
+  motivoCancelacion String?
+  
+  // Pasarela de pagos (Wompi/ePayco)
+  referenciaPago  String?  @unique
+  idTransaccion   String?
+  metodoPago      String?  // PSE, NEQUI, TARJETA
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  pagos           Pago[]
+  
+  @@map("suscripciones")
+  @@index([usuarioId])
+  @@index([estado])
+}
+
+enum EstadoSuscripcion {
+  ACTIVA
+  VENCIDA
+  CANCELADA
+  PAUSADA
+  PRUEBA
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CHAT CON IA
+// ─────────────────────────────────────────────────────────────────────────────
+
+model SesionChat {
+  id          String    @id @default(cuid())
+  usuarioId   String
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+  titulo      String?
+  estado      EstadoSesion @default(ACTIVA)
+  resumen     String?   // Generado por IA al cerrar sesión
+  
+  // Metadatos clínicos
+  nivelAnimoPrevio    Int?  // 1-10
+  nivelAnimoPosterior Int?  // 1-10
+  huboEventoCrisis    Boolean @default(false)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  cerradaEn   DateTime?
+  
+  mensajes    MensajeChat[]
+  
+  @@map("sesiones_chat")
+  @@index([usuarioId])
+  @@index([estado])
+}
+
+enum EstadoSesion {
+  ACTIVA
+  CERRADA
+  ARCHIVADA
+}
+
+model MensajeChat {
+  id           String       @id @default(cuid())
+  usuarioId    String
+  usuario      Usuario      @relation(fields: [usuarioId], references: [id])
+  sesionId     String?
+  sesion       SesionChat?  @relation(fields: [sesionId], references: [id])
+  
+  rol          RolMensaje
+  contenido    String       @db.Text
+  
+  // Datos de IA
+  modeloIA     String?
+  tokensUsados Int?
+  
+  // Datos de crisis
+  esCrisis     Boolean  @default(false)
+  nivelCrisis  String?  // NINGUNO, BAJO, MODERADO, ALTO, CRITICO
+  
+  createdAt    DateTime @default(now())
+  
+  @@map("mensajes_chat")
+  @@index([usuarioId])
+  @@index([sesionId])
+  @@index([esCrisis])
+}
+
+enum RolMensaje {
+  user
+  assistant
+  system
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DIARIO EMOCIONAL
+// ─────────────────────────────────────────────────────────────────────────────
+
+model EntradaDiario {
+  id            String    @id @default(cuid())
+  usuarioId     String
+  usuario       Usuario   @relation(fields: [usuarioId], references: [id])
+  
+  contenido     String    @db.Text // Cifrado en aplicación
+  estadoAnimo   Int       // 1-10
+  emociones     String[]  // ["ansiedad", "tristeza", "esperanza"]
+  etiquetas     String[]
+  
+  // Análisis de IA (generado)
+  analisisIA    String?   @db.Text
+  patronesIA    String[]
+  
+  esFavorito    Boolean   @default(false)
+  esPrivado     Boolean   @default(true)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("entradas_diario")
+  @@index([usuarioId])
+  @@index([createdAt])
+}
+
+model RegistroAnimo {
+  id          String    @id @default(cuid())
+  usuarioId   String
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+  
+  valor       Int       // 1-10
+  nota        String?
+  contexto    String?   // "mañana", "tarde", "noche", "evento específico"
+  emociones   String[]
+  
+  fecha       DateTime  @default(now())
+  
+  @@map("registros_animo")
+  @@index([usuarioId])
+  @@index([fecha])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PSICÓLOGOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Psicologo {
+  id                    String    @id @default(cuid())
+  usuarioId             String    @unique
+  
+  // Datos profesionales
+  nombreCompleto        String
+  tarjetaProfesionalId  String    @unique // COLPSIC
+  tarjetaVencimiento    DateTime?
+  tarjetaVerificada     Boolean   @default(false)
+  fechaVerificacion     DateTime?
+  
+  // Especialidades y formación
+  especialidades        String[]
+  enfoqueTerapeutico    String[]  // ["TCC", "ACT", "Psicoanalisis"]
+  formacion             String    @db.Text
+  años_experiencia      Int
+  bio                   String    @db.Text
+  
+  // Disponibilidad y tarifas
+  tarifaCOP             Int       // Tarifa por sesión en pesos
+  disponibilidad        Json      // Horarios por día de la semana
+  zonaHoraria           String    @default("America/Bogota")
+  ciudades              String[]
+  modalidad             String[]  // ["VIDEOLLAMADA", "TELEFONICA"]
+  idiomas               String[]  @default(["Español"])
+  
+  // Estado en la plataforma
+  estado                EstadoPsicologo @default(PENDIENTE_VERIFICACION)
+  activo                Boolean   @default(false)
+  fechaActivacion       DateTime?
+  
+  // Métricas
+  calificacionPromedio  Float?
+  totalCitas            Int       @default(0)
+  totalReseñas          Int       @default(0)
+  
+  // Imagen
+  fotoUrl               String?
+  videoUrl              String?   // Video de presentación
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  
+  citas                 Cita[]
+  resenas               Resena[]
+  pagosRecibidos        PagosPsicologo[]
+  
+  @@map("psicologos")
+  @@index([estado])
+  @@index([activo])
+  @@index([especialidades])
+}
+
+enum EstadoPsicologo {
+  PENDIENTE_VERIFICACION
+  VERIFICADO
+  ACTIVO
+  SUSPENDIDO
+  RECHAZADO
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CITAS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Cita {
+  id              String        @id @default(cuid())
+  usuarioId       String
+  usuario         Usuario       @relation("CitasUsuario", fields: [usuarioId], references: [id])
+  psicologoId     String
+  psicologo       Psicologo     @relation(fields: [psicologoId], references: [id])
+  
+  // Agendamiento
+  fechaHora       DateTime
+  duracionMinutos Int           @default(45)
+  estado          EstadoCita    @default(PENDIENTE)
+  
+  // Tipo y modalidad
+  tipo            TipoCita      @default(PRIMERA_CONSULTA)
+  modalidad       String        @default("VIDEOLLAMADA")
+  
+  // Pago
+  montoCOP        Int           // Precio total al usuario
+  comisionCOP     Int           // Comisión de la plataforma (20%)
+  montoPsicologoCOP Int         // Lo que recibe el psicólogo
+  estadoPago      EstadoPago    @default(PENDIENTE)
+  pagoId          String?
+  pago            Pago?         @relation(fields: [pagoId], references: [id])
+  
+  // Historia clínica (Res. 2654/2019 — OBLIGATORIO)
+  notasPrevias    String?       @db.Text // Resumen de IA (con consentimiento)
+  notasClinicas   String?       @db.Text // Del psicólogo — datos sensibles cifrados
+  
+  // Videollamada
+  salaVideollamada String?
+  tokenPsicologo   String?
+  tokenUsuario     String?
+  
+  // Cancelación
+  motivoCancelacion String?
+  canceladaBy       String?
+  canceladaEn       DateTime?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  resena          Resena?
+  
+  @@map("citas")
+  @@index([usuarioId])
+  @@index([psicologoId])
+  @@index([fechaHora])
+  @@index([estado])
+}
+
+enum EstadoCita {
+  PENDIENTE
+  CONFIRMADA
+  EN_CURSO
+  COMPLETADA
+  CANCELADA_USUARIO
+  CANCELADA_PSICOLOGO
+  NO_ASISTIO
+}
+
+enum TipoCita {
+  PRIMERA_CONSULTA
+  SEGUIMIENTO
+  URGENTE
+}
+
+enum EstadoPago {
+  PENDIENTE
+  PROCESANDO
+  APROBADO
+  RECHAZADO
+  REEMBOLSADO
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PAGOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Pago {
+  id              String      @id @default(cuid())
+  suscripcionId   String?
+  suscripcion     Suscripcion? @relation(fields: [suscripcionId], references: [id])
+  citas           Cita[]
+  
+  montoCOP        Int
+  metodoPago      String
+  referencia      String      @unique
+  
+  // Datos de la pasarela (Wompi/ePayco)
+  pasarela        String      // WOMPI, EPAICO, PAYU
+  idTransaccionPasarela String?
+  estadoPasarela  String?
+  respuestaPasarela Json?
+  
+  estado          EstadoPago  @default(PENDIENTE)
+  fechaPago       DateTime?
+  
+  createdAt       DateTime    @default(now())
+  
+  @@map("pagos")
+  @@index([estado])
+}
+
+model PagosPsicologo {
+  id              String    @id @default(cuid())
+  psicologoId     String
+  psicologo       Psicologo @relation(fields: [psicologoId], references: [id])
+  
+  periodo         String    // "2026-05" (año-mes)
+  montoCOP        Int
+  numeroCitas     Int
+  estado          String    @default("PENDIENTE") // PENDIENTE, PROCESADO
+  fechaPago       DateTime?
+  
+  createdAt       DateTime  @default(now())
+  
+  @@map("pagos_psicologos")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESEÑAS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Resena {
+  id            String    @id @default(cuid())
+  citaId        String    @unique
+  cita          Cita      @relation(fields: [citaId], references: [id])
+  psicologoId   String
+  psicologo     Psicologo @relation(fields: [psicologoId], references: [id])
+  
+  calificacion  Int       // 1-5
+  comentario    String?   @db.Text
+  
+  // Moderación
+  aprobada      Boolean   @default(true)
+  moderadaEn    DateTime?
+  
+  createdAt     DateTime  @default(now())
+  
+  @@map("resenas")
+  @@index([psicologoId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INCIDENTES DE CRISIS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model IncidenteCrisis {
+  id                    String    @id @default(cuid())
+  usuarioId             String
+  usuario               Usuario   @relation(fields: [usuarioId], references: [id])
+  sesionId              String?
+  
+  nivel                 String    // BAJO, MODERADO, ALTO, CRITICO
+  indicadoresDetectados String[]
+  fragmentoAnonimizado  String?   // Solo para análisis clínico
+  
+  protocoloActivado     Boolean   @default(false)
+  psicologoNotificado   Boolean   @default(false)
+  usuarioConfirmoSeguro Boolean?
+  resolucion            String?
+  
+  timestampDeteccion    DateTime  @default(now())
+  timestampResolucion   DateTime?
+  
+  @@map("incidentes_crisis")
+  @@index([usuarioId])
+  @@index([nivel])
+  @@index([timestampDeteccion])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONSENTIMIENTOS (Ley 1581/2012 — OBLIGATORIO)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Consentimiento {
+  id            String    @id @default(cuid())
+  usuarioId     String
+  usuario       Usuario   @relation(fields: [usuarioId], references: [id])
+  
+  tipo          TipoConsentimiento
+  version       String    // Versión del documento
+  aceptado      Boolean
+  ipAddress     String?
+  userAgent     String?
+  
+  createdAt     DateTime  @default(now())
+  
+  @@map("consentimientos")
+  @@index([usuarioId])
+  @@index([tipo])
+}
+
+enum TipoConsentimiento {
+  POLITICA_PRIVACIDAD
+  TERMINOS_USO
+  USO_IA        // Res. 2654/2019 — Obligatorio
+  DATOS_SALUD   // Ley 1581 — Datos sensibles
+  MARKETING
+  HISTORIA_CLINICA
+  COMPARTIR_CON_PSICOLOGO
+}

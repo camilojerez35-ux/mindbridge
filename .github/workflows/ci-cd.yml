@@ -1,0 +1,173 @@
+name: MindBridge CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+
+  # ── 1. TESTS CLÍNICOS — BLOQUEAN EL PIPELINE ─────────────────────────
+  tests-clinicos:
+    name: 🔴 Tests Clínicos (Protocolo de Crisis)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: 🚨 Ejecutar tests de protocolo de crisis
+        run: npm run audit:clinical
+        # Si este paso falla, el pipeline completo se detiene
+
+  # ── 2. LINT Y TIPOS ───────────────────────────────────────────────────
+  lint-y-tipos:
+    name: 🔍 Lint y TypeScript
+    runs-on: ubuntu-latest
+    needs: tests-clinicos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+
+  # ── 3. TESTS UNITARIOS ────────────────────────────────────────────────
+  tests-unitarios:
+    name: 🧪 Tests Unitarios
+    runs-on: ubuntu-latest
+    needs: tests-clinicos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm test -- --coverage
+
+      - name: Subir reporte de cobertura
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  # ── 4. AUDITORÍA DE SEGURIDAD ─────────────────────────────────────────
+  seguridad:
+    name: 🔒 Auditoría de Seguridad
+    runs-on: ubuntu-latest
+    needs: tests-clinicos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - run: npm ci
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: Escaneo de secretos
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+
+  # ── 5. BUILD ──────────────────────────────────────────────────────────
+  build:
+    name: 🏗️ Build
+    runs-on: ubuntu-latest
+    needs: [lint-y-tipos, tests-unitarios, seguridad]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+
+      - name: Subir artifacts de build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: apps/web/.next
+          retention-days: 7
+
+  # ── 6. DEPLOY A STAGING ───────────────────────────────────────────────
+  deploy-staging:
+    name: 🚀 Deploy a Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy a Vercel (Staging)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Migrar base de datos (Staging)
+        run: npm run db:migrate:prod
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+
+  # ── 7. DEPLOY A PRODUCCIÓN ────────────────────────────────────────────
+  deploy-produccion:
+    name: 🌟 Deploy a Producción
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ✅ Verificación final — Tests clínicos en producción
+        run: npm run audit:clinical
+        # Doble verificación antes de producción
+
+      - name: Deploy a Vercel (Producción)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Migrar base de datos (Producción)
+        run: npm run db:migrate:prod
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+
+      - name: Notificar deploy exitoso
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: '🚀 MindBridge desplegado en producción'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        if: always()

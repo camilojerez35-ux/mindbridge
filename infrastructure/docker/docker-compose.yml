@@ -1,0 +1,104 @@
+version: '3.9'
+
+# MindBridge Colombia — Docker Compose para Desarrollo Local
+# Uso: docker-compose up -d
+
+services:
+
+  # ── PostgreSQL ──────────────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: mindbridge_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mindbridge_db
+      POSTGRES_USER: mindbridge_user
+      POSTGRES_PASSWORD: mindbridge_local_pass
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=es_CO.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mindbridge_user -d mindbridge_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis ───────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: mindbridge_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass mindbridge_redis_pass
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "mindbridge_redis_pass", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── App Next.js ─────────────────────────────────────────────────
+  web:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.web
+    container_name: mindbridge_web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://mindbridge_user:mindbridge_local_pass@postgres:5432/mindbridge_db
+      REDIS_URL: redis://:mindbridge_redis_pass@redis:6379
+      NODE_ENV: development
+    env_file:
+      - ../../apps/web/.env.local
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ../../apps/web:/app/apps/web
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+
+  # ── Adminer (DB Admin UI) ───────────────────────────────────────
+  adminer:
+    image: adminer:latest
+    container_name: mindbridge_adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    profiles:
+      - tools
+
+  # ── Redis Commander ─────────────────────────────────────────────
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: mindbridge_redis_ui
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:redis:6379:0:mindbridge_redis_pass
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    profiles:
+      - tools
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  default:
+    name: mindbridge_network

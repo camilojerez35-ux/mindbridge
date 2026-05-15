@@ -1,0 +1,64 @@
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'mindbridge-dev-secret-change-in-production';
+const JWT_EXPIRES_IN = '7d';
+const REFRESH_TOKEN_EXPIRES_IN = '30d';
+
+export async function hashPassword(password: string): Promise<string> {
+  const saltRounds = 12;
+  return bcrypt.hash(password, saltRounds);
+}
+
+export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+  return bcrypt.compare(password, hashedPassword);
+}
+
+export function generateAccessToken(userId: string, email: string): string {
+  return jwt.sign(
+    { sub: userId, email, type: 'access' },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRES_IN }
+  );
+}
+
+export function generateRefreshToken(userId: string): string {
+  return jwt.sign(
+    { sub: userId, type: 'refresh' },
+    JWT_SECRET,
+    { expiresIn: REFRESH_TOKEN_EXPIRES_IN }
+  );
+}
+
+export function verifyToken(token: string): jwt.JwtPayload | null {
+  try {
+    return jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+  } catch {
+    return null;
+  }
+}
+
+export function generatePasswordResetToken(): string {
+  return jwt.sign(
+    { type: 'password-reset', timestamp: Date.now() },
+    JWT_SECRET,
+    { expiresIn: '1h' }
+  );
+}
+
+export function generateEmailVerificationToken(email: string): string {
+  return jwt.sign(
+    { type: 'email-verification', email, timestamp: Date.now() },
+    JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+}
+
+export function generate2FASecret(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  let result = '';
+  for (let i = 0; i < 32; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
