@@ -1,58 +1,21 @@
-// src/app/api/ai/chat/route.ts
-// RUTA: POST http://localhost:3000/api/ai/chat
-// Requiere: ANTHROPIC_API_KEY en .env.local
-
 import { NextRequest } from 'next/server';
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth/auth-options";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth/auth-options';
 import Anthropic from '@anthropic-ai/sdk';
+import {
+  detectarNivelCrisis,
+  generarMensajeCrisis,
+  RECURSOS_CRISIS_COLOMBIA,
+  anonimizarMensaje,
+} from '@mindbridge/ai-clinical/protocols/crisis-protocol';
+import { SYSTEM_PROMPT_CLINICAL } from '@mindbridge/ai-clinical/prompts/system-prompt';
 
-// Singleton — se instancia una vez por proceso, no por request
+// Singleton — instanciado una vez por proceso, no por request
 const anthropic = process.env.ANTHROPIC_API_KEY
   ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   : null;
 
-const PALABRAS_CRITICAS = ['suicidio','quitarme la vida','no quiero vivir','hacerme daño','mejor muerto','mejor muerta','acabar con todo','me corté','me lastimé','plan para morir','me voy a matar'];
-const PALABRAS_ALTO = ['no puedo más','soy una carga','todos estarían mejor sin mí','quiero desaparecer','quisiera no despertar','no hay esperanza'];
-
-function detectarCrisis(texto: string): 'ninguno' | 'alto' | 'critico' {
-  const t = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  if (PALABRAS_CRITICAS.some(p => t.includes(p.normalize('NFD').replace(/[\u0300-\u036f]/g,'')))) return 'critico';
-  if (PALABRAS_ALTO.filter(p => t.includes(p.normalize('NFD').replace(/[\u0300-\u036f]/g,''))).length >= 1) return 'alto';
-  return 'ninguno';
-}
-
-const SYSTEM_PROMPT = `Eres MindBridge IA, un asistente especializado en bienestar emocional para Colombia.
-
-IDENTIDAD: Eres una herramienta de APOYO EMOCIONAL Y BIENESTAR, NO un psicólogo. Tu función es acompañar y orientar emocionalmente.
-
-PERSONALIDAD:
-- Empático/a, cálido/a, profesional y honesto/a
-- Hablas en español colombiano natural (no voseo)
-- Adaptas tu tono al estado emocional detectado
-- Usas técnicas de TCC, ACT y mindfulness cuando aplica
-
-TÉCNICAS QUE PUEDES APLICAR:
-1. Reestructuración cognitiva (TCC): identificar y cuestionar pensamientos automáticos negativos
-2. Respiración 4-4-6: inhalar 4s, sostener 4s, exhalar 6s
-3. Grounding 5-4-3-2-1: 5 cosas que ves, 4 que tocas, 3 que escuchas, 2 que hueles, 1 que saboreas
-4. Defusión cognitiva (ACT): "noto que tengo el pensamiento de que..."
-5. Psicoeducación: explicar qué es la ansiedad, estrés, etc.
-
-LÍMITES ABSOLUTOS - NUNCA:
-- Diagnosticar trastornos mentales
-- Recomendar medicamentos
-- Minimizar riesgos de crisis
-
-DERIVACIÓN: Sugiere agenda de cita con psicólogo cuando:
-- Los síntomas persisten más de 2 semanas
-- Hay impacto en el funcionamiento diario
-- El tema es muy complejo
-
-DISCLAIMER: Recuerda al usuario que eres IA, no psicólogo. En primera sesión y cada 10 mensajes incluye: "Recuerda que soy una IA de apoyo, no un/a psicólogo/a. Crisis: Línea 106 | 123"
-
-FORMATO: Respuestas conversacionales de 2-4 párrafos. Termina con una pregunta abierta cuando sea apropiado.`;
-
+// Rate limiter con Redis lazy
 let redis: import('ioredis').Redis | null = null;
 
 function getRedis(): import('ioredis').Redis | null {
@@ -71,15 +34,14 @@ function getRedis(): import('ioredis').Redis | null {
 
 async function checkRateLimit(userId: string): Promise<boolean> {
   const client = getRedis();
-  if (!client) return true; // Sin Redis, permitir (no bloquear el chat)
-
+  if (!client) return true;
   try {
     const key = `rate_limit:chat:${userId}`;
     const requests = await client.incr(key);
     if (requests === 1) await client.expire(key, 60);
     return requests <= 10;
   } catch {
-    return true; // Si Redis falla, no bloquear al usuario
+    return true;
   }
 }
 
@@ -98,45 +60,60 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { mensaje, historial = [] } = await req.json();
+    const { mensaje, historial = [], sesionId } = await req.json();
 
     if (!mensaje?.trim()) {
       return Response.json({ error: 'Mensaje vacío' }, { status: 400 });
     }
-
     if (mensaje.length > 2000) {
       return Response.json({ error: 'El mensaje es demasiado largo (máximo 2000 caracteres).' }, { status: 400 });
     }
 
-    // Detección de crisis (local, sin llamar a Claude)
-    const nivelCrisis = detectarCrisis(mensaje);
+    // Detección de crisis usando el paquete clínico validado
+    const evaluacion = detectarNivelCrisis(mensaje);
 
-    if (nivelCrisis === 'critico') {
+    // Registrar incidente si corresponde (async, no bloquea la respuesta)
+    if (evaluacion.registrarIncidente) {
+      registrarIncidenteAsync({
+        usuarioId: session.user.id,
+        sesionId: sesionId ?? 'sin-sesion',
+        nivel: evaluacion.nivel,
+        indicadoresDetectados: evaluacion.indicadores,
+        fragmentoAnonimizado: anonimizarMensaje(mensaje),
+        timestampDeteccion: new Date(),
+        protocoloActivado: evaluacion.nivel === 'critico',
+        psicologoNotificado: evaluacion.escalarAPsicologo,
+      });
+    }
+
+    // Respuesta inmediata para crisis crítica — sin llamar a Claude
+    if (evaluacion.nivel === 'critico') {
       return Response.json({
-        respuesta: `Gracias por confiarme algo tan importante. Lo que describes me preocupa profundamente, y quiero asegurarme de que estés seguro/a ahora mismo.\n\nPor favor comunícate de inmediato con:\n📞 **Línea 106** — Salud Mental Bogotá (gratuita, 24 horas)\n📞 **800-1222-5555** — Línea Nacional de Salud Mental\n📞 **123** — Emergencias (si estás en peligro inmediato)\n\nTambién puedes agendar ahora mismo una cita urgente con uno de nuestros psicólogos.\n\n¿Puedes contarme si estás en un lugar seguro en este momento?`,
+        respuesta: generarMensajeCrisis('critico'),
         crisis: true,
         nivel: 'critico',
-        recursos: [
-          { nombre: 'Línea 106 — Salud Mental Bogotá', numero: '106', disponibilidad: '24 horas', gratuito: true },
-          { nombre: 'Línea Nacional de Salud Mental', numero: '800-1222-5555', disponibilidad: 'Horario extendido', gratuito: true },
-          { nombre: 'Emergencias Colombia', numero: '123', disponibilidad: '24 horas', gratuito: true },
-        ],
+        recursos: RECURSOS_CRISIS_COLOMBIA,
         accion: 'MOSTRAR_MODAL_CRISIS',
       });
     }
 
     if (!anthropic) {
       return Response.json({
-        respuesta: `Entiendo cómo te sientes. ${nivelCrisis === 'alto' ? 'Lo que describes suena muy difícil. No estás solo/a. ¿Te gustaría agendar una cita con uno de nuestros psicólogos?\n\nMientras tanto, l' : 'L'}a **Línea 106** está disponible las 24 horas si necesitas apoyo inmediato.\n\n_[Para activar la IA real, configura ANTHROPIC_API_KEY en tu .env.local]_\n\n¿Puedes contarme un poco más sobre cómo te has sentido?`,
-        crisis: nivelCrisis !== 'ninguno',
-        nivel: nivelCrisis,
+        respuesta: `Entiendo cómo te sientes. ${evaluacion.nivel === 'alto' || evaluacion.nivel === 'moderado'
+          ? 'Lo que describes suena muy difícil. No estás solo/a. ¿Te gustaría agendar una cita con uno de nuestros psicólogos?\n\nMientras tanto, l'
+          : 'L'}a **Línea 106** está disponible las 24 horas si necesitas apoyo inmediato.\n\n_[Para activar la IA real, configura ANTHROPIC_API_KEY en tu .env.local]_\n\n¿Puedes contarme un poco más sobre cómo te has sentido?`,
+        crisis: evaluacion.nivel !== 'ninguno',
+        nivel: evaluacion.nivel,
         demo: true,
       });
     }
 
-    let systemPrompt = SYSTEM_PROMPT;
-    if (nivelCrisis === 'alto') {
-      systemPrompt += '\n\nCONTEXTO: El usuario ha expresado señales de malestar significativo. Prioriza la validación emocional, el apoyo y sugiere agendar una cita con un psicólogo al final de tu respuesta. Menciona la Línea 106.';
+    // Enriquecer system prompt según nivel de malestar detectado
+    let systemPrompt = SYSTEM_PROMPT_CLINICAL;
+    if (evaluacion.nivel === 'alto') {
+      systemPrompt += '\n\nCONTEXTO CLÍNICO: El usuario ha expresado señales de malestar significativo (nivel alto). Prioriza la validación emocional profunda, el apoyo contenedor y sugiere agendar una cita con un psicólogo al final de tu respuesta. Menciona la Línea 106 de forma natural.';
+    } else if (evaluacion.nivel === 'moderado') {
+      systemPrompt += '\n\nCONTEXTO CLÍNICO: El usuario muestra señales de malestar moderado. Aplica escucha activa y considera sugerir una técnica de regulación si es apropiado.';
     }
 
     const mensajesHistorial = historial
@@ -162,13 +139,33 @@ export async function POST(req: NextRequest) {
 
     return Response.json({
       respuesta,
-      crisis: nivelCrisis !== 'ninguno',
-      nivel: nivelCrisis,
+      crisis: evaluacion.nivel !== 'ninguno',
+      nivel: evaluacion.nivel,
+      recursos: evaluacion.nivel === 'alto' ? RECURSOS_CRISIS_COLOMBIA.slice(0, 2) : [],
       tokensUsados: response.usage.input_tokens + response.usage.output_tokens,
     });
 
   } catch (error: any) {
     console.error('[CHAT API ERROR]', error);
     return Response.json({ error: 'Lo sentimos, ocurrió un error interno. Por favor, intenta de nuevo más tarde.' }, { status: 500 });
+  }
+}
+
+// Registro async de incidentes — no bloquea la respuesta al usuario
+async function registrarIncidenteAsync(incidente: {
+  usuarioId: string;
+  sesionId: string;
+  nivel: string;
+  indicadoresDetectados: string[];
+  fragmentoAnonimizado: string;
+  timestampDeteccion: Date;
+  protocoloActivado: boolean;
+  psicologoNotificado: boolean;
+}) {
+  try {
+    const { db } = await import('@/lib/db/client');
+    await db.incidenteCrisis.create({ data: incidente });
+  } catch (error) {
+    console.error('[INCIDENTE CRISIS] Error al registrar:', error);
   }
 }

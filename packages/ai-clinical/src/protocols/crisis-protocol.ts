@@ -116,24 +116,14 @@ export function detectarNivelCrisis(mensaje: string): EvaluacionCrisis {
     };
   }
 
-  if (indicadoresAltosEncontrados.length >= 2 || indicadoresAltosEncontrados.length > 0 && indicadoresModeradosEncontrados.length > 0) {
+  // Cualquier indicador alto (ideación suicida, desesperanza severa) = nivel alto mínimo
+  if (indicadoresAltosEncontrados.length > 0) {
     return {
       nivel: 'alto',
       indicadores: indicadoresAltosEncontrados,
       accionRequerida: 'MOSTRAR_RECURSOS_SUGERIR_PSICOLOGO',
       recursos: RECURSOS_CRISIS_COLOMBIA,
       escalarAPsicologo: true,
-      registrarIncidente: true,
-    };
-  }
-
-  if (indicadoresAltosEncontrados.length === 1) {
-    return {
-      nivel: 'moderado',
-      indicadores: indicadoresAltosEncontrados,
-      accionRequerida: 'APOYO_INTENSIVO_SUGERIR_CITA',
-      recursos: [RECURSOS_CRISIS_COLOMBIA[0], RECURSOS_CRISIS_COLOMBIA[1]],
-      escalarAPsicologo: false,
       registrarIncidente: true,
     };
   }
@@ -210,9 +200,32 @@ export interface IncidenteCrisis {
   sesionId: string;
   nivel: NivelCrisis;
   indicadoresDetectados: string[];
-  mensajeUsuario: string; // Anonimizado para análisis
+  fragmentoAnonimizado: string; // NUNCA el mensaje completo — ver anonimizarMensaje()
   timestampDeteccion: Date;
   protocoloActivado: boolean;
   psicologoNotificado: boolean;
   resolucion?: string;
+}
+
+// ────────────────────────────────────────────────────────────
+// ANONIMIZACIÓN — Ley 1581/2012 (datos sensibles de salud)
+// ────────────────────────────────────────────────────────────
+
+const PATRON_EMAIL = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/g;
+const PATRON_TELEFONO = /(\+57|57)?[\s\-]?3\d{2}[\s\-]?\d{3}[\s\-]?\d{4}/g;
+const PATRON_CEDULA = /\b\d{8,10}\b/g;
+const PATRON_NOMBRE_PROPIO = /\b[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{2,}\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{2,}\b/g;
+
+/**
+ * Anonimiza un mensaje antes de guardarlo como incidente de crisis.
+ * Elimina datos personales identificables según Ley 1581/2012.
+ * Solo guarda los primeros 200 caracteres para análisis clínico agregado.
+ */
+export function anonimizarMensaje(mensaje: string): string {
+  return mensaje
+    .replace(PATRON_EMAIL, '[EMAIL]')
+    .replace(PATRON_TELEFONO, '[TELEFONO]')
+    .replace(PATRON_CEDULA, '[ID]')
+    .replace(PATRON_NOMBRE_PROPIO, '[NOMBRE]')
+    .slice(0, 200); // Limitar tamaño para análisis agregado
 }
