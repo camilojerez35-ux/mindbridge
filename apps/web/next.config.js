@@ -1,11 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['@prisma/client'],
-  },
-  images: {
-    domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com'],
-  },
+  experimental: { serverComponentsExternalPackages: [] },
   async headers() {
     return [
       {
@@ -13,19 +8,21 @@ const nextConfig = {
         headers: [
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains; preload' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(self), geolocation=()' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' },
           {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.wompi.co https://*.daily.co",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: blob: https:",
-              "connect-src 'self' https://api.anthropic.com https://api.wompi.co",
-              "media-src 'self' blob:",
-              "frame-src 'self' https://*.daily.co https://*.whereby.com",
+              "connect-src 'self' https://api.anthropic.com https://*.daily.co wss://*.daily.co https://api.wompi.co",
+              "frame-src https://*.daily.co https://checkout.wompi.co",
+              "media-src 'self' blob: https://*.daily.co",
             ].join('; '),
           },
         ],
@@ -33,5 +30,4 @@ const nextConfig = {
     ];
   },
 };
-
 module.exports = nextConfig;
