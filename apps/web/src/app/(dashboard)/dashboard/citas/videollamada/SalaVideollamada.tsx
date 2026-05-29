@@ -7,33 +7,78 @@ const ICE_SERVERS = [
   { urls: 'stun:stun1.l.google.com:19302' },
 ];
 
-const POLL_INTERVAL = 1500; // ms
+const POLL_INTERVAL = 1500;
 
 interface Props {
   citaId:        string;
   nombreUsuario: string;
-  esIniciador:   boolean; // paciente=true, psicólogo=false
+  esIniciador:   boolean;
   onFinalizar?:  () => void;
+}
+
+interface MensajeChat {
+  id:     string;
+  de:     string;
+  texto:  string;
+  ts:     number;
+  propio: boolean;
 }
 
 type Estado = 'esperando' | 'conectando' | 'activo' | 'finalizado';
 
 export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, onFinalizar }: Props) {
-  const [estado,       setEstado]       = useState<Estado>('esperando');
-  const [audioActivo,  setAudioActivo]  = useState(true);
-  const [videoActivo,  setVideoActivo]  = useState(true);
-  const [duracion,     setDuracion]     = useState(0);
-  const [error,        setError]        = useState('');
+  const [estado,        setEstado]        = useState<Estado>('esperando');
+  const [audioActivo,   setAudioActivo]   = useState(true);
+  const [videoActivo,   setVideoActivo]   = useState(true);
+  const [duracion,      setDuracion]      = useState(0);
+  const [error,         setError]         = useState('');
+  const [chatAbierto,   setChatAbierto]   = useState(false);
+  const [mensajes,      setMensajes]      = useState<MensajeChat[]>([]);
+  const [inputChat,     setInputChat]     = useState('');
+  const [noLeidos,      setNoLeidos]      = useState(0);
 
   const localVideoRef  = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
+  const chatEndRef     = useRef<HTMLDivElement>(null);
   const pcRef          = useRef<RTCPeerConnection | null>(null);
+  const dcRef          = useRef<RTCDataChannel | null>(null);
   const streamRef      = useRef<MediaStream | null>(null);
   const pollerRef      = useRef<NodeJS.Timeout | null>(null);
   const duracionRef    = useRef<NodeJS.Timeout | null>(null);
   const ofertaEnviada  = useRef(false);
+  const chatAbiertoRef = useRef(false);
 
-  // ── Señalización ─────────────────────────────────────────────
+  // Mantener ref sincronizada para usar dentro de callbacks sin re-crear
+  useEffect(() => { chatAbiertoRef.current = chatAbierto; }, [chatAbierto]);
+
+  // Auto-scroll al último mensaje
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [mensajes]);
+
+  // ── DataChannel (chat P2P) ────────────────────────────────────
+  const configurarDataChannel = useCallback((dc: RTCDataChannel) => {
+    dcRef.current = dc;
+    dc.onmessage = (e) => {
+      try {
+        const msg = JSON.parse(e.data) as { de: string; texto: string; ts: number };
+        const nuevo: MensajeChat = { id: `${msg.ts}-r`, de: msg.de, texto: msg.texto, ts: msg.ts, propio: false };
+        setMensajes(prev => [...prev, nuevo]);
+        if (!chatAbiertoRef.current) setNoLeidos(n => n + 1);
+      } catch { /* ignorar mensajes malformados */ }
+    };
+  }, []);
+
+  const enviarMensaje = () => {
+    const texto = inputChat.trim();
+    if (!texto || !dcRef.current || dcRef.current.readyState !== 'open') return;
+    const ts = Date.now();
+    dcRef.current.send(JSON.stringify({ de: nombreUsuario, texto, ts }));
+    setMensajes(prev => [...prev, { id: `${ts}-l`, de: nombreUsuario, texto, ts, propio: true }]);
+    setInputChat('');
+  };
+
+  // ── Señalización WebRTC ───────────────────────────────────────
   const enviarSenal = useCallback(async (tipo: string, payload: object) => {
     await fetch(`/api/videollamada/${citaId}/signal`, {
       method: 'POST',
@@ -65,7 +110,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
           }
         }
       } catch (e) {
-        console.warn('[WebRTC] error procesando señal', senal.tipo, e);
+        console.warn('[WebRTC] señal', senal.tipo, e);
       }
     }
   }, [citaId, esIniciador, enviarSenal]);
@@ -79,14 +124,20 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         if (cancelled) { stream.getTracks().forEach(t => t.stop()); return; }
         streamRef.current = stream;
-        if (localVideoRef.current) {
-          localVideoRef.current.srcObject = stream;
-        }
+        if (localVideoRef.current) localVideoRef.current.srcObject = stream;
 
         const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
         pcRef.current = pc;
 
         stream.getTracks().forEach(track => pc.addTrack(track, stream));
+
+        // DataChannel: el iniciador lo crea, el otro lo recibe
+        if (esIniciador) {
+          const dc = pc.createDataChannel('chat', { ordered: true });
+          configurarDataChannel(dc);
+        } else {
+          pc.ondatachannel = (e) => configurarDataChannel(e.channel);
+        }
 
         pc.ontrack = (e) => {
           if (remoteVideoRef.current && e.streams[0]) {
@@ -97,9 +148,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
         };
 
         pc.onicecandidate = (e) => {
-          if (e.candidate) {
-            enviarSenal('ice', e.candidate.toJSON());
-          }
+          if (e.candidate) enviarSenal('ice', e.candidate.toJSON());
         };
 
         pc.onconnectionstatechange = () => {
@@ -108,7 +157,6 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
           }
         };
 
-        // El iniciador (paciente) envía la oferta
         if (esIniciador && !ofertaEnviada.current) {
           ofertaEnviada.current = true;
           const offer = await pc.createOffer();
@@ -117,12 +165,15 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
           setEstado('conectando');
         }
 
-        // Polling de señales
         pollerRef.current = setInterval(() => procesarSenales(pc), POLL_INTERVAL);
 
       } catch (e: any) {
-        if (e.name === 'NotAllowedError') {
-          setError('Permiso de cámara/micrófono denegado. Habilítalos en la configuración del navegador.');
+        if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') {
+          setError('PERMISO_DENEGADO');
+        } else if (e.name === 'NotFoundError' || e.name === 'DevicesNotFoundError') {
+          setError('No se encontró cámara o micrófono. Verifica que estén conectados.');
+        } else if (e.name === 'NotReadableError') {
+          setError('La cámara o micrófono está siendo usado por otra aplicación.');
         } else {
           setError(`Error al acceder a la cámara: ${e.message}`);
         }
@@ -133,12 +184,12 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
 
     return () => {
       cancelled = true;
-      if (pollerRef.current)  clearInterval(pollerRef.current);
+      if (pollerRef.current)   clearInterval(pollerRef.current);
       if (duracionRef.current) clearInterval(duracionRef.current);
       pcRef.current?.close();
       streamRef.current?.getTracks().forEach(t => t.stop());
     };
-  }, [citaId, esIniciador, enviarSenal, procesarSenales]);
+  }, [citaId, esIniciador, enviarSenal, procesarSenales, configurarDataChannel]);
 
   // ── Controles ─────────────────────────────────────────────────
   const toggleAudio = () => {
@@ -151,9 +202,15 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
     setVideoActivo(p => !p);
   };
 
+  const abrirChat = () => {
+    setChatAbierto(true);
+    setNoLeidos(0);
+  };
+
   const finalizar = async () => {
-    if (pollerRef.current)  clearInterval(pollerRef.current);
+    if (pollerRef.current)   clearInterval(pollerRef.current);
     if (duracionRef.current) clearInterval(duracionRef.current);
+    dcRef.current?.close();
     pcRef.current?.close();
     streamRef.current?.getTracks().forEach(t => t.stop());
     await fetch(`/api/videollamada/${citaId}/signal`, { method: 'DELETE' });
@@ -163,6 +220,9 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
 
   const fmt = (s: number) =>
     `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+
+  const fmtHora = (ts: number) =>
+    new Date(ts).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
 
   // ── Pantalla finalizado ───────────────────────────────────────
   if (estado === 'finalizado') return (
@@ -182,68 +242,180 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
     </div>
   );
 
-  // ── Error ─────────────────────────────────────────────────────
-  if (error) return (
-    <div style={S.page}>
-      <div style={{ textAlign: 'center', maxWidth: 400, padding: 40 }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
-        <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, marginBottom: 12 }}>Error de conexión</h2>
-        <p style={{ color: '#f87171', fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>{error}</p>
-        <button onClick={() => window.location.reload()} style={S.btnPrimary}>Reintentar</button>
+  // ── Pantalla error ────────────────────────────────────────────
+  if (error) {
+    const esPermiso  = error === 'PERMISO_DENEGADO';
+    const isChrome   = typeof navigator !== 'undefined' && /Chrome/.test(navigator.userAgent) && !/Edg/.test(navigator.userAgent);
+    const isEdge     = typeof navigator !== 'undefined' && /Edg/.test(navigator.userAgent);
+    const isFirefox  = typeof navigator !== 'undefined' && /Firefox/.test(navigator.userAgent);
+
+    return (
+      <div style={S.page}>
+        <div style={{ maxWidth: 460, padding: 40 }}>
+          <div style={{ fontSize: 48, marginBottom: 16, textAlign: 'center' }}>{esPermiso ? '🔒' : '⚠️'}</div>
+          <h2 style={{ color: 'white', fontSize: 20, fontWeight: 700, marginBottom: 12, textAlign: 'center' }}>
+            {esPermiso ? 'Permiso de cámara bloqueado' : 'Error de conexión'}
+          </h2>
+          {esPermiso ? (
+            <>
+              <p style={{ color: '#fbbf24', fontSize: 14, marginBottom: 20, lineHeight: 1.7, textAlign: 'center' }}>
+                El navegador bloqueó el acceso a tu cámara y micrófono.<br />Sigue estos pasos:
+              </p>
+              <div style={{ background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: 12, padding: '16px 20px', marginBottom: 20 }}>
+                {(isChrome || isEdge) && (
+                  <ol style={{ color: '#8aab96', fontSize: 13, lineHeight: 2, paddingLeft: 20, margin: 0 }}>
+                    <li>Haz clic en el ícono de candado <strong style={{ color: 'white' }}>🔒</strong> en la barra de dirección</li>
+                    <li>Selecciona <strong style={{ color: 'white' }}>Permisos del sitio</strong></li>
+                    <li>Cambia <strong style={{ color: 'white' }}>Cámara</strong> y <strong style={{ color: 'white' }}>Micrófono</strong> a <strong style={{ color: '#2dd4bf' }}>Permitir</strong></li>
+                    <li>Recarga la página</li>
+                  </ol>
+                )}
+                {isFirefox && (
+                  <ol style={{ color: '#8aab96', fontSize: 13, lineHeight: 2, paddingLeft: 20, margin: 0 }}>
+                    <li>Haz clic en el ícono de escudo en la barra de dirección</li>
+                    <li>Selecciona <strong style={{ color: 'white' }}>Permisos</strong></li>
+                    <li>Habilita <strong style={{ color: 'white' }}>Cámara</strong> y <strong style={{ color: 'white' }}>Micrófono</strong></li>
+                    <li>Recarga la página</li>
+                  </ol>
+                )}
+                {!isChrome && !isEdge && !isFirefox && (
+                  <p style={{ color: '#8aab96', fontSize: 13, margin: 0 }}>
+                    Busca el ícono de candado en la barra de dirección, habilita cámara y micrófono, y recarga.
+                  </p>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button onClick={() => window.location.reload()} style={S.btnPrimary as React.CSSProperties}>Recargar página</button>
+                <a href="/dashboard/citas" style={S.btnSecondary}>Volver a citas</a>
+              </div>
+            </>
+          ) : (
+            <>
+              <p style={{ color: '#f87171', fontSize: 14, marginBottom: 24, lineHeight: 1.6, textAlign: 'center' }}>{error}</p>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button onClick={() => window.location.reload()} style={S.btnPrimary as React.CSSProperties}>Reintentar</button>
+                <a href="/dashboard/citas" style={S.btnSecondary}>Volver a citas</a>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   // ── Sala principal ────────────────────────────────────────────
   return (
     <div style={{ minHeight: '100vh', background: '#0a1510', display: 'flex', flexDirection: 'column', fontFamily: 'Inter,sans-serif' }}>
 
       {/* Top bar */}
-      <div style={{ height: 56, background: '#0d1a12', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
+      <div style={{ height: 56, background: '#0d1a12', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MindBridge</span>
           <span style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.2)', color: '#2dd4bf', fontSize: 12, padding: '3px 10px', borderRadius: 10 }}>
-            {estado === 'esperando'   && 'Esperando conexión...'}
-            {estado === 'conectando'  && 'Conectando...'}
-            {estado === 'activo'      && `En sesión · ${fmt(duracion)}`}
+            {estado === 'esperando'  && 'Esperando conexión...'}
+            {estado === 'conectando' && 'Conectando...'}
+            {estado === 'activo'     && `En sesión · ${fmt(duracion)}`}
           </span>
         </div>
         <span style={{ fontSize: 13, color: '#5a8a6a' }}>{nombreUsuario}</span>
       </div>
 
-      {/* Área video */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a1510', position: 'relative', padding: 24 }}>
+      {/* Contenido: video + chat */}
+      <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
-        {/* Video remoto */}
-        <div style={{ width: '100%', maxWidth: 800, aspectRatio: '16/9', background: '#1a2e1f', borderRadius: 16, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <video ref={remoteVideoRef} autoPlay playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: estado === 'activo' ? 'block' : 'none' }} />
-          {estado !== 'activo' && (
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ width: 60, height: 60, border: '3px solid #2dd4bf', borderTop: '3px solid transparent', borderRadius: '50%', margin: '0 auto 16px', animation: 'spin 1s linear infinite' }} />
-              <p style={{ color: '#8aab96' }}>
-                {estado === 'esperando' ? (esIniciador ? 'Esperando que se conecte el psicólogo...' : 'Procesando conexión...') : 'Conectando...'}
-              </p>
+        {/* Área video */}
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a1510', position: 'relative', padding: 24, minWidth: 0 }}>
+
+          {/* Video remoto */}
+          <div style={{ width: '100%', maxWidth: chatAbierto ? 700 : 800, aspectRatio: '16/9', background: '#1a2e1f', borderRadius: 16, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'max-width 0.3s' }}>
+            <video ref={remoteVideoRef} autoPlay playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: estado === 'activo' ? 'block' : 'none' }} />
+            {estado !== 'activo' && (
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ width: 60, height: 60, border: '3px solid #2dd4bf', borderTop: '3px solid transparent', borderRadius: '50%', margin: '0 auto 16px', animation: 'spin 1s linear infinite' }} />
+                <p style={{ color: '#8aab96' }}>
+                  {estado === 'esperando' ? (esIniciador ? 'Esperando al psicólogo...' : 'Procesando conexión...') : 'Conectando...'}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Video propio */}
+          <div style={{ position: 'absolute', bottom: 32, right: chatAbierto ? 340 : 32, width: 160, aspectRatio: '16/9', background: '#1a6b4a', borderRadius: 12, border: '2px solid #2dd4bf', overflow: 'hidden', transition: 'right 0.3s' }}>
+            <video ref={localVideoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', display: videoActivo ? 'block' : 'none' }} />
+            {!videoActivo && (
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 28 }}>🚫</div>
+            )}
+          </div>
+        </div>
+
+        {/* Panel de chat */}
+        {chatAbierto && (
+          <div style={{ width: 300, background: '#0d1a12', borderLeft: '1px solid #1a2e1f', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+
+            {/* Header chat */}
+            <div style={{ padding: '14px 16px', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ color: 'white', fontWeight: 700, fontSize: 14 }}>💬 Chat de sesión</span>
+              <button onClick={() => setChatAbierto(false)} style={{ background: 'none', border: 'none', color: '#5a8a6a', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>×</button>
             </div>
-          )}
-        </div>
 
-        {/* Video propio */}
-        <div style={{ position: 'absolute', bottom: 32, right: 32, width: 160, aspectRatio: '16/9', background: '#1a6b4a', borderRadius: 12, border: '2px solid #2dd4bf', overflow: 'hidden' }}>
-          <video ref={localVideoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', display: videoActivo ? 'block' : 'none' }} />
-          {!videoActivo && (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 28 }}>🚫</div>
-          )}
-        </div>
+            {/* Mensajes */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {mensajes.length === 0 && (
+                <p style={{ color: '#3d5c48', fontSize: 13, textAlign: 'center', marginTop: 24 }}>
+                  El chat es privado y solo visible durante la sesión.
+                </p>
+              )}
+              {mensajes.map(m => (
+                <div key={m.id} style={{ display: 'flex', flexDirection: 'column', alignItems: m.propio ? 'flex-end' : 'flex-start' }}>
+                  <div style={{ maxWidth: '85%', background: m.propio ? '#1a6b4a' : '#1a2e1f', border: `1px solid ${m.propio ? '#2a8a5a' : '#2a3d2e'}`, borderRadius: m.propio ? '12px 12px 4px 12px' : '12px 12px 12px 4px', padding: '8px 12px' }}>
+                    <p style={{ margin: 0, color: 'white', fontSize: 13, lineHeight: 1.5, wordBreak: 'break-word' }}>{m.texto}</p>
+                  </div>
+                  <span style={{ color: '#3d5c48', fontSize: 11, marginTop: 2 }}>{fmtHora(m.ts)}</span>
+                </div>
+              ))}
+              <div ref={chatEndRef} />
+            </div>
+
+            {/* Input */}
+            <div style={{ padding: '10px 12px', borderTop: '1px solid #1a2e1f', display: 'flex', gap: 8 }}>
+              <input
+                value={inputChat}
+                onChange={e => setInputChat(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarMensaje(); } }}
+                placeholder="Escribe un mensaje..."
+                style={{ flex: 1, background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: 8, padding: '8px 12px', color: 'white', fontSize: 13, fontFamily: 'inherit', outline: 'none' }}
+              />
+              <button
+                onClick={enviarMensaje}
+                disabled={!inputChat.trim() || !dcRef.current || dcRef.current?.readyState !== 'open'}
+                style={{ background: '#0d9488', border: 'none', color: 'white', borderRadius: 8, padding: '8px 12px', cursor: 'pointer', fontSize: 16, opacity: inputChat.trim() ? 1 : 0.4 }}
+              >
+                ➤
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Controles */}
-      <div style={{ height: 72, background: '#0d1a12', borderTop: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+      <div style={{ height: 72, background: '#0d1a12', borderTop: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexShrink: 0 }}>
         <button onClick={toggleAudio} title={audioActivo ? 'Silenciar' : 'Activar micrófono'} style={{ width: 48, height: 48, borderRadius: '50%', background: audioActivo ? '#1a2e1f' : '#b82020', border: `1px solid ${audioActivo ? '#2a3d2e' : '#b82020'}`, cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {audioActivo ? '🎤' : '🔇'}
         </button>
         <button onClick={toggleVideo} title={videoActivo ? 'Apagar cámara' : 'Encender cámara'} style={{ width: 48, height: 48, borderRadius: '50%', background: videoActivo ? '#1a2e1f' : '#b82020', border: `1px solid ${videoActivo ? '#2a3d2e' : '#b82020'}`, cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {videoActivo ? '📹' : '🚫'}
         </button>
+
+        {/* Botón chat con badge */}
+        <button onClick={abrirChat} title="Chat de sesión" style={{ width: 48, height: 48, borderRadius: '50%', background: chatAbierto ? 'rgba(13,148,136,0.2)' : '#1a2e1f', border: `1px solid ${chatAbierto ? '#0d9488' : '#2a3d2e'}`, cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+          💬
+          {noLeidos > 0 && (
+            <span style={{ position: 'absolute', top: 0, right: 0, background: '#f87171', color: 'white', borderRadius: '50%', width: 18, height: 18, fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {noLeidos}
+            </span>
+          )}
+        </button>
+
         <button onClick={finalizar} style={{ background: '#b82020', border: 'none', color: 'white', padding: '12px 24px', borderRadius: 24, fontWeight: 700, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
           ✕ Finalizar sesión
         </button>
