@@ -43,11 +43,13 @@ const FORM_VACIO: PerfilForm = {
 const nombrePaciente = (c: Cita) =>
   [c.usuario.nombre, c.usuario.apellido].filter(Boolean).join(' ') || 'Paciente';
 
+const TZ = 'America/Bogota';
+
 const fmtHora = (iso: string) =>
-  new Date(iso).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+  new Date(iso).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
 
 const fmtFecha = (iso: string) =>
-  new Date(iso).toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' });
+  new Date(iso).toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short', timeZone: TZ });
 
 const colorEstado: Record<EstadoCita, { bg: string; color: string; label: string }> = {
   PENDIENTE:          { bg: 'rgba(251,191,36,0.12)',  color: '#fbbf24', label: 'Pendiente' },
@@ -199,8 +201,9 @@ export default function PsicologoPage() {
   const citasPorDia = (dia: number): Cita[] => {
     const y = mesVista.getFullYear(), m = mesVista.getMonth();
     return citasMes.filter(c => {
-      const f = new Date(c.fechaHora);
-      return f.getFullYear() === y && f.getMonth() === m && f.getDate() === dia;
+      // Comparar en hora Colombia para que 8 AM no caiga en el día anterior
+      const fCO = new Date(new Date(c.fechaHora).toLocaleString('en-US', { timeZone: TZ }));
+      return fCO.getFullYear() === y && fCO.getMonth() === m && fCO.getDate() === dia;
     });
   };
 

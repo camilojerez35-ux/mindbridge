@@ -177,7 +177,8 @@ export default function CitasPage() {
     let horas = parseInt(hStr, 10);
     if (meridiem === 'PM' && horas !== 12) horas += 12;
     if (meridiem === 'AM' && horas === 12) horas = 0;
-    const fechaHora = new Date(`${dia}T${String(horas).padStart(2,'0')}:${mStr}:00.000Z`).toISOString();
+    // Construir fecha en hora Colombia (UTC-5) para que 8 AM se guarde como 13:00 UTC
+    const fechaHora = new Date(`${dia}T${String(horas).padStart(2,'0')}:${mStr}:00-05:00`).toISOString();
 
     try {
       const res = await fetch('/api/citas', {
