@@ -80,8 +80,14 @@ export default function PsicologoPage() {
 
   /* Acción sobre cita */
   const [accionando, setAccionando] = useState<string | null>(null);
-  const [notasCita, setNotasCita]   = useState('');
-  const [citaNotas, setCitaNotas]   = useState<string | null>(null);
+
+  /* Notas clínicas */
+  const [citaNotas,      setCitaNotas]      = useState<string | null>(null); // id de cita con panel abierto
+  const [notasCita,      setNotasCita]      = useState('');
+  const [notasCargando,  setNotasCargando]  = useState(false);
+  const [notasGuardando, setNotasGuardando] = useState(false);
+  const [notasGuardadas, setNotasGuardadas] = useState(false);
+  const [notasError,     setNotasError]     = useState('');
 
   /* Perfil */
   const [form, setForm]             = useState<PerfilForm>(FORM_VACIO);
@@ -137,6 +143,44 @@ export default function PsicologoPage() {
         alert(d.error || 'No se pudo actualizar la cita');
       }
     } finally { setAccionando(null); }
+  };
+
+  /* ── Notas clínicas ── */
+  const abrirNotas = async (citaId: string) => {
+    if (citaNotas === citaId) { setCitaNotas(null); return; }
+    setCitaNotas(citaId);
+    setNotasCargando(true);
+    setNotasError('');
+    setNotasGuardadas(false);
+    try {
+      const res = await fetch(`/api/psicologo/citas/${citaId}/notas`);
+      if (res.ok) {
+        const d = await res.json();
+        setNotasCita(d.notasClinicas ?? '');
+      }
+    } catch { setNotasError('No se pudieron cargar las notas.'); }
+    finally { setNotasCargando(false); }
+  };
+
+  const guardarNotas = async (citaId: string) => {
+    setNotasGuardando(true);
+    setNotasError('');
+    setNotasGuardadas(false);
+    try {
+      const res = await fetch(`/api/psicologo/citas/${citaId}/notas`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notasClinicas: notasCita }),
+      });
+      if (res.ok) {
+        setNotasGuardadas(true);
+        setTimeout(() => setNotasGuardadas(false), 3000);
+      } else {
+        const d = await res.json().catch(() => ({}));
+        setNotasError(d.error || 'Error al guardar');
+      }
+    } catch { setNotasError('Error de conexión.'); }
+    finally { setNotasGuardando(false); }
   };
 
   /* ── Perfil ── */
@@ -348,13 +392,36 @@ export default function PsicologoPage() {
                   <p style={{ fontWeight: '700', color: 'white', fontSize: '15px', marginBottom: '4px' }}>{nombrePaciente(cita)}</p>
                   <p style={{ fontSize: '13px', color: '#5a8a6a', marginBottom: '8px' }}>{cita.tipo.replace('_', ' ')} · {cita.modalidad}</p>
                   {citaNotas === cita.id && (
-                    <div style={{ marginTop: '12px' }}>
-                      <textarea value={notasCita} onChange={e => setNotasCita(e.target.value)} placeholder="Notas clínicas de la sesión (solo visibles para ti)..." rows={3}
-                        style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px', color: 'white', fontSize: '13px', fontFamily: 'inherit', resize: 'vertical' }} />
-                      <button onClick={() => { setCitaNotas(null); setNotasCita(''); }}
-                        style={{ marginTop: '8px', background: '#1a6b4a', color: 'white', padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', fontWeight: '600' }}>
-                        Guardar notas
-                      </button>
+                    <div style={{ marginTop: '14px', borderTop: '1px solid #1a2e1f', paddingTop: '14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>📝 Notas clínicas</span>
+                        <span style={{ fontSize: '11px', color: '#3d5c48' }}>— solo visibles para ti</span>
+                      </div>
+                      {notasCargando ? (
+                        <p style={{ color: '#3d5c48', fontSize: '13px' }}>Cargando...</p>
+                      ) : (
+                        <>
+                          <textarea
+                            value={notasCita}
+                            onChange={e => { setNotasCita(e.target.value); setNotasGuardadas(false); }}
+                            placeholder={`Motivo de consulta:\n\nObservaciones:\n\nPlan terapéutico:\n\nTareas para el paciente:`}
+                            rows={8}
+                            style={{ width: '100%', background: '#0a1510', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '12px', color: 'white', fontSize: '13px', fontFamily: 'inherit', resize: 'vertical', lineHeight: 1.6, boxSizing: 'border-box' }}
+                          />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '8px' }}>
+                            <button
+                              onClick={() => guardarNotas(cita.id)}
+                              disabled={notasGuardando}
+                              style={{ background: notasGuardadas ? '#1a6b4a' : '#0d9488', color: 'white', padding: '8px 18px', borderRadius: '8px', border: 'none', cursor: notasGuardando ? 'wait' : 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: '700', opacity: notasGuardando ? 0.7 : 1 }}>
+                              {notasGuardando ? 'Guardando...' : notasGuardadas ? '✅ Guardado' : 'Guardar notas'}
+                            </button>
+                            <span style={{ fontSize: '12px', color: '#3d5c48' }}>
+                              {notasCita.length}/10000 caracteres
+                            </span>
+                            {notasError && <span style={{ fontSize: '12px', color: '#f87171' }}>{notasError}</span>}
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -378,8 +445,8 @@ export default function PsicologoPage() {
                       📹 Iniciar
                     </a>
                   )}
-                  <button onClick={() => setCitaNotas(citaNotas === cita.id ? null : cita.id)}
-                    style={{ background: '#1a2e1f', border: '1px solid #2a3d2e', color: '#8aab96', padding: '8px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}>
+                  <button onClick={() => abrirNotas(cita.id)}
+                    style={{ background: citaNotas === cita.id ? 'rgba(13,148,136,0.15)' : '#1a2e1f', border: `1px solid ${citaNotas === cita.id ? '#0d9488' : '#2a3d2e'}`, color: citaNotas === cita.id ? '#2dd4bf' : '#8aab96', padding: '8px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', fontWeight: '600' }}>
                     📝 Notas
                   </button>
                 </div>
@@ -496,6 +563,34 @@ export default function PsicologoPage() {
                       style={{ background: '#1a6b4a', color: 'white', padding: '8px 14px', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '700', textAlign: 'center' }}>
                       📹 Iniciar videollamada
                     </a>
+                  )}
+                  <button onClick={() => abrirNotas(cita.id)}
+                    style={{ background: citaNotas === cita.id ? 'rgba(13,148,136,0.15)' : '#1a2e1f', border: `1px solid ${citaNotas === cita.id ? '#0d9488' : '#2a3d2e'}`, color: citaNotas === cita.id ? '#2dd4bf' : '#8aab96', padding: '8px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', fontWeight: '600', width: '100%' }}>
+                    📝 {citaNotas === cita.id ? 'Cerrar notas' : 'Ver / editar notas'}
+                  </button>
+                  {citaNotas === cita.id && (
+                    <div style={{ borderTop: '1px solid #1a2e1f', paddingTop: '12px' }}>
+                      {notasCargando ? (
+                        <p style={{ color: '#3d5c48', fontSize: '13px' }}>Cargando...</p>
+                      ) : (
+                        <>
+                          <textarea
+                            value={notasCita}
+                            onChange={e => { setNotasCita(e.target.value); setNotasGuardadas(false); }}
+                            placeholder={`Motivo de consulta:\n\nObservaciones:\n\nPlan terapéutico:`}
+                            rows={6}
+                            style={{ width: '100%', background: '#0a1510', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px', color: 'white', fontSize: '13px', fontFamily: 'inherit', resize: 'vertical', lineHeight: 1.6, boxSizing: 'border-box' }}
+                          />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+                            <button onClick={() => guardarNotas(cita.id)} disabled={notasGuardando}
+                              style={{ background: notasGuardadas ? '#1a6b4a' : '#0d9488', color: 'white', padding: '8px 14px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: '700', fontFamily: 'inherit', opacity: notasGuardando ? 0.7 : 1 }}>
+                              {notasGuardando ? 'Guardando...' : notasGuardadas ? '✅ Guardado' : 'Guardar'}
+                            </button>
+                            {notasError && <span style={{ fontSize: '11px', color: '#f87171' }}>{notasError}</span>}
+                          </div>
+                        </>
+                      )}
+                    </div>
                   )}
                 </div>
               );
