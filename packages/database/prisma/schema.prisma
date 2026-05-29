@@ -61,6 +61,7 @@ model Usuario {
   entradasDiario  EntradaDiario[]
   registrosAnimo  RegistroAnimo[]
   citasUsuario    Cita[]           @relation("CitasUsuario")
+  perfilPsicologo Psicologo?
   incidentesCrisis IncidenteCrisis[]
   consentimientos  Consentimiento[]
   
@@ -248,7 +249,8 @@ model RegistroAnimo {
 model Psicologo {
   id                    String    @id @default(cuid())
   usuarioId             String    @unique
-  
+  usuario               Usuario   @relation(fields: [usuarioId], references: [id])
+
   // Datos profesionales
   nombreCompleto        String
   tarjetaProfesionalId  String    @unique // COLPSIC

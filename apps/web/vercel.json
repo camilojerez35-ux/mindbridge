@@ -1,0 +1,20 @@
+{
+  "crons": [
+    {
+      "path": "/api/notificaciones?job=citas-24h",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/notificaciones?job=citas-1h",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/notificaciones?job=recordatorio-animo",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/notificaciones?job=inactividad-ia",
+      "schedule": "0 10 * * 1"
+    }
+  ]
+}
