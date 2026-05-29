@@ -24,14 +24,17 @@ interface MensajeChat {
   propio: boolean;
 }
 
-type Estado = 'esperando' | 'conectando' | 'activo' | 'finalizado';
+type Estado = 'lobby' | 'esperando' | 'conectando' | 'activo' | 'finalizado';
 
 export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, onFinalizar }: Props) {
-  const [estado,        setEstado]        = useState<Estado>('esperando');
+  const [estado,        setEstado]        = useState<Estado>('lobby');
   const [audioActivo,   setAudioActivo]   = useState(true);
   const [videoActivo,   setVideoActivo]   = useState(true);
   const [duracion,      setDuracion]      = useState(0);
   const [error,         setError]         = useState('');
+  const [lobbyStream,   setLobbyStream]   = useState<MediaStream | null>(null);
+  const [lobbyError,    setLobbyError]    = useState('');
+  const lobbyVideoRef  = useRef<HTMLVideoElement>(null);
   const [chatAbierto,   setChatAbierto]   = useState(false);
   const [mensajes,      setMensajes]      = useState<MensajeChat[]>([]);
   const [inputChat,     setInputChat]     = useState('');
@@ -115,8 +118,34 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
     }
   }, [citaId, esIniciador, enviarSenal]);
 
-  // ── Inicializar ───────────────────────────────────────────────
+  // ── Lobby: pedir permiso explícito antes de entrar ───────────
+  const pedirPermiso = async () => {
+    setLobbyError('');
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      setLobbyStream(stream);
+      if (lobbyVideoRef.current) lobbyVideoRef.current.srcObject = stream;
+    } catch (e: any) {
+      if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') {
+        setLobbyError('PERMISO_DENEGADO');
+      } else if (e.name === 'NotFoundError') {
+        setLobbyError('No se encontró cámara o micrófono conectados.');
+      } else {
+        setLobbyError(`Error: ${e.message}`);
+      }
+    }
+  };
+
+  const entrarSala = () => {
+    // Detener el preview del lobby — init() abrirá un nuevo stream
+    lobbyStream?.getTracks().forEach(t => t.stop());
+    setLobbyStream(null);
+    setEstado('esperando');
+  };
+
+  // ── Inicializar WebRTC (solo cuando salimos del lobby) ────────
   useEffect(() => {
+    if (estado === 'lobby' || estado === 'finalizado') return;
     let cancelled = false;
 
     async function init() {
@@ -189,7 +218,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
       pcRef.current?.close();
       streamRef.current?.getTracks().forEach(t => t.stop());
     };
-  }, [citaId, esIniciador, enviarSenal, procesarSenales, configurarDataChannel]);
+  }, [citaId, estado, esIniciador, enviarSenal, procesarSenales, configurarDataChannel]);
 
   // ── Controles ─────────────────────────────────────────────────
   const toggleAudio = () => {
@@ -223,6 +252,78 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
 
   const fmtHora = (ts: number) =>
     new Date(ts).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+
+  // ── Pantalla lobby ────────────────────────────────────────────
+  if (estado === 'lobby') {
+    const permisoConcedido = !!lobbyStream;
+    return (
+      <div style={S.page}>
+        <div style={{ maxWidth: 480, width: '100%', padding: '32px 24px' }}>
+          <div style={{ textAlign: 'center', marginBottom: 28 }}>
+            <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MindBridge</span>
+            <h2 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: '12px 0 4px' }}>Sala de espera</h2>
+            <p style={{ color: '#5a8a6a', fontSize: 14 }}>Hola, <strong style={{ color: '#8aab96' }}>{nombreUsuario}</strong></p>
+          </div>
+
+          {/* Preview de cámara */}
+          <div style={{ width: '100%', aspectRatio: '16/9', background: '#1a2e1f', borderRadius: 16, overflow: 'hidden', position: 'relative', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <video ref={lobbyVideoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', display: permisoConcedido ? 'block' : 'none' }} />
+            {!permisoConcedido && (
+              <div style={{ textAlign: 'center', padding: 24 }}>
+                <div style={{ fontSize: 48, marginBottom: 12 }}>📷</div>
+                <p style={{ color: '#5a8a6a', fontSize: 14, margin: 0 }}>
+                  {lobbyError ? '' : 'Tu cámara aparecerá aquí'}
+                </p>
+              </div>
+            )}
+            {permisoConcedido && (
+              <div style={{ position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)', background: 'rgba(13,148,136,0.85)', borderRadius: 20, padding: '4px 14px', fontSize: 12, color: 'white', fontWeight: 600 }}>
+                ✅ Cámara lista
+              </div>
+            )}
+          </div>
+
+          {/* Error de permiso en lobby */}
+          {lobbyError && lobbyError !== 'PERMISO_DENEGADO' && (
+            <div style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.3)', borderRadius: 10, padding: '12px 16px', marginBottom: 16 }}>
+              <p style={{ color: '#f87171', fontSize: 13, margin: 0 }}>{lobbyError}</p>
+            </div>
+          )}
+
+          {lobbyError === 'PERMISO_DENEGADO' && (
+            <div style={{ background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.25)', borderRadius: 10, padding: '14px 18px', marginBottom: 16 }}>
+              <p style={{ color: '#fbbf24', fontWeight: 700, fontSize: 13, margin: '0 0 8px' }}>🔒 Permiso bloqueado</p>
+              <ol style={{ color: '#8aab96', fontSize: 13, lineHeight: 1.9, paddingLeft: 18, margin: 0 }}>
+                <li>Haz clic en el ícono <strong style={{ color: 'white' }}>🔒</strong> o <strong style={{ color: 'white' }}>📷</strong> en la barra de dirección</li>
+                <li>Cambia <strong style={{ color: 'white' }}>Cámara</strong> y <strong style={{ color: 'white' }}>Micrófono</strong> a <strong style={{ color: '#2dd4bf' }}>Permitir</strong></li>
+                <li>Haz clic en <strong style={{ color: '#2dd4bf' }}>"Probar cámara"</strong> de nuevo</li>
+              </ol>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {!permisoConcedido ? (
+              <button onClick={pedirPermiso} style={{ background: '#0d9488', border: 'none', color: 'white', padding: '14px', borderRadius: 12, fontWeight: 700, fontSize: 15, cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
+                📷 Probar cámara y micrófono
+              </button>
+            ) : (
+              <button onClick={entrarSala} style={{ background: '#1a6b4a', border: 'none', color: 'white', padding: '14px', borderRadius: 12, fontWeight: 700, fontSize: 15, cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
+                Entrar a la sesión →
+              </button>
+            )}
+            {permisoConcedido && (
+              <button onClick={pedirPermiso} style={{ background: 'transparent', border: '1px solid #2a3d2e', color: '#5a8a6a', padding: '10px', borderRadius: 10, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+                Cambiar dispositivos
+              </button>
+            )}
+            <a href="/dashboard/citas" style={{ textAlign: 'center', color: '#3d5c48', fontSize: 13, textDecoration: 'none', padding: '8px 0' }}>
+              Cancelar y volver a mis citas
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // ── Pantalla finalizado ───────────────────────────────────────
   if (estado === 'finalizado') return (

@@ -75,7 +75,7 @@ export async function POST(
       citaId: params.citaId,
       desde:  rol,
       tipo:   parsed.data.tipo,
-      payload: parsed.data.payload,
+      payload: parsed.data.payload as Parameters<typeof db.senalRTC.create>[0]['data']['payload'],
     },
   });
 
