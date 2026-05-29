@@ -51,8 +51,10 @@ interface CitaAPI {
   montoCOP: number;
   estadoPago: string;
   salaVideollamada?: string | null;
+  psicologoId: string;
   psicologo: { nombreCompleto: string };
   pago?: { metodoPago: string } | null;
+  resena?: { id: string; calificacion: number; comentario: string | null } | null;
 }
 
 // ── Helpers ────────────────────────────────────────────────────────
@@ -109,6 +111,14 @@ export default function CitasPage() {
   const [citas, setCitas]                   = useState<CitaAPI[]>([]);
   const [cargandoCitas, setCargandoCitas]   = useState(false);
 
+  // Reseñas
+  const [modalResena, setModalResena]       = useState<CitaAPI | null>(null);
+  const [estrellas, setEstrellas]           = useState(0);
+  const [estrellasHover, setEstrellasHover] = useState(0);
+  const [comentario, setComentario]         = useState('');
+  const [enviandoResena, setEnviandoResena] = useState(false);
+  const [errorResena, setErrorResena]       = useState('');
+
   // ── Carga de psicólogos desde la API ────────────────────────────
 
   const cargarPsicologos = useCallback(async () => {
@@ -164,6 +174,34 @@ export default function CitasPage() {
       window.history.replaceState({}, '', '/dashboard/citas');
     }
   }, []);
+
+  // ── Reseñas ───────────────────────────────────────────────────────
+
+  const abrirModalResena = (cita: CitaAPI) => {
+    setModalResena(cita);
+    setEstrellas(cita.resena?.calificacion ?? 0);
+    setComentario(cita.resena?.comentario ?? '');
+    setErrorResena('');
+  };
+
+  const enviarResena = async () => {
+    if (!modalResena || estrellas === 0) { setErrorResena('Selecciona una calificación.'); return; }
+    setEnviandoResena(true);
+    setErrorResena('');
+    try {
+      const res = await fetch('/api/resenas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ citaId: modalResena.id, calificacion: estrellas, comentario: comentario.trim() || undefined }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setErrorResena(data.error || 'Error al enviar'); return; }
+      // Actualizar la cita en el estado local
+      setCitas(prev => prev.map(c => c.id === modalResena.id ? { ...c, resena: data.resena } : c));
+      setModalResena(null);
+    } catch { setErrorResena('Error de conexión.'); }
+    finally { setEnviandoResena(false); }
+  };
 
   // ── Agendamiento ─────────────────────────────────────────────────
 
@@ -275,6 +313,7 @@ export default function CitasPage() {
   // ── Render ───────────────────────────────────────────────────────
 
   return (
+    <>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
       {/* Header + tabs */}
@@ -463,7 +502,15 @@ export default function CitasPage() {
                   <a href={`/dashboard/citas/${c.id}/videollamada`} style={{ background: '#1a6b4a', color: 'white', padding: '9px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '13px' }}>📹 Iniciar sesión</a>
                 )}
                 {c.estado === 'COMPLETADA' && (
-                  <button style={{ background: '#1a2e1f', color: '#5a8a6a', padding: '9px 16px', borderRadius: '8px', border: '1px solid #2a3d2e', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>⭐ Dejar reseña</button>
+                  c.resena ? (
+                    <button onClick={() => abrirModalResena(c)} style={{ background: 'rgba(251,191,36,0.08)', color: '#fbbf24', padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(251,191,36,0.2)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>
+                      {'⭐'.repeat(c.resena.calificacion)} Ver reseña
+                    </button>
+                  ) : (
+                    <button onClick={() => abrirModalResena(c)} style={{ background: '#1a2e1f', color: '#fbbf24', padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(251,191,36,0.2)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>
+                      ⭐ Dejar reseña
+                    </button>
+                  )
                 )}
                 {c.estadoPago === 'PENDIENTE' && (
                   <span style={{ fontSize: '12px', color: '#fbbf24', background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '8px', padding: '4px 10px' }}>⏳ Pago pendiente</span>
@@ -683,5 +730,74 @@ export default function CitasPage() {
         </div>
       )}
     </div>
+    {/* ── Modal de reseña ── */}
+    {modalResena && (
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
+        onClick={e => { if (e.target === e.currentTarget) setModalResena(null); }}>
+        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '20px', padding: '32px', maxWidth: '440px', width: '100%' }}>
+          <h3 style={{ color: 'white', fontWeight: '800', fontSize: '18px', marginBottom: '4px' }}>
+            {modalResena.resena ? 'Tu reseña' : '¿Cómo fue tu sesión?'}
+          </h3>
+          <p style={{ color: '#5a8a6a', fontSize: '13px', marginBottom: '24px' }}>
+            con <strong style={{ color: '#8aab96' }}>{modalResena.psicologo.nombreCompleto}</strong>
+          </p>
+
+          {/* Estrellas */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
+            {[1,2,3,4,5].map(n => (
+              <button
+                key={n}
+                onClick={() => !modalResena.resena && setEstrellas(n)}
+                onMouseEnter={() => !modalResena.resena && setEstrellasHover(n)}
+                onMouseLeave={() => setEstrellasHover(0)}
+                style={{ background: 'none', border: 'none', cursor: modalResena.resena ? 'default' : 'pointer', fontSize: '36px', padding: '0', lineHeight: 1, filter: (estrellasHover || estrellas) >= n ? 'none' : 'grayscale(1) opacity(0.3)', transition: 'filter 0.1s' }}
+              >
+                ⭐
+              </button>
+            ))}
+          </div>
+          <p style={{ color: '#5a8a6a', fontSize: '13px', marginBottom: '16px', minHeight: '18px' }}>
+            {(estrellasHover || estrellas) === 1 && 'Muy mala experiencia'}
+            {(estrellasHover || estrellas) === 2 && 'Podría mejorar'}
+            {(estrellasHover || estrellas) === 3 && 'Regular'}
+            {(estrellasHover || estrellas) === 4 && 'Buena sesión'}
+            {(estrellasHover || estrellas) === 5 && '¡Excelente sesión!'}
+          </p>
+
+          {/* Comentario */}
+          <textarea
+            value={comentario}
+            onChange={e => !modalResena.resena && setComentario(e.target.value)}
+            readOnly={!!modalResena.resena}
+            placeholder="Comparte tu experiencia (opcional)..."
+            rows={4}
+            style={{ width: '100%', background: '#0a1510', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px', color: 'white', fontSize: '13px', fontFamily: 'inherit', resize: 'vertical', lineHeight: 1.6, boxSizing: 'border-box', opacity: modalResena.resena ? 0.7 : 1 }}
+          />
+          <p style={{ color: '#3d5c48', fontSize: '11px', textAlign: 'right', marginTop: '4px' }}>{comentario.length}/1000</p>
+
+          {errorResena && <p style={{ color: '#f87171', fontSize: '13px', marginBottom: '12px' }}>{errorResena}</p>}
+
+          <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
+            {!modalResena.resena && (
+              <button
+                onClick={enviarResena}
+                disabled={enviandoResena || estrellas === 0}
+                style={{ flex: 1, background: estrellas > 0 ? '#0d9488' : '#1a2e1f', color: 'white', padding: '12px', borderRadius: '10px', border: 'none', fontWeight: '700', fontSize: '14px', cursor: estrellas > 0 ? 'pointer' : 'not-allowed', fontFamily: 'inherit', opacity: enviandoResena ? 0.7 : 1 }}
+              >
+                {enviandoResena ? 'Enviando...' : 'Enviar reseña'}
+              </button>
+            )}
+            <button
+              onClick={() => setModalResena(null)}
+              style={{ flex: modalResena.resena ? 1 : 0, padding: '12px 20px', background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: '10px', color: '#5a8a6a', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              {modalResena.resena ? 'Cerrar' : 'Cancelar'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
+

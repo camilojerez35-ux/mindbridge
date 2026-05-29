@@ -48,7 +48,8 @@ export async function GET(req: NextRequest) {
           psicologo: {
             select: { nombreCompleto: true, especialidades: true, fotoUrl: true, calificacionPromedio: true },
           },
-          pago: { select: { metodoPago: true } },
+          pago:   { select: { metodoPago: true } },
+          resena: { select: { id: true, calificacion: true, comentario: true } },
         },
         orderBy: { fechaHora: 'desc' },
         take: limite,
