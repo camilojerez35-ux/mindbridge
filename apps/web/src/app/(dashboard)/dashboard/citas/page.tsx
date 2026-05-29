@@ -459,8 +459,8 @@ export default function CitasPage() {
                   </span>
                   <p style={{ fontSize: '13px', color: '#3d5c48', marginTop: '4px' }}>${fmt(c.montoCOP)} COP</p>
                 </div>
-                {c.estado === 'CONFIRMADA' && c.salaVideollamada && (
-                  <a href={c.salaVideollamada} target="_blank" rel="noopener noreferrer" style={{ background: '#1a6b4a', color: 'white', padding: '9px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '13px' }}>📹 Unirse</a>
+                {c.estado === 'CONFIRMADA' && (
+                  <a href={`/dashboard/citas/${c.id}/videollamada`} style={{ background: '#1a6b4a', color: 'white', padding: '9px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '13px' }}>📹 Iniciar sesión</a>
                 )}
                 {c.estado === 'COMPLETADA' && (
                   <button style={{ background: '#1a2e1f', color: '#5a8a6a', padding: '9px 16px', borderRadius: '8px', border: '1px solid #2a3d2e', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>⭐ Dejar reseña</button>

@@ -372,8 +372,8 @@ export default function PsicologoPage() {
                       </button>
                     </>
                   )}
-                  {cita.salaVideollamada && cita.estado === 'CONFIRMADA' && (
-                    <a href={cita.salaVideollamada} target="_blank" rel="noopener noreferrer"
+                  {cita.estado === 'CONFIRMADA' && (
+                    <a href={`/dashboard/citas/${cita.id}/videollamada`}
                       style={{ background: '#1a6b4a', color: 'white', padding: '8px 14px', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '700' }}>
                       📹 Iniciar
                     </a>
@@ -491,8 +491,8 @@ export default function PsicologoPage() {
                       </button>
                     </div>
                   )}
-                  {cita.salaVideollamada && cita.estado === 'CONFIRMADA' && (
-                    <a href={cita.salaVideollamada} target="_blank" rel="noopener noreferrer"
+                  {cita.estado === 'CONFIRMADA' && (
+                    <a href={`/dashboard/citas/${cita.id}/videollamada`}
                       style={{ background: '#1a6b4a', color: 'white', padding: '8px 14px', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '700', textAlign: 'center' }}>
                       📹 Iniciar videollamada
                     </a>

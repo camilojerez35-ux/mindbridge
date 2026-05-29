@@ -536,3 +536,21 @@ model AuditLog {
   @@index([recurso])
   @@index([createdAt])
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SEÑALIZACIÓN WEBRTC (P2P — se limpia automáticamente)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model SenalRTC {
+  id        String   @id @default(cuid())
+  citaId    String
+  desde     String   // 'usuario' | 'psicologo'
+  tipo      String   // 'offer' | 'answer' | 'ice'
+  payload   Json
+  leida     Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("senales_rtc")
+  @@index([citaId, leida])
+  @@index([createdAt])
+}
