@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     const referencia = `SUB-${usuarioId}-${plan}-${Date.now()}`;
     const montoCentavos = montoCOP * 100;
 
-    const firma = await generarFirmaIntegridad(referencia, montoCentavos);
+    const firma = generarFirmaIntegridad({ referencia, amountInCents: montoCentavos, currency: 'COP' });
 
     await db.pago.create({
       data: {

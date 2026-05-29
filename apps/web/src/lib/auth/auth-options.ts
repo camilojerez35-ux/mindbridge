@@ -13,12 +13,14 @@ declare module 'next-auth' {
       image?: string | null;
       plan: string;
       rol: string;
+      consentimientoDatos: boolean;
     };
   }
   interface User {
     id: string;
     plan: string;
     rol: string;
+    consentimientoDatos: boolean;
   }
 }
 
@@ -27,6 +29,7 @@ declare module 'next-auth/jwt' {
     id: string;
     plan: string;
     rol: string;
+    consentimientoDatos: boolean;
   }
 }
 
@@ -53,12 +56,16 @@ export const authOptions: AuthOptions = {
             planActual: true,
             rol: true,
             estado: true,
+            emailVerificado: true,
+            consentimientoDatos: true,
           },
         });
 
         if (!usuario || !usuario.hashedPassword) return null;
 
         if (usuario.estado === 'SUSPENDIDO' || usuario.estado === 'ELIMINADO') return null;
+
+        if (!usuario.emailVerificado) return null;
 
         const passwordValida = await bcrypt.compare(credentials.password, usuario.hashedPassword);
         if (!passwordValida) return null;
@@ -70,6 +77,7 @@ export const authOptions: AuthOptions = {
           image: usuario.imagen,
           plan: usuario.planActual,
           rol: usuario.rol,
+          consentimientoDatos: usuario.consentimientoDatos,
         };
       },
     }),
@@ -93,11 +101,24 @@ export const authOptions: AuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger }) {
       if (user) {
         token.id = user.id;
         token.plan = user.plan ?? 'GRATIS';
         token.rol = user.rol ?? 'USUARIO';
+        token.consentimientoDatos = user.consentimientoDatos ?? false;
+      }
+
+      // Refresca rol y plan desde BD en cada renovación del token
+      if (!user && !account && token.id) {
+        const fresco = await db.usuario.findUnique({
+          where: { id: token.id },
+          select: { rol: true, planActual: true },
+        });
+        if (fresco) {
+          token.rol = fresco.rol;
+          token.plan = fresco.planActual;
+        }
       }
 
       if (account?.provider === 'google' && token.email) {
@@ -109,12 +130,14 @@ export const authOptions: AuthOptions = {
             nombre: token.name ?? null,
             imagen: token.picture as string ?? null,
             consentimientoDatos: false,
+            emailVerificado: new Date(), // Google verifica el email por nosotros
           },
-          select: { id: true, planActual: true, rol: true },
+          select: { id: true, planActual: true, rol: true, consentimientoDatos: true },
         });
         token.id = usuario.id;
         token.plan = usuario.planActual;
         token.rol = usuario.rol;
+        token.consentimientoDatos = usuario.consentimientoDatos;
       }
 
       return token;
@@ -125,6 +148,7 @@ export const authOptions: AuthOptions = {
         session.user.id = token.id;
         session.user.plan = token.plan;
         session.user.rol = token.rol;
+        session.user.consentimientoDatos = token.consentimientoDatos ?? false;
       }
       return session;
     },

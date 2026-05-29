@@ -1,8 +1,18 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) throw new Error('JWT_SECRET no está definido en las variables de entorno');
+function requireEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(
+      `[startup] Variable de entorno requerida no definida: ${name}. ` +
+      'Revisa tu archivo .env.local o las variables de entorno del servidor.'
+    );
+  }
+  return value;
+}
+
+const JWT_SECRET: string = requireEnv('JWT_SECRET');
 const JWT_EXPIRES_IN = '7d';
 const REFRESH_TOKEN_EXPIRES_IN = '30d';
 

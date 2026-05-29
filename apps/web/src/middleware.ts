@@ -59,20 +59,36 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // 4. Control de acceso por rol
+  // 4. Verificar consentimiento de datos (obligatorio — Ley 1581/2012)
+  // Usuarios de Google se crean con consentimientoDatos=false hasta que acepten
+  const rutasExentasConsentimiento = ['/consentimiento', '/api/auth', '/api/usuarios/consentimiento'];
+  const requiereConsentimiento = !rutasExentasConsentimiento.some(r => pathname.startsWith(r));
+  if (requiereConsentimiento && token.consentimientoDatos === false) {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json(
+        { error: 'Debes aceptar los términos de privacidad antes de continuar', codigo: 'CONSENTIMIENTO_REQUERIDO' },
+        { status: 403 }
+      );
+    }
+    const consentUrl = new URL('/consentimiento', request.url);
+    consentUrl.searchParams.set('callbackUrl', pathname);
+    return NextResponse.redirect(consentUrl);
+  }
+
+  // 5. Control de acceso por rol
   if (pathname.startsWith('/admin')) {
-    if (!ROLE_CONFIG.ADMIN.includes(token.rol as string)) {
+    if (!ROLE_CONFIG.ADMIN.includes(token.rol as 'ADMIN' | 'SUPERADMIN')) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   }
 
   if (pathname.startsWith('/psicologo')) {
-    if (!ROLE_CONFIG.PSICOLOGO.includes(token.rol as string)) {
+    if (!ROLE_CONFIG.PSICOLOGO.includes(token.rol as 'ADMIN' | 'PSICOLOGO' | 'SUPERADMIN')) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   }
 
-  // 5. Rutas premium
+  // 6. Rutas premium
   const premiumPaths = ['/dashboard/progreso', '/dashboard/programas'];
   if (premiumPaths.some(p => pathname.startsWith(p))) {
     if (token.plan === 'GRATIS') {

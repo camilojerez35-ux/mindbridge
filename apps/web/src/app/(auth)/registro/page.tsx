@@ -172,11 +172,10 @@ export default function RegistroPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth', {
+      const response = await fetch('/api/usuarios/registro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'register',
           nombre: form.nombre.value,
           apellido: form.apellido.value,
           email: form.email.value,

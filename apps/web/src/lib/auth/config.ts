@@ -8,6 +8,8 @@ export const PUBLIC_PATHS = [
   '/forgot-password',
   '/reset-password',
   '/api/auth/*',
+  '/api/usuarios/registro',
+  '/api/usuarios/consentimiento',
   '/_next/*',
   '/favicon.ico',
 ];

@@ -8,7 +8,12 @@ import {
   RECURSOS_CRISIS_COLOMBIA,
   anonimizarMensaje,
 } from '@mindbridge/ai-clinical/protocols/crisis-protocol';
-import { SYSTEM_PROMPT_CLINICAL } from '@mindbridge/ai-clinical/prompts/system-prompt';
+import { SYSTEM_PROMPT_LITE } from '@mindbridge/ai-clinical/prompts/system-prompt';
+import {
+  registrarIncidente,
+  registrarIncidenteAsync,
+  type DatosIncidente,
+} from '@/lib/crisis/incident-logger';
 
 // Singleton — instanciado una vez por proceso, no por request
 const anthropic = process.env.ANTHROPIC_API_KEY
@@ -45,6 +50,35 @@ async function checkRateLimit(userId: string): Promise<boolean> {
   }
 }
 
+/**
+ * Carga el historial de mensajes desde BD — nunca desde el cliente.
+ * El filtro doble (sesionId + usuarioId) garantiza propiedad y previene
+ * inyección de prompts a través de mensajes de otras sesiones.
+ */
+async function cargarHistorialBD(
+  sesionId: string | undefined,
+  usuarioId: string,
+): Promise<Array<{ role: 'user' | 'assistant'; content: string }>> {
+  if (!sesionId) return [];
+  const { db } = await import('@/lib/db/client');
+  const mensajes = await db.mensajeChat.findMany({
+    where: {
+      sesionId,
+      usuarioId,
+      rol: { in: ['user', 'assistant'] },
+    },
+    orderBy: { createdAt: 'desc' },
+    take: 4,
+    select: { rol: true, contenido: true },
+  });
+  return mensajes
+    .reverse()
+    .map(m => ({
+      role: m.rol as 'user' | 'assistant',
+      content: m.contenido.slice(0, 300),
+    }));
+}
+
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -55,38 +89,48 @@ export async function POST(req: NextRequest) {
   if (!dentroDelLimite) {
     return Response.json(
       { error: 'Límite de mensajes alcanzado. Intenta de nuevo en un minuto.' },
-      { status: 429 }
+      { status: 429 },
     );
   }
 
   try {
-    const { mensaje, historial = [], sesionId } = await req.json();
+    // No se acepta historial del cliente — se carga desde BD (fix: prompt injection)
+    const { mensaje, sesionId } = await req.json();
 
     if (!mensaje?.trim()) {
       return Response.json({ error: 'Mensaje vacío' }, { status: 400 });
     }
     if (mensaje.length > 2000) {
-      return Response.json({ error: 'El mensaje es demasiado largo (máximo 2000 caracteres).' }, { status: 400 });
+      return Response.json(
+        { error: 'El mensaje es demasiado largo (máximo 2000 caracteres).' },
+        { status: 400 },
+      );
     }
 
-    // Detección de crisis usando el paquete clínico validado
     const evaluacion = detectarNivelCrisis(mensaje);
 
-    // Registrar incidente si corresponde (async, no bloquea la respuesta)
-    if (evaluacion.registrarIncidente) {
-      registrarIncidenteAsync({
-        usuarioId: session.user.id,
-        sesionId: sesionId ?? 'sin-sesion',
-        nivel: evaluacion.nivel,
-        indicadoresDetectados: evaluacion.indicadores,
-        fragmentoAnonimizado: anonimizarMensaje(mensaje),
-        timestampDeteccion: new Date(),
-        protocoloActivado: evaluacion.nivel === 'critico',
-        psicologoNotificado: evaluacion.escalarAPsicologo,
-      });
+    const datosIncidente: DatosIncidente = {
+      usuarioId: session.user.id,
+      sesionId: sesionId ?? 'sin-sesion',
+      nivel: evaluacion.nivel,
+      indicadoresDetectados: evaluacion.indicadores,
+      fragmentoAnonimizado: anonimizarMensaje(mensaje),
+      timestampDeteccion: new Date(),
+      protocoloActivado: evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto',
+      psicologoNotificado: evaluacion.escalarAPsicologo,
+    };
+
+    // CRITICO y ALTO: logging síncrono antes de responder — audit trail garantizado
+    // MODERADO/BAJO: async, no bloquea la respuesta
+    if (evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto') {
+      if (evaluacion.registrarIncidente) {
+        await registrarIncidente(datosIncidente);
+      }
+    } else if (evaluacion.registrarIncidente) {
+      registrarIncidenteAsync(datosIncidente);
     }
 
-    // Respuesta inmediata para crisis crítica — sin llamar a Claude
+    // CRITICO: respuesta inmediata sin llamar a Claude
     if (evaluacion.nivel === 'critico') {
       return Response.json({
         respuesta: generarMensajeCrisis('critico'),
@@ -97,9 +141,21 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // ALTO: respuesta hardcodeada sin llamar a Claude.
+    // Ideación suicida o desesperanza severa no debe depender de un modelo externo.
+    if (evaluacion.nivel === 'alto') {
+      return Response.json({
+        respuesta: generarMensajeCrisis('alto'),
+        crisis: true,
+        nivel: 'alto',
+        recursos: RECURSOS_CRISIS_COLOMBIA.slice(0, 2),
+        accion: 'MOSTRAR_RECURSOS',
+      });
+    }
+
     if (!anthropic) {
       return Response.json({
-        respuesta: `Entiendo cómo te sientes. ${evaluacion.nivel === 'alto' || evaluacion.nivel === 'moderado'
+        respuesta: `Entiendo cómo te sientes. ${evaluacion.nivel === 'moderado'
           ? 'Lo que describes suena muy difícil. No estás solo/a. ¿Te gustaría agendar una cita con uno de nuestros psicólogos?\n\nMientras tanto, l'
           : 'L'}a **Línea 106** está disponible las 24 horas si necesitas apoyo inmediato.\n\n_[Para activar la IA real, configura ANTHROPIC_API_KEY en tu .env.local]_\n\n¿Puedes contarme un poco más sobre cómo te has sentido?`,
         crisis: evaluacion.nivel !== 'ninguno',
@@ -108,31 +164,22 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Enriquecer system prompt según nivel de malestar detectado
-    let systemPrompt = SYSTEM_PROMPT_CLINICAL;
-    if (evaluacion.nivel === 'alto') {
-      systemPrompt += '\n\nCONTEXTO CLÍNICO: El usuario ha expresado señales de malestar significativo (nivel alto). Prioriza la validación emocional profunda, el apoyo contenedor y sugiere agendar una cita con un psicólogo al final de tu respuesta. Menciona la Línea 106 de forma natural.';
-    } else if (evaluacion.nivel === 'moderado') {
-      systemPrompt += '\n\nCONTEXTO CLÍNICO: El usuario muestra señales de malestar moderado. Aplica escucha activa y considera sugerir una técnica de regulación si es apropiado.';
+    // Historial cargado desde BD — nunca desde el cliente
+    const mensajesHistorial = await cargarHistorialBD(sesionId, session.user.id);
+
+    let systemPrompt = SYSTEM_PROMPT_LITE;
+    if (evaluacion.nivel === 'moderado') {
+      systemPrompt += '\n\nALERTA: El usuario muestra malestar moderado. Prioriza escucha activa y ofrece una técnica de regulación concreta si es oportuno.';
     }
 
-    const mensajesHistorial = historial
-      .slice(-6)
-      .map((m: any) => ({
-        role: m.rol as 'user' | 'assistant',
-        content: String(m.contenido).slice(0, 500),
-      }));
-
-    const mensajes = [
-      ...mensajesHistorial,
-      { role: 'user' as const, content: mensaje },
-    ];
-
     const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1024,
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 500,
       system: systemPrompt,
-      messages: mensajes,
+      messages: [
+        ...mensajesHistorial,
+        { role: 'user', content: mensaje },
+      ],
     });
 
     const respuesta = response.content[0].type === 'text' ? response.content[0].text : '';
@@ -141,31 +188,15 @@ export async function POST(req: NextRequest) {
       respuesta,
       crisis: evaluacion.nivel !== 'ninguno',
       nivel: evaluacion.nivel,
-      recursos: evaluacion.nivel === 'alto' ? RECURSOS_CRISIS_COLOMBIA.slice(0, 2) : [],
+      recursos: evaluacion.nivel === 'moderado' ? RECURSOS_CRISIS_COLOMBIA.slice(0, 1) : [],
       tokensUsados: response.usage.input_tokens + response.usage.output_tokens,
     });
 
   } catch (error: any) {
     console.error('[CHAT API ERROR]', error);
-    return Response.json({ error: 'Lo sentimos, ocurrió un error interno. Por favor, intenta de nuevo más tarde.' }, { status: 500 });
-  }
-}
-
-// Registro async de incidentes — no bloquea la respuesta al usuario
-async function registrarIncidenteAsync(incidente: {
-  usuarioId: string;
-  sesionId: string;
-  nivel: string;
-  indicadoresDetectados: string[];
-  fragmentoAnonimizado: string;
-  timestampDeteccion: Date;
-  protocoloActivado: boolean;
-  psicologoNotificado: boolean;
-}) {
-  try {
-    const { db } = await import('@/lib/db/client');
-    await db.incidenteCrisis.create({ data: incidente });
-  } catch (error) {
-    console.error('[INCIDENTE CRISIS] Error al registrar:', error);
+    return Response.json(
+      { error: 'Lo sentimos, ocurrió un error interno. Por favor, intenta de nuevo más tarde.' },
+      { status: 500 },
+    );
   }
 }

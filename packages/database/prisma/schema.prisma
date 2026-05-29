@@ -260,7 +260,7 @@ model Psicologo {
   especialidades        String[]
   enfoqueTerapeutico    String[]  // ["TCC", "ACT", "Psicoanalisis"]
   formacion             String    @db.Text
-  años_experiencia      Int
+  anosExperiencia       Int       @map("años_experiencia")
   bio                   String    @db.Text
   
   // Disponibilidad y tarifas
@@ -279,7 +279,7 @@ model Psicologo {
   // Métricas
   calificacionPromedio  Float?
   totalCitas            Int       @default(0)
-  totalReseñas          Int       @default(0)
+  totalResenas          Int       @default(0) @map("totalReseñas")
   
   // Imagen
   fotoUrl               String?
@@ -400,15 +400,15 @@ model Pago {
   
   // Datos de la pasarela (Wompi/ePayco)
   pasarela        String      // WOMPI, EPAICO, PAYU
-  idTransaccionPasarela String?
+  idTransaccionPasarela String? @unique // Previene duplicados financieros
   estadoPasarela  String?
   respuestaPasarela Json?
-  
+
   estado          EstadoPago  @default(PENDIENTE)
   fechaPago       DateTime?
-  
+
   createdAt       DateTime    @default(now())
-  
+
   @@map("pagos")
   @@index([estado])
 }
@@ -511,4 +511,28 @@ enum TipoConsentimiento {
   MARKETING
   HISTORIA_CLINICA
   COMPARTIR_CON_PSICOLOGO
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AUDIT LOG — Ley 1581/2012 Art. 17 (registro de acceso a datos sensibles)
+// Sin FK a Usuario para que los registros sobrevivan eliminación de cuentas.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  usuarioId   String?  // Quién realizó la acción (sin @relation — inmutable)
+  adminId     String?  // Si fue un admin actuando sobre otro usuario
+  accion      String   // LEER_DATOS_SALUD, ACTUALIZAR_NOTAS, EXPORTAR, etc.
+  recurso     String   // Modelo afectado: Usuario, Cita, IncidenteCrisis, etc.
+  recursoId   String?  // ID del registro afectado
+  ipAddress   String?
+  userAgent   String?
+  metadatos   Json?    // Contexto adicional sin datos sensibles
+  createdAt   DateTime @default(now())
+
+  @@map("audit_log")
+  @@index([usuarioId])
+  @@index([accion])
+  @@index([recurso])
+  @@index([createdAt])
 }

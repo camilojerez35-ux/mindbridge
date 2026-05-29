@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
+import { detectarNivelCrisis } from '@mindbridge/ai-clinical/protocols/crisis-protocol';
+import { registrarIncidente, registrarIncidenteAsync } from '@/lib/crisis/incident-logger';
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -57,6 +59,34 @@ export async function POST(req: NextRequest) {
     }
     if (contenido.length > 5000) {
       return Response.json({ error: 'El contenido no puede superar 5000 caracteres' }, { status: 400 });
+    }
+
+    // Detección de crisis en el contenido del diario
+    const evaluacionCrisis = detectarNivelCrisis(contenido);
+    const nivelCrisis = evaluacionCrisis.nivel; // lowercase: 'critico' | 'alto' | 'moderado' | ...
+
+    if (nivelCrisis === 'critico' || nivelCrisis === 'alto') {
+      await registrarIncidente({
+        usuarioId: session.user.id,
+        sesionId:  `diario-${session.user.id}-${Date.now()}`,
+        nivel:     nivelCrisis.toUpperCase(),
+        indicadoresDetectados: evaluacionCrisis.indicadores,
+        fragmentoAnonimizado:  contenido.slice(0, 200),
+        timestampDeteccion:    new Date(),
+        protocoloActivado:     true,
+        psicologoNotificado:   false,
+      });
+    } else if (nivelCrisis === 'moderado') {
+      registrarIncidenteAsync({
+        usuarioId: session.user.id,
+        sesionId:  `diario-${session.user.id}-${Date.now()}`,
+        nivel:     'MODERADO',
+        indicadoresDetectados: evaluacionCrisis.indicadores,
+        fragmentoAnonimizado:  contenido.slice(0, 200),
+        timestampDeteccion:    new Date(),
+        protocoloActivado:     true,
+        psicologoNotificado:   false,
+      });
     }
 
     let analisisIA = 'Entrada registrada. ';

@@ -17,12 +17,14 @@ export default function ResetPasswordPage() {
   const [success, setSuccess] = useState('');
 
   const token = searchParams.get('token');
+  const email = searchParams.get('email');
+  const ts    = searchParams.get('ts');
 
   useEffect(() => {
-    if (!token) {
-      setError('Token de recuperación inválido o expirado.');
+    if (!token || !email || !ts) {
+      setError('Enlace de recuperación inválido o expirado.');
     }
-  }, [token]);
+  }, [token, email, ts]);
 
   const getPasswordStrength = (password: string): 'weak' | 'medium' | 'strong' => {
     if (!password) return 'weak';
@@ -94,14 +96,14 @@ export default function ResetPasswordPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth', {
+      const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'reset-password',
+          email,
           token,
+          ts: ts ? parseInt(ts) : undefined,
           password,
-          confirmPassword,
         }),
       });
 

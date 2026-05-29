@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
+import { detectarNivelCrisis } from '@mindbridge/ai-clinical/protocols/crisis-protocol';
+import { registrarIncidente, registrarIncidenteAsync } from '@/lib/crisis/incident-logger';
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -49,6 +51,43 @@ export async function POST(req: NextRequest) {
 
     if (!valor || valor < 1 || valor > 10) {
       return Response.json({ error: 'Valor debe estar entre 1 y 10' }, { status: 400 });
+    }
+
+    // Detección de crisis por valor de ánimo bajo
+    // valor=1 → ALTO, valor=2 → MODERADO
+    let nivelCrisisAnimo: 'ALTO' | 'MODERADO' | null = null;
+    if (valor === 1) nivelCrisisAnimo = 'ALTO';
+    else if (valor === 2) nivelCrisisAnimo = 'MODERADO';
+
+    // Si hay nota de texto, también analizarla
+    if (!nivelCrisisAnimo && nota) {
+      const evaluacion = detectarNivelCrisis(nota);
+      if (evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto') nivelCrisisAnimo = 'ALTO';
+      else if (evaluacion.nivel === 'moderado') nivelCrisisAnimo = 'MODERADO';
+    }
+
+    if (nivelCrisisAnimo === 'ALTO') {
+      await registrarIncidente({
+        usuarioId: session.user.id,
+        sesionId:  `animo-${session.user.id}-${Date.now()}`,
+        nivel:     nivelCrisisAnimo,
+        indicadoresDetectados: [`valor_animo=${valor}`],
+        fragmentoAnonimizado:  nota ? nota.slice(0, 200) : `Ánimo registrado: ${valor}/10`,
+        timestampDeteccion:    new Date(),
+        protocoloActivado:     true,
+        psicologoNotificado:   false,
+      });
+    } else if (nivelCrisisAnimo === 'MODERADO') {
+      registrarIncidenteAsync({
+        usuarioId: session.user.id,
+        sesionId:  `animo-${session.user.id}-${Date.now()}`,
+        nivel:     nivelCrisisAnimo,
+        indicadoresDetectados: [`valor_animo=${valor}`],
+        fragmentoAnonimizado:  nota ? nota.slice(0, 200) : `Ánimo registrado: ${valor}/10`,
+        timestampDeteccion:    new Date(),
+        protocoloActivado:     true,
+        psicologoNotificado:   false,
+      });
     }
 
     const registro = await db.registroAnimo.create({

@@ -2,29 +2,29 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import { useState } from 'react';
+import {
+  Home, MessageCircle, BookOpen, TrendingUp, Wind,
+  Calendar, User, LogOut, Bell, ChevronRight, Zap,
+  ShieldCheck, Stethoscope,
+} from 'lucide-react';
 
 const navItems = [
-  { href: '/dashboard',            icon: '🏠', label: 'Inicio' },
-  { href: '/dashboard/chat',       icon: '🤖', label: 'Chat IA' },
-  { href: '/dashboard/diario',     icon: '📔', label: 'Diario' },
-  { href: '/dashboard/progreso',   icon: '📈', label: 'Progreso' },
-  { href: '/dashboard/ejercicios', icon: '🧘', label: 'Ejercicios' },
-  { href: '/dashboard/citas',      icon: '👨‍⚕️', label: 'Citas' },
-  { href: '/dashboard/perfil',     icon: '👤', label: 'Perfil' },
+  { href: '/dashboard',            icon: Home,          label: 'Inicio' },
+  { href: '/dashboard/chat',       icon: MessageCircle, label: 'Chat IA' },
+  { href: '/dashboard/diario',     icon: BookOpen,      label: 'Diario' },
+  { href: '/dashboard/progreso',   icon: TrendingUp,    label: 'Progreso' },
+  { href: '/dashboard/ejercicios', icon: Wind,          label: 'Ejercicios' },
+  { href: '/dashboard/citas',      icon: Calendar,      label: 'Citas' },
+  { href: '/dashboard/perfil',     icon: User,          label: 'Perfil' },
 ];
 
-const PLAN_LABELS: Record<string, string> = {
-  GRATIS: 'Plan Gratis',
-  PLUS: 'Plan Plus',
-  FAMILIA: 'Plan Familia',
-  EMPRESARIAL: 'Plan Empresarial',
-};
-
-const PLAN_DESC: Record<string, string> = {
-  GRATIS: '3 sesiones IA/semana',
-  PLUS: 'Sesiones ilimitadas',
-  FAMILIA: 'Hasta 5 miembros',
-  EMPRESARIAL: 'Equipo completo',
+const PLAN_COLORS: Record<string, string> = {
+  GRATIS:     'text-gray-400',
+  PLUS:       'text-teal-400',
+  FAMILIA:    'text-purple-400',
+  EMPRESARIAL:'text-amber-400',
 };
 
 interface Props {
@@ -32,91 +32,163 @@ interface Props {
   userName: string | null | undefined;
   userPlan: string;
   userInitial: string;
+  userRol?: string;
 }
 
-export default function DashboardClient({ children, userName, userPlan, userInitial }: Props) {
+export default function DashboardClient({ children, userName, userPlan, userInitial, userRol }: Props) {
+  const esAdmin     = userRol === 'ADMIN' || userRol === 'SUPERADMIN';
+  const esPsicologo = userRol === 'PSICOLOGO';
   const pathname = usePathname();
-  const esPlanGratis = userPlan === 'GRATIS';
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#0a1510', fontFamily: 'Inter,system-ui,sans-serif', color: 'white' }}>
+    <div className="flex min-h-screen bg-[#080f0a] text-white" style={{ fontFamily: 'Inter,system-ui,sans-serif' }}>
 
       {/* ── SIDEBAR ── */}
-      <aside style={{ width: '220px', background: '#0d1a12', borderRight: '1px solid #1a2e1f', display: 'flex', flexDirection: 'column', position: 'fixed', top: 0, left: 0, height: '100vh', zIndex: 50 }}>
+      <aside className="fixed top-0 left-0 h-screen w-56 bg-[#0d1a12] border-r border-white/5 flex flex-col z-50">
 
         {/* Logo */}
-        <div style={{ padding: '24px 20px', borderBottom: '1px solid #1a2e1f' }}>
-          <Link href="/" style={{ fontSize: '20px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MindBridge</Link>
-          <p style={{ fontSize: '10px', color: '#3d5c48', marginTop: '2px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Colombia</p>
+        <div className="px-5 py-5 border-b border-white/5">
+          <Link href="/" className="block">
+            <span className="text-xl font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
+              MindBridge
+            </span>
+            <p className="text-[10px] text-gray-600 mt-0.5 uppercase tracking-widest">Colombia</p>
+          </Link>
         </div>
 
         {/* Nav */}
-        <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px', overflowY: 'auto' }}>
-          {navItems.map(item => {
-            const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
+        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+          {navItems.map(({ href, icon: Icon, label }) => {
+            const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
             return (
               <Link
-                key={item.href}
-                href={item.href}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  padding: '10px 12px', borderRadius: '8px', textDecoration: 'none',
-                  fontSize: '14px', fontWeight: active ? '700' : '400',
-                  color: active ? 'white' : '#5a8a6a',
-                  background: active ? 'rgba(45,212,191,0.1)' : 'transparent',
-                  borderLeft: active ? '2px solid #2dd4bf' : '2px solid transparent',
-                  transition: 'all .15s',
-                }}
+                key={href}
+                href={href}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${
+                  active
+                    ? 'bg-teal-500/10 text-white font-semibold'
+                    : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
+                }`}
               >
-                <span style={{ fontSize: '16px' }}>{item.icon}</span>
-                {item.label}
+                <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-teal-400' : 'text-gray-600 group-hover:text-gray-400'}`} />
+                {label}
+                {active && <ChevronRight className="w-3 h-3 ml-auto text-teal-500 opacity-60" />}
               </Link>
             );
           })}
+          {/* Psicólogo */}
+          {esPsicologo && (
+            <div className="pt-3 mt-3 border-t border-white/5">
+              <p className="px-3 mb-1 text-[10px] text-gray-600 uppercase tracking-widest font-semibold">Psicólogo</p>
+              {[{ href: '/dashboard/psicologo', icon: Stethoscope, label: 'Mi Panel' }].map(({ href, icon: Icon, label }) => {
+                const active = pathname.startsWith(href);
+                return (
+                  <Link key={href} href={href} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${active ? 'bg-teal-500/10 text-white font-semibold' : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'}`}>
+                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-teal-400' : 'text-gray-600 group-hover:text-gray-400'}`} />
+                    {label}
+                    {active && <ChevronRight className="w-3 h-3 ml-auto text-teal-500 opacity-60" />}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Admin */}
+          {esAdmin && (
+            <div className="pt-3 mt-3 border-t border-white/5">
+              <p className="px-3 mb-1 text-[10px] text-red-500/70 uppercase tracking-widest font-semibold">Administración</p>
+              {[{ href: '/dashboard/admin', icon: ShieldCheck, label: 'Panel Admin' }].map(({ href, icon: Icon, label }) => {
+                const active = pathname.startsWith(href);
+                return (
+                  <Link key={href} href={href} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${active ? 'bg-red-500/10 text-red-300 font-semibold' : 'text-red-400/70 hover:text-red-300 hover:bg-red-500/5'}`}>
+                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-red-400' : 'text-red-500/50 group-hover:text-red-400'}`} />
+                    {label}
+                    {active && <ChevronRight className="w-3 h-3 ml-auto text-red-400 opacity-60" />}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </nav>
 
         {/* Plan badge */}
-        <div style={{ padding: '16px', borderTop: '1px solid #1a2e1f' }}>
-          <div style={{ background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: '8px', padding: '10px 12px' }}>
-            <p style={{ fontSize: '11px', color: '#2dd4bf', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              {PLAN_LABELS[userPlan] ?? userPlan}
-            </p>
-            <p style={{ fontSize: '11px', color: '#5a8a6a', marginTop: '2px' }}>
-              {PLAN_DESC[userPlan] ?? ''}
-            </p>
-            {esPlanGratis && (
-              <Link href="/dashboard/perfil" style={{ fontSize: '11px', color: '#2dd4bf', textDecoration: 'none', marginTop: '6px', display: 'block', fontWeight: '600' }}>
-                Actualizar a Plus →
+        <div className="px-3 py-3 border-t border-white/5">
+          <div className="bg-white/3 rounded-lg px-3 py-2.5 border border-white/5">
+            <div className="flex items-center gap-2 mb-1">
+              <Zap className="w-3 h-3 text-teal-400" />
+              <span className={`text-xs font-bold uppercase tracking-wider ${PLAN_COLORS[userPlan] ?? 'text-gray-400'}`}>
+                {userPlan === 'GRATIS' ? 'Plan Gratis' : userPlan === 'PLUS' ? 'Plan Plus' : userPlan}
+              </span>
+            </div>
+            {userPlan === 'GRATIS' && (
+              <Link href="/dashboard/perfil" className="text-[11px] text-teal-400 hover:text-teal-300 font-medium transition-colors">
+                Mejorar a Plus →
               </Link>
             )}
           </div>
         </div>
 
-        {/* Crisis siempre visible */}
-        <div style={{ padding: '12px 16px', background: 'rgba(184,32,32,0.08)', borderTop: '1px solid rgba(184,32,32,0.15)' }}>
-          <p style={{ fontSize: '10px', color: '#f87171', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>⚠️ Crisis</p>
-          <p style={{ fontSize: '12px', color: '#f87171', fontWeight: '700' }}>Línea 106 · 123</p>
+        {/* Crisis */}
+        <div className="px-3 py-3 bg-red-950/30 border-t border-red-900/20">
+          <p className="text-[10px] text-red-400 font-bold uppercase tracking-wider mb-1">Crisis 24/7</p>
+          <p className="text-xs text-red-300 font-semibold">Línea 106 · 123</p>
         </div>
       </aside>
 
       {/* ── MAIN ── */}
-      <div style={{ marginLeft: '220px', flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className="ml-56 flex-1 flex flex-col min-h-screen">
 
         {/* Top bar */}
-        <header style={{ height: '60px', background: '#0d1a12', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px', position: 'sticky', top: 0, zIndex: 40 }}>
-          <p style={{ fontSize: '13px', color: '#3d5c48' }}>
-            Hola, <strong style={{ color: '#8aab96' }}>{userName ?? 'Usuario'}</strong> 👋
-          </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <button style={{ background: 'none', border: 'none', color: '#5a8a6a', cursor: 'pointer', fontSize: '18px' }} title="Notificaciones">🔔</button>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#1a6b4a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '700', color: '#2dd4bf', cursor: 'pointer' }}>
-              {userInitial}
+        <header className="h-14 bg-[#0d1a12]/80 backdrop-blur border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-40">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
+            <span className="text-xs text-gray-500">
+              {new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' })}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-500 hover:text-gray-300 hover:bg-white/5 transition-all">
+              <Bell className="w-4 h-4" />
+            </button>
+
+            {/* User menu */}
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(o => !o)}
+                className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-white/5 transition-all"
+              >
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-xs font-bold text-white">
+                  {userInitial}
+                </div>
+                <span className="text-sm text-gray-300 font-medium">{userName?.split(' ')[0] ?? 'Usuario'}</span>
+              </button>
+
+              {userMenuOpen && (
+                <div className="absolute right-0 top-10 w-44 bg-[#0d1a12] border border-white/10 rounded-xl shadow-2xl py-1 z-50">
+                  <Link
+                    href="/dashboard/perfil"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+                  >
+                    <User className="w-4 h-4" /> Mi perfil
+                  </Link>
+                  <div className="border-t border-white/5 my-1" />
+                  <button
+                    onClick={() => signOut({ callbackUrl: '/login' })}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/5 transition-all"
+                  >
+                    <LogOut className="w-4 h-4" /> Cerrar sesión
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </header>
 
-        {/* Contenido */}
-        <main style={{ flex: 1, padding: '28px', overflowY: 'auto' }}>
+        {/* Content */}
+        <main className="flex-1 p-6 overflow-y-auto">
           {children}
         </main>
       </div>

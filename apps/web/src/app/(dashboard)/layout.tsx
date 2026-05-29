@@ -15,6 +15,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       userName={session.user.name ?? session.user.email}
       userPlan={session.user.plan}
       userInitial={(session.user.name ?? session.user.email ?? 'U')[0].toUpperCase()}
+      userRol={session.user.rol}
     >
       {children}
     </DashboardClient>

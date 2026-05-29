@@ -1,26 +1,20 @@
 /**
  * MindBridge — API Route: Citas con Psicólogos
- * GET  /api/citas         → listar citas del usuario
- * POST /api/citas         → agendar nueva cita
+ * GET  /api/citas  → listar citas del usuario
+ * POST /api/citas  → crear cita pendiente y devolver datos para widget Wompi
  */
 
 import { NextRequest } from 'next/server';
+import { createHash } from 'crypto';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { z } from 'zod';
-import { crearSalaVideollamada } from '@/lib/videollamada/daily';
-import { procesarPagoCita } from '@/lib/pagos/wompi';
-import { enviarConfirmacionCita } from '@/lib/email/confirmaciones';
 
 const AgendarCitaSchema = z.object({
   psicologoId: z.string().cuid(),
-  fechaHora: z.string().datetime(),
-  tipo: z.enum(['PRIMERA_CONSULTA', 'SEGUIMIENTO', 'URGENTE']).default('PRIMERA_CONSULTA'),
-  notasPrevias: z.string().max(1000).optional(),
-  metodoPago: z.enum(['PSE', 'TARJETA', 'NEQUI', 'DAVIPLATA']),
-  tokenPago: z.string(), // Token de la pasarela de pagos
-  compartirResumenIA: z.boolean().default(false),
+  fechaHora:   z.string().datetime(),
+  metodoPago:  z.enum(['PSE', 'TARJETA', 'NEQUI', 'DAVIPLATA']),
 });
 
 // GET — Listar citas del usuario autenticado
@@ -31,9 +25,9 @@ export async function GET(req: NextRequest) {
   }
 
   const { searchParams } = new URL(req.url);
-  const estado = searchParams.get('estado');
-  const limite = Math.min(parseInt(searchParams.get('limite') || '10'), 50);
-  const pagina = parseInt(searchParams.get('pagina') || '1');
+  const estado  = searchParams.get('estado');
+  const limite  = Math.min(parseInt(searchParams.get('limite') || '10'), 50);
+  const pagina  = parseInt(searchParams.get('pagina') || '1');
 
   try {
     const where: Record<string, unknown> = { usuarioId: session.user.id };
@@ -44,14 +38,9 @@ export async function GET(req: NextRequest) {
         where,
         include: {
           psicologo: {
-            select: {
-              nombreCompleto: true,
-              especialidades: true,
-              fotoUrl: true,
-              calificacionPromedio: true,
-            },
+            select: { nombreCompleto: true, especialidades: true, fotoUrl: true, calificacionPromedio: true },
           },
-          resena: { select: { calificacion: true, comentario: true } },
+          pago: { select: { metodoPago: true } },
         },
         orderBy: { fechaHora: 'desc' },
         take: limite,
@@ -64,14 +53,13 @@ export async function GET(req: NextRequest) {
       citas,
       paginacion: { total, pagina, limite, totalPaginas: Math.ceil(total / limite) },
     });
-
   } catch (error) {
     console.error('[CITAS GET ERROR]', error);
     return Response.json({ error: 'Error al obtener citas' }, { status: 500 });
   }
 }
 
-// POST — Agendar nueva cita
+// POST — Crear cita pendiente + devolver parámetros del widget Wompi
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -81,148 +69,108 @@ export async function POST(req: NextRequest) {
   const usuarioId = session.user.id;
 
   try {
-    const body = await req.json();
-    const parseResult = AgendarCitaSchema.safeParse(body);
-    if (!parseResult.success) {
-      return Response.json({ error: 'Datos inválidos', detalles: parseResult.error.issues }, { status: 400 });
+    const body = await req.json().catch(() => null);
+    if (!body) return Response.json({ error: 'Body inválido' }, { status: 400 });
+
+    const parsed = AgendarCitaSchema.safeParse(body);
+    if (!parsed.success) {
+      return Response.json(
+        { error: parsed.error.errors[0]?.message ?? 'Datos inválidos' },
+        { status: 400 },
+      );
     }
 
-    const datos = parseResult.data;
-    const fechaCita = new Date(datos.fechaHora);
+    const { psicologoId, fechaHora, metodoPago } = parsed.data;
+    const fechaCita = new Date(fechaHora);
 
-    // ── Verificar que la fecha está en el futuro ────────────────
     if (fechaCita <= new Date()) {
       return Response.json({ error: 'La fecha de la cita debe ser en el futuro' }, { status: 400 });
     }
 
-    // ── Verificar que el psicólogo existe y está activo ────────
-    const psicologo = await db.psicologo.findUnique({
-      where: { id: datos.psicologoId, activo: true, estado: 'ACTIVO' },
+    // Verificar psicólogo activo
+    const psicologo = await db.psicologo.findFirst({
+      where: { id: psicologoId, activo: true, estado: { in: ['ACTIVO', 'VERIFICADO'] } },
+      select: { id: true, nombreCompleto: true, tarifaCOP: true },
     });
-
     if (!psicologo) {
       return Response.json({ error: 'Psicólogo no disponible' }, { status: 404 });
     }
 
-    // ── Verificar que el horario está disponible ───────────────
+    // Verificar disponibilidad (prevenir double-booking)
     const citaExistente = await db.cita.findFirst({
       where: {
-        psicologoId: datos.psicologoId,
+        psicologoId,
         fechaHora: {
           gte: new Date(fechaCita.getTime() - 30 * 60 * 1000),
           lte: new Date(fechaCita.getTime() + 75 * 60 * 1000),
         },
         estado: { notIn: ['CANCELADA_USUARIO', 'CANCELADA_PSICOLOGO'] },
       },
+      select: { id: true },
     });
-
     if (citaExistente) {
       return Response.json({ error: 'El psicólogo no está disponible en ese horario' }, { status: 409 });
     }
 
-    // ── Calcular montos ────────────────────────────────────────
-    const comisionPorcentaje = parseInt(process.env.COMISION_CITAS_PORCENTAJE || '20');
+    const comisionPct = parseInt(process.env.COMISION_CITAS_PORCENTAJE || '20');
     const montoCOP = psicologo.tarifaCOP;
-    const comisionCOP = Math.round(montoCOP * comisionPorcentaje / 100);
+    const comisionCOP = Math.round(montoCOP * comisionPct / 100);
     const montoPsicologoCOP = montoCOP - comisionCOP;
 
-    // ── Procesar pago ──────────────────────────────────────────
-    const resultadoPago = await procesarPagoCita({
-      token: datos.tokenPago,
-      montoCOP,
-      metodoPago: datos.metodoPago,
-      referencia: `CITA-${usuarioId}-${Date.now()}`,
+    const referencia = `CITA-${usuarioId.slice(-6)}-${Date.now()}`;
+
+    // Crear cita en estado PENDIENTE (se confirma tras webhook de Wompi)
+    const cita = await db.cita.create({
+      data: {
+        usuarioId,
+        psicologoId,
+        fechaHora: fechaCita,
+        duracionMinutos: 45,
+        estado: 'PENDIENTE',
+        tipo: 'PRIMERA_CONSULTA',
+        modalidad: 'VIDEOLLAMADA',
+        montoCOP,
+        comisionCOP,
+        montoPsicologoCOP,
+        estadoPago: 'PENDIENTE',
+      },
     });
 
-    if (!resultadoPago.aprobado) {
-      return Response.json({
-        error: 'Pago no aprobado',
-        detalle: resultadoPago.mensaje,
-      }, { status: 402 });
+    // Construir datos para el widget Wompi
+    const publicKey   = process.env.WOMPI_PUBLIC_KEY  ?? '';
+    const eventsSecret = process.env.WOMPI_EVENTS_SECRET ?? '';
+    const amountInCents = montoCOP * 100;
+    const appUrl = process.env.APP_URL ?? 'http://localhost:3000';
+    const redirectUrl = `${appUrl}/dashboard/citas?pago=exitoso&citaId=${cita.id}`;
+
+    // Firma de integridad SHA256: concatenar reference + amount + currency + secret
+    let integritySignature = '';
+    if (eventsSecret) {
+      const data = `${referencia}${amountInCents}COP${eventsSecret}`;
+      integritySignature = createHash('sha256').update(data).digest('hex');
     }
 
-    // ── Crear sala de videollamada ─────────────────────────────
-    const sala = await crearSalaVideollamada({
-      nombre: `cita-${Date.now()}`,
-      expiraEn: new Date(fechaCita.getTime() + 90 * 60 * 1000),
+    const usuario = await db.usuario.findUnique({
+      where: { id: usuarioId },
+      select: { nombre: true, apellido: true, email: true },
     });
-
-    // ── Obtener resumen de IA si aplica ───────────────────────
-    let notasPrevias = datos.notasPrevias;
-    if (datos.compartirResumenIA) {
-      const ultimasSesiones = await db.sesionChat.findMany({
-        where: { usuarioId, estado: 'CERRADA' },
-        orderBy: { createdAt: 'desc' },
-        take: 3,
-        select: { resumen: true },
-      });
-      if (ultimasSesiones.length > 0) {
-        notasPrevias = `Resumen de sesiones con IA (${ultimasSesiones.length} sesiones recientes):\n` +
-          ultimasSesiones.map(s => s.resumen).filter(Boolean).join('\n---\n');
-      }
-    }
-
-    // ── Crear registro en base de datos ───────────────────────
-    const [pago, cita] = await db.$transaction(async (tx) => {
-      const pago = await tx.pago.create({
-        data: {
-          montoCOP,
-          metodoPago: datos.metodoPago,
-          referencia: resultadoPago.referencia,
-          pasarela: 'WOMPI',
-          idTransaccionPasarela: resultadoPago.idTransaccion,
-          estadoPasarela: 'APROBADO',
-          respuestaPasarela: resultadoPago.respuestaCompleta as object,
-          estado: 'APROBADO',
-          fechaPago: new Date(),
-        },
-      });
-
-      const cita = await tx.cita.create({
-        data: {
-          usuarioId,
-          psicologoId: datos.psicologoId,
-          fechaHora: fechaCita,
-          duracionMinutos: 45,
-          estado: 'CONFIRMADA',
-          tipo: datos.tipo,
-          modalidad: 'VIDEOLLAMADA',
-          montoCOP,
-          comisionCOP,
-          montoPsicologoCOP,
-          estadoPago: 'APROBADO',
-          pagoId: pago.id,
-          notasPrevias,
-          salaVideollamada: sala.url,
-          tokenPsicologo: sala.tokenPsicologo,
-          tokenUsuario: sala.tokenUsuario,
-        },
-        include: {
-          psicologo: {
-            select: { nombreCompleto: true, email: true, fotoUrl: true },
-          },
-        },
-      });
-
-      return [pago, cita];
-    });
-
-    // ── Enviar confirmaciones por email ────────────────────────
-    await enviarConfirmacionCita({
-      cita,
-      emailUsuario: session.user.email!,
-      nombreUsuario: session.user.name || 'Usuario',
-    }).catch(console.error);
 
     return Response.json({
-      exito: true,
-      cita: {
-        id: cita.id,
-        fechaHora: cita.fechaHora,
-        psicologo: cita.psicologo,
-        salaVideollamada: cita.salaVideollamada,
-        montoCOP: cita.montoCOP,
-        estado: cita.estado,
+      citaId:     cita.id,
+      referencia,
+      psicologo:  psicologo.nombreCompleto,
+      montoCOP,
+      datosWidget: {
+        publicKey,
+        currency:          'COP',
+        amountInCents,
+        reference:         referencia,
+        integritySignature,
+        redirectUrl,
+        customerData: {
+          email:    usuario?.email    ?? session.user.email ?? '',
+          fullName: `${usuario?.nombre ?? ''} ${usuario?.apellido ?? ''}`.trim() || session.user.name || '',
+        },
       },
     }, { status: 201 });
 
