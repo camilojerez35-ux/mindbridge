@@ -10,6 +10,14 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { z } from 'zod';
+import { enviarEmail } from '@/lib/email/confirmaciones';
+
+const TZ = 'America/Bogota';
+const fmtCita = (iso: string) =>
+  new Date(iso).toLocaleString('es-CO', {
+    weekday: 'long', day: 'numeric', month: 'long',
+    hour: '2-digit', minute: '2-digit', timeZone: TZ,
+  });
 
 const AgendarCitaSchema = z.object({
   psicologoId: z.string().cuid(),
@@ -90,7 +98,7 @@ export async function POST(req: NextRequest) {
     // Verificar psicólogo activo
     const psicologo = await db.psicologo.findFirst({
       where: { id: psicologoId, activo: true, estado: { in: ['ACTIVO', 'VERIFICADO'] } },
-      select: { id: true, nombreCompleto: true, tarifaCOP: true },
+      select: { id: true, nombreCompleto: true, tarifaCOP: true, usuarioId: true },
     });
     if (!psicologo) {
       return Response.json({ error: 'Psicólogo no disponible' }, { status: 404 });
@@ -136,6 +144,58 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Enviar notificaciones por email (async, no bloquea la respuesta)
+    const usuario = await db.usuario.findUnique({
+      where: { id: usuarioId },
+      select: { nombre: true, apellido: true, email: true },
+    });
+    const psicologoUsuario = await db.usuario.findUnique({
+      where: { id: psicologo.usuarioId },
+      select: { email: true },
+    });
+    const fechaFmt = fmtCita(fechaCita.toISOString());
+    const nombrePaciente = [usuario?.nombre, usuario?.apellido].filter(Boolean).join(' ') || 'Paciente';
+
+    // Email al paciente
+    enviarEmail({
+      to: usuario?.email ?? session.user.email ?? '',
+      subject: '📅 Cita agendada — MindBridge',
+      text: `Hola ${nombrePaciente},\n\nTu cita con ${psicologo.nombreCompleto} ha sido agendada para el ${fechaFmt}.\n\nEsta pendiente de confirmación por el psicólogo. Te avisaremos cuando sea confirmada.\n\nEquipo MindBridge`,
+      html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
+        <h2 style="color:#0d9488">📅 Cita agendada</h2>
+        <p>Hola <strong>${nombrePaciente}</strong>,</p>
+        <p>Tu cita con <strong>${psicologo.nombreCompleto}</strong> ha sido agendada:</p>
+        <div style="background:#f0fdf4;border-left:4px solid #0d9488;padding:14px 18px;border-radius:6px;margin:16px 0">
+          <p style="margin:0;font-size:16px;font-weight:bold;color:#0d9488">${fechaFmt}</p>
+          <p style="margin:6px 0 0;color:#555">Duración: 45 minutos · Videollamada</p>
+        </div>
+        <p style="color:#888;font-size:13px">⏳ Pendiente de confirmación por el psicólogo.</p>
+        <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
+        <p style="color:#aaa;font-size:12px">MindBridge Colombia · Apoyo emocional profesional</p>
+      </div>`,
+    }).catch(console.error);
+
+    // Email al psicólogo
+    if (psicologoUsuario?.email) {
+      enviarEmail({
+        to: psicologoUsuario.email,
+        subject: '🔔 Nueva cita pendiente — MindBridge',
+        text: `Hola ${psicologo.nombreCompleto},\n\nTienes una nueva cita con ${nombrePaciente} el ${fechaFmt}.\n\nIngresa a tu panel para confirmarla: ${process.env.APP_URL ?? 'http://localhost:3000'}/dashboard/psicologo\n\nEquipo MindBridge`,
+        html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
+          <h2 style="color:#0d9488">🔔 Nueva cita pendiente</h2>
+          <p>Hola <strong>${psicologo.nombreCompleto}</strong>,</p>
+          <p>Tienes una nueva solicitud de cita:</p>
+          <div style="background:#f0fdf4;border-left:4px solid #0d9488;padding:14px 18px;border-radius:6px;margin:16px 0">
+            <p style="margin:0;font-weight:bold;color:#111">${nombrePaciente}</p>
+            <p style="margin:6px 0 0;font-size:16px;font-weight:bold;color:#0d9488">${fechaFmt}</p>
+          </div>
+          <a href="${process.env.APP_URL ?? 'http://localhost:3000'}/dashboard/psicologo" style="display:inline-block;background:#0d9488;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:8px">Ver en mi panel →</a>
+          <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
+          <p style="color:#aaa;font-size:12px">MindBridge Colombia</p>
+        </div>`,
+      }).catch(console.error);
+    }
+
     // Construir datos para el widget Wompi
     const publicKey   = process.env.WOMPI_PUBLIC_KEY  ?? '';
     const eventsSecret = process.env.WOMPI_EVENTS_SECRET ?? '';
@@ -149,11 +209,6 @@ export async function POST(req: NextRequest) {
       const data = `${referencia}${amountInCents}COP${eventsSecret}`;
       integritySignature = createHash('sha256').update(data).digest('hex');
     }
-
-    const usuario = await db.usuario.findUnique({
-      where: { id: usuarioId },
-      select: { nombre: true, apellido: true, email: true },
-    });
 
     return Response.json({
       citaId:     cita.id,
