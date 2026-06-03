@@ -74,14 +74,23 @@ const schema = z.object({
 });
 
 function validate() {
-  // En tests unitarios (Vitest) saltamos la validación — los tests
-  // no necesitan vars de infra para probar la lógica clínica.
+  // En tests unitarios (Vitest) saltamos la validación
   if (process.env.VITEST) {
     return schema.parse({
       DATABASE_URL:    'postgresql://test:test@localhost:5432/test',
       NEXTAUTH_SECRET: 'test-secret-32-chars-minimum-padding',
       ENCRYPTION_KEY:  '0'.repeat(64),
       NODE_ENV:        'test',
+    });
+  }
+
+  // Durante el build de Next.js las vars de infra no están disponibles — skip
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    return schema.parse({
+      DATABASE_URL:    'postgresql://build:build@localhost:5432/build',
+      NEXTAUTH_SECRET: 'build-placeholder-secret-32-chars!!',
+      ENCRYPTION_KEY:  '0'.repeat(64),
+      NODE_ENV:        'production',
     });
   }
 
