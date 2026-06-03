@@ -86,6 +86,16 @@ export async function POST(req: NextRequest) {
     },
   });
 
+  await db.auditLog.create({
+    data: {
+      adminId:    session.user.id,
+      accion:     'CREAR_PSICOLOGO',
+      recurso:    'Psicologo',
+      recursoId:  psicologo.id,
+      metadatos:  { email, nombreCompleto, tarjetaProfesionalId },
+    },
+  });
+
   return Response.json({
     ok: true,
     usuario: { id: usuario.id, email: usuario.email },

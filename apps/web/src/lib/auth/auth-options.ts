@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { db } from '@/lib/db/client';
 import bcrypt from 'bcryptjs';
+import { rateLimits } from '@/lib/rate-limit';
 
 declare module 'next-auth' {
   interface Session {
@@ -30,6 +31,7 @@ declare module 'next-auth/jwt' {
     plan: string;
     rol: string;
     consentimientoDatos: boolean;
+    lastRefresh?: number;
   }
 }
 
@@ -41,8 +43,17 @@ export const authOptions: AuthOptions = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Contraseña', type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
+
+        // Rate limiting por IP en el punto real de autenticación
+        const rawIp =
+          (req as any)?.headers?.['x-forwarded-for'] ??
+          (req as any)?.socket?.remoteAddress ??
+          'unknown';
+        const ip = typeof rawIp === 'string' ? rawIp.split(',')[0].trim() : 'unknown';
+        const { allowed } = await rateLimits.login(ip);
+        if (!allowed) return null;
 
         const usuario = await db.usuario.findUnique({
           where: { email: credentials.email },
@@ -109,15 +120,20 @@ export const authOptions: AuthOptions = {
         token.consentimientoDatos = user.consentimientoDatos ?? false;
       }
 
-      // Refresca rol y plan desde BD en cada renovación del token
+      // Refresca rol y plan desde BD cada 5 minutos, no en cada request
+      const REFRESH_INTERVAL = 5 * 60 * 1000;
       if (!user && !account && token.id) {
-        const fresco = await db.usuario.findUnique({
-          where: { id: token.id },
-          select: { rol: true, planActual: true },
-        });
-        if (fresco) {
-          token.rol = fresco.rol;
-          token.plan = fresco.planActual;
+        const now = Date.now();
+        if (!token.lastRefresh || now - token.lastRefresh > REFRESH_INTERVAL) {
+          const fresco = await db.usuario.findUnique({
+            where: { id: token.id },
+            select: { rol: true, planActual: true },
+          });
+          if (fresco) {
+            token.rol = fresco.rol;
+            token.plan = fresco.planActual;
+            token.lastRefresh = now;
+          }
         }
       }
 

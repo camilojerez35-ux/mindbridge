@@ -10,7 +10,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { z } from 'zod';
-import { enviarEmail } from '@/lib/email/confirmaciones';
+import { enviarEmail, escapeHtml } from '@/lib/email/confirmaciones';
 
 const TZ = 'America/Bogota';
 const fmtCita = (iso: string) =>
@@ -33,9 +33,19 @@ export async function GET(req: NextRequest) {
   }
 
   const { searchParams } = new URL(req.url);
-  const estado  = searchParams.get('estado');
+  const estadoParam = searchParams.get('estado');
   const limite  = Math.min(parseInt(searchParams.get('limite') || '10'), 50);
   const pagina  = parseInt(searchParams.get('pagina') || '1');
+
+  const EstadoCitaSchema = z.enum([
+    'PENDIENTE', 'CONFIRMADA', 'EN_CURSO', 'COMPLETADA',
+    'CANCELADA_USUARIO', 'CANCELADA_PSICOLOGO', 'NO_SHOW',
+  ]).optional();
+  const estadoParsed = EstadoCitaSchema.safeParse(estadoParam ?? undefined);
+  if (!estadoParsed.success) {
+    return Response.json({ error: 'Estado inválido' }, { status: 400 });
+  }
+  const estado = estadoParsed.data;
 
   try {
     const where: Record<string, unknown> = { usuarioId: session.user.id };
@@ -126,9 +136,7 @@ export async function POST(req: NextRequest) {
     const comisionCOP = Math.round(montoCOP * comisionPct / 100);
     const montoPsicologoCOP = montoCOP - comisionCOP;
 
-    const referencia = `CITA-${usuarioId.slice(-6)}-${Date.now()}`;
-
-    // Crear cita en estado PENDIENTE (se confirma tras webhook de Wompi)
+    // Crear cita primero para obtener el id y construir la referencia con él
     const cita = await db.cita.create({
       data: {
         usuarioId,
@@ -145,6 +153,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Referencia incluye citaId para correlación exacta en el webhook
+    const referencia = `CITA-${cita.id}-${Date.now()}`;
+
     // Enviar notificaciones por email (async, no bloquea la respuesta)
     const usuario = await db.usuario.findUnique({
       where: { id: usuarioId },
@@ -155,17 +166,18 @@ export async function POST(req: NextRequest) {
       select: { email: true },
     });
     const fechaFmt = fmtCita(fechaCita.toISOString());
-    const nombrePaciente = [usuario?.nombre, usuario?.apellido].filter(Boolean).join(' ') || 'Paciente';
+    const nombrePaciente = escapeHtml([usuario?.nombre, usuario?.apellido].filter(Boolean).join(' ') || 'Paciente');
+    const nombrePsicologo = escapeHtml(psicologo.nombreCompleto);
 
     // Email al paciente
     enviarEmail({
       to: usuario?.email ?? session.user.email ?? '',
       subject: '📅 Cita agendada — MindBridge',
-      text: `Hola ${nombrePaciente},\n\nTu cita con ${psicologo.nombreCompleto} ha sido agendada para el ${fechaFmt}.\n\nEsta pendiente de confirmación por el psicólogo. Te avisaremos cuando sea confirmada.\n\nEquipo MindBridge`,
+      text: `Hola ${nombrePaciente},\n\nTu cita con ${nombrePsicologo} ha sido agendada para el ${fechaFmt}.\n\nEsta pendiente de confirmación por el psicólogo. Te avisaremos cuando sea confirmada.\n\nEquipo MindBridge`,
       html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
         <h2 style="color:#0d9488">📅 Cita agendada</h2>
         <p>Hola <strong>${nombrePaciente}</strong>,</p>
-        <p>Tu cita con <strong>${psicologo.nombreCompleto}</strong> ha sido agendada:</p>
+        <p>Tu cita con <strong>${nombrePsicologo}</strong> ha sido agendada:</p>
         <div style="background:#f0fdf4;border-left:4px solid #0d9488;padding:14px 18px;border-radius:6px;margin:16px 0">
           <p style="margin:0;font-size:16px;font-weight:bold;color:#0d9488">${fechaFmt}</p>
           <p style="margin:6px 0 0;color:#555">Duración: 45 minutos · Videollamada</p>
@@ -181,10 +193,10 @@ export async function POST(req: NextRequest) {
       enviarEmail({
         to: psicologoUsuario.email,
         subject: '🔔 Nueva cita pendiente — MindBridge',
-        text: `Hola ${psicologo.nombreCompleto},\n\nTienes una nueva cita con ${nombrePaciente} el ${fechaFmt}.\n\nIngresa a tu panel para confirmarla: ${process.env.APP_URL ?? 'http://localhost:3000'}/dashboard/psicologo\n\nEquipo MindBridge`,
+        text: `Hola ${nombrePsicologo},\n\nTienes una nueva cita con ${nombrePaciente} el ${fechaFmt}.\n\nIngresa a tu panel para confirmarla: ${process.env.APP_URL ?? 'http://localhost:3000'}/dashboard/psicologo\n\nEquipo MindBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#0d9488">🔔 Nueva cita pendiente</h2>
-          <p>Hola <strong>${psicologo.nombreCompleto}</strong>,</p>
+          <p>Hola <strong>${nombrePsicologo}</strong>,</p>
           <p>Tienes una nueva solicitud de cita:</p>
           <div style="background:#f0fdf4;border-left:4px solid #0d9488;padding:14px 18px;border-radius:6px;margin:16px 0">
             <p style="margin:0;font-weight:bold;color:#111">${nombrePaciente}</p>
@@ -198,16 +210,17 @@ export async function POST(req: NextRequest) {
     }
 
     // Construir datos para el widget Wompi
-    const publicKey   = process.env.WOMPI_PUBLIC_KEY  ?? '';
-    const eventsSecret = process.env.WOMPI_EVENTS_SECRET ?? '';
-    const amountInCents = montoCOP * 100;
+    const publicKey      = process.env.WOMPI_PUBLIC_KEY    ?? '';
+    // WOMPI_INTEGRITY_KEY firma el widget; WOMPI_EVENTS_SECRET valida webhooks — son claves distintas
+    const integrityKey   = process.env.WOMPI_INTEGRITY_KEY ?? '';
+    const amountInCents  = montoCOP * 100;
     const appUrl = process.env.APP_URL ?? 'http://localhost:3000';
     const redirectUrl = `${appUrl}/dashboard/citas?pago=exitoso&citaId=${cita.id}`;
 
-    // Firma de integridad SHA256: concatenar reference + amount + currency + secret
+    // Firma de integridad SHA256: concatenar reference + amount + currency + integrity_key
     let integritySignature = '';
-    if (eventsSecret) {
-      const data = `${referencia}${amountInCents}COP${eventsSecret}`;
+    if (integrityKey) {
+      const data = `${referencia}${amountInCents}COP${integrityKey}`;
       integritySignature = createHash('sha256').update(data).digest('hex');
     }
 

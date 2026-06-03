@@ -179,13 +179,13 @@ async function procesarSuscripcion(
 }
 
 async function procesarCita(tx: any, referencia: string, pagoId: string) {
-  // Vincular el pago a la cita correspondiente
+  // Referencia formato: CITA-{citaId}-{timestamp}
+  const citaId = referencia.split('-')[1];
+  if (!citaId) throw new Error(`Referencia de cita inválida: ${referencia}`);
+
   const cita = await tx.cita.findFirst({
-    where: { pagoId: null, estadoPago: 'PENDIENTE' },
-    // La referencia CITA-{usuarioId}-{timestamp} no tiene el citaId directamente.
-    // El pagoId ya fue creado en el POST /api/citas antes del webhook — solo actualizamos estado.
+    where: { id: citaId, estadoPago: 'PENDIENTE' },
     select: { id: true },
-    orderBy: { createdAt: 'desc' },
   });
 
   if (cita) {
@@ -193,6 +193,8 @@ async function procesarCita(tx: any, referencia: string, pagoId: string) {
       where: { id: cita.id },
       data: { estadoPago: 'APROBADO', pagoId },
     });
+  } else {
+    console.warn(`[WEBHOOK] Cita no encontrada o ya procesada: ${citaId}`);
   }
 
   console.log(`[WEBHOOK] ✅ Pago de cita confirmado. Referencia: ${referencia}`);

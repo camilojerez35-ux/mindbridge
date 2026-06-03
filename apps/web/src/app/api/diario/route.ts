@@ -4,6 +4,17 @@ import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { detectarNivelCrisis } from '@mindbridge/ai-clinical/protocols/crisis-protocol';
 import { registrarIncidente, registrarIncidenteAsync } from '@/lib/crisis/incident-logger';
+import { encryption } from '@/lib/encryption';
+
+/** Elimina patrones de PII antes de guardar el fragmento clínico. */
+function anonimizarFragmento(texto: string): string {
+  return texto
+    .slice(0, 200)
+    .replace(/\b[A-Z][a-záéíóúüñ]+(?:\s+[A-Z][a-záéíóúüñ]+){1,3}\b/g, '[NOMBRE]')
+    .replace(/\b[\w.+-]+@[\w-]+\.[a-z]{2,}\b/gi, '[EMAIL]')
+    .replace(/\b(?:\+57[\s-]?)?\d{7,10}\b/g, '[TELEFONO]')
+    .replace(/\b\d{6,11}\b/g, '[ID]');
+}
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -71,7 +82,7 @@ export async function POST(req: NextRequest) {
         sesionId:  `diario-${session.user.id}-${Date.now()}`,
         nivel:     nivelCrisis.toUpperCase(),
         indicadoresDetectados: evaluacionCrisis.indicadores,
-        fragmentoAnonimizado:  contenido.slice(0, 200),
+        fragmentoAnonimizado:  anonimizarFragmento(contenido),
         timestampDeteccion:    new Date(),
         protocoloActivado:     true,
         psicologoNotificado:   false,
@@ -82,7 +93,7 @@ export async function POST(req: NextRequest) {
         sesionId:  `diario-${session.user.id}-${Date.now()}`,
         nivel:     'MODERADO',
         indicadoresDetectados: evaluacionCrisis.indicadores,
-        fragmentoAnonimizado:  contenido.slice(0, 200),
+        fragmentoAnonimizado:  anonimizarFragmento(contenido),
         timestampDeteccion:    new Date(),
         protocoloActivado:     true,
         psicologoNotificado:   false,
@@ -97,7 +108,7 @@ export async function POST(req: NextRequest) {
     const entrada = await db.entradaDiario.create({
       data: {
         usuarioId: session.user.id,
-        contenido, // cifrado a nivel de aplicación pendiente — ver lib/encryption
+        contenido: encryption.encrypt(contenido),
         estadoAnimo: animo,
         emociones,
         etiquetas,

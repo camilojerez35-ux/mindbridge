@@ -3,6 +3,7 @@ import { db } from '@/lib/db/client';
 import { enviarEmail } from '@/lib/email/confirmaciones';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
+import { rateLimits } from '@/lib/rate-limit';
 
 const schema = z.object({
   nombre: z.string().min(2).max(50),
@@ -22,6 +23,15 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const ip = req.ip ?? req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown';
+  const { allowed } = await rateLimits.registro(ip);
+  if (!allowed) {
+    return Response.json(
+      { error: 'Demasiados intentos de registro desde esta IP. Intenta más tarde.' },
+      { status: 429 },
+    );
+  }
+
   const body = await req.json().catch(() => null);
   if (!body) return Response.json({ error: 'Cuerpo inválido' }, { status: 400 });
 

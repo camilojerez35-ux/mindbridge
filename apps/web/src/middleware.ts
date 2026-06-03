@@ -3,23 +3,47 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { RATE_LIMITING, PUBLIC_PATHS, ROLE_CONFIG } from '@/lib/auth/config';
 
-// Rate limiter en memoria — solo válido para single-instance.
-// En producción con múltiples instancias, reemplazar por Redis.
-const requestCounts = new Map<string, { count: number; resetAt: number }>();
+// Fallback in-memory para desarrollo / single-instance
+const _memCounts = new Map<string, { count: number; resetAt: number }>();
 
-function checkRateLimit(ip: string, windowMs: number, maxRequests: number): boolean {
+function _memRateLimit(key: string, windowMs: number, max: number): boolean {
   const now = Date.now();
-  const data = requestCounts.get(ip);
-
-  if (!data || now > data.resetAt) {
-    requestCounts.set(ip, { count: 1, resetAt: now + windowMs });
+  const entry = _memCounts.get(key);
+  if (!entry || now > entry.resetAt) {
+    _memCounts.set(key, { count: 1, resetAt: now + windowMs });
     return true;
   }
-
-  if (data.count >= maxRequests) return false;
-
-  data.count++;
+  if (entry.count >= max) return false;
+  entry.count++;
   return true;
+}
+
+// Rate limiting via Upstash REST (Edge-compatible, funciona en multi-instancia).
+// Cuando UPSTASH_REDIS_REST_URL no está configurado, cae al Map en memoria.
+async function checkRateLimit(ip: string, windowMs: number, maxRequests: number): Promise<boolean> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (url && token) {
+    const key = `rl:auth:${ip}`;
+    const windowSec = Math.ceil(windowMs / 1000);
+    try {
+      const res = await fetch(`${url}/pipeline`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify([['INCR', key], ['EXPIRE', key, windowSec]]),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as Array<{ result: number }>;
+        const count = data[0]?.result ?? 1;
+        return count <= maxRequests;
+      }
+    } catch {
+      // Redis no disponible — caer a in-memory
+    }
+  }
+
+  return _memRateLimit(ip, windowMs, maxRequests);
 }
 
 export async function middleware(request: NextRequest) {
@@ -30,7 +54,8 @@ export async function middleware(request: NextRequest) {
   const authPaths = ['/login', '/registro', '/forgot-password', '/reset-password'];
   if (authPaths.some(p => pathname.startsWith(p))) {
     const { windowMs, maxRequests } = RATE_LIMITING.auth;
-    if (!checkRateLimit(ip, windowMs, maxRequests)) {
+    const allowed = await checkRateLimit(ip, windowMs, maxRequests);
+    if (!allowed) {
       return NextResponse.json(
         { error: 'Demasiados intentos. Intenta más tarde.' },
         { status: 429 }
@@ -111,6 +136,12 @@ export const config = {
     '/api/programas/:path*',
     '/api/pagos/:path*',
     '/api/notificaciones/:path*',
+    '/api/citas/:path*',
+    '/api/admin/:path*',
+    '/api/psicologos/:path*',
+    '/api/resenas/:path*',
+    '/api/chat/:path*',
+    '/api/stats/:path*',
     '/login',
     '/registro',
     '/forgot-password',

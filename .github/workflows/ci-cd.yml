@@ -87,6 +87,7 @@ jobs:
           path: ./
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
+          extra_args: --only-verified --fail
 
   # ── 5. BUILD ──────────────────────────────────────────────────────────
   build:
@@ -122,13 +123,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy a Vercel (Staging)
-        uses: amondnet/vercel-action@v25
+      - uses: actions/setup-node@v4
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_ORG_ID }}
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Deploy a Vercel (Staging)
+        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Instalar dependencias (Staging DB)
+        run: npm ci
+
+      - name: Dry-run migrations (Staging)
+        run: npx prisma migrate diff --from-schema-datasource --to-schema-datamodel packages/database/prisma/schema.prisma --exit-code || true
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
 
       - name: Migrar base de datos (Staging)
         run: npm run db:migrate:prod
@@ -145,18 +157,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
       - name: ✅ Verificación final — Tests clínicos en producción
         run: npm run audit:clinical
         # Doble verificación antes de producción
 
       - name: Deploy a Vercel (Producción)
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          scope: ${{ secrets.VERCEL_ORG_ID }}
+        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --yes
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Instalar dependencias (Prod DB)
+        run: npm ci
+
+      - name: Dry-run migrations (Producción)
+        run: npx prisma migrate diff --from-schema-datasource --to-schema-datamodel packages/database/prisma/schema.prisma --exit-code || true
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
 
       - name: Migrar base de datos (Producción)
         run: npm run db:migrate:prod

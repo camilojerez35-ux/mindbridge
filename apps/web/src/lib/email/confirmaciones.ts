@@ -6,6 +6,16 @@
 const FROM_EMAIL = process.env.EMAIL_FROM      ?? 'noreply@mindbridge.co';
 const FROM_NAME  = process.env.EMAIL_FROM_NAME ?? 'MindBridge Colombia';
 
+/** Escapa caracteres HTML para evitar XSS en templates de email. */
+export function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
 async function sendEmail(params: {
   to: string;
   subject: string;
