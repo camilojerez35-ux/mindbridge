@@ -33,7 +33,9 @@ export default function TerminosUsoPage() {
         <h2 className="font-semibold text-base mb-2">3. Limitaciones de la IA</h2>
         <p>
           La inteligencia artificial de MindBridge puede cometer errores. <strong>En situaciones de crisis, emergencia o
-          riesgo para la vida, llama al 123 (emergencias) o la Línea 106 (salud mental Bogotá).</strong> La plataforma
+          riesgo para la vida, llama al{' '}
+          <a href="tel:123" style={{ color: '#dc2626' }}>123</a> (emergencias) o la{' '}
+          <a href="tel:106" style={{ color: '#0d9488' }}>Línea 106</a> (salud mental, gratuita 24h).</strong> La plataforma
           cuenta con protocolos de detección de crisis, pero no sustituye la intervención profesional inmediata.
         </p>
       </section>

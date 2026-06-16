@@ -147,7 +147,12 @@ function ConsentimientoForm() {
         <p className="text-xs text-gray-600 text-center mt-6 leading-relaxed">
           Puedes retirar tu consentimiento en Configuración → Privacidad.
           <br />
-          <strong className="text-teal-700">Crisis: Línea 106 · 800-112-5555 · 123</strong>
+          Crisis:{' '}
+            <a href="tel:106" className="text-teal-600 font-bold hover:underline">106</a>
+            {' · '}
+            <a href="tel:8001225555" className="text-indigo-500 font-bold hover:underline">800-112-5555</a>
+            {' · '}
+            <a href="tel:123" className="text-red-500 font-bold hover:underline">123</a>
         </p>
       </div>
     </div>

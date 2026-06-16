@@ -158,7 +158,10 @@ function Layout({ children }: { children: React.ReactNode }) {
           {children}
         </div>
         <p style={{ textAlign: 'center', fontSize: '11px', color: '#2a3d2e', marginTop: '20px' }}>
-          Crisis: <strong style={{ color: '#2dd4bf' }}>Línea 106</strong> · <strong style={{ color: '#2dd4bf' }}>123</strong>
+          Crisis:{' '}
+          <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>Línea 106</a>
+          {' · '}
+          <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
         </p>
       </div>
     </div>

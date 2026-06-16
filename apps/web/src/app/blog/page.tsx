@@ -333,7 +333,14 @@ export default function BlogPage() {
 
       {/* Footer mínimo */}
       <footer style={{ padding: '24px 48px', borderTop: '1px solid rgba(255,255,255,0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-        <p style={{ fontSize: '12px', color: '#2a3d2e' }}>© 2026 MindBridge Colombia · Crisis: <strong style={{ color: '#2dd4bf' }}>106 · 800-112-5555 · 123</strong></p>
+        <p style={{ fontSize: '12px', color: '#2a3d2e' }}>
+          © 2026 MindBridge Colombia · Crisis:{' '}
+          <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
+          {' · '}
+          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
+          {' · '}
+          <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
+        </p>
         <Link href="/" style={{ fontSize: '12px', color: '#3d5c48', textDecoration: 'none' }}>← Volver al inicio</Link>
       </footer>
     </div>

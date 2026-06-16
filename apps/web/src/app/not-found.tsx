@@ -33,7 +33,10 @@ export default function NotFound() {
           </div>
 
           <p style={{ fontSize: '11px', color: '#2a3d2e', marginTop: '40px' }}>
-            Crisis: <strong style={{ color: '#2dd4bf' }}>Línea 106 · 123</strong>
+            Crisis:{' '}
+            <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>Línea 106</a>
+            {' · '}
+            <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
           </p>
         </div>
       </div>

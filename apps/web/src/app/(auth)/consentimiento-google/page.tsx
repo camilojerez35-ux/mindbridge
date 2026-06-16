@@ -129,7 +129,12 @@ export default function ConsentimientoGooglePage() {
 
             <p style={{ textAlign: 'center', fontSize: '11px', color: '#3d5c48', marginTop: '16px', lineHeight: 1.6 }}>
               Puedes retirar tu consentimiento en cualquier momento desde Configuración → Privacidad.<br />
-              <strong style={{ color: '#2dd4bf' }}>Crisis: Línea 106 · 800-112-5555 · 123</strong>
+              Crisis:{' '}
+              <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
+              {' · '}
+              <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
+              {' · '}
+              <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
             </p>
 
           </form>

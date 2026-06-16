@@ -17,7 +17,8 @@ export default function AvisoIAPage() {
         <p className="text-amber-700 mt-1">
           La inteligencia artificial de MindBridge <strong>no es un médico, psicólogo ni terapeuta.</strong>{' '}
           No puede diagnosticar enfermedades mentales ni prescribir tratamientos. En caso de emergencia,
-          llama al <strong>123</strong> o a la <strong>Línea 106</strong>.
+          llama al <a href="tel:123" className="font-bold text-red-700 hover:underline">123</a> (emergencias)
+          o a la <a href="tel:106" className="font-bold text-amber-700 hover:underline">Línea 106</a> (salud mental, gratuita 24h).
         </p>
       </div>
 

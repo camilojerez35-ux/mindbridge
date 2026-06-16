@@ -1,5 +1,19 @@
+import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import Providers from '@/components/providers/Providers';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://mindbridge.co'),
+  title: {
+    default: 'MindBridge Colombia — Salud Mental con IA',
+    template: '%s | MindBridge Colombia',
+  },
+  description: 'Plataforma de acompañamiento emocional con inteligencia artificial y psicólogos certificados en Colombia.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

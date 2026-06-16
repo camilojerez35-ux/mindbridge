@@ -28,7 +28,12 @@ export default function AuthError({ error, reset }: { error: Error & { digest?: 
           </Link>
         </div>
         <p style={{ marginTop: '32px', fontSize: '11px', color: '#2a3d2e' }}>
-          Crisis: <strong style={{ color: '#2dd4bf' }}>106 · 800-112-5555 · 123</strong>
+          Crisis:{' '}
+          <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
+          {' · '}
+          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
+          {' · '}
+          <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
         </p>
       </div>
     </div>

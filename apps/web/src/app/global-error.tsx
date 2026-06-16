@@ -40,7 +40,10 @@ export default function GlobalError({
           </div>
           <p className="mt-6 text-sm text-gray-500">
             Si necesitas apoyo inmediato, llama a la{' '}
-            <strong>Línea 106</strong> (24 horas, gratuita).
+            <a href="tel:106" className="font-bold text-teal-600 hover:underline">Línea 106</a>
+            {' '}(24 horas, gratuita) o al{' '}
+            <a href="tel:123" className="font-bold text-red-500 hover:underline">123</a>
+            {' '}(emergencias).
           </p>
         </div>
       </body>

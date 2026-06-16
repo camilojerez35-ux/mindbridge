@@ -155,13 +155,21 @@ export default function OnboardingWizard() {
           { tipo: 'si', icon: '✅', texto: 'Orientarte hacia un psicólogo cuando sea necesario' },
           { tipo: 'no', icon: '⛔', texto: 'Diagnosticar trastornos mentales' },
           { tipo: 'no', icon: '⛔', texto: 'Reemplazar la psicoterapia profesional' },
-          { tipo: 'no', icon: '⛔', texto: 'Atender una emergencia en tiempo real (llama al 106 o 123)' },
+          { tipo: 'no', icon: '⛔', texto: 'Atender una emergencia en tiempo real' },
         ].map(({ tipo, icon, texto }) => (
           <div key={texto} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', padding: '8px 0' }}>
             <span style={{ fontSize: '15px', flexShrink: 0, marginTop: '1px' }}>{icon}</span>
             <span style={{ fontSize: '13px', color: tipo === 'si' ? '#8aab96' : '#f87171', lineHeight: 1.4 }}>{texto}</span>
           </div>
         ))}
+        <div style={{ marginTop: '8px', padding: '10px 12px', background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.15)', borderRadius: '10px', fontSize: '12px', color: '#f87171' }}>
+          🚨 En crisis real, llama ahora:{' '}
+          <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
+          {' · '}
+          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
+          {' · '}
+          <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
+        </div>
       </div>
     </div>,
 

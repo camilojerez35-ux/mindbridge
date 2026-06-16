@@ -7,17 +7,20 @@ import { useState } from 'react';
 import {
   Home, MessageCircle, BookOpen, TrendingUp, Wind,
   Calendar, User, LogOut, Bell, ChevronRight, Zap,
-  ShieldCheck, Stethoscope,
+  ShieldCheck, Stethoscope, FlaskConical, GraduationCap,
 } from 'lucide-react';
+import CheckInDiario from '@/components/checkin/CheckInDiario';
 
 const navItems = [
-  { href: '/dashboard',            icon: Home,          label: 'Inicio' },
-  { href: '/dashboard/chat',       icon: MessageCircle, label: 'Chat IA' },
-  { href: '/dashboard/diario',     icon: BookOpen,      label: 'Diario' },
-  { href: '/dashboard/progreso',   icon: TrendingUp,    label: 'Progreso' },
-  { href: '/dashboard/ejercicios', icon: Wind,          label: 'Ejercicios' },
-  { href: '/dashboard/citas',      icon: Calendar,      label: 'Citas' },
-  { href: '/dashboard/perfil',     icon: User,          label: 'Perfil' },
+  { href: '/dashboard',            icon: Home,           label: 'Inicio' },
+  { href: '/dashboard/chat',       icon: MessageCircle,  label: 'Chat IA' },
+  { href: '/dashboard/diario',     icon: BookOpen,       label: 'Diario' },
+  { href: '/tests',                icon: FlaskConical,   label: 'Tests' },
+  { href: '/aprender',             icon: GraduationCap,  label: 'Aprender' },
+  { href: '/dashboard/progreso',   icon: TrendingUp,     label: 'Progreso' },
+  { href: '/dashboard/ejercicios', icon: Wind,           label: 'Ejercicios' },
+  { href: '/dashboard/citas',      icon: Calendar,       label: 'Citas' },
+  { href: '/dashboard/perfil',     icon: User,           label: 'Perfil' },
 ];
 
 const PLAN_COLORS: Record<string, string> = {
@@ -132,7 +135,11 @@ export default function DashboardClient({ children, userName, userPlan, userInit
         {/* Crisis */}
         <div className="px-3 py-3 bg-red-950/30 border-t border-red-900/20">
           <p className="text-[10px] text-red-400 font-bold uppercase tracking-wider mb-1">Crisis 24/7</p>
-          <p className="text-xs text-red-300 font-semibold">Línea 106 · 123</p>
+          <p className="text-xs font-semibold">
+            <a href="tel:106" className="text-teal-400 hover:underline">Línea 106</a>
+            <span className="text-red-900 mx-1">·</span>
+            <a href="tel:123" className="text-red-400 hover:underline">123</a>
+          </p>
         </div>
       </aside>
 
@@ -192,6 +199,8 @@ export default function DashboardClient({ children, userName, userPlan, userInit
           {children}
         </main>
       </div>
+
+      <CheckInDiario />
     </div>
   );
 }
