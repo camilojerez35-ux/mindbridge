@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Alert,
-  ActivityIndicator, Linking,
+  Linking,
 } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { api } from '@/lib/api/client';
+import { LoadingSpinner } from '@/components';
+import { useConfirmDialog, useDateFormat } from '@/hooks';
 
 interface SalaData {
   url: string;
@@ -25,6 +27,8 @@ export default function VideollamadaScreen() {
   const [micActivo, setMicActivo] = useState(true);
   const [camaraActiva, setCamaraActiva] = useState(true);
   const intervalo = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { confirmar } = useConfirmDialog();
+  const { hora } = useDateFormat();
 
   useEffect(() => {
     if (!citaId) return;
@@ -58,22 +62,20 @@ export default function VideollamadaScreen() {
     await Linking.openURL(urlConToken);
   }
 
-  function salir() {
-    Alert.alert(
-      'Salir de la sesión',
-      '¿Estás seguro de que quieres abandonar la videollamada?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Salir', style: 'destructive', onPress: () => router.back() },
-      ]
-    );
+  async function salir() {
+    const ok = await confirmar({
+      titulo: 'Salir de la sesión',
+      mensaje: '¿Estás seguro de que quieres abandonar la videollamada?',
+      textoConfirmar: 'Salir',
+      destructivo: true,
+    });
+    if (ok) router.back();
   }
 
   if (cargando) {
     return (
       <View style={styles.conectando}>
-        <ActivityIndicator size="large" color="#fff" />
-        <Text style={styles.conectandoText}>Preparando tu sesión…</Text>
+        <LoadingSpinner texto="Preparando tu sesión…" />
         <Text style={styles.conectandoSub}>Asegúrate de tener buena conexión a internet</Text>
       </View>
     );
@@ -151,7 +153,7 @@ export default function VideollamadaScreen() {
         <View style={styles.aviso}>
           <Ionicons name="information-circle" size={16} color="rgba(255,255,255,0.5)" />
           <Text style={styles.avisoText}>
-            Sesión ID: {citaId?.slice(-8)} · Expira: {new Date(sala.expiraEn).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}
+            Sesión ID: {citaId?.slice(-8)} · Expira: {hora(sala.expiraEn)}
           </Text>
         </View>
       )}

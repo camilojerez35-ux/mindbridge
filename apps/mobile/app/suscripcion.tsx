@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import {
   View, Text, StyleSheet, ScrollView,
-  TouchableOpacity, ActivityIndicator, Modal, Linking, Alert,
+  TouchableOpacity, Linking, Alert,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { authService } from '@/lib/api/auth';
 import { suscripcionService } from '@/lib/api/suscripcion';
+import { LoadingSpinner, ScreenHeader, BottomSheetModal, Button } from '@/components';
+import { useModal, useCurrencyFormat } from '@/hooks';
 
 const PLANES = [
   {
@@ -49,8 +51,9 @@ export default function SuscripcionScreen() {
   const [loading, setLoading] = useState(true);
   const [planSeleccionado, setPlanSeleccionado] = useState<PlanId | null>(null);
   const [metodoPago, setMetodoPago] = useState<MetodoPago>('PSE');
-  const [modalVisible, setModalVisible] = useState(false);
   const [procesando, setProcesando] = useState(false);
+  const pagoModal = useModal();
+  const { cop } = useCurrencyFormat();
 
   useEffect(() => {
     authService.getUsuario()
@@ -70,7 +73,7 @@ export default function SuscripcionScreen() {
         Alert.alert('Error', 'No se pudo abrir la pasarela de pagos.');
         return;
       }
-      setModalVisible(false);
+      pagoModal.cerrar();
       await Linking.openURL(url);
     } catch (error: any) {
       Alert.alert('Error', error?.mensaje || 'No se pudo iniciar el pago. Intenta de nuevo.');
@@ -81,22 +84,16 @@ export default function SuscripcionScreen() {
 
   function abrirModal(planId: PlanId) {
     setPlanSeleccionado(planId);
-    setModalVisible(true);
+    pagoModal.abrir();
   }
 
   if (loading) {
-    return <View style={styles.center}><ActivityIndicator size="large" color={Colors.primary} /></View>;
+    return <LoadingSpinner />;
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color={Colors.textPrimary} />
-        </TouchableOpacity>
-        <Text style={styles.titulo}>Suscripción</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      <ScreenHeader titulo="Suscripción" />
 
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.intro}>
@@ -121,7 +118,7 @@ export default function SuscripcionScreen() {
                 )}
               </View>
               <Text style={styles.planPrecio}>
-                {plan.precio === 0 ? 'Gratis' : `$${plan.precio.toLocaleString('es-CO')} COP/mes`}
+                {plan.precio === 0 ? 'Gratis' : `${cop(plan.precio)}/mes`}
               </Text>
               <View style={styles.featuresList}>
                 {plan.features.map(f => (
@@ -151,76 +148,51 @@ export default function SuscripcionScreen() {
       </ScrollView>
 
       {/* Modal de selección de método de pago */}
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
+      <BottomSheetModal
+        visible={pagoModal.visible}
+        titulo="Método de pago"
+        onCerrar={pagoModal.cerrar}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitulo}>Método de pago</Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Ionicons name="close" size={24} color={Colors.textPrimary} />
-              </TouchableOpacity>
-            </View>
+        <Text style={styles.modalSub}>
+          Selecciona cómo quieres pagar el plan{' '}
+          <Text style={{ fontWeight: '700' }}>
+            {PLANES.find(p => p.id === planSeleccionado)?.nombre}
+          </Text>
+        </Text>
 
-            <Text style={styles.modalSub}>
-              Selecciona cómo quieres pagar el plan{' '}
-              <Text style={{ fontWeight: '700' }}>
-                {PLANES.find(p => p.id === planSeleccionado)?.nombre}
-              </Text>
-            </Text>
-
-            <View style={styles.metodosGrid}>
-              {METODOS_PAGO.map(m => (
-                <TouchableOpacity
-                  key={m.id}
-                  style={[styles.metodoBtn, metodoPago === m.id && styles.metodoBtnActivo]}
-                  onPress={() => setMetodoPago(m.id)}
-                >
-                  <Ionicons
-                    name={m.icono}
-                    size={24}
-                    color={metodoPago === m.id ? Colors.primary : Colors.textSecondary}
-                  />
-                  <Text style={[styles.metodoLabel, metodoPago === m.id && styles.metodoLabelActivo]}>
-                    {m.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
+        <View style={styles.metodosGrid}>
+          {METODOS_PAGO.map(m => (
             <TouchableOpacity
-              style={[styles.pagarBtn, procesando && styles.pagarBtnDisabled]}
-              onPress={iniciarUpgrade}
-              disabled={procesando}
+              key={m.id}
+              style={[styles.metodoBtn, metodoPago === m.id && styles.metodoBtnActivo]}
+              onPress={() => setMetodoPago(m.id)}
             >
-              {procesando
-                ? <ActivityIndicator color="#fff" />
-                : <>
-                    <Ionicons name="lock-closed" size={18} color="#fff" />
-                    <Text style={styles.pagarBtnText}>Ir a pagar con Wompi</Text>
-                  </>
-              }
+              <Ionicons
+                name={m.icono}
+                size={24}
+                color={metodoPago === m.id ? Colors.primary : Colors.textSecondary}
+              />
+              <Text style={[styles.metodoLabel, metodoPago === m.id && styles.metodoLabelActivo]}>
+                {m.label}
+              </Text>
             </TouchableOpacity>
-
-            <Text style={styles.seguridadNota}>
-              Pago seguro procesado por Wompi · SSL cifrado
-            </Text>
-          </View>
+          ))}
         </View>
-      </Modal>
+
+        <Button onPress={iniciarUpgrade} cargando={procesando} variante="primary">
+          Ir a pagar con Wompi
+        </Button>
+
+        <Text style={styles.seguridadNota}>
+          Pago seguro procesado por Wompi · SSL cifrado
+        </Text>
+      </BottomSheetModal>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, paddingTop: 56, backgroundColor: Colors.surface, borderBottomWidth: 1, borderBottomColor: Colors.border },
-  titulo: { fontSize: 17, fontWeight: '600', color: Colors.textPrimary },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   content: { padding: 16, paddingBottom: 40 },
   intro: { fontSize: 15, color: Colors.textSecondary, marginBottom: 20, textAlign: 'center' },
   planCard: { backgroundColor: Colors.surface, borderRadius: 18, padding: 20, marginBottom: 14, borderWidth: 2 },
@@ -238,20 +210,11 @@ const styles = StyleSheet.create({
   upgradeBtn: { borderRadius: 12, padding: 14, alignItems: 'center', marginTop: 16, flexDirection: 'row', justifyContent: 'center', gap: 8 },
   upgradeBtnText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   nota: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 18 },
-
-  // Modal
-  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
-  modalContent: { backgroundColor: Colors.background, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, paddingBottom: 40 },
-  modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  modalTitulo: { fontSize: 18, fontWeight: '800', color: Colors.textPrimary },
   modalSub: { fontSize: 14, color: Colors.textSecondary, marginBottom: 20 },
   metodosGrid: { flexDirection: 'row', gap: 12, marginBottom: 24 },
   metodoBtn: { flex: 1, alignItems: 'center', gap: 8, padding: 14, borderRadius: 14, borderWidth: 2, borderColor: Colors.border, backgroundColor: Colors.surface },
   metodoBtnActivo: { borderColor: Colors.primary, backgroundColor: Colors.primary + '10' },
   metodoLabel: { fontSize: 12, color: Colors.textSecondary, fontWeight: '600' },
   metodoLabelActivo: { color: Colors.primary },
-  pagarBtn: { backgroundColor: Colors.primary, borderRadius: 16, padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 },
-  pagarBtnDisabled: { backgroundColor: Colors.border },
-  pagarBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
   seguridadNota: { fontSize: 11, color: Colors.textSecondary, textAlign: 'center', marginTop: 12 },
 });
