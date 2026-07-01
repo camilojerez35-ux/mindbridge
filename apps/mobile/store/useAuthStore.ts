@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import * as SecureStore from 'expo-secure-store';
 import { authService } from '@/lib/api/auth';
+import { api } from '@/lib/api/client';
 import { router } from 'expo-router';
+import { registrarPushToken } from '@/lib/notifications';
 
 interface Usuario {
   id: string;
@@ -73,6 +75,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         },
         cargando: false,
       });
+      // Registrar token de push en background, no bloquea el login
+      registrarPushToken().catch(() => {});
       router.replace('/(tabs)/home');
     } catch (e) {
       set({ cargando: false });
@@ -81,6 +85,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
+    // Eliminar push token del backend antes de desloguear
+    await api.delete('/dispositivos').catch(() => {});
     await authService.logout();
     set({ usuario: null, token: null });
     router.replace('/(auth)/login');

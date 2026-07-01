@@ -49,6 +49,9 @@ model Usuario {
   suscripcionId       String?
   suscripcionVence    DateTime?
   
+  // Push notifications
+  pushToken     String?   // Expo Push Token para notificaciones móviles
+
   // Metadatos
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -58,13 +61,20 @@ model Usuario {
   suscripciones   Suscripcion[]
   sesionesChat    SesionChat[]
   mensajesChat    MensajeChat[]
-  entradasDiario  EntradaDiario[]
-  registrosAnimo  RegistroAnimo[]
+  entradasDiario       EntradaDiario[]
+  registrosAnimo       RegistroAnimo[]
+  ejerciciosCompletados EjercicioCompletado[]
   citasUsuario    Cita[]           @relation("CitasUsuario")
   perfilPsicologo Psicologo?
   incidentesCrisis IncidenteCrisis[]
   consentimientos  Consentimiento[]
-  
+  resultadosTest   ResultadoTest[]
+  perfilPersonalizacion PerfilPersonalizacion?
+  consejosdiarios  ConsejoDiario[]
+  progresosCurso   ProgresoCurso[]
+  tareasSesion     TareaSesion[]
+  resumenes        ResumenSemanal[]
+
   @@map("usuarios")
   @@index([email])
   @@index([planActual])
@@ -209,6 +219,8 @@ model EntradaDiario {
   estadoAnimo   Int       // 1-10
   emociones     String[]  // ["ansiedad", "tristeza", "esperanza"]
   etiquetas     String[]
+  sentimientos  String[]  @default([])
+  influidoPor   String[]  @default([])
   
   // Análisis de IA (generado)
   analisisIA    String?   @db.Text
@@ -240,6 +252,28 @@ model RegistroAnimo {
   @@map("registros_animo")
   @@index([usuarioId])
   @@index([fecha])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EJERCICIOS COMPLETADOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model EjercicioCompletado {
+  id            String   @id @default(cuid())
+  usuarioId     String
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+
+  ejercicioId   String   // "r1", "m1", etc.
+  titulo        String
+  categoria     String
+  duracionSeg   Int      // tiempo real en segundos
+
+  completadoEn  DateTime @default(now())
+
+  @@map("ejercicios_completados")
+  @@index([usuarioId])
+  @@index([ejercicioId])
+  @@index([completadoEn])
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -293,7 +327,8 @@ model Psicologo {
   citas                 Cita[]
   resenas               Resena[]
   pagosRecibidos        PagosPsicologo[]
-  
+  tareas                TareaSesion[]
+
   @@map("psicologos")
   @@index([estado])
   @@index([activo])
@@ -539,6 +574,141 @@ model AuditLog {
   @@index([accion])
   @@index([recurso])
   @@index([createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TESTS PSICOLÓGICOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ResultadoTest {
+  id                   String    @id @default(cuid())
+  usuarioId            String
+  usuario              Usuario   @relation(fields: [usuarioId], references: [id])
+
+  testId               String    // "phq9", "gad7", "dass21", etc.
+  respuestas           Json      // { "q1": 2, "q2": 1, ... }
+  puntajeTotal         Int
+  resultadoTitulo      String
+  resultadoDescripcion String    @db.Text
+
+  createdAt            DateTime  @default(now())
+
+  @@map("resultados_test")
+  @@index([usuarioId])
+  @@index([testId])
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PERSONALIZACIÓN DE PERFIL
+// ─────────────────────────────────────────────────────────────────────────────
+
+model PerfilPersonalizacion {
+  id         String    @id @default(cuid())
+  usuarioId  String    @unique
+  usuario    Usuario   @relation(fields: [usuarioId], references: [id])
+
+  tagPerfil  String?   // "ansiedad", "depresion", "estres", etc.
+  datos      Json      @default("{}")  // Campos dinámicos por perfil
+
+  updatedAt  DateTime  @updatedAt
+
+  @@map("perfiles_personalizacion")
+  @@index([tagPerfil])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONSEJOS DIARIOS (persistidos para historial y calificación)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ConsejoDiario {
+  id          String    @id @default(cuid())
+  usuarioId   String
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+
+  fecha       DateTime  @default(now())
+  categoria   String
+  icono       String?
+  titulo      String?
+  contenido   String    @db.Text
+  calificacion Int?     // 1-5, si el usuario lo calificó
+
+  @@map("consejos_diarios")
+  @@index([usuarioId])
+  @@index([fecha])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PROGRESO EN CURSOS / PROGRAMAS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ProgresoCurso {
+  id                String    @id @default(cuid())
+  usuarioId         String
+  usuario           Usuario   @relation(fields: [usuarioId], references: [id])
+
+  cursoId           String
+  itemsCompletados  String[]  @default([])
+
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([usuarioId, cursoId])
+  @@map("progreso_cursos")
+  @@index([usuarioId])
+  @@index([cursoId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TAREAS DE SESIÓN (psicólogo → paciente)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model TareaSesion {
+  id           String    @id @default(cuid())
+  psicologoId  String
+  psicologo    Psicologo @relation(fields: [psicologoId], references: [id])
+  usuarioId    String
+  usuario      Usuario   @relation(fields: [usuarioId], references: [id])
+  citaId       String?
+
+  titulo       String
+  descripcion  String?   @db.Text
+  tipo         String    @default("PRACTICA") // LECTURA, EJERCICIO, REGISTRO, PRACTICA
+  estado       String    @default("PENDIENTE") // PENDIENTE, EN_PROCESO, COMPLETADA
+  fechaLimite  DateTime?
+  completadaEn DateTime?
+  notaUsuario  String?   @db.Text
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("tareas_sesion")
+  @@index([usuarioId])
+  @@index([psicologoId])
+  @@index([estado])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESÚMENES SEMANALES (generados por IA)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ResumenSemanal {
+  id                  String   @id @default(cuid())
+  usuarioId           String
+  usuario             Usuario  @relation(fields: [usuarioId], references: [id])
+
+  semana              String   // "2026-W26" formato ISO week
+  contenido           String   @db.Text
+  animoPromedio       Float?
+  totalEntradas       Int      @default(0)
+  totalEjercicios     Int      @default(0)
+  totalSesiones       Int      @default(0)
+  patronesPrincipales String[] @default([])
+
+  createdAt           DateTime @default(now())
+
+  @@unique([usuarioId, semana])
+  @@map("resumenes_semanales")
+  @@index([usuarioId])
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

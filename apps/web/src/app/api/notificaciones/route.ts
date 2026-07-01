@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { enviarEmail, escapeHtml } from '@/lib/email/confirmaciones';
+import { enviarPushUno } from '@/lib/push/expo';
 
 const TZ = 'America/Bogota';
 const fmtCita = (fecha: Date) =>
@@ -102,9 +103,9 @@ async function recordatorios24h(appUrl: string) {
   const citas = await db.cita.findMany({
     where: { estado: 'CONFIRMADA', fechaHora: { gte: desde, lte: hasta } },
     include: {
-      usuario:   { select: { nombre: true, apellido: true, email: true } },
+      usuario:   { select: { nombre: true, apellido: true, email: true, pushToken: true } },
       psicologo: { select: { nombreCompleto: true,
-                             usuario: { select: { email: true } } } },
+                             usuario: { select: { email: true, pushToken: true } } } },
     },
   });
 
@@ -121,6 +122,14 @@ async function recordatorios24h(appUrl: string) {
       }).catch(console.error);
       enviados++;
     }
+    if (cita.usuario.pushToken) {
+      await enviarPushUno(
+        cita.usuario.pushToken,
+        '📅 Cita mañana',
+        `Tu cita con ${cita.psicologo.nombreCompleto} es mañana a las ${fechaFmt}`,
+        { tipo: 'cita', citaId: cita.id },
+      ).catch(console.error);
+    }
   }
 
   return { job: 'recordatorios-24h', citas: citas.length, enviados };
@@ -136,9 +145,9 @@ async function recordatorios1h(appUrl: string) {
   const citas = await db.cita.findMany({
     where: { estado: 'CONFIRMADA', fechaHora: { gte: desde, lte: hasta } },
     include: {
-      usuario:   { select: { nombre: true, apellido: true, email: true } },
+      usuario:   { select: { nombre: true, apellido: true, email: true, pushToken: true } },
       psicologo: { select: { nombreCompleto: true,
-                             usuario: { select: { email: true } } } },
+                             usuario: { select: { email: true, pushToken: true } } } },
     },
   });
 
@@ -146,6 +155,25 @@ async function recordatorios1h(appUrl: string) {
   for (const cita of citas) {
     const fechaFmt = fmtCita(cita.fechaHora);
     const nombrePaciente = [cita.usuario.nombre, cita.usuario.apellido].filter(Boolean).join(' ') || 'Paciente';
+
+    // Push al paciente
+    if (cita.usuario.pushToken) {
+      await enviarPushUno(
+        cita.usuario.pushToken,
+        '🔔 Tu sesión en 1 hora',
+        `Con ${cita.psicologo.nombreCompleto} — ${fechaFmt}. ¡Prepara tu cámara!`,
+        { tipo: 'videollamada', citaId: cita.id },
+      ).catch(console.error);
+    }
+    // Push al psicólogo
+    if (cita.psicologo.usuario?.pushToken) {
+      await enviarPushUno(
+        cita.psicologo.usuario.pushToken,
+        '🔔 Sesión en 1 hora',
+        `Con ${nombrePaciente} — ${fechaFmt}`,
+        { tipo: 'videollamada', citaId: cita.id },
+      ).catch(console.error);
+    }
 
     // Email al paciente
     if (cita.usuario.email) {
