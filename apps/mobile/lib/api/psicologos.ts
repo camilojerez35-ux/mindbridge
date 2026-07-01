@@ -13,6 +13,12 @@ export interface Psicologo {
   verificado: boolean;
 }
 
+export interface SlotDisponible {
+  fecha: string;      // YYYY-MM-DD
+  diaNombre: string;
+  horas: string[];    // ['09:00', '10:00', ...]
+}
+
 interface PsicologoAPI {
   id: string;
   nombreCompleto: string;
@@ -21,6 +27,7 @@ interface PsicologoAPI {
   especialidades: string[];
   tarifaCOP: number;
   calificacionPromedio: number;
+  totalCitas?: number;
   anosExperiencia?: number;
   modalidad?: string[];
   estado?: string;
@@ -35,7 +42,7 @@ function mapPsicologo(p: PsicologoAPI): Psicologo {
     especialidades: p.especialidades ?? [],
     tarifaSesion: p.tarifaCOP,
     calificacionPromedio: p.calificacionPromedio ?? 0,
-    totalSesiones: 0,
+    totalSesiones: p.totalCitas ?? 0,
     modalidades: p.modalidad ?? [],
     verificado: p.estado === 'VERIFICADO',
   };
@@ -48,9 +55,8 @@ export const psicologosService = {
     return (res.psicologos ?? []).map(mapPsicologo);
   },
 
-  getPsicologo: async (id: string): Promise<Psicologo | null> => {
-    const res = await api.get<{ psicologos: PsicologoAPI[] }>(`/psicologos?id=${id}`);
-    const p = res.psicologos?.[0];
-    return p ? mapPsicologo(p) : null;
+  getPerfilConSlots: async (id: string): Promise<{ psicologo: Psicologo; slots: SlotDisponible[] }> => {
+    const res = await api.get<{ psicologo: PsicologoAPI; slots: SlotDisponible[] }>(`/psicologos/${id}`);
+    return { psicologo: mapPsicologo(res.psicologo), slots: res.slots ?? [] };
   },
 };

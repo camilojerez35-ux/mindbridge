@@ -8,3 +8,4 @@ export { ErrorState } from './ErrorState';
 export { FilterChips } from './FilterChips';
 export { LoadingSpinner } from './LoadingSpinner';
 export { ScreenHeader } from './ScreenHeader';
+export { OfflineBanner } from './OfflineBanner';

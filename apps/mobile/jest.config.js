@@ -30,6 +30,7 @@ module.exports = {
     '^expo-constants$': '<rootDir>/__mocks__/expo-constants.js',
     '^react-test-renderer$': '<rootDir>/__mocks__/test-renderer.js',
     '^test-renderer$': '<rootDir>/__mocks__/test-renderer.js',
+    '^@react-native-community/netinfo$': '<rootDir>/__mocks__/@react-native-community/netinfo.js',
   },
   collectCoverageFrom: [
     'hooks/**/*.ts',
