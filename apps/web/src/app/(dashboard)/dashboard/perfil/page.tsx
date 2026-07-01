@@ -25,6 +25,8 @@ export default function PerfilPage() {
   const [planModal, setPlanModal] = useState<PlanId | null>(null);
   const [upgradando, setUpgradando] = useState(false);
   const [upgradeExito, setUpgradeExito] = useState(false);
+  const [eliminandoCuenta, setEliminandoCuenta] = useState(false);
+  const [errorEliminacion, setErrorEliminacion] = useState('');
 
   // Cargar perfil real al montar
   useEffect(() => {
@@ -238,8 +240,37 @@ export default function PerfilPage() {
 
           <div>
             <h3 style={{ fontSize: '14px', fontWeight: '700', color: '#f87171', marginBottom: '10px' }}>Zona de peligro</h3>
-            <button style={{ background: 'rgba(184,32,32,0.1)', border: '1px solid rgba(184,32,32,0.3)', color: '#f87171', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: '600' }}>Eliminar mi cuenta</button>
-            <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '6px' }}>Esta acción es irreversible. Todos tus datos serán eliminados permanentemente.</p>
+            {errorEliminacion && (
+              <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '10px', background: 'rgba(184,32,32,0.1)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(184,32,32,0.2)' }}>{errorEliminacion}</p>
+            )}
+            <button
+              disabled={eliminandoCuenta}
+              onClick={async () => {
+                const confirmacion = window.prompt('Esta acción es irreversible.\n\nEscribe ELIMINAR (en mayúsculas) para confirmar la eliminación de tu cuenta y todos tus datos personales:');
+                if (confirmacion !== 'ELIMINAR') return;
+                setEliminandoCuenta(true);
+                setErrorEliminacion('');
+                try {
+                  const res = await fetch('/api/usuarios/eliminar-datos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ confirmacion: 'ELIMINAR' }),
+                  });
+                  const data = await res.json();
+                  if (!res.ok) { setErrorEliminacion(data.error || 'Error al eliminar'); return; }
+                  alert('Cuenta eliminada. Serás redirigido al inicio.');
+                  window.location.href = '/';
+                } catch {
+                  setErrorEliminacion('Error de conexión. Intenta nuevamente o escribe a privacidad@mindbridge.co');
+                } finally {
+                  setEliminandoCuenta(false);
+                }
+              }}
+              style={{ background: 'rgba(184,32,32,0.1)', border: '1px solid rgba(184,32,32,0.3)', color: '#f87171', padding: '10px 20px', borderRadius: '8px', cursor: eliminandoCuenta ? 'not-allowed' : 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: '600', opacity: eliminandoCuenta ? 0.6 : 1 }}
+            >
+              {eliminandoCuenta ? 'Eliminando...' : 'Eliminar mi cuenta'}
+            </button>
+            <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '6px' }}>Esta acción es irreversible. Todos tus datos serán eliminados permanentemente (Ley 1581/2012 — Habeas Data).</p>
           </div>
         </div>
       )}

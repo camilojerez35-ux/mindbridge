@@ -2,7 +2,12 @@
  * MindBridge — Protocolo de Crisis
  * Validado por Psicólogo Co-Fundador
  * Cumple: Ley 2460/2025, Resolución 2654/2019
+ *
+ * NÚMEROS DE EMERGENCIA: importados desde config/lineas-emergencia.ts
+ * NO hardcodear números en este archivo — actualizar solo el config.
  */
+
+import { LINEAS_ACTIVAS } from '../config/lineas-emergencia';
 
 export type NivelCrisis = 'ninguno' | 'bajo' | 'moderado' | 'alto' | 'critico';
 
@@ -24,38 +29,16 @@ export interface RecursoCrisis {
 }
 
 // ────────────────────────────────────────────────────────────
-// RECURSOS DE EMERGENCIA EN COLOMBIA (verificar vigencia mensualmente)
+// RECURSOS DE EMERGENCIA — importados desde config/lineas-emergencia.ts
+// Para actualizar números: editar SOLO ese archivo.
 // ────────────────────────────────────────────────────────────
-export const RECURSOS_CRISIS_COLOMBIA: RecursoCrisis[] = [
-  {
-    nombre: 'Línea 106 — Salud Mental Bogotá',
-    numero: '106',
-    descripcion: 'Línea de orientación en salud mental del Distrito. Profesionales disponibles.',
-    disponibilidad: '24 horas, 7 días a la semana',
-    gratuito: true,
-  },
-  {
-    nombre: 'Línea Nacional de Salud Mental',
-    numero: '800-1222-5555',
-    descripcion: 'Línea nacional del Ministerio de Salud para orientación en salud mental.',
-    disponibilidad: 'Horario extendido',
-    gratuito: true,
-  },
-  {
-    nombre: 'Emergencias Colombia',
-    numero: '123',
-    descripcion: 'Número único de emergencias. Para riesgo de vida inmediato.',
-    disponibilidad: '24 horas, 7 días a la semana',
-    gratuito: true,
-  },
-  {
-    nombre: 'Cruz Roja Colombiana',
-    numero: '132',
-    descripcion: 'Atención de emergencias y apoyo psicosocial.',
-    disponibilidad: '24 horas',
-    gratuito: true,
-  },
-];
+export const RECURSOS_CRISIS_COLOMBIA: RecursoCrisis[] = LINEAS_ACTIVAS.map(l => ({
+  nombre: l.nombre,
+  numero: l.numero,
+  descripcion: l.descripcion,
+  disponibilidad: l.disponibilidad,
+  gratuito: l.gratuito,
+}));
 
 // ────────────────────────────────────────────────────────────
 // INDICADORES DE CRISIS POR NIVEL
@@ -64,16 +47,17 @@ export const RECURSOS_CRISIS_COLOMBIA: RecursoCrisis[] = [
 const INDICADORES_CRITICO = [
   'suicidio', 'quitarme la vida', 'no quiero vivir', 'no vale la pena vivir',
   'mejor muerto', 'mejor muerta', 'acabar con todo', 'hacerme daño',
-  'tengo una pastillas', 'tengo un arma', 'voy a hacerlo',
+  'tengo pastillas', 'pastillas guardadas', 'tengo un arma',
   'me voy a matar', 'me quiero matar', 'pensando en el suicidio',
   'plan para morir', 'método para suicidarme', 'me corté', 'me quemé',
-  'me lastimé', 'autolesión', 'me estoy haciendo daño',
+  'me lastimé', 'autolesión', 'me estoy haciendo daño', 'voy a usarlas',
 ];
 
 const INDICADORES_ALTO = [
   'no puedo más', 'no aguanto más', 'todo sería mejor sin mí',
-  'soy una carga', 'todos estarían mejor sin mí', 'no tiene sentido seguir',
-  'quiero desaparecer', 'quisiera no despertar', 'estoy muy desesperado',
+  'soy una carga', 'todos estarían mejor sin mí', 'estarían mejor sin mí', 'estaría mejor sin mí',
+  'no tiene sentido seguir', 'quiero desaparecer', 'quisiera desaparecer',
+  'quisiera no despertar', 'no quisiera despertar', 'estoy muy desesperado',
   'no veo salida', 'ya no importa nada', 'no hay esperanza',
   'pensamientos de hacerme daño', 'ideas de muerte',
 ];

@@ -14,6 +14,7 @@ export interface DatosIncidente {
   timestampDeteccion: Date;
   protocoloActivado: boolean;
   psicologoNotificado: boolean;
+  tokenConfirmacion?: string;
 }
 
 const MAX_INTENTOS = 3;
@@ -43,7 +44,7 @@ export async function registrarIncidente(datos: DatosIncidente): Promise<void> {
     try {
       await persistirIncidente(datos);
       capturarEventoCrisis({
-        nivel: datos.nivel as NivelCrisis,
+        nivel: datos.nivel.toLowerCase() as NivelCrisis,
         usuarioId: datos.usuarioId,
         sesionId: datos.sesionId,
         cantidadIndicadores: datos.indicadoresDetectados.length,

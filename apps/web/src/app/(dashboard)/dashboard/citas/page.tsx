@@ -23,6 +23,8 @@ interface Psicologo {
   totalReseñas?: number;
   fotoUrl: string | null;
   tarjetaVerificada?: boolean;
+  tarjetaProfesionalId?: string | null;
+  tarjetaVencimiento?: string | null;
   activo: boolean;
 }
 
@@ -71,6 +73,12 @@ const COLORES_CARD = ['#1a6b4a','#1a3d6b','#2d0a3d','#3d1a0a','#1a3a1a','#3d2d0a
 /** Iniciales para el avatar cuando no hay fotoUrl */
 function iniciales(nombre: string): string {
   return nombre.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+}
+
+/** Días hasta que vence la tarjeta profesional (negativo = ya venció) */
+function diasParaVencimiento(vencimiento?: string | null): number | null {
+  if (!vencimiento) return null;
+  return Math.floor((new Date(vencimiento).getTime() - Date.now()) / 86400000);
 }
 
 /** El psicólogo tiene al menos un día con horarios disponibles */
@@ -410,10 +418,15 @@ export default function CitasPage() {
                           }
                         </div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px', flexWrap: 'wrap' }}>
                             <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'white' }}>{ps.nombreCompleto}</h3>
                             {ps.tarjetaVerificada && (
-                              <span title="Verificado COLPSIC" style={{ fontSize: '12px' }}>✅</span>
+                              <span
+                                title={ps.tarjetaProfesionalId ? `COLPSIC N.° ${ps.tarjetaProfesionalId}` : 'Verificado ante COLPSIC'}
+                                style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.35)', borderRadius: '10px', padding: '1px 7px', fontSize: '10px', fontWeight: '700', color: '#4ade80', flexShrink: 0 }}
+                              >
+                                ✓ COLPSIC
+                              </span>
                             )}
                           </div>
                           <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginBottom: '4px' }}>
@@ -535,9 +548,16 @@ export default function CitasPage() {
               }
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
                 <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white' }}>{psicologo.nombreCompleto}</h2>
-                {psicologo.tarjetaVerificada && <span title="Verificado COLPSIC">✅</span>}
+                {psicologo.tarjetaVerificada && (
+                  <span
+                    title={psicologo.tarjetaProfesionalId ? `Tarjeta profesional N.° ${psicologo.tarjetaProfesionalId} — COLPSIC` : 'Verificado ante COLPSIC'}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(34,197,94,0.18)', border: '1px solid rgba(34,197,94,0.4)', borderRadius: '12px', padding: '3px 10px', fontSize: '12px', fontWeight: '800', color: '#4ade80' }}
+                  >
+                    ✓ COLPSIC Verificado
+                  </span>
+                )}
               </div>
               <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>
                 {psicologo.ciudades.join(', ')} · {psicologo.anosExperiencia} años de experiencia
@@ -546,6 +566,38 @@ export default function CitasPage() {
             </div>
           </div>
           <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {/* COLPSIC verification block */}
+            {psicologo.tarjetaVerificada && (() => {
+              const dias = diasParaVencimiento(psicologo.tarjetaVencimiento);
+              const vencida = dias !== null && dias < 0;
+              const proxima = dias !== null && dias >= 0 && dias <= 90;
+              return (
+                <div style={{ background: vencida ? 'rgba(248,113,113,0.07)' : 'rgba(34,197,94,0.07)', border: `1px solid ${vencida ? 'rgba(248,113,113,0.25)' : 'rgba(34,197,94,0.25)'}`, borderRadius: '12px', padding: '14px 18px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <span style={{ fontSize: '20px', flexShrink: 0, marginTop: '1px' }}>{vencida ? '⚠️' : '🏛️'}</span>
+                  <div>
+                    <p style={{ fontSize: '13px', fontWeight: '800', color: vencida ? '#f87171' : '#4ade80', marginBottom: '2px' }}>
+                      {vencida ? 'Tarjeta profesional vencida' : 'Verificado ante COLPSIC'}
+                    </p>
+                    {psicologo.tarjetaProfesionalId && (
+                      <p style={{ fontSize: '12px', color: '#8aab96', marginBottom: '2px' }}>
+                        Tarjeta profesional N.° <strong style={{ color: 'white' }}>{psicologo.tarjetaProfesionalId}</strong>
+                      </p>
+                    )}
+                    {psicologo.tarjetaVencimiento && (
+                      <p style={{ fontSize: '11px', color: vencida ? '#f87171' : proxima ? '#fbbf24' : '#5a8a6a' }}>
+                        {vencida
+                          ? `Venció hace ${Math.abs(dias!)} días — en revisión por MindBridge`
+                          : proxima
+                            ? `Vence en ${dias} días`
+                            : `Vigente hasta ${new Date(psicologo.tarjetaVencimiento).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}`
+                        }
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
             <div>
               <h3 style={{ fontSize: '14px', color: '#5a8a6a', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Sobre mí</h3>
               <p style={{ fontSize: '14px', color: '#a0b4a8', lineHeight: 1.7 }}>{psicologo.bio}</p>

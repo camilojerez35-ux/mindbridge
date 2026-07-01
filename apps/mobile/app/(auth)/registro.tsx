@@ -10,15 +10,26 @@ import { api } from '@/lib/api/client';
 import * as SecureStore from 'expo-secure-store';
 import { Button } from '@/components';
 
+function calcularEdad(fechaStr: string): number {
+  const nacimiento = new Date(fechaStr);
+  if (isNaN(nacimiento.getTime())) return 0;
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const cumple = new Date(hoy.getFullYear(), nacimiento.getMonth(), nacimiento.getDate());
+  if (hoy < cumple) edad--;
+  return edad;
+}
+
 export default function RegistroScreen() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   async function handleRegistro() {
-    if (!nombre || !email || !password) {
+    if (!nombre || !email || !password || !fechaNacimiento) {
       setError('Completa todos los campos');
       return;
     }
@@ -26,19 +37,27 @@ export default function RegistroScreen() {
       setError('La contraseña debe tener al menos 8 caracteres');
       return;
     }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fechaNacimiento)) {
+      setError('Ingresa la fecha en formato AAAA-MM-DD');
+      return;
+    }
+    if (calcularEdad(fechaNacimiento) < 18) {
+      setError('Debes ser mayor de 18 años para registrarte. Si necesitas apoyo, llama a la Línea 106 (gratuita, 24/7).');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
       const data = await api.post<{ token: string; usuario: { id: string; nombre: string; email: string; plan: string; rol: string } }>(
         '/usuarios/registro',
-        { nombre, email, password, consentimientoDatos: true }
+        { nombre, email, password, fechaNacimiento, consentimientoDatos: true, aceptaPoliticaPrivacidad: true, aceptaUsoIA: true }
       );
       await SecureStore.setItemAsync('session_token', data.token);
       await SecureStore.setItemAsync('user_id', data.usuario.id);
       await SecureStore.setItemAsync('user_plan', data.usuario.plan);
       router.replace('/(tabs)/home');
     } catch (e: any) {
-      setError(e?.mensaje || 'Error al crear la cuenta');
+      setError(e?.mensaje || e?.error || 'Error al crear la cuenta');
     } finally {
       setLoading(false);
     }
@@ -94,6 +113,20 @@ export default function RegistroScreen() {
             secureTextEntry
           />
 
+          <Text style={styles.label}>
+            Fecha de nacimiento <Text style={styles.requerido}>*</Text>
+          </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="AAAA-MM-DD (ej: 1990-05-15)"
+            placeholderTextColor={Colors.textSecondary}
+            value={fechaNacimiento}
+            onChangeText={setFechaNacimiento}
+            keyboardType="numeric"
+            maxLength={10}
+          />
+          <Text style={styles.hint}>Solo para mayores de 18 años (Ley 1581/2012)</Text>
+
           <Button onPress={handleRegistro} cargando={loading} variante="primary" style={{ marginTop: 24 }}>
             Crear cuenta
           </Button>
@@ -119,6 +152,8 @@ const styles = StyleSheet.create({
   errorBox: { backgroundColor: '#FEF2F2', borderRadius: 10, padding: 12, marginBottom: 12 },
   errorText: { color: Colors.error, fontSize: 14, textAlign: 'center' },
   label: { fontSize: 14, fontWeight: '600', color: Colors.textPrimary, marginTop: 12, marginBottom: 6 },
+  requerido: { color: Colors.error },
+  hint: { fontSize: 12, color: Colors.textSecondary, marginTop: 4 },
   input: {
     backgroundColor: Colors.surface, borderRadius: 12, padding: 14,
     fontSize: 16, color: Colors.textPrimary,

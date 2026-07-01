@@ -23,32 +23,15 @@
     "db:reset": "npm run -w packages/database reset",
     "audit:security": "npm audit --audit-level=moderate",
     "audit:clinical": "node tests/ai-clinical/protocol-crisis-test.js",
+    "audit:emergency-lines": "npx tsx scripts/check-emergency-lines.ts",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
-    "@babel/preset-env": "^8.0.2",
-    "@babel/preset-react": "^8.0.1",
-    "@jest/environment": "^30.4.1",
-    "@jest/fake-timers": "^30.4.1",
-    "@jest/globals": "^30.4.1",
-    "@react-native/jest-preset": "^0.85.3",
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/react": "^16.3.2",
     "@types/node": "^20.12.0",
-    "jest-mock": "^30.4.1",
     "prettier": "^3.2.0",
     "turbo": "^2.0.0",
     "typescript": "^5.4.0"
-  },
-  "overrides": {
-    "jest-mock": "^30.4.1",
-    "jest-environment-node": "^30.4.1",
-    "jest-environment-jsdom": "^30.4.1",
-    "@react-native/jest-preset": {
-      "jest-environment-node": "^30.4.1",
-      "jest-mock": "^30.4.1"
-    }
   },
   "packageManager": "npm@11.12.1",
   "engines": {
@@ -60,6 +43,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",
     "posthog-js": "^1.386.6",
+    "vitest": "^4.1.9",
     "zod": "^4.4.3"
   }
 }

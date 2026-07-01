@@ -5,6 +5,7 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
+    "./config/lineas-emergencia": "./src/config/lineas-emergencia.ts",
     "./protocols/crisis-protocol": "./src/protocols/crisis-protocol.ts",
     "./prompts/system-prompt": "./src/prompts/system-prompt.ts",
     "./techniques/tcc": "./src/techniques/tcc.ts",

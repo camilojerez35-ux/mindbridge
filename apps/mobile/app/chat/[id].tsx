@@ -9,18 +9,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { Mensaje } from '@/lib/api/chat';
 import { LoadingSpinner } from '@/components';
-import { useSecureToken } from '@/hooks';
 import { useChatStore } from '@/store';
-
-const DISCLAIMER_KEY = 'chat_disclaimer_dismissed';
 
 export default function ChatSesionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [texto, setTexto] = useState('');
   const [loading, setLoading] = useState(true);
-  const [disclaimerVisible, setDisclaimerVisible] = useState(false);
+  // Disclaimer visible al inicio de cada sesión; se oculta solo durante esta sesión (no persiste)
+  const [disclaimerVisible, setDisclaimerVisible] = useState(true);
   const flatListRef = useRef<FlatList>(null);
-  const { valor: disclaimerDismissed, guardar: guardarDisclaimer } = useSecureToken(DISCLAIMER_KEY);
   const { mensajesPorSesion, cargarMensajes, enviarMensaje: enviarStore, agregarMensajeLocal, enviando } = useChatStore();
   const mensajes = mensajesPorSesion[id] ?? [];
 
@@ -28,13 +25,7 @@ export default function ChatSesionScreen() {
     cargarMensajes(id).finally(() => setLoading(false));
   }, [id]);
 
-  useEffect(() => {
-    if (disclaimerDismissed === null) return;
-    if (!disclaimerDismissed) setDisclaimerVisible(true);
-  }, [disclaimerDismissed]);
-
-  async function cerrarDisclaimer() {
-    await guardarDisclaimer('1');
+  function cerrarDisclaimer() {
     setDisclaimerVisible(false);
   }
 

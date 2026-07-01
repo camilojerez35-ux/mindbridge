@@ -56,6 +56,10 @@ model Usuario {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   ultimoAcceso  DateTime?
+
+  // Derecho al olvido (Ley 1581/2012 — Habeas Data)
+  solicitudEliminacionAt DateTime?  // Momento en que el usuario solicitó eliminar su cuenta
+  eliminadoDefinitivoAt  DateTime?  // Momento en que se ejecutó la eliminación definitiva (30 días después)
   
   // Relaciones
   suscripciones   Suscripcion[]
@@ -160,9 +164,14 @@ model SesionChat {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   cerradaEn   DateTime?
-  
+
+  // Revisión muestral clínica — para detección de drift del modelo (Res. 2654/2019)
+  muestreadaEn    DateTime?  // Cuando fue seleccionada para revisión muestral
+  revisadaEn      DateTime?  // Cuando el supervisor clínico la revisó
+  revisadaPorId   String?    // adminId del supervisor
+
   mensajes    MensajeChat[]
-  
+
   @@map("sesiones_chat")
   @@index([usuarioId])
   @@index([estado])
@@ -508,9 +517,11 @@ model IncidenteCrisis {
   
   protocoloActivado     Boolean   @default(false)
   psicologoNotificado   Boolean   @default(false)
+  tokenConfirmacion     String?   @unique
+  confirmacionRecibidaAt DateTime?
   usuarioConfirmoSeguro Boolean?
   resolucion            String?
-  
+
   timestampDeteccion    DateTime  @default(now())
   timestampResolucion   DateTime?
   

@@ -11,6 +11,7 @@ interface ValidationState {
   apellido: { value: string; error: string; touched: boolean };
   email: { value: string; error: string; touched: boolean };
   password: { value: string; error: string; touched: boolean; strength: 'weak' | 'medium' | 'strong' };
+  fechaNacimiento: { value: string; error: string; touched: boolean };
   aceptaPoliticaPrivacidad: { value: boolean; error: string; touched: boolean };
   aceptaUsoIA: { value: boolean; error: string; touched: boolean };
   aceptaMarketing: { value: boolean; error: string; touched: boolean };
@@ -21,10 +22,18 @@ const initialState: ValidationState = {
   apellido: { value: '', error: '', touched: false },
   email: { value: '', error: '', touched: false },
   password: { value: '', error: '', touched: false, strength: 'weak' },
+  fechaNacimiento: { value: '', error: '', touched: false },
   aceptaPoliticaPrivacidad: { value: false, error: '', touched: false },
   aceptaUsoIA: { value: false, error: '', touched: false },
   aceptaMarketing: { value: false, error: '', touched: false },
 };
+
+// Fecha máxima para tener 18 años cumplidos hoy
+function maxFechaNacimiento(): string {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() - 18);
+  return d.toISOString().split('T')[0];
+}
 
 export default function RegistroPage() {
   const router = useRouter();
@@ -56,6 +65,19 @@ export default function RegistroPage() {
     if (!value.trim()) return 'El correo es requerido';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Ingresa un correo electrónico válido';
     if (value.length > 255) return 'El correo es demasiado largo';
+    return '';
+  }, []);
+
+  const validateFechaNacimiento = useCallback((value: string) => {
+    if (!value) return 'La fecha de nacimiento es requerida';
+    const nacimiento = new Date(value);
+    if (isNaN(nacimiento.getTime())) return 'Fecha inválida';
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const cumple = new Date(hoy.getFullYear(), nacimiento.getMonth(), nacimiento.getDate());
+    if (hoy < cumple) edad--;
+    if (edad < 18) return 'Debes ser mayor de 18 años para registrarte';
+    if (edad > 120) return 'Fecha de nacimiento inválida';
     return '';
   }, []);
 
@@ -108,12 +130,19 @@ export default function RegistroPage() {
                field === 'apellido' ? validateApellido(prev[field].value as string) :
                field === 'email' ? validateEmail(prev[field].value as string) :
                field === 'password' ? validatePassword(prev[field].value as string) :
+               field === 'fechaNacimiento' ? validateFechaNacimiento(prev[field].value as string) :
                '',
       },
     }));
-  }, [validateNombre, validateApellido, validateEmail, validatePassword]);
+  }, [validateNombre, validateApellido, validateEmail, validatePassword, validateFechaNacimiento]);
 
   // Real-time validation
+  useEffect(() => {
+    if (form.fechaNacimiento.touched) {
+      setForm(prev => ({ ...prev, fechaNacimiento: { ...prev.fechaNacimiento, error: validateFechaNacimiento(prev.fechaNacimiento.value) } }));
+    }
+  }, [form.fechaNacimiento.value, validateFechaNacimiento]);
+
   useEffect(() => {
     if (form.nombre.touched) {
       setForm(prev => ({ ...prev, nombre: { ...prev.nombre, error: validateNombre(prev.nombre.value) } }));
@@ -146,7 +175,8 @@ export default function RegistroPage() {
   }, [form.password.value, validatePassword]);
 
   const isFormValid = form.nombre.value && form.apellido.value && form.email.value && form.password.value &&
-    !form.nombre.error && !form.apellido.error && !form.email.error && !form.password.error &&
+    form.fechaNacimiento.value &&
+    !form.nombre.error && !form.apellido.error && !form.email.error && !form.password.error && !form.fechaNacimiento.error &&
     form.aceptaPoliticaPrivacidad.value && form.aceptaUsoIA.value;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -161,6 +191,7 @@ export default function RegistroPage() {
       apellido: { ...prev.apellido, touched: true, error: validateApellido(prev.apellido.value) },
       email: { ...prev.email, touched: true, error: validateEmail(prev.email.value) },
       password: { ...prev.password, touched: true, error: validatePassword(prev.password.value) },
+      fechaNacimiento: { ...prev.fechaNacimiento, touched: true, error: validateFechaNacimiento(prev.fechaNacimiento.value) },
       aceptaPoliticaPrivacidad: { ...prev.aceptaPoliticaPrivacidad, touched: true, error: prev.aceptaPoliticaPrivacidad.value ? '' : 'Debes aceptar la Política de Privacidad' },
       aceptaUsoIA: { ...prev.aceptaUsoIA, touched: true, error: prev.aceptaUsoIA.value ? '' : 'Debes autorizar el uso de IA' },
     }));
@@ -181,6 +212,7 @@ export default function RegistroPage() {
           apellido: form.apellido.value,
           email: form.email.value,
           password: form.password.value,
+          fechaNacimiento: form.fechaNacimiento.value,
           aceptaPoliticaPrivacidad: form.aceptaPoliticaPrivacidad.value,
           aceptaUsoIA: form.aceptaUsoIA.value,
           aceptaMarketing: form.aceptaMarketing.value,
@@ -314,6 +346,30 @@ export default function RegistroPage() {
             {form.email.touched && form.email.error && (
               <p className="text-xs text-red-400 mt-1">{form.email.error}</p>
             )}
+          </div>
+
+          {/* Fecha de nacimiento */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1.5">
+              Fecha de nacimiento <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="date"
+              value={form.fechaNacimiento.value}
+              onChange={(e) => updateField('fechaNacimiento', e.target.value)}
+              onBlur={() => touchField('fechaNacimiento')}
+              max={maxFechaNacimiento()}
+              min="1900-01-01"
+              className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all [color-scheme:dark] ${
+                form.fechaNacimiento.touched && form.fechaNacimiento.error ? 'border-red-500/50' : 'border-white/10'
+              }`}
+            />
+            {form.fechaNacimiento.touched && form.fechaNacimiento.error && (
+              <p className="text-xs text-red-400 mt-1">{form.fechaNacimiento.error}</p>
+            )}
+            <p className="text-xs text-gray-500 mt-1">
+              MindBridge es una plataforma para mayores de 18 años (Ley 1581/2012).
+            </p>
           </div>
 
           {/* Password */}

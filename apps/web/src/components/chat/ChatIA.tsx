@@ -22,6 +22,8 @@ interface RecursoCrisis {
 
 interface ChatIAProps {
   sesionId?: string;
+  practica?: string;
+  contextoPractica?: string;
 }
 
 const BIENVENIDA = `¡Hola! Soy MindBridge AI, tu asistente de bienestar emocional. 💚
@@ -39,11 +41,15 @@ const SUGERENCIAS = [
   'Me cuesta dormir bien',
 ];
 
-export default function ChatIA({ sesionId }: ChatIAProps) {
+export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAProps) {
+  const bienvenidaInicial = practica
+    ? `¡Hola! Vamos a practicar juntos: **${practica}**. 🎯\n\nEsta es una práctica guiada basada en lo que aprendiste. Haré algunas preguntas para que puedas aplicarlo. ¡Empecemos!\n\n_Soy una IA de apoyo — en emergencias: **Línea 106** · **123**._`
+    : BIENVENIDA;
+
   const [mensajes, setMensajes] = useState<Mensaje[]>([{
     id: 'bienvenida',
     rol: 'assistant',
-    contenido: BIENVENIDA,
+    contenido: bienvenidaInicial,
     timestamp: new Date(),
   }]);
   const [input, setInput] = useState('');
@@ -97,7 +103,7 @@ export default function ChatIA({ sesionId }: ChatIAProps) {
       const res = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mensaje: msg, sesionId: sesionActualId }),
+        body: JSON.stringify({ mensaje: msg, sesionId: sesionActualId, contextoPractica }),
       });
 
       if (!res.ok) {
@@ -163,6 +169,10 @@ export default function ChatIA({ sesionId }: ChatIAProps) {
 
   const muestraSugerencias = mensajes.length === 1;
 
+  // Cuenta cuántos mensajes de la IA ha habido hasta cada índice — para el recordatorio periódico
+  const contadorIA = (index: number) =>
+    mensajes.slice(0, index + 1).filter(m => m.rol === 'assistant' && m.contenido !== '').length;
+
   return (
     <div className="flex flex-col h-full bg-[#0a1510] rounded-2xl border border-white/5 overflow-hidden">
 
@@ -187,6 +197,16 @@ export default function ChatIA({ sesionId }: ChatIAProps) {
         </div>
       </div>
 
+      {/* Práctica banner */}
+      {practica && (
+        <div className="px-4 py-2 bg-teal-950/40 border-b border-teal-800/30 flex items-center gap-2">
+          <Sparkles className="w-3 h-3 text-teal-400 flex-shrink-0" />
+          <p className="text-[11px] text-teal-300">
+            <strong>Práctica:</strong> {practica}
+          </p>
+        </div>
+      )}
+
       {/* Aviso legal */}
       <div className="px-4 py-2 bg-amber-950/30 border-b border-amber-900/20 flex items-center gap-2">
         <AlertTriangle className="w-3 h-3 text-amber-500 flex-shrink-0" />
@@ -198,9 +218,20 @@ export default function ChatIA({ sesionId }: ChatIAProps) {
 
       {/* Mensajes */}
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-5">
-        {mensajes.map((msg) => (
+        {mensajes.map((msg, index) => (
+          <div key={msg.id}>
+          {/* Recordatorio periódico cada 10 respuestas de la IA */}
+          {msg.rol === 'assistant' && msg.contenido !== '' && contadorIA(index) % 10 === 0 && contadorIA(index) > 0 && (
+            <div className="flex justify-center mb-3">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-950/20 border border-amber-900/20 rounded-full">
+                <AlertTriangle className="w-3 h-3 text-amber-600 flex-shrink-0" />
+                <span className="text-[10px] text-amber-600/80">
+                  Recuerda: soy IA de apoyo, no un profesional de salud mental · Crisis: 106 · 123
+                </span>
+              </div>
+            </div>
+          )}
           <div
-            key={msg.id}
             className={`flex gap-3 ${msg.rol === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
           >
             {/* Avatar */}
@@ -237,7 +268,14 @@ export default function ChatIA({ sesionId }: ChatIAProps) {
               <span className="text-[10px] text-gray-700 px-1">
                 {msg.timestamp.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}
               </span>
+              {/* Mini-disclaimer por mensaje IA — refuerzo continuo Res. 2654/2019 */}
+              {msg.rol === 'assistant' && msg.contenido !== '' && !msg.esCrisis && (
+                <span className="text-[9px] text-gray-700 px-1 leading-tight">
+                  IA · No reemplaza terapia · Crisis: 106
+                </span>
+              )}
             </div>
+          </div>
           </div>
         ))}
 

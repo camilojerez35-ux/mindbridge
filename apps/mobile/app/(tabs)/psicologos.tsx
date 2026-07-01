@@ -135,8 +135,11 @@ export default function PsicologosScreen() {
                 <View style={styles.cardInfo}>
                   <View style={styles.nombreRow}>
                     <Text style={styles.nombre} numberOfLines={1}>{item.nombre}</Text>
-                    {item.verificado && (
-                      <Ionicons name="checkmark-circle" size={16} color={Colors.primary} />
+                    {item.tarjetaVerificada && (
+                      <View style={styles.colpsicBadge}>
+                        <Ionicons name="checkmark-circle" size={11} color="#4ade80" />
+                        <Text style={styles.colpsicText}>COLPSIC</Text>
+                      </View>
                     )}
                   </View>
                   <Text style={[styles.estrellas, { color: item.calificacionPromedio >= 4 ? '#F59E0B' : Colors.textSecondary }]}>
@@ -229,8 +232,10 @@ const styles = StyleSheet.create({
   card: { backgroundColor: Colors.surface, borderRadius: 18, padding: 16, marginBottom: 12, elevation: 1 },
   cardHeader: { flexDirection: 'row', marginBottom: 12, gap: 12 },
   cardInfo: { flex: 1 },
-  nombreRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  nombre: { fontSize: 15, fontWeight: '700', color: Colors.textPrimary, flex: 1 },
+  nombreRow: { flexDirection: 'row', alignItems: 'center', gap: 4, flexWrap: 'wrap' },
+  nombre: { fontSize: 15, fontWeight: '700', color: Colors.textPrimary, flexShrink: 1 },
+  colpsicBadge: { flexDirection: 'row', alignItems: 'center', gap: 2, backgroundColor: 'rgba(74,222,128,0.12)', borderWidth: 1, borderColor: 'rgba(74,222,128,0.3)', borderRadius: 8, paddingHorizontal: 5, paddingVertical: 2 },
+  colpsicText: { fontSize: 9, fontWeight: '800', color: '#4ade80' },
   estrellas: { fontSize: 13, fontWeight: '600', marginTop: 2 },
   tarifa: { fontSize: 13, color: Colors.primary, fontWeight: '700', marginTop: 2 },
   tagsRow: { flexDirection: 'row', gap: 6, flexWrap: 'wrap', marginBottom: 10 },
