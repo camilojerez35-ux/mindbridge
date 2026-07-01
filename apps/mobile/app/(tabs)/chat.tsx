@@ -6,19 +6,19 @@ import {
 import { router, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
-import { chatService, Sesion } from '@/lib/api/chat';
 import { LoadingSpinner, EmptyState } from '@/components';
-import { useFetchData, useDateFormat } from '@/hooks';
+import { useDateFormat } from '@/hooks';
+import { useChatStore } from '@/store';
 
 export default function ChatListScreen() {
-  const { datos: sesiones, cargando, refrescar } = useFetchData<Sesion[]>(() => chatService.getSesiones());
+  const { sesiones, cargandoSesiones: cargando, cargarSesiones, crearSesion } = useChatStore();
   const { fechaCorta } = useDateFormat();
 
-  useFocusEffect(useCallback(() => { refrescar(); }, []));
+  useFocusEffect(useCallback(() => { cargarSesiones(); }, []));
 
   async function nuevaSesion() {
     try {
-      const sesion = await chatService.crearSesion();
+      const sesion = await crearSesion();
       router.push(`/chat/${sesion.id}`);
     } catch (e) {
       console.log('Error creando sesión:', e);

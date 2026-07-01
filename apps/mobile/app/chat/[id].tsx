@@ -7,31 +7,29 @@ import {
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
-import { chatService, Mensaje } from '@/lib/api/chat';
+import { Mensaje } from '@/lib/api/chat';
 import { LoadingSpinner } from '@/components';
 import { useSecureToken } from '@/hooks';
+import { useChatStore } from '@/store';
 
 const DISCLAIMER_KEY = 'chat_disclaimer_dismissed';
 
 export default function ChatSesionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [mensajes, setMensajes] = useState<Mensaje[]>([]);
   const [texto, setTexto] = useState('');
-  const [enviando, setEnviando] = useState(false);
   const [loading, setLoading] = useState(true);
   const [disclaimerVisible, setDisclaimerVisible] = useState(false);
   const flatListRef = useRef<FlatList>(null);
   const { valor: disclaimerDismissed, guardar: guardarDisclaimer } = useSecureToken(DISCLAIMER_KEY);
+  const { mensajesPorSesion, cargarMensajes, enviarMensaje: enviarStore, agregarMensajeLocal, enviando } = useChatStore();
+  const mensajes = mensajesPorSesion[id] ?? [];
 
   useEffect(() => {
-    cargarMensajes();
+    cargarMensajes(id).finally(() => setLoading(false));
   }, [id]);
 
   useEffect(() => {
-    if (disclaimerDismissed === null) {
-      // valor aún cargando
-      return;
-    }
+    if (disclaimerDismissed === null) return;
     if (!disclaimerDismissed) setDisclaimerVisible(true);
   }, [disclaimerDismissed]);
 
@@ -40,22 +38,10 @@ export default function ChatSesionScreen() {
     setDisclaimerVisible(false);
   }
 
-  async function cargarMensajes() {
-    try {
-      const data = await chatService.getSesion(id);
-      setMensajes(data.mensajes);
-    } catch (e) {
-      console.log('Error:', e);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   async function enviarMensaje() {
     if (!texto.trim() || enviando) return;
     const textoEnviar = texto.trim();
     setTexto('');
-    setEnviando(true);
 
     const mensajeTemp: Mensaje = {
       id: `temp-${Date.now()}`,
@@ -65,12 +51,11 @@ export default function ChatSesionScreen() {
       nivelCrisis: 'NINGUNO',
       creadoEn: new Date().toISOString(),
     };
-    setMensajes(prev => [...prev, mensajeTemp]);
+    agregarMensajeLocal(id, mensajeTemp);
 
     try {
-      const respuesta = await chatService.enviarMensaje(id, textoEnviar);
-
-      if (respuesta.crisis) {
+      const { crisis } = await enviarStore(id, textoEnviar);
+      if (crisis) {
         Alert.alert(
           '🆘 ¿Necesitas ayuda inmediata?',
           'Detectamos que podrías estar en un momento difícil. Recuerda que hay personas disponibles ahora para apoyarte.',
@@ -80,20 +65,9 @@ export default function ChatSesionScreen() {
           ]
         );
       }
-
-      const mensajeIA: Mensaje = {
-        id: respuesta.mensajeId,
-        rol: 'ASSISTANT',
-        contenido: respuesta.respuesta,
-        esCrisis: respuesta.crisis,
-        nivelCrisis: respuesta.nivel,
-        creadoEn: new Date().toISOString(),
-      };
-      setMensajes(prev => [...prev, mensajeIA]);
     } catch {
-      setMensajes(prev => prev.filter(m => m.id !== mensajeTemp.id));
+      // el store ya manejó el error; el mensaje temp queda visible sin respuesta
     } finally {
-      setEnviando(false);
       setTimeout(() => flatListRef.current?.scrollToEnd(), 100);
     }
   }

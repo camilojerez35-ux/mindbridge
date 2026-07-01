@@ -11,6 +11,7 @@ import { homeService, ConsejoDiario } from '@/lib/api/home';
 import { statsService } from '@/lib/api/stats';
 import { LoadingSpinner, BottomSheetModal } from '@/components';
 import { useModal } from '@/hooks';
+import { useAuthStore } from '@/store';
 
 const EMOJIS = ['😢','😞','😕','😐','🙂','😊','😃','😄','🥰','🤩'];
 
@@ -21,7 +22,8 @@ const RECURSOS_CRISIS = [
 ];
 
 export default function HomeScreen() {
-  const [nombre, setNombre] = useState('');
+  const { usuario } = useAuthStore();
+  const nombre = usuario?.nombre.split(' ')[0] ?? '';
   const [consejo, setConsejo] = useState<ConsejoDiario | null>(null);
   const [stats, setStats] = useState<any>(null);
   const [animoSeleccionado, setAnimoSeleccionado] = useState<number | null>(null);
@@ -34,12 +36,10 @@ export default function HomeScreen() {
 
   async function cargarDatos() {
     try {
-      const [usuario, consejoDia, statsData] = await Promise.all([
-        homeService.getUsuario(),
+      const [consejoDia, statsData] = await Promise.all([
         homeService.getConsejo(),
         statsService.getStats().catch(() => null),
       ]);
-      setNombre(usuario.nombre.split(' ')[0]);
       setConsejo(consejoDia);
       setStats(statsData);
     } catch {

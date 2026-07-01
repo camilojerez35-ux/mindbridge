@@ -2,30 +2,15 @@ import {
   View, Text, StyleSheet, ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
-import { authService } from '@/lib/api/auth';
 import { LoadingSpinner, Avatar, Badge } from '@/components';
-import { useFetchData, useColorMapping } from '@/hooks';
-
-interface Usuario {
-  nombre: string;
-  email: string;
-  plan: string;
-}
+import { useColorMapping } from '@/hooks';
+import { useAuthStore } from '@/store';
 
 export default function PerfilScreen() {
-  const { datos: usuario, cargando } = useFetchData<Usuario>(async () => {
-    const data = await authService.getUsuario();
-    return { nombre: data.nombre, email: data.email, plan: data.plan };
-  });
+  const { usuario, cargando, logout } = useAuthStore();
   const { color } = useColorMapping();
-
-  async function handleLogout() {
-    await authService.logout();
-    router.replace('/(auth)/login');
-  }
 
   if (cargando) {
     return <LoadingSpinner />;
@@ -94,7 +79,7 @@ export default function PerfilScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
+      <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
         <Ionicons name="log-out-outline" size={20} color={Colors.error} />
         <Text style={styles.logoutText}>Cerrar sesión</Text>
       </TouchableOpacity>
