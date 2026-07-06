@@ -47,7 +47,7 @@ export async function GET(
   }
 
   // Verificar pago
-  if (cita.estadoPago !== 'PAGADO') {
+  if (cita.estadoPago !== 'APROBADO') {
     return Response.json({ error: 'La cita no ha sido pagada' }, { status: 402 });
   }
 

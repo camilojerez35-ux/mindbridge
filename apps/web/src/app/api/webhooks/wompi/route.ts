@@ -122,13 +122,13 @@ async function procesarPagoSuscripcion(tx: WompiTransaction) {
 
   const estadoPago = tx.status === 'APPROVED' ? 'APROBADO'
     : tx.status === 'DECLINED' ? 'RECHAZADO'
-    : tx.status === 'VOIDED'   ? 'CANCELADO'
+    : tx.status === 'VOIDED'   ? 'RECHAZADO'
     : 'PENDIENTE';
 
   await db.pago.update({
     where: { referencia: tx.reference },
     data: {
-      estado: estadoPago as 'APROBADO' | 'RECHAZADO' | 'CANCELADO' | 'PENDIENTE',
+      estado: estadoPago as 'APROBADO' | 'RECHAZADO' | 'PENDIENTE',
       idTransaccionPasarela: tx.id,
       estadoPasarela: tx.status,
     },

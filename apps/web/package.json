@@ -11,6 +11,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.0",
     "@mindbridge/ai-clinical": "^1.0.0",
+    "@sentry/nextjs": "^10.63.0",
     "@types/pdfkit": "^0.17.6",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.0",

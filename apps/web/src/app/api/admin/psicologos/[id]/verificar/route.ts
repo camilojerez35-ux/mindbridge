@@ -80,7 +80,7 @@ export async function PATCH(
     // Activar cuenta de usuario
     await db.usuario.update({
       where: { id: psicologo.usuarioId },
-      data: { activo: true },
+      data: { estado: 'ACTIVO' },
     });
 
     // Notificar al psicólogo
@@ -168,7 +168,7 @@ export async function GET(
       fechaVerificacion: true,
       tarjetaVencimiento: true,
       estado: true,
-      usuario: { select: { email: true, nombre: true, activo: true } },
+      usuario: { select: { email: true, nombre: true, estado: true } },
     },
   });
 

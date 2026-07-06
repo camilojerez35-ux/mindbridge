@@ -98,7 +98,7 @@ export async function GET(
       slots,
     });
   } catch (err) {
-    capturarErrorApi(err, 'GET /api/psicologos/[psicologoId]');
+    capturarErrorApi(err, { ruta: '/api/psicologos/[psicologoId]', metodo: 'GET' });
     return Response.json({ error: 'Error interno' }, { status: 500 });
   }
 }
