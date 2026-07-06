@@ -6,7 +6,7 @@
     },
     {
       "path": "/api/notificaciones?job=citas-1h",
-      "schedule": "0 * * * *"
+      "schedule": "0 8 * * *"
     },
     {
       "path": "/api/notificaciones?job=recordatorio-animo",
@@ -22,7 +22,7 @@
     },
     {
       "path": "/api/cron/crisis-escalacion",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 12 * * *"
     }
   ]
 }
