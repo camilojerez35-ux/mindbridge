@@ -45,8 +45,9 @@ export default function DiarioScreen() {
     try {
       const data = await diarioService.getEntradas();
       setEntradas(data.entradas);
-    } catch {}
-    finally {
+    } catch (err: any) {
+      console.warn('[Diario] Error cargando entradas:', err?.message);
+    } finally {
       setLoading(false);
       setRefreshing(false);
     }
@@ -87,7 +88,9 @@ export default function DiarioScreen() {
     try {
       await diarioService.eliminarEntrada(id);
       setEntradas(prev => prev.filter(e => e.id !== id));
-    } catch {}
+    } catch (err: any) {
+      console.warn('[Diario] Error eliminando entrada:', err?.message);
+    }
   }
 
   async function guardarEntrada() {
@@ -97,8 +100,9 @@ export default function DiarioScreen() {
       await diarioService.crearEntrada({ contenido, animo, emociones: emocionesSeleccionadas });
       setModalVisible(false);
       cargarEntradas();
-    } catch {}
-    finally { setGuardando(false); }
+    } catch (err: any) {
+      console.warn('[Diario] Error guardando entrada:', err?.message);
+    } finally { setGuardando(false); }
   }
 
   const PASOS: Paso[] = ['animo', 'emociones', 'escribir'];

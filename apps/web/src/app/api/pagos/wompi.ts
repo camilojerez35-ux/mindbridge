@@ -126,11 +126,15 @@ export async function consultarTransaccion(idTransaccion: string) {
 }
 
 // ── Verificar firma de webhook ─────────────────────────────────
+// Wompi envía x-event-checksum = SHA-256(payload + eventsSecret), NO HMAC.
 export async function verificarWebhook(payload: string, firma: string): Promise<boolean> {
+  if (!EVENTS_SECRET) return false;
   const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey('raw', encoder.encode(EVENTS_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
-  const signatureBytes = Uint8Array.from(Buffer.from(firma, 'hex'));
-  return crypto.subtle.verify('HMAC', key, signatureBytes, encoder.encode(payload));
+  const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(payload + EVENTS_SECRET));
+  const hashHex = Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+  return hashHex === firma;
 }
 
 // ── Obtener lista de bancos PSE ────────────────────────────────

@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { LoadingSpinner, Avatar, Badge } from '@/components';
 import { useColorMapping } from '@/hooks';
+import { router } from 'expo-router';
 import { useAuthStore } from '@/store';
 
 export default function PerfilScreen() {

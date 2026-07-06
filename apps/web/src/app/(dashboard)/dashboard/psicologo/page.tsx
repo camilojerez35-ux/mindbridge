@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import TareasPanel from '@/components/tareas/TareasPanel';
+import HistoriaClinica from '@/components/psicologo/HistoriaClinica';
 
 /* ── Tipos ── */
 type EstadoCita = 'PENDIENTE' | 'CONFIRMADA' | 'COMPLETADA' | 'CANCELADA_USUARIO' | 'CANCELADA_PSICOLOGO' | 'EN_CURSO' | 'NO_ASISTIO';
@@ -63,7 +65,7 @@ const colorEstado: Record<EstadoCita, { bg: string; color: string; label: string
 
 /* ── Componente principal ── */
 export default function PsicologoPage() {
-  const [tab, setTab] = useState<'hoy' | 'agenda' | 'pacientes' | 'pagos' | 'perfil'>('hoy');
+  const [tab, setTab] = useState<'hoy' | 'agenda' | 'pacientes' | 'tareas' | 'pagos' | 'perfil'>('hoy');
 
   /* Citas */
   const [citasHoy, setCitasHoy]     = useState<Cita[]>([]);
@@ -359,7 +361,7 @@ export default function PsicologoPage() {
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', background: '#0d1a12', padding: '4px', borderRadius: '10px', border: '1px solid #1a2e1f' }}>
-        {[['hoy', '📅 Hoy'], ['agenda', '🗓 Calendario'], ['pacientes', '👥 Pacientes'], ['pagos', '💰 Pagos'], ['perfil', '👤 Mi Perfil']].map(([v, l]) => (
+        {[['hoy', '📅 Hoy'], ['agenda', '🗓 Calendario'], ['pacientes', '👥 Pacientes'], ['tareas', '✅ Tareas'], ['pagos', '💰 Pagos'], ['perfil', '👤 Mi Perfil']].map(([v, l]) => (
           <button key={v} onClick={() => setTab(v as any)} style={{ flex: 1, padding: '9px 8px', borderRadius: '7px', border: 'none', background: tab === v ? '#1a6b4a' : 'transparent', color: tab === v ? 'white' : '#5a8a6a', cursor: 'pointer', fontSize: '12px', fontWeight: tab === v ? '700' : '400', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{l}</button>
         ))}
       </div>
@@ -599,12 +601,14 @@ export default function PsicologoPage() {
         </div>
       )}
 
-      {/* ── PACIENTES ── */}
+      {/* ── PACIENTES / HISTORIA ── */}
       {tab === 'pacientes' && (
-        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', textAlign: 'center' }}>
-          <p style={{ fontSize: '32px', marginBottom: '12px' }}>👥</p>
-          <p style={{ color: '#5a8a6a', fontSize: '14px' }}>Lista de pacientes próximamente</p>
-        </div>
+        <HistoriaClinica citasHoy={[...citasHoy, ...citasMes]} />
+      )}
+
+      {/* ── TAREAS ── */}
+      {tab === 'tareas' && (
+        <TareasPanel />
       )}
 
       {/* ── PAGOS ── */}

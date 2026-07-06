@@ -16,6 +16,11 @@ describe('useCurrencyFormat', () => {
     it('formatea cero correctamente', () => {
       expect(cop(0)).toContain('$0');
     });
+
+    it('formatea números grandes', () => {
+      const res = cop(1500000);
+      expect(res).toContain('COP');
+    });
   });
 
   describe('copCorto', () => {
@@ -29,6 +34,10 @@ describe('useCurrencyFormat', () => {
 
     it('muestra valor sin abreviar para menores de 1000', () => {
       expect(copCorto(500)).toBe('$500');
+    });
+
+    it('maneja exactamente 1000', () => {
+      expect(copCorto(1000)).toContain('k');
     });
   });
 });

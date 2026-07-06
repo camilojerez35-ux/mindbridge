@@ -1,0 +1,22 @@
+{
+  "name": "@mindbridge/database",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "migrate:dev":    "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "migrate:reset":  "prisma migrate reset --force",
+    "migrate:status": "prisma migrate status",
+    "seed":           "tsx --env-file=.env prisma/seed.ts",
+    "studio":         "prisma studio",
+    "generate":       "prisma generate",
+    "reset":          "prisma migrate reset --force && npm run seed"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.14.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.14.0",
+    "tsx":    "^4.11.0"
+  }
+}

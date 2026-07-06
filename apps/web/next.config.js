@@ -23,7 +23,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: blob: https:",
-              "connect-src 'self' https://api.anthropic.com https://*.daily.co wss://*.daily.co https://api.wompi.co",
+              "connect-src 'self' https://api.anthropic.com https://*.daily.co wss://*.daily.co https://api.wompi.co https://app.posthog.com https://*.posthog.com https://api.resend.com",
               "frame-src https://*.daily.co https://checkout.wompi.co",
               "media-src 'self' blob: https://*.daily.co",
             ].join('; '),

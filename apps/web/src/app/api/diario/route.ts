@@ -1,10 +1,20 @@
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
+import { z } from 'zod';
 import { db } from '@/lib/db/client';
 import { detectarNivelCrisis } from '@mindbridge/ai-clinical/protocols/crisis-protocol';
 import { registrarIncidente, registrarIncidenteAsync } from '@/lib/crisis/incident-logger';
 import { encryption } from '@/lib/encryption';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
+
+const EntradaSchema = z.object({
+  contenido:    z.string().min(1).max(5000),
+  titulo:       z.string().max(100).optional(),
+  animo:        z.number().int().min(1).max(10).default(5),
+  sentimientos: z.array(z.string()).max(5).default([]),
+  influidoPor:  z.array(z.string()).max(5).default([]),
+  emociones:    z.array(z.string()).max(5).default([]),
+  etiquetas:    z.array(z.string()).max(5).default([]),
+});
 
 /** Elimina patrones de PII antes de guardar el fragmento clínico. */
 function anonimizarFragmento(texto: string): string {
@@ -17,8 +27,8 @@ function anonimizarFragmento(texto: string): string {
 }
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado. Inicie sesión.' }, { status: 401 });
   }
 
@@ -26,60 +36,82 @@ export async function GET(req: NextRequest) {
   const limite = Math.min(parseInt(searchParams.get('limite') || '10'), 50);
   const pagina = Math.max(parseInt(searchParams.get('pagina') || '1'), 1);
 
-  const [entradas, total] = await Promise.all([
-    db.entradaDiario.findMany({
-      where: { usuarioId: session.user.id },
-      orderBy: { createdAt: 'desc' },
-      skip: (pagina - 1) * limite,
-      take: limite,
-      select: {
-        id: true,
-        estadoAnimo: true,
-        emociones: true,
-        etiquetas: true,
-        analisisIA: true,
-        esFavorito: true,
-        createdAt: true,
-        // contenido excluido — datos sensibles cifrados, se exponen solo en detalle individual
-      },
-    }),
-    db.entradaDiario.count({ where: { usuarioId: session.user.id } }),
-  ]);
+  try {
+    const [entradas, total] = await Promise.all([
+      db.entradaDiario.findMany({
+        where: { usuarioId: user.id },
+        orderBy: { createdAt: 'desc' },
+        skip: (pagina - 1) * limite,
+        take: limite,
+        select: {
+          id: true,
+          estadoAnimo: true,
+          emociones: true,
+          etiquetas: true,
+          sentimientos: true,
+          influidoPor: true,
+          analisisIA: true,
+          esFavorito: true,
+          createdAt: true,
+        },
+      }),
+      db.entradaDiario.count({ where: { usuarioId: user.id } }),
+    ]);
 
-  return Response.json({
-    entradas,
-    paginacion: { total, pagina, limite, totalPaginas: Math.ceil(total / limite) },
-  });
+    return Response.json({
+      entradas: entradas.map(e => ({
+        id: e.id,
+        animo: e.estadoAnimo,
+        emociones: e.emociones,
+        etiquetas: e.etiquetas,
+        analisisIA: e.analisisIA,
+        esFavorita: e.esFavorito,
+        esPrivada: false,
+        contenido: '',
+        creadaEn: e.createdAt,
+      })),
+      paginacion: { total, pagina, limite, totalPaginas: Math.ceil(total / limite) },
+    });
+  } catch {
+    return Response.json({
+      entradas: [],
+      paginacion: { total: 0, pagina, limite, totalPaginas: 0 },
+    });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado. Inicie sesión.' }, { status: 401 });
   }
 
   try {
-    const body = await req.json();
-    const { contenido, animo, emociones = [], etiquetas = [] } = body;
+    const parsed = EntradaSchema.safeParse(await req.json());
+    if (!parsed.success) {
+      return Response.json({ error: 'Datos inválidos', detalles: parsed.error.issues }, { status: 400 });
+    }
+    const { contenido, animo, titulo, sentimientos, influidoPor, emociones, etiquetas } = parsed.data;
 
-    if (!contenido?.trim()) {
-      return Response.json({ error: 'El contenido es requerido' }, { status: 400 });
-    }
-    if (!animo || animo < 1 || animo > 10) {
-      return Response.json({ error: 'El ánimo debe estar entre 1 y 10' }, { status: 400 });
-    }
-    if (contenido.length > 5000) {
-      return Response.json({ error: 'El contenido no puede superar 5000 caracteres' }, { status: 400 });
+    // Límite plan GRATIS: 1 entrada por día
+    if (user.plan === 'GRATIS') {
+      const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+      const entradasHoy = await db.entradaDiario.count({
+        where: { usuarioId: user.id, createdAt: { gte: hoy } },
+      });
+      if (entradasHoy >= 1) {
+        return Response.json({ error: 'Límite diario alcanzado en el plan gratuito. Mejora a Plus para entradas ilimitadas.' }, { status: 403 });
+      }
     }
 
     // Detección de crisis en el contenido del diario
     const evaluacionCrisis = detectarNivelCrisis(contenido);
-    const nivelCrisis = evaluacionCrisis.nivel; // lowercase: 'critico' | 'alto' | 'moderado' | ...
+    const nivelCrisis = evaluacionCrisis.nivel;
 
     if (nivelCrisis === 'critico' || nivelCrisis === 'alto') {
       await registrarIncidente({
-        usuarioId: session.user.id,
-        sesionId:  `diario-${session.user.id}-${Date.now()}`,
+        usuarioId: user.id,
+        sesionId:  `diario-${user.id}-${Date.now()}`,
         nivel:     nivelCrisis.toUpperCase(),
         indicadoresDetectados: evaluacionCrisis.indicadores,
         fragmentoAnonimizado:  anonimizarFragmento(contenido),
@@ -89,8 +121,8 @@ export async function POST(req: NextRequest) {
       });
     } else if (nivelCrisis === 'moderado') {
       registrarIncidenteAsync({
-        usuarioId: session.user.id,
-        sesionId:  `diario-${session.user.id}-${Date.now()}`,
+        usuarioId: user.id,
+        sesionId:  `diario-${user.id}-${Date.now()}`,
         nivel:     'MODERADO',
         indicadoresDetectados: evaluacionCrisis.indicadores,
         fragmentoAnonimizado:  anonimizarFragmento(contenido),
@@ -107,11 +139,13 @@ export async function POST(req: NextRequest) {
 
     const entrada = await db.entradaDiario.create({
       data: {
-        usuarioId: session.user.id,
+        usuarioId: user.id,
         contenido: encryption.encrypt(contenido),
         estadoAnimo: animo,
         emociones,
         etiquetas,
+        sentimientos,
+        influidoPor,
         analisisIA,
       },
       select: { id: true, estadoAnimo: true, emociones: true, etiquetas: true, analisisIA: true, createdAt: true },

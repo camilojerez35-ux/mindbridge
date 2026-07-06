@@ -55,7 +55,9 @@ export default function HomeScreen() {
     try {
       await homeService.registrarAnimo(valor);
       setAnimoGuardado(true);
-    } catch {}
+    } catch (err: any) {
+      console.warn('[Home] Error registrando ánimo:', err?.message);
+    }
   }
 
   function llamar(numero: string) {

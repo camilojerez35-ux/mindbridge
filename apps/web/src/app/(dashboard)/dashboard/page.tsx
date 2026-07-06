@@ -4,6 +4,10 @@ import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import OnboardingWizard from '@/components/onboarding/OnboardingWizard';
 import PrimerosPasos from '@/components/onboarding/PrimerosPasos';
+import ConsejoDelDia from '@/components/inicio/ConsejoDelDia';
+import RachaBienestar from '@/components/progreso/RachaBienestar';
+import WidgetTareas from '@/components/tareas/WidgetTareas';
+import BannersAdherencia from '@/components/inicio/BannersAdherencia';
 import {
   MessageCircle, BookOpen, Wind, Calendar,
   BookMarked, TrendingUp, Flame, Bot, Heart, Smile,
@@ -33,7 +37,7 @@ const ANIMOS = [
 
 async function obtenerDatos(usuarioId: string) {
   const ahora = new Date();
-  const [sesionesTotal, entradasTotal, estadosAnimo, citasTotal, usuario] = await Promise.all([
+  const [sesionesTotal, entradasTotal, estadosAnimo, citasTotal, usuario, tareasPendientes] = await Promise.all([
     db.sesionChat.count({ where: { usuarioId } }),
     db.entradaDiario.count({ where: { usuarioId } }),
     db.entradaDiario.findMany({
@@ -47,6 +51,14 @@ async function obtenerDatos(usuarioId: string) {
       where: { id: usuarioId },
       select: { createdAt: true, nombre: true, apellido: true },
     }),
+    db.tareaSesion.findMany({
+      where: { usuarioId, estado: { not: 'COMPLETADA' } },
+      include: {
+        psicologo: { include: { usuario: { select: { nombre: true, apellido: true } } } },
+      },
+      orderBy: [{ fechaLimite: 'asc' }, { createdAt: 'desc' }],
+      take: 5,
+    }).catch(() => []),
   ]);
 
   const diasActivo = usuario
@@ -63,7 +75,7 @@ async function obtenerDatos(usuarioId: string) {
   if (entradasTotal > 0) completadosDB.push('diario');
   if (citasTotal > 0)    completadosDB.push('cita');
 
-  return { diasActivo, sesionesIA: sesionesTotal, entradasDiario: entradasTotal, animoPromedio, nombre, completadosDB };
+  return { diasActivo, sesionesIA: sesionesTotal, entradasDiario: entradasTotal, animoPromedio, nombre, completadosDB, tareasPendientes };
 }
 
 export default async function DashboardPage() {
@@ -90,6 +102,11 @@ export default async function DashboardPage() {
     <div className="space-y-6 max-w-5xl">
 
       <OnboardingWizard />
+
+      <ConsejoDelDia />
+
+      {/* ── BANNERS DE ADHERENCIA ── */}
+      <BannersAdherencia />
 
       {/* ── HERO ── */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-900/30 via-[#0d1a12] to-emerald-900/10 border border-teal-500/15 p-7">
@@ -150,6 +167,14 @@ export default async function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* ── RACHA Y RESUMEN SEMANAL ── */}
+      <RachaBienestar />
+
+      {/* ── TAREAS DEL PSICÓLOGO ── */}
+      {datos?.tareasPendientes && datos.tareasPendientes.length > 0 && (
+        <WidgetTareas tareas={datos.tareasPendientes} />
+      )}
 
       {/* ── ACCESOS RÁPIDOS ── */}
       <div>

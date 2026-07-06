@@ -1,24 +1,23 @@
 import { NextRequest } from 'next/server';
 import { z } from 'zod';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 
 const CrearSesionSchema = z.object({
   titulo: z.string().max(120).optional(),
 });
 
 // GET /api/chat/sesiones — Lista sesiones del usuario autenticado
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+export async function GET(req: NextRequest) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });
   }
 
   try {
     const sesiones = await db.sesionChat.findMany({
       where: {
-        usuarioId: session.user.id,
+        usuarioId: user.id,
         estado: { not: 'ARCHIVADA' },
       },
       select: {
@@ -35,7 +34,8 @@ export async function GET() {
       sesiones.map(s => ({
         id: s.id,
         titulo: s.titulo ?? 'Sesión sin título',
-        fecha: s.createdAt,
+        creadaEn: s.createdAt,
+        estado: 'ACTIVA',
         mensajes: s._count.mensajes,
       }))
     );
@@ -47,8 +47,8 @@ export async function GET() {
 
 // POST /api/chat/sesiones — Crea una nueva sesión
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });
   }
 
@@ -63,13 +63,13 @@ export async function POST(req: NextRequest) {
   try {
     const sesion = await db.sesionChat.create({
       data: {
-        usuarioId: session.user.id,
+        usuarioId: user.id,
         titulo: resultado.data.titulo ?? null,
       },
       select: { id: true, titulo: true, createdAt: true },
     });
 
-    return Response.json(sesion, { status: 201 });
+    return Response.json({ id: sesion.id, titulo: sesion.titulo, creadaEn: sesion.createdAt, estado: 'ACTIVA' }, { status: 201 });
   } catch (error) {
     console.error('[SESIONES POST ERROR]', error);
     return Response.json({ error: 'Error al crear la sesión' }, { status: 500 });

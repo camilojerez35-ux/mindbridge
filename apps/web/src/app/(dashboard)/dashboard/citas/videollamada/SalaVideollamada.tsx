@@ -48,8 +48,9 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
   const streamRef      = useRef<MediaStream | null>(null);
   const pollerRef      = useRef<NodeJS.Timeout | null>(null);
   const duracionRef    = useRef<NodeJS.Timeout | null>(null);
-  const ofertaEnviada  = useRef(false);
-  const chatAbiertoRef = useRef(false);
+  const ofertaEnviada    = useRef(false);
+  const chatAbiertoRef   = useRef(false);
+  const webrtcIniciado   = useRef(false);
 
   // Mantener ref sincronizada para usar dentro de callbacks sin re-crear
   useEffect(() => { chatAbiertoRef.current = chatAbierto; }, [chatAbierto]);
@@ -146,6 +147,8 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
   // ── Inicializar WebRTC (solo cuando salimos del lobby) ────────
   useEffect(() => {
     if (estado === 'lobby' || estado === 'finalizado') return;
+    if (webrtcIniciado.current) return; // ya inicializado — no re-crear la conexión al cambiar estado
+    webrtcIniciado.current = true;
     let cancelled = false;
 
     async function init() {
@@ -213,6 +216,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
 
     return () => {
       cancelled = true;
+      webrtcIniciado.current = false;
       if (pollerRef.current)   clearInterval(pollerRef.current);
       if (duracionRef.current) clearInterval(duracionRef.current);
       pcRef.current?.close();
@@ -406,7 +410,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
 
   // ── Sala principal ────────────────────────────────────────────
   return (
-    <div style={{ minHeight: '100vh', background: '#0a1510', display: 'flex', flexDirection: 'column', fontFamily: 'Inter,sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#0a1510', display: 'flex', flexDirection: 'column' }}>
 
       {/* Top bar */}
       <div style={{ height: 56, background: '#0d1a12', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', flexShrink: 0 }}>
@@ -537,7 +541,6 @@ const S = {
     display: 'flex' as const,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
-    fontFamily: 'Inter,sans-serif',
   },
   btnPrimary: {
     background: '#1a6b4a', color: 'white', padding: '12px 24px',

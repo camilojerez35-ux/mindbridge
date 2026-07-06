@@ -6,9 +6,11 @@ import { z } from 'zod';
 import { rateLimits } from '@/lib/rate-limit';
 
 const Schema = z.object({
-  plan: z.enum(['GRATIS', 'PLUS', 'FAMILIA', 'EMPRESARIAL']),
+  plan: z.literal('GRATIS'),
 }).strict();
 
+// Solo permite cancelar/degradar a GRATIS.
+// Los upgrades a planes pagos se activan exclusivamente via webhook de Wompi (/api/pagos/webhook).
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -23,20 +25,16 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
   const parsed = Schema.safeParse(body);
   if (!parsed.success) {
-    return Response.json({ error: 'Plan no válido' }, { status: 400 });
+    return Response.json({ error: 'Solo se permite cancelar la suscripción (plan GRATIS). Para actualizar tu plan, realiza el pago correspondiente.' }, { status: 400 });
   }
-
-  const { plan } = parsed.data;
-
-  const vence = plan === 'GRATIS' ? null : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
   await db.usuario.update({
     where: { id: session.user.id },
     data: {
-      planActual: plan,
-      suscripcionVence: vence,
+      planActual: 'GRATIS',
+      suscripcionVence: null,
     },
   });
 
-  return Response.json({ exito: true, plan });
+  return Response.json({ exito: true, plan: 'GRATIS' });
 }

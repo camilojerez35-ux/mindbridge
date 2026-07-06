@@ -4,13 +4,8 @@
 
 @layer base {
   :root {
-    --color-primary: #2dd4bf;
+    --color-primary:      #2dd4bf;
     --color-primary-dark: #1a6b4a;
-    --color-bg-dark: #0d1a12;
-    --color-bg-card: rgba(45, 212, 191, 0.05);
-    --color-text-muted: #8aab96;
-    --color-text-dim: #4a7a5a;
-    --color-text-dimmer: #2a4a32;
   }
 
   * {
@@ -24,8 +19,8 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--color-bg-dark);
+    /* La fuente viene de next/font via var(--font-inter) → font-sans en tailwind.config.js */
+    background-color: #0d1a12;
     color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -33,6 +28,7 @@
 }
 
 @layer components {
+  /* Texto con gradiente teal — usado en logos y headings destacados */
   .gradient-text {
     background: linear-gradient(135deg, #2dd4bf 0%, #5eead4 50%, #2dd4bf 100%);
     -webkit-background-clip: text;
@@ -40,138 +36,7 @@
     background-clip: text;
   }
 
-  .glass-card {
-    background: rgba(45, 212, 191, 0.05);
-    border: 1px solid rgba(45, 212, 191, 0.15);
-    backdrop-filter: blur(12px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .glass-card:hover {
-    background: rgba(45, 212, 191, 0.1);
-    border-color: rgba(45, 212, 191, 0.3);
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(45, 212, 191, 0.1);
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, #1a6b4a 0%, #1a8b5a 100%);
-    color: white;
-    padding: 14px 36px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 15px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(26, 107, 74, 0.4);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-primary);
-    border: 1px solid rgba(45, 212, 191, 0.4);
-    padding: 14px 36px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 15px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(45, 212, 191, 0.1);
-    border-color: var(--color-primary);
-    transform: translateY(-2px);
-  }
-
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--color-primary);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-
-  .section-title {
-    font-size: clamp(28px, 5vw, 48px);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 16px;
-  }
-
-  .section-subtitle {
-    font-size: 18px;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    max-width: 640px;
-    margin: 0 auto 48px;
-  }
-
-  .pricing-card {
-    background: rgba(45, 212, 191, 0.03);
-    border: 1px solid rgba(45, 212, 191, 0.12);
-    border-radius: 20px;
-    padding: 32px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .pricing-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.3), transparent);
-  }
-
-  .pricing-card.featured {
-    background: rgba(45, 212, 191, 0.08);
-    border-color: rgba(45, 212, 191, 0.3);
-    transform: scale(1.02);
-  }
-
-  .pricing-card.featured::before {
-    background: linear-gradient(90deg, #1a6b4a, #2dd4bf, #1a6b4a);
-    height: 4px;
-  }
-
-  .pricing-card:hover {
-    border-color: rgba(45, 212, 191, 0.3);
-    transform: translateY(-4px);
-  }
-
-  .pricing-card.featured:hover {
-    transform: scale(1.02) translateY(-4px);
-  }
-
-  .faq-item {
-    border-bottom: 1px solid rgba(45, 212, 191, 0.1);
-  }
-
-  .faq-item:last-child {
-    border-bottom: none;
-  }
-
+  /* Punto de estado con pulso — usado en indicadores de crisis */
   .glow-dot {
     width: 8px;
     height: 8px;
@@ -183,29 +48,6 @@
 
   @keyframes pulse-glow {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.3); }
+    50%       { opacity: 0.6; transform: scale(1.3); }
   }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  .float-animation {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  @keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-in-up {
-    animation: fade-in-up 0.8s ease-out forwards;
-  }
-
-  .fade-in-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
-  .fade-in-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
-  .fade-in-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
-  .fade-in-up-delay-4 { animation-delay: 0.4s; opacity: 0; }
 }

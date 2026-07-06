@@ -17,7 +17,7 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   transformIgnorePatterns: [
-    'node_modules/(?!(zustand)/)',
+    'node_modules/(?!(zustand|@react-native-community|expo-modules-core)/)',
   ],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/*.test.[jt]s?(x)'],
   moduleNameMapper: {

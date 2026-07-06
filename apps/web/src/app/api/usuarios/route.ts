@@ -1,14 +1,13 @@
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) return Response.json({ error: 'No autorizado' }, { status: 401 });
+export async function GET(req: NextRequest) {
+  const user = await getAuthUser(req);
+  if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
   const usuario = await db.usuario.findUnique({
-    where: { id: session.user.id },
+    where: { id: user.id },
     select: {
       id: true,
       nombre: true,
@@ -32,8 +31,8 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) return Response.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getAuthUser(req);
+  if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   if (!body) return Response.json({ error: 'Cuerpo inválido' }, { status: 400 });
@@ -41,7 +40,7 @@ export async function PATCH(req: NextRequest) {
   const { nombre, apellido, telefono, ciudadColombia } = body;
 
   const usuario = await db.usuario.update({
-    where: { id: session.user.id },
+    where: { id: user.id },
     data: {
       ...(nombre        !== undefined && { nombre }),
       ...(apellido      !== undefined && { apellido }),

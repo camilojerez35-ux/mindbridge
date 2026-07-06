@@ -4,32 +4,29 @@
  * DELETE /api/diario/[id]  → eliminar entrada (derecho al olvido — Ley 1581/2012)
  */
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { encryption } from '@/lib/encryption';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 
 type Params = { params: { id: string } };
 
 // ── GET ───────────────────────────────────────────────────────
 
-export async function GET(_req: NextRequest, { params }: Params) {
-  const session = await getServerSession(authOptions);
-  if (!session) return Response.json({ error: 'No autorizado' }, { status: 401 });
+export async function GET(req: NextRequest, { params }: Params) {
+  const user = await getAuthUser(req);
+  if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
   const entrada = await db.entradaDiario.findFirst({
-    where: { id: params.id, usuarioId: session.user.id },
+    where: { id: params.id, usuarioId: user.id },
   });
 
   if (!entrada) return Response.json({ error: 'Entrada no encontrada' }, { status: 404 });
 
-  // Descifrar contenido para el propietario — nadie más puede leerlo
   let contenido: string | null = null;
   try {
     contenido = entrada.contenido ? encryption.decrypt(entrada.contenido) : null;
   } catch {
-    // Si el contenido fue guardado antes de implementar cifrado (texto plano legacy)
-    contenido = entrada.contenido;
+    return Response.json({ error: 'Error al descifrar la entrada' }, { status: 500 });
   }
 
   return Response.json({ entrada: { ...entrada, contenido } });
@@ -38,11 +35,11 @@ export async function GET(_req: NextRequest, { params }: Params) {
 // ── PATCH ─────────────────────────────────────────────────────
 
 export async function PATCH(req: NextRequest, { params }: Params) {
-  const session = await getServerSession(authOptions);
-  if (!session) return Response.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getAuthUser(req);
+  if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
   const existente = await db.entradaDiario.findFirst({
-    where: { id: params.id, usuarioId: session.user.id },
+    where: { id: params.id, usuarioId: user.id },
     select: { id: true },
   });
   if (!existente) return Response.json({ error: 'Entrada no encontrada' }, { status: 404 });
@@ -67,12 +64,12 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
 // ── DELETE ────────────────────────────────────────────────────
 
-export async function DELETE(_req: NextRequest, { params }: Params) {
-  const session = await getServerSession(authOptions);
-  if (!session) return Response.json({ error: 'No autorizado' }, { status: 401 });
+export async function DELETE(req: NextRequest, { params }: Params) {
+  const user = await getAuthUser(req);
+  if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
   const existente = await db.entradaDiario.findFirst({
-    where: { id: params.id, usuarioId: session.user.id },
+    where: { id: params.id, usuarioId: user.id },
     select: { id: true },
   });
   if (!existente) return Response.json({ error: 'Entrada no encontrada' }, { status: 404 });

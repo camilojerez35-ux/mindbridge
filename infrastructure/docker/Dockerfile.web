@@ -1,0 +1,72 @@
+# MindBridge — Dockerfile multi-stage para apps/web
+# Build context: monorepo root (docker-compose usa context: ../..)
+# Resultado: imagen de producción ~200MB con Next.js standalone
+
+# ─── Etapa 1: dependencias base ────────────────────────────────
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat openssl
+WORKDIR /app
+
+# Copiar manifiestos de todo el monorepo para aprovechar el cache de capas
+COPY package.json package-lock.json ./
+COPY turbo.json ./
+COPY apps/web/package.json ./apps/web/
+COPY packages/database/package.json ./packages/database/
+COPY packages/ai-clinical/package.json ./packages/ai-clinical/
+
+RUN npm ci --ignore-scripts
+
+# ─── Etapa 2: build ────────────────────────────────────────────
+FROM node:20-alpine AS builder
+RUN apk add --no-cache libc6-compat openssl
+WORKDIR /app
+
+# Reusar node_modules instalados
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Generar Prisma Client (necesita openssl y DATABASE_URL de placeholder)
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
+RUN npx prisma generate --schema=packages/database/prisma/schema.prisma
+
+# Build solo de apps/web con Turborepo
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN npx turbo run build --filter=@mindbridge/web
+
+# ─── Etapa 3: imagen de producción ─────────────────────────────
+FROM node:20-alpine AS runner
+RUN apk add --no-cache libc6-compat openssl curl
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Usuario sin privilegios para seguridad
+RUN addgroup --system --gid 1001 nodejs \
+ && adduser  --system --uid 1001 nextjs
+
+# Archivos estáticos públicos
+COPY --from=builder /app/apps/web/public ./apps/web/public
+
+# Configurar permisos para el cache de Next.js
+RUN mkdir -p ./apps/web/.next \
+ && chown nextjs:nodejs ./apps/web/.next
+
+# Copiar el output standalone (incluye node_modules mínimos)
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static    ./apps/web/.next/static
+
+# Prisma client generado (necesario en runtime para las queries)
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma      ./node_modules/.prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma/client ./node_modules/@prisma/client
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:3000/api/health || exit 1
+
+CMD ["node", "apps/web/server.js"]

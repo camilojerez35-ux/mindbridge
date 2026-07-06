@@ -1,9 +1,16 @@
 import ChatIA from '@/components/chat/ChatIA';
 
-export default function ChatPage() {
+interface Props {
+  searchParams: { practica?: string; contexto?: string };
+}
+
+export default function ChatPage({ searchParams }: Props) {
   return (
     <div className="h-[calc(100vh-3.5rem-3rem)] flex flex-col">
-      <ChatIA />
+      <ChatIA
+        practica={searchParams.practica}
+        contextoPractica={searchParams.contexto}
+      />
     </div>
   );
 }

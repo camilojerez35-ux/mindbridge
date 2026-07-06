@@ -29,13 +29,13 @@ describe('useAuthStore', () => {
   });
 
   it('actualizarUsuario modifica el usuario en el store', () => {
-    useAuthStore.setState({ usuario: { id: '1', nombre: 'Ana', email: 'a@b.co', plan: 'GRATIS', rol: 'PACIENTE', emailVerificado: true, creadoEn: '' } });
+    useAuthStore.setState({ usuario: { id: '1', nombre: 'Ana', email: 'a@b.co', plan: 'GRATIS', rol: 'PACIENTE' } });
     useAuthStore.getState().actualizarUsuario({ nombre: 'Ana María' });
     expect(useAuthStore.getState().usuario?.nombre).toBe('Ana María');
   });
 
   it('logout limpia usuario y token', async () => {
-    useAuthStore.setState({ usuario: { id: '1', nombre: 'Test', email: 't@t.co', plan: 'GRATIS', rol: 'PACIENTE', emailVerificado: true, creadoEn: '' }, token: 'abc' });
+    useAuthStore.setState({ usuario: { id: '1', nombre: 'Test', email: 't@t.co', plan: 'GRATIS', rol: 'PACIENTE' }, token: 'abc' });
     await useAuthStore.getState().logout();
     expect(useAuthStore.getState().usuario).toBeNull();
     expect(useAuthStore.getState().token).toBeNull();

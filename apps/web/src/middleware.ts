@@ -69,6 +69,12 @@ export async function middleware(request: NextRequest) {
   }
 
   // 3. Validar sesión de next-auth correctamente
+  // Si viene un Bearer token (app móvil), el route handler lo verifica con getAuthUser — dejar pasar
+  const authHeader = request.headers.get('authorization');
+  if (authHeader?.startsWith('Bearer ')) {
+    return NextResponse.next();
+  }
+
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,

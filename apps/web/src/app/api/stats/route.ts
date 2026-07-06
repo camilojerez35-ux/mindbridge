@@ -1,17 +1,16 @@
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { capturarErrorApi } from '@/lib/monitoring/sentry';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
+    const user = await getAuthUser(req);
+    if (!user) {
       return Response.json({ error: 'No autorizado' }, { status: 401 });
     }
 
-    const usuarioId = session.user.id;
+    const usuarioId = user.id;
 
     const ahora = new Date();
     const inicioMes = new Date(ahora.getFullYear(), ahora.getMonth(), 1);

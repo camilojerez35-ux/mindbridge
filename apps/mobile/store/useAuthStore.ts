@@ -43,10 +43,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ token });
       try {
         const usuario = await authService.getUsuario();
+        if (!usuario?.id) throw new Error('Datos de usuario inválidos');
         set({ usuario, inicializado: true });
         router.replace('/(tabs)/home');
       } catch {
-        // Token inválido o expirado
         await SecureStore.deleteItemAsync('session_token');
         set({ token: null, usuario: null, inicializado: true });
         router.replace('/(auth)/login');
@@ -75,8 +75,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         },
         cargando: false,
       });
-      // Registrar token de push en background, no bloquea el login
-      registrarPushToken().catch(() => {});
+      registrarPushToken().catch((err) => console.warn('[Auth] Push token no registrado:', err?.message));
       router.replace('/(tabs)/home');
     } catch (e) {
       set({ cargando: false });
@@ -85,8 +84,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    // Eliminar push token del backend antes de desloguear
-    await api.delete('/dispositivos').catch(() => {});
+    await api.delete('/dispositivos').catch((err) => console.warn('[Auth] Error eliminando dispositivo:', err?.message));
     await authService.logout();
     set({ usuario: null, token: null });
     router.replace('/(auth)/login');
@@ -101,7 +99,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   recargarUsuario: async () => {
     try {
       const usuario = await authService.getUsuario();
-      set({ usuario });
-    } catch {}
+      if (usuario?.id) set({ usuario });
+    } catch (err: any) {
+      console.warn('[Auth] Error recargando usuario:', err?.message);
+    }
   },
 }));

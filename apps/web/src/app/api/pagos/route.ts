@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const { id: usuarioId, email: emailUsuario, name: nombreUsuario } = session.user;
 
     const montoCOP = PRECIOS[plan];
-    const referencia = `SUB-${usuarioId}-${plan}-${Date.now()}`;
+    const referencia = `SUBS-${usuarioId}-${plan}-${Date.now()}`;
     const montoCentavos = montoCOP * 100;
 
     const firma = generarFirmaIntegridad({ referencia, amountInCents: montoCentavos, currency: 'COP' });

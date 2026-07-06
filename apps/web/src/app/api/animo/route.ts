@@ -1,13 +1,21 @@
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
+import { z } from 'zod';
 import { db } from '@/lib/db/client';
 import { detectarNivelCrisis } from '@mindbridge/ai-clinical/protocols/crisis-protocol';
 import { registrarIncidente, registrarIncidenteAsync } from '@/lib/crisis/incident-logger';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
+
+const AnimoSchema = z.object({
+  valor:    z.number().int().min(1).max(10),
+  fecha:    z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  nota:     z.string().max(280).optional(),
+  contexto: z.string().max(50).optional(),
+  emociones: z.array(z.string()).max(10).default([]),
+});
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado. Inicie sesión.' }, { status: 401 });
   }
 
@@ -15,51 +23,55 @@ export async function GET(req: NextRequest) {
   const dias = Math.min(parseInt(searchParams.get('dias') || '30'), 365);
   const desde = new Date(Date.now() - dias * 86400000);
 
-  const registros = await db.registroAnimo.findMany({
-    where: {
-      usuarioId: session.user.id,
-      fecha: { gte: desde },
-    },
-    orderBy: { fecha: 'desc' },
-    select: { id: true, valor: true, emociones: true, nota: true, contexto: true, fecha: true },
-  });
+  try {
+    const registros = await db.registroAnimo.findMany({
+      where: {
+        usuarioId: user.id,
+        fecha: { gte: desde },
+      },
+      orderBy: { fecha: 'desc' },
+      select: { id: true, valor: true, emociones: true, nota: true, contexto: true, fecha: true },
+    });
 
-  const valores = registros.map(r => r.valor);
-  const promedio = valores.length
-    ? parseFloat((valores.reduce((a, v) => a + v, 0) / valores.length).toFixed(1))
-    : 0;
+    const valores = registros.map(r => r.valor);
+    const promedio = valores.length
+      ? parseFloat((valores.reduce((a, v) => a + v, 0) / valores.length).toFixed(1))
+      : 0;
 
-  return Response.json({
-    registros,
-    estadisticas: {
-      promedio,
-      total: registros.length,
-      mejor: valores.length ? Math.max(...valores) : 0,
-      peor: valores.length ? Math.min(...valores) : 0,
-    },
-  });
+    return Response.json({
+      registros,
+      estadisticas: {
+        promedio,
+        total: registros.length,
+        mejor: valores.length ? Math.max(...valores) : 0,
+        peor: valores.length ? Math.min(...valores) : 0,
+      },
+    });
+  } catch {
+    return Response.json({
+      registros: [],
+      estadisticas: { promedio: 0, total: 0, mejor: 0, peor: 0 },
+    });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado. Inicie sesión.' }, { status: 401 });
   }
 
   try {
-    const { valor, emociones = [], nota, contexto } = await req.json();
-
-    if (!valor || valor < 1 || valor > 10) {
-      return Response.json({ error: 'Valor debe estar entre 1 y 10' }, { status: 400 });
+    const parsed = AnimoSchema.safeParse(await req.json());
+    if (!parsed.success) {
+      return Response.json({ error: 'Datos inválidos', detalles: parsed.error.issues }, { status: 400 });
     }
+    const { valor, fecha, nota, contexto, emociones } = parsed.data;
 
-    // Detección de crisis por valor de ánimo bajo
-    // valor=1 → ALTO, valor=2 → MODERADO
     let nivelCrisisAnimo: 'ALTO' | 'MODERADO' | null = null;
     if (valor === 1) nivelCrisisAnimo = 'ALTO';
     else if (valor === 2) nivelCrisisAnimo = 'MODERADO';
 
-    // Si hay nota de texto, también analizarla
     if (!nivelCrisisAnimo && nota) {
       const evaluacion = detectarNivelCrisis(nota);
       if (evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto') nivelCrisisAnimo = 'ALTO';
@@ -68,8 +80,8 @@ export async function POST(req: NextRequest) {
 
     if (nivelCrisisAnimo === 'ALTO') {
       await registrarIncidente({
-        usuarioId: session.user.id,
-        sesionId:  `animo-${session.user.id}-${Date.now()}`,
+        usuarioId: user.id,
+        sesionId:  `animo-${user.id}-${Date.now()}`,
         nivel:     nivelCrisisAnimo,
         indicadoresDetectados: [`valor_animo=${valor}`],
         fragmentoAnonimizado:  nota ? nota.slice(0, 200) : `Ánimo registrado: ${valor}/10`,
@@ -79,8 +91,8 @@ export async function POST(req: NextRequest) {
       });
     } else if (nivelCrisisAnimo === 'MODERADO') {
       registrarIncidenteAsync({
-        usuarioId: session.user.id,
-        sesionId:  `animo-${session.user.id}-${Date.now()}`,
+        usuarioId: user.id,
+        sesionId:  `animo-${user.id}-${Date.now()}`,
         nivel:     nivelCrisisAnimo,
         indicadoresDetectados: [`valor_animo=${valor}`],
         fragmentoAnonimizado:  nota ? nota.slice(0, 200) : `Ánimo registrado: ${valor}/10`,
@@ -92,11 +104,12 @@ export async function POST(req: NextRequest) {
 
     const registro = await db.registroAnimo.create({
       data: {
-        usuarioId: session.user.id,
+        usuarioId: user.id,
         valor,
         emociones,
-        nota: nota ?? null,
+        nota:     nota ?? null,
         contexto: contexto ?? null,
+        ...(fecha ? { fecha: new Date(fecha + 'T12:00:00') } : {}),
       },
       select: { id: true, valor: true, emociones: true, nota: true, fecha: true },
     });

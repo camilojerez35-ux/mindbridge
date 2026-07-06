@@ -4,10 +4,9 @@
  */
 
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { z } from 'zod';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 
 const CrearResenaSchema = z.object({
   citaId:       z.string().cuid(),
@@ -16,8 +15,8 @@ const CrearResenaSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getAuthUser(req);
+  if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = CrearResenaSchema.safeParse(body);
@@ -27,14 +26,13 @@ export async function POST(req: NextRequest) {
 
   const { citaId, calificacion, comentario } = parsed.data;
 
-  // Verificar que la cita pertenece al usuario y está COMPLETADA
   const cita = await db.cita.findUnique({
     where: { id: citaId },
     select: { id: true, usuarioId: true, psicologoId: true, estado: true, resena: { select: { id: true } } },
   });
 
   if (!cita) return Response.json({ error: 'Cita no encontrada' }, { status: 404 });
-  if (cita.usuarioId !== session.user.id) return Response.json({ error: 'No autorizado' }, { status: 403 });
+  if (cita.usuarioId !== user.id) return Response.json({ error: 'No autorizado' }, { status: 403 });
   if (cita.estado !== 'COMPLETADA') return Response.json({ error: 'Solo puedes reseñar citas completadas' }, { status: 400 });
   if (cita.resena) return Response.json({ error: 'Ya dejaste una reseña para esta cita' }, { status: 409 });
 

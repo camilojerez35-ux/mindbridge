@@ -6,7 +6,7 @@ export default function AuthError({ error, reset }: { error: Error & { digest?: 
   return (
     <div style={{
       minHeight: '100vh', background: '#080f0b', display: 'flex', alignItems: 'center',
-      justifyContent: 'center', fontFamily: 'Inter,system-ui,sans-serif', padding: '24px',
+      justifyContent: 'center', padding: '24px',
     }}>
       <div style={{ textAlign: 'center', maxWidth: '380px' }}>
         <div style={{ fontSize: '40px', marginBottom: '16px' }}>⚠️</div>

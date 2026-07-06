@@ -6,33 +6,15 @@ import {
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
-import { api } from '@/lib/api/client';
+import { testsService } from '@/lib/api/tests';
 import { LoadingSpinner, ScreenHeader } from '@/components';
 
 const { width } = Dimensions.get('window');
 
-interface Pregunta {
-  id: string;
-  texto: string;
-  opciones: { valor: number; texto: string }[];
-}
+import type { TestDetalle, ResultadoTest } from '@/lib/api/tests';
 
-interface Test {
-  id: string;
-  titulo: string;
-  descripcion: string;
-  icono: string;
-  color: string;
-  preguntas: Pregunta[];
-}
-
-interface Resultado {
-  titulo: string;
-  descripcion: string;
-  puntajeTotal: number;
-  puntajeMaximo: number;
-  porcentaje: number;
-}
+type Test = TestDetalle;
+type Resultado = ResultadoTest;
 
 export default function TestScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -57,7 +39,7 @@ export default function TestScreen() {
 
   async function cargarTest() {
     try {
-      const data = await api.get<{ test: Test }>(`/tests?id=${id}`);
+      const data = await testsService.getTest(id ?? '');
       setTest(data.test);
     } catch {
       Alert.alert('Error', 'No se pudo cargar el test', [{ text: 'Volver', onPress: () => router.back() }]);
@@ -82,10 +64,7 @@ export default function TestScreen() {
   async function enviarResultado(resp: Record<string, number>) {
     setEnviando(true);
     try {
-      const data = await api.post<{ resultado: Resultado }>('/tests/resultado', {
-        testId: id,
-        respuestas: resp,
-      });
+      const data = await testsService.enviarRespuestas(id ?? '', resp);
       setResultado(data.resultado);
     } catch (e: any) {
       Alert.alert('Error', e?.mensaje || 'No se pudo guardar el resultado');

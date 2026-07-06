@@ -133,7 +133,7 @@ export default function BlogPage() {
   const resto = articulos.slice(1);
 
   return (
-    <div suppressHydrationWarning style={{ background: '#080f0b', minHeight: '100vh', color: 'white', fontFamily: 'Inter,system-ui,sans-serif' }}>
+    <div suppressHydrationWarning style={{ background: '#080f0b', minHeight: '100vh', color: 'white' }}>
 
       {/* ── NAVBAR ── */}
       <nav suppressHydrationWarning style={{

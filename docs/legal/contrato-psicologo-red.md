@@ -1,12 +1,16 @@
 # CONTRATO DE PRESTACIÓN DE SERVICIOS PROFESIONALES
 ## MindBridge Colombia SAS — Psicólogos de la Red
+### Versión 1.0 — 2026-05-21
 
-> ⚠️ PLANTILLA. Debe ser revisada y aprobada por el abogado consultor antes de firmar.
+> **📋 ESTADO:** Borrador completo. Requiere aprobación de abogado consultor antes de firmar.
+> Campos marcados `⚑` deben completarse por las partes al momento de la firma.
 
 ---
 
-Entre **MindBridge Colombia SAS** (en adelante "LA PLATAFORMA"), y el/la psicólogo/a
-**[NOMBRE COMPLETO]** con tarjeta profesional COLPSIC No. **[NÚMERO]** (en adelante "EL PROFESIONAL"),
+Entre **MindBridge Colombia SAS**, con NIT ⚑ y domicilio en ⚑ Colombia (en adelante "LA PLATAFORMA"),
+representada por ⚑ [Nombre del Representante Legal], y el/la psicólogo/a
+**⚑ [NOMBRE COMPLETO]**, identificado/a con C.C. No. ⚑ [NÚMERO], con tarjeta profesional
+COLPSIC No. **⚑ [NÚMERO]** vigente hasta ⚑ [FECHA], (en adelante "EL PROFESIONAL"),
 se suscribe el presente contrato de prestación de servicios independientes:
 
 ---
@@ -58,10 +62,15 @@ LA PLATAFORMA se obliga a:
 
 ## CLÁUSULA 5 — TARIFAS Y COMISIONES
 
-- Tarifa por sesión de 45 minutos: **$[TARIFA] COP** (fijada por el profesional, revisable semestralmente).
+- Tarifa por sesión de 45 minutos: **$⚑ [TARIFA] COP** (fijada por el profesional, revisable semestralmente con 30 días de aviso).
 - Comisión de la plataforma: **20%** del valor de cada cita completada.
-- Pago neto al PROFESIONAL: **$[TARIFA × 0.80] COP** por cita completada.
-- Los pagos se realizarán mediante transferencia bancaria a la cuenta indicada por EL PROFESIONAL.
+- Pago neto al PROFESIONAL: **$⚑ [TARIFA × 0.80] COP** por cita completada.
+- Los pagos se realizarán mediante transferencia bancaria a:
+  - Banco: ⚑ [BANCO]
+  - Tipo de cuenta: ⚑ [AHORROS / CORRIENTE]
+  - Número de cuenta: ⚑ [NÚMERO]
+  - Titular: ⚑ [NOMBRE TITULAR]
+- El PROFESIONAL es responsable de reportar sus ingresos a la DIAN y pagar los impuestos correspondientes (renta, IVA si aplica). LA PLATAFORMA entregará certificado de pagos anuales.
 
 ---
 
@@ -100,25 +109,46 @@ LA PLATAFORMA puede terminar inmediatamente el contrato en caso de:
 ## CLÁUSULA 9 — LEY APLICABLE Y RESOLUCIÓN DE CONFLICTOS
 
 Este contrato se rige por las leyes de la República de Colombia. Las controversias se
-resolverán mediante conciliación ante la Cámara de Comercio de [CIUDAD], y de no ser
-posible, mediante arbitraje.
+resolverán mediante conciliación ante la Cámara de Comercio de ⚑ [CIUDAD], y de no ser
+posible, mediante arbitraje conforme al Decreto 1829 de 2013.
 
 ---
+
+## CLÁUSULA 10 — TRATAMIENTO DE DATOS PERSONALES
+
+EL PROFESIONAL autoriza a LA PLATAFORMA para tratar sus datos personales (nombre, foto, especialidades, tarjeta profesional) con la finalidad de publicar su perfil en el directorio de psicólogos, conforme a la Ley 1581 de 2012.
+
+---
+
+## CLÁUSULA 11 — AUDITORÍA Y CALIDAD
+
+LA PLATAFORMA realizará auditorías de calidad basadas en:
+- Calificaciones de usuarios (mínimo aceptable: 3.5/5.0)
+- Tasa de asistencia a citas (mínimo aceptable: 95%)
+- Cumplimiento del protocolo de crisis
+
+EL PROFESIONAL recibirá retroalimentación trimestral y tendrá 30 días para corregir indicadores bajo el mínimo antes de que se active la cláusula de terminación.
+
+---
+
+**FIRMAS**
 
 **EL PROFESIONAL declara:**
-- Tener tarjeta COLPSIC No. _____________ vigente hasta: _____________
-- Haber leído y entendido completamente este contrato.
-- Aceptar los protocolos clínicos y de crisis de MindBridge.
+- Tener tarjeta COLPSIC No. ⚑ _______________ vigente hasta: ⚑ _______________
+- Haber leído, comprendido y aceptado este contrato en su totalidad.
+- Aceptar los protocolos clínicos, de crisis y de privacidad de MindBridge.
+- No tener investigaciones disciplinarias activas ante el Tribunal Deontológico de COLPSIC.
 
-Firma: _________________________ Fecha: _____________
-Nombre: _______________________
-C.C.: _________________________
-
-**POR MINDBRIDGE COLOMBIA SAS:**
-Nombre: _______________________
-Cargo: _________________________
-Firma: _________________________ Fecha: _____________
+| | EL PROFESIONAL | POR MINDBRIDGE COLOMBIA SAS |
+|-|---------------|---------------------------|
+| **Nombre** | ⚑ | ⚑ [Representante Legal] |
+| **C.C. / NIT** | ⚑ | ⚑ |
+| **Cargo** | Psicólogo/a independiente | ⚑ [Cargo] |
+| **Firma** | ___________________________ | ___________________________ |
+| **Fecha** | ⚑ | ⚑ |
+| **Ciudad** | ⚑ | ⚑ |
 
 ---
 
-*Plantilla v1.0 — Pendiente aprobación del abogado consultor*
+*Versión 1.0 — MindBridge Colombia SAS — Borrador para revisión legal*
+*Abogado revisor: ⚑ [Nombre] — Fecha de aprobación: ⚑ [Fecha]*

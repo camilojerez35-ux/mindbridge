@@ -8,7 +8,6 @@
       "developmentClient": true,
       "distribution": "internal",
       "android": { "buildType": "apk" },
-      "ios": { "simulator": false },
       "env": {
         "EXPO_PUBLIC_API_URL": "https://mindbridge.co/api"
       }
@@ -16,9 +15,6 @@
     "preview": {
       "distribution": "internal",
       "android": { "buildType": "apk" },
-      "ios": {
-        "enterpriseProvisioning": "adhoc"
-      },
       "env": {
         "EXPO_PUBLIC_API_URL": "https://mindbridge.co/api"
       }
@@ -26,7 +22,6 @@
     "production": {
       "autoIncrement": true,
       "android": { "buildType": "app-bundle" },
-      "ios": {},
       "env": {
         "EXPO_PUBLIC_API_URL": "https://mindbridge.co/api"
       }

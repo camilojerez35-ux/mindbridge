@@ -67,9 +67,7 @@ export function generateEmailVerificationToken(email: string): string {
 
 export function generate2FASecret(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-  let result = '';
-  for (let i = 0; i < 32; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
+  // chars.length === 32 = 2^5, y 256 % 32 === 0 → sin sesgo
+  const bytes = require('crypto').randomBytes(32) as Buffer;
+  return Array.from(bytes).map((b: number) => chars[b % chars.length]).join('');
 }

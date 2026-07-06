@@ -1,15 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+// Fuente canónica — no hardcodear números de emergencia aquí
+import { LINEAS_REGIONALES as _LINEAS_REGIONALES } from '@mindbridge/ai-clinical/config/lineas-emergencia';
 
-const LINEAS_REGIONALES: Record<string, { nombre: string; numero: string }> = {
-  bogota:       { nombre: 'Línea Salud Mental Bogotá', numero: '106' },
-  medellin:     { nombre: 'Línea 106 Antioquia', numero: '106' },
-  cali:         { nombre: 'Secretaría Salud Valle', numero: '6026200000' },
-  barranquilla: { nombre: 'Línea 106 Barranquilla', numero: '106' },
-  bucaramanga:  { nombre: 'Línea Salud Mental Santander', numero: '6076436363' },
-  otra:         { nombre: 'Línea Nacional Salud Mental', numero: '8001225555' },
-};
+const LINEAS_REGIONALES: Record<string, { nombre: string; numero: string }> = Object.fromEntries(
+  Object.entries(_LINEAS_REGIONALES).map(([k, v]) => [k, { nombre: v.nombre, numero: v.numero }])
+);
 
 const CIUDADES = [
   { value: 'bogota',       label: 'Bogotá' },

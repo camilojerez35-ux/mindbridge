@@ -1,0 +1,24 @@
+{
+  "name": "MindBridge Colombia",
+  "short_name": "MindBridge",
+  "description": "Acompañamiento emocional con IA clínica y psicólogos certificados. Disponible 24/7.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#080f0a",
+  "theme_color": "#2dd4bf",
+  "orientation": "portrait-primary",
+  "lang": "es-CO",
+  "categories": ["health", "medical", "lifestyle"],
+  "icons": [
+    { "src": "/favicon.svg",         "type": "image/svg+xml", "sizes": "any",     "purpose": "any maskable" },
+    { "src": "/icon-192.png",         "type": "image/png",     "sizes": "192x192", "purpose": "any" },
+    { "src": "/icon-512.png",         "type": "image/png",     "sizes": "512x512", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "type": "image/png",     "sizes": "180x180", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Chat IA",     "url": "/dashboard/chat",       "description": "Abrir chat con IA clínica" },
+    { "name": "Diario",      "url": "/dashboard/diario",     "description": "Abrir diario emocional" },
+    { "name": "Citas",       "url": "/dashboard/citas",      "description": "Ver mis citas con psicólogo" }
+  ],
+  "screenshots": []
+}

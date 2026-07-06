@@ -20,8 +20,8 @@ export default function ChatListScreen() {
     try {
       const sesion = await crearSesion();
       router.push(`/chat/${sesion.id}`);
-    } catch (e) {
-      console.log('Error creando sesión:', e);
+    } catch (err: any) {
+      console.warn('[Chat] Error creando sesión:', err?.message);
     }
   }
 

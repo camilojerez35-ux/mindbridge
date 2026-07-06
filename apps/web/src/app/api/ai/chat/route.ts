@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 import Anthropic from '@anthropic-ai/sdk';
 import {
   detectarNivelCrisis,
@@ -68,24 +67,78 @@ async function cargarHistorialBD(
       rol: { in: ['user', 'assistant'] },
     },
     orderBy: { createdAt: 'desc' },
-    take: 4,
+    take: 12,
     select: { rol: true, contenido: true },
   });
   return mensajes
     .reverse()
     .map(m => ({
       role: m.rol as 'user' | 'assistant',
-      content: m.contenido.slice(0, 300),
+      content: m.contenido.slice(0, 600),
     }));
 }
 
+async function cargarContextoUsuario(usuarioId: string): Promise<string> {
+  try {
+    const { db } = await import('@/lib/db/client');
+    const hace7Dias = new Date(Date.now() - 7 * 86_400_000);
+
+    const [usuario, animosRecientes, entradasRecientes] = await Promise.all([
+      db.usuario.findUnique({
+        where: { id: usuarioId },
+        select: { nombre: true, motivoConsulta: true },
+      }),
+      db.registroAnimo.findMany({
+        where: { usuarioId, fecha: { gte: hace7Dias } },
+        orderBy: { fecha: 'desc' },
+        take: 5,
+        select: { valor: true, fecha: true },
+      }),
+      db.entradaDiario.findMany({
+        where: { usuarioId },
+        orderBy: { createdAt: 'desc' },
+        take: 3,
+        select: { emociones: true, sentimientos: true, createdAt: true },
+      }),
+    ]);
+
+    const partes: string[] = [];
+
+    if (usuario?.nombre) {
+      partes.push(`Nombre del usuario: ${usuario.nombre}`);
+    }
+    if (usuario?.motivoConsulta) {
+      partes.push(`Motivo de consulta inicial: ${usuario.motivoConsulta}`);
+    }
+    if (animosRecientes.length > 0) {
+      const prom = (animosRecientes.reduce((a, r) => a + r.valor, 0) / animosRecientes.length).toFixed(1);
+      const ultimo = animosRecientes[0].valor;
+      partes.push(`Ánimo últimos 7 días: promedio ${prom}/10. Último registro: ${ultimo}/10.`);
+    }
+    if (entradasRecientes.length > 0) {
+      const emociones = entradasRecientes
+        .flatMap(e => [...((e.emociones as string[]) ?? []), ...((e.sentimientos as string[]) ?? [])])
+        .filter(Boolean)
+        .slice(0, 8);
+      if (emociones.length > 0) {
+        partes.push(`Emociones recientes registradas: ${emociones.join(', ')}.`);
+      }
+    }
+
+    if (partes.length === 0) return '';
+    return '\n\nCONTEXTO DEL USUARIO (usa esto para personalizar, no lo menciones directamente):\n' + partes.join('\n');
+  } catch {
+    return '';
+  }
+}
+
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado. Inicie sesión.' }, { status: 401 });
   }
 
-  const dentroDelLimite = await checkRateLimit(session.user.id);
+  const dentroDelLimite = await checkRateLimit(user.id);
   if (!dentroDelLimite) {
     return Response.json(
       { error: 'Límite de mensajes alcanzado. Intenta de nuevo en un minuto.' },
@@ -95,7 +148,7 @@ export async function POST(req: NextRequest) {
 
   try {
     // No se acepta historial del cliente — se carga desde BD (fix: prompt injection)
-    const { mensaje, sesionId } = await req.json();
+    const { mensaje, sesionId, contextoPractica } = await req.json();
 
     if (!mensaje?.trim()) {
       return Response.json({ error: 'Mensaje vacío' }, { status: 400 });
@@ -107,10 +160,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const evaluacion = detectarNivelCrisis(mensaje);
+    const evaluacion = mensaje === '[INICIO_PRACTICA]'
+      ? { nivel: 'ninguno' as const, indicadores: [], registrarIncidente: false, escalarAPsicologo: false }
+      : detectarNivelCrisis(mensaje);
 
     const datosIncidente: DatosIncidente = {
-      usuarioId: session.user.id,
+      usuarioId: user.id,
       sesionId: sesionId ?? 'sin-sesion',
       nivel: evaluacion.nivel,
       indicadoresDetectados: evaluacion.indicadores,
@@ -164,17 +219,32 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Historial cargado desde BD — nunca desde el cliente
-    const mensajesHistorial = await cargarHistorialBD(sesionId, session.user.id);
+    // Historial y contexto cargados desde BD — nunca desde el cliente
+    const [mensajesHistorial, contextoUsuario] = await Promise.all([
+      cargarHistorialBD(sesionId, user.id),
+      cargarContextoUsuario(user.id),
+    ]);
 
-    let systemPrompt = SYSTEM_PROMPT_LITE;
+    let systemPrompt = SYSTEM_PROMPT_LITE + contextoUsuario;
+
     if (evaluacion.nivel === 'moderado') {
-      systemPrompt += '\n\nALERTA: El usuario muestra malestar moderado. Prioriza escucha activa y ofrece una técnica de regulación concreta si es oportuno.';
+      systemPrompt += '\n\nALERTA CLÍNICA: El usuario muestra malestar moderado en este mensaje. Aplica escucha activa profunda. Valida primero, sin apresurarte a soluciones. Si el momento es oportuno, ofrece una técnica de regulación concreta paso a paso.';
+    }
+    if (evaluacion.nivel === 'bajo') {
+      systemPrompt += '\n\nNOTA: Hay indicadores leves de malestar. Profundiza con curiosidad genuina antes de ofrecer recursos.';
+    }
+    if (contextoPractica) {
+      const esInicioPractica = mensaje === '[INICIO_PRACTICA]';
+      systemPrompt += `\n\nCONTEXTO DE PRÁCTICA GUIADA: ${contextoPractica}\n\n${
+        esInicioPractica
+          ? 'El usuario acaba de terminar la lección y quiere practicar. Salúdalo brevemente y haz la primera pregunta de práctica de forma directa y cálida.'
+          : 'Adapta tu respuesta para acompañar esta práctica específica.'
+      }`;
     }
 
     const response = await anthropic.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 500,
+      model: 'claude-sonnet-4-6',
+      max_tokens: 700,
       system: systemPrompt,
       messages: [
         ...mensajesHistorial,

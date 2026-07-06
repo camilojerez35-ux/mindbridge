@@ -35,8 +35,31 @@ declare module 'next-auth/jwt' {
   }
 }
 
+const DEV_USER = {
+  id: 'dev-admin-id',
+  email: 'camilojerez35@gmail.com',
+  name: 'Camilo Jerez (Dev)',
+  image: null,
+  plan: 'EMPRESARIAL',
+  rol: 'SUPERADMIN',
+  consentimientoDatos: true,
+};
+
 export const authOptions: AuthOptions = {
   providers: [
+    // Dev-only: bypass sin DB — solo activo si NODE_ENV=development Y DEV_BYPASS_ENABLED=true
+    ...(process.env.NODE_ENV === 'development' && process.env.DEV_BYPASS_ENABLED === 'true' ? [
+      CredentialsProvider({
+        id: 'dev-bypass',
+        name: 'Dev Bypass',
+        credentials: { secret: { label: 'secret', type: 'text' } },
+        async authorize(credentials) {
+          if (credentials?.secret === 'dev-mindbridge-2026') return DEV_USER;
+          return null;
+        },
+      }),
+    ] : []),
+
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -122,13 +145,13 @@ export const authOptions: AuthOptions = {
 
       // Refresca rol y plan desde BD cada 5 minutos, no en cada request
       const REFRESH_INTERVAL = 5 * 60 * 1000;
-      if (!user && !account && token.id) {
+      if (!user && !account && token.id && token.id !== 'dev-admin-id') {
         const now = Date.now();
         if (!token.lastRefresh || now - token.lastRefresh > REFRESH_INTERVAL) {
           const fresco = await db.usuario.findUnique({
             where: { id: token.id },
             select: { rol: true, planActual: true },
-          });
+          }).catch(() => null);
           if (fresco) {
             token.rol = fresco.rol;
             token.plan = fresco.planActual;
@@ -172,7 +195,7 @@ export const authOptions: AuthOptions = {
 
   events: {
     async signIn({ user }) {
-      if (user.id) {
+      if (user.id && user.id !== 'dev-admin-id') {
         await db.usuario.update({
           where: { id: user.id },
           data: { ultimoAcceso: new Date() },

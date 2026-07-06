@@ -30,7 +30,12 @@ export function verificarTokenEmail(
     return { valido: false, razon: 'El enlace ha expirado. Solicita uno nuevo.' };
   }
   const esperado = firmar(`verify:${email}:${ts}`);
-  const valido = crypto.timingSafeEqual(Buffer.from(token, 'hex'), Buffer.from(esperado, 'hex'));
+  const tokenBuf = Buffer.from(token, 'hex');
+  const esperadoBuf = Buffer.from(esperado, 'hex');
+  if (tokenBuf.length !== esperadoBuf.length) {
+    return { valido: false, razon: 'Enlace inválido o manipulado.' };
+  }
+  const valido = crypto.timingSafeEqual(tokenBuf, esperadoBuf);
   return valido ? { valido: true } : { valido: false, razon: 'Enlace inválido o manipulado.' };
 }
 
@@ -53,6 +58,11 @@ export function verificarTokenReset(
     return { valido: false, razon: 'El enlace ha expirado (válido 1 hora). Solicita uno nuevo.' };
   }
   const esperado = firmar(`reset:${email}:${ts}`);
-  const valido = crypto.timingSafeEqual(Buffer.from(token, 'hex'), Buffer.from(esperado, 'hex'));
+  const tokenBuf = Buffer.from(token, 'hex');
+  const esperadoBuf = Buffer.from(esperado, 'hex');
+  if (tokenBuf.length !== esperadoBuf.length) {
+    return { valido: false, razon: 'Enlace inválido o manipulado.' };
+  }
+  const valido = crypto.timingSafeEqual(tokenBuf, esperadoBuf);
   return valido ? { valido: true } : { valido: false, razon: 'Enlace inválido o manipulado.' };
 }

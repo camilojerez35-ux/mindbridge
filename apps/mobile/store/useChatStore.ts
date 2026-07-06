@@ -27,13 +27,17 @@ export const useChatStore = create<ChatState>((set, get) => ({
     try {
       const sesiones = await chatService.getSesiones();
       set({ sesiones });
+    } catch (err: any) {
+      console.warn('[Chat] Error cargando sesiones:', err?.message);
     } finally {
       set({ cargandoSesiones: false });
     }
   },
 
   crearSesion: async () => {
-    const sesion = await chatService.crearSesion();
+    const r = await chatService.crearSesion() as any;
+    const sesion = r && 'id' in r ? r : r?.sesion;
+    if (!sesion?.id) throw new Error('Respuesta de sesión inválida');
     set(state => ({ sesiones: [sesion, ...state.sesiones] }));
     return sesion;
   },

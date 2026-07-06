@@ -1,0 +1,43 @@
+# MindBridge — dockerignore (monorepo root)
+# Excluir archivos que no deben enviarse al build context de Docker
+
+# Dependencias — se instalan dentro del contenedor
+node_modules
+**/node_modules
+
+# Outputs de build locales
+**/.next
+**/dist
+**/build
+**/.turbo
+
+# Archivos de entorno con secretos
+.env
+.env.*
+!.env.example
+**/. env.local
+**/.env.*.local
+
+# Git y CI
+.git
+.github
+**/.gitkeep
+
+# Docs y archivos de desarrollo
+docs/
+*.md
+!README.md
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests (no necesarios en la imagen)
+tests/
+**/*.test.ts
+**/*.spec.ts
+coverage/
