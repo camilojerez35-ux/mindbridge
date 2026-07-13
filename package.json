@@ -9,6 +9,7 @@
     "backend"
   ],
   "scripts": {
+    "postinstall": "npm run -w packages/database generate",
     "dev": "turbo run dev",
     "build": "turbo run build",
     "start": "turbo run start",
