@@ -14,7 +14,7 @@ export interface LoginResponse {
 
 export const authService = {
   async login(email: string, password: string): Promise<LoginResponse> {
-    const data = await api.post<LoginResponse>('/auth/signin', { email, password });
+    const data = await api.post<LoginResponse>('/auth/mobile-login', { email, password });
     await SecureStore.setItemAsync('session_token', data.token);
     await SecureStore.setItemAsync('user_id', data.usuario.id);
     await SecureStore.setItemAsync('user_plan', data.usuario.plan);

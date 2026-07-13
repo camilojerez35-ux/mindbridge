@@ -30,7 +30,7 @@ describe('authService', () => {
       mockApi.post.mockResolvedValue({ token: 'x', usuario: { id: '1', plan: 'GRATIS' } });
       mockStore.setItemAsync.mockResolvedValue();
       await authService.login('user@test.co', 'secret');
-      expect(mockApi.post).toHaveBeenCalledWith('/auth/signin', { email: 'user@test.co', password: 'secret' });
+      expect(mockApi.post).toHaveBeenCalledWith('/auth/mobile-login', { email: 'user@test.co', password: 'secret' });
     });
   });
 

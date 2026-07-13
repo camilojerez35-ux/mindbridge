@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('[POST /api/auth/signin]', error);
+    console.error('[POST /api/auth/mobile-login]', error);
     return NextResponse.json({ mensaje: 'Error interno del servidor' }, { status: 500 });
   }
 }
