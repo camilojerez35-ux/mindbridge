@@ -32,6 +32,7 @@ declare module 'next-auth/jwt' {
     rol: string;
     consentimientoDatos: boolean;
     lastRefresh?: number;
+    invalidado?: boolean;
   }
 }
 
@@ -143,16 +144,22 @@ export const authOptions: AuthOptions = {
         token.consentimientoDatos = user.consentimientoDatos ?? false;
       }
 
-      // Refresca rol y plan desde BD cada 5 minutos, no en cada request
+      // Refresca rol y plan desde BD cada 5 minutos, no en cada request.
+      // También invalida la sesión si la contraseña cambió después de emitido el token
+      // (fuerza logout en todos los dispositivos tras un cambio/reset de contraseña).
       const REFRESH_INTERVAL = 5 * 60 * 1000;
       if (!user && !account && token.id && token.id !== 'dev-admin-id') {
         const now = Date.now();
         if (!token.lastRefresh || now - token.lastRefresh > REFRESH_INTERVAL) {
           const fresco = await db.usuario.findUnique({
             where: { id: token.id },
-            select: { rol: true, planActual: true },
+            select: { rol: true, planActual: true, passwordChangedAt: true },
           }).catch(() => null);
           if (fresco) {
+            const iat = (token.iat as number | undefined) ?? 0;
+            if (fresco.passwordChangedAt && fresco.passwordChangedAt.getTime() > iat * 1000) {
+              token.invalidado = true;
+            }
             token.rol = fresco.rol;
             token.plan = fresco.planActual;
             token.lastRefresh = now;
@@ -183,6 +190,10 @@ export const authOptions: AuthOptions = {
     },
 
     async session({ session, token }) {
+      if (token.invalidado) {
+        (session as any).user = null;
+        return session;
+      }
       if (session.user) {
         session.user.id = token.id;
         session.user.plan = token.plan;

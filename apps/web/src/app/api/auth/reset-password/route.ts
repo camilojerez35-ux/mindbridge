@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     await db.usuario.update({
       where: { id: usuario.id },
-      data:  { hashedPassword: hash },
+      data:  { hashedPassword: hash, passwordChangedAt: new Date() },
     });
 
     return Response.json({ ok: true });

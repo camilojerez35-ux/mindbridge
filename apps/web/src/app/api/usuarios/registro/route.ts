@@ -6,8 +6,7 @@ import { env } from '@/lib/env';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { rateLimits } from '@/lib/rate-limit';
-
-const EDAD_MINIMA = 18;
+import { EDAD_MINIMA, calcularEdad } from '@/lib/auth/edad';
 
 const schema = z.object({
   nombre: z.string().min(2).max(50),
@@ -28,14 +27,6 @@ const schema = z.object({
   aceptaUsoIA: z.literal(true, { errorMap: () => ({ message: 'Requerido' }) }),
   aceptaMarketing: z.boolean().optional().default(false),
 });
-
-function calcularEdad(fechaNacimiento: Date): number {
-  const hoy = new Date();
-  let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
-  const cumpleaniosEsteAnio = new Date(hoy.getFullYear(), fechaNacimiento.getMonth(), fechaNacimiento.getDate());
-  if (hoy < cumpleaniosEsteAnio) edad--;
-  return edad;
-}
 
 export async function POST(req: NextRequest) {
   const ip = req.ip ?? req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown';

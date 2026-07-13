@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     const hash = await bcrypt.hash(hashedPasswordNueva, 12);
     await db.usuario.update({
       where: { id: user.id },
-      data:  { hashedPassword: hash },
+      data:  { hashedPassword: hash, passwordChangedAt: new Date() },
     });
 
     return Response.json({ exito: true });

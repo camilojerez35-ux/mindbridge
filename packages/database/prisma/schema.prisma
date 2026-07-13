@@ -27,7 +27,8 @@ model Usuario {
   fechaNacimiento   DateTime?
   imagen            String?
   hashedPassword    String?
-  
+  passwordChangedAt DateTime?
+
   // Consentimiento (Ley 1581/2012 — OBLIGATORIO)
   consentimientoDatos     Boolean   @default(false)
   fechaConsentimiento     DateTime?

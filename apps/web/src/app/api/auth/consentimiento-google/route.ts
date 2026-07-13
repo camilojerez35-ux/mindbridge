@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { VERSIONES_DOCUMENTOS } from '@/lib/legal/versiones';
+import { EDAD_MINIMA, calcularEdad } from '@/lib/auth/edad';
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -10,12 +11,29 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });
   }
 
-  const { aceptaPrivacidad, aceptaIA, aceptaMarketing } = await req.json();
+  const { aceptaPrivacidad, aceptaIA, aceptaMarketing, fechaNacimiento: fnStr } = await req.json();
 
   if (!aceptaPrivacidad || !aceptaIA) {
     return Response.json(
       { error: 'Debes aceptar la política de privacidad y el uso de IA para continuar' },
       { status: 400 }
+    );
+  }
+
+  if (typeof fnStr !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(fnStr)) {
+    return Response.json({ error: 'Fecha de nacimiento requerida (AAAA-MM-DD)' }, { status: 400 });
+  }
+  const fechaNacimiento = new Date(fnStr);
+  if (isNaN(fechaNacimiento.getTime())) {
+    return Response.json({ error: 'Fecha de nacimiento inválida' }, { status: 400 });
+  }
+  if (calcularEdad(fechaNacimiento) < EDAD_MINIMA) {
+    return Response.json(
+      {
+        error: `MindBridge está disponible solo para personas mayores de ${EDAD_MINIMA} años. Si necesitas apoyo emocional, llama a la Línea 106 (gratuita, 24/7).`,
+        codigo: 'MENOR_DE_EDAD',
+      },
+      { status: 400 },
     );
   }
 
@@ -29,6 +47,7 @@ export async function POST(req: NextRequest) {
     db.usuario.update({
       where: { id: session.user.id },
       data: {
+        fechaNacimiento,
         consentimientoDatos: true,
         fechaConsentimiento: ahora,
         consentimientoIA: true,

@@ -12,6 +12,7 @@ export default function ConsentimientoGooglePage() {
   const { update } = useSession();
   const router = useRouter();
   const [checks, setChecks] = useState({ privacidad: false, ia: false, marketing: false });
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
@@ -23,6 +24,7 @@ export default function ConsentimientoGooglePage() {
     const errs: Record<string, string> = {};
     if (!checks.privacidad) errs.privacidad = 'Requerido para continuar (Ley 1581/2012)';
     if (!checks.ia)         errs.ia = 'Requerido para continuar (Resolución 2654/2019)';
+    if (!fechaNacimiento)   errs.fechaNacimiento = 'Requerido para continuar';
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
 
     setLoading(true);
@@ -34,6 +36,7 @@ export default function ConsentimientoGooglePage() {
           aceptaPrivacidad: checks.privacidad,
           aceptaIA: checks.ia,
           aceptaMarketing: checks.marketing,
+          fechaNacimiento,
         }),
       });
 
@@ -89,6 +92,25 @@ export default function ConsentimientoGooglePage() {
           )}
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', fontSize: '13px', color: '#8aab96', marginBottom: '6px' }}>
+                Fecha de nacimiento <span style={{ color: '#f87171' }}>*</span>
+              </label>
+              <input
+                type="date"
+                value={fechaNacimiento}
+                onChange={(e) => setFechaNacimiento(e.target.value)}
+                max={new Date().toISOString().split('T')[0]}
+                style={{ width: '100%', padding: '12px', borderRadius: '8px', border: `1px solid ${errors.fechaNacimiento ? '#f87171' : '#1a2e1f'}`, background: 'rgba(255,255,255,0.03)', color: 'white', fontSize: '14px' }}
+              />
+              {errors.fechaNacimiento && (
+                <p style={{ fontSize: '11px', color: '#f87171', marginTop: '4px' }}>{errors.fechaNacimiento}</p>
+              )}
+              <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '4px' }}>
+                MindBridge está disponible solo para mayores de 18 años.
+              </p>
+            </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '24px' }}>
 

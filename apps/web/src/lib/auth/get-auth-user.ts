@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth-options';
+import { db } from '@/lib/db/client';
 import jwt from 'jsonwebtoken';
 
 export interface AuthUser {
@@ -9,6 +10,20 @@ export interface AuthUser {
   nombre: string;
   plan: string;
   rol: string;
+}
+
+/**
+ * Un token/sesión emitido antes de un cambio de contraseña queda invalidado,
+ * sin importar su fecha de expiración (logout forzado en todos los dispositivos).
+ */
+async function emitidoAntesDeCambioPassword(userId: string, iatSegundos?: number): Promise<boolean> {
+  if (!iatSegundos) return false;
+  const usuario = await db.usuario.findUnique({
+    where: { id: userId },
+    select: { passwordChangedAt: true },
+  }).catch(() => null);
+  if (!usuario?.passwordChangedAt) return false;
+  return iatSegundos * 1000 < usuario.passwordChangedAt.getTime();
 }
 
 /**
@@ -21,14 +36,18 @@ export async function getAuthUser(req: NextRequest): Promise<AuthUser | null> {
   if (authHeader?.startsWith('Bearer ')) {
     const token = authHeader.slice(7);
     try {
-      const payload = jwt.verify(token, process.env.NEXTAUTH_SECRET!) as AuthUser;
+      const payload = jwt.verify(token, process.env.NEXTAUTH_SECRET!) as AuthUser & { iat?: number };
+      if (payload.id !== 'dev-admin-id' && await emitidoAntesDeCambioPassword(payload.id, payload.iat)) {
+        return null;
+      }
       return payload;
     } catch {
       return null;
     }
   }
 
-  // 2. Fallback a sesión NextAuth (web)
+  // 2. Fallback a sesión NextAuth (web) — la invalidación tras cambio de contraseña
+  // se aplica en el refresco periódico del callback jwt (auth-options.ts)
   const session = await getServerSession(authOptions);
   if (!session?.user) return null;
 
