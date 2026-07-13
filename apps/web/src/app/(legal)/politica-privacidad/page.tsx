@@ -84,7 +84,7 @@ export default function PoliticaPrivacidadPage() {
             <li><strong className="text-white">Anthropic (Claude API):</strong> contenido de chat para generar respuestas de IA</li>
             <li><strong className="text-white">Wompi:</strong> datos de transacción para procesar pagos</li>
             <li><strong className="text-white">Resend:</strong> correo para notificaciones del servicio</li>
-            <li><strong className="text-white">Supabase:</strong> almacenamiento cifrado de datos</li>
+            <li><strong className="text-white">Neon:</strong> almacenamiento cifrado de datos</li>
             <li><strong className="text-white">PostHog:</strong> analytics (solo con consentimiento)</li>
           </ul>
           <p className="mt-3 text-amber-400 font-medium">Nunca vendemos datos personales a terceros con fines publicitarios.</p>
@@ -114,7 +114,7 @@ export default function PoliticaPrivacidadPage() {
 
         <Seccion titulo="9. Transferencias Internacionales">
           <p>
-            Los datos de conversación se transfieren a servidores de Anthropic Inc. y Supabase Inc. (EE.UU.)
+            Los datos de conversación se transfieren a servidores de Anthropic Inc. y Neon Inc. (EE.UU.)
             bajo cláusulas contractuales tipo que garantizan niveles de protección equivalentes a la Ley 1581/2012.
           </p>
         </Seccion>

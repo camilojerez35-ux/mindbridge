@@ -100,7 +100,7 @@ export default function TratamientoDatosPage() {
               <tbody className="divide-y divide-white/5">
                 {[
                   ['Anthropic (Claude API)', 'Respuestas de IA', 'EE.UU.'],
-                  ['Supabase Inc.', 'Base de datos cifrada', 'EE.UU.'],
+                  ['Neon Inc.', 'Base de datos cifrada', 'EE.UU.'],
                   ['Resend Inc.', 'Envío de emails', 'EE.UU.'],
                   ['Wompi S.A.S.', 'Procesamiento de pagos', 'Colombia'],
                   ['Upstash Inc.', 'Rate limiting (Redis)', 'EE.UU.'],

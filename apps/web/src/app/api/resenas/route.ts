@@ -62,8 +62,11 @@ export async function GET(req: NextRequest) {
   const citaId      = searchParams.get('citaId');
 
   if (citaId) {
-    const resena = await db.resena.findUnique({
-      where: { citaId },
+    const user = await getAuthUser(req);
+    if (!user) return Response.json({ error: 'No autenticado' }, { status: 401 });
+
+    const resena = await db.resena.findFirst({
+      where: { citaId, cita: { usuarioId: user.id } },
       select: { id: true, calificacion: true, comentario: true, createdAt: true },
     });
     return Response.json({ resena });
