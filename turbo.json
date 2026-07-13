@@ -26,7 +26,14 @@
         "WOMPI_SANDBOX",
         "SENTRY_DSN",
         "NEXT_PUBLIC_SENTRY_DSN",
-        "NEXT_PUBLIC_APP_ENV"
+        "NEXT_PUBLIC_APP_ENV",
+        "REDIS_URL",
+        "KV_REST_API_TOKEN",
+        "KV_REST_API_READ_ONLY_TOKEN",
+        "KV_URL",
+        "KV_REST_API_URL",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN"
       ]
     },
     "lint": {},
