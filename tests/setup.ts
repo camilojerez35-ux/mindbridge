@@ -4,6 +4,11 @@
  */
 import { vi } from 'vitest';
 
+// ── Variables de entorno requeridas por módulos importados en tests ──
+process.env.ENCRYPTION_KEY ??= '0'.repeat(64); // 32 bytes hex — solo para tests
+process.env.NEXTAUTH_SECRET ??= 'test-secret-nextauth';
+process.env.JWT_SECRET ??= 'test-secret-jwt';
+
 // ── Shim de next/server ───────────────────────────────────────────
 vi.mock('next/server', () => {
   class NextRequest extends Request {

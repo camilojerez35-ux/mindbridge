@@ -79,7 +79,7 @@ describe('GET /api/chat/sesiones', () => {
     expect(Array.isArray(data)).toBe(true);
     expect(data[0]).toHaveProperty('id');
     expect(data[0]).toHaveProperty('titulo');
-    expect(data[0]).toHaveProperty('fecha');
+    expect(data[0]).toHaveProperty('creadaEn');
     expect(data[0]).toHaveProperty('mensajes');
   });
 
@@ -163,7 +163,7 @@ describe('GET /api/chat/sesiones/[id]', () => {
     expect(data.mensajes.length).toBe(2);
     expect(data.mensajes[0]).toHaveProperty('rol');
     expect(data.mensajes[0]).toHaveProperty('contenido');
-    expect(data.mensajes[0]).toHaveProperty('timestamp');
+    expect(data.mensajes[0]).toHaveProperty('creadoEn');
   });
 
   it('devuelve 404 para sesión de otro usuario', async () => {

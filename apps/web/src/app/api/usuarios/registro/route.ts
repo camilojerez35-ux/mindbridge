@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server';
 import { db } from '@/lib/db/client';
-import { enviarEmail } from '@/lib/email/confirmaciones';
+import { enviarVerificacionEmail } from '@/lib/email/confirmaciones';
+import { generarTokenVerificacion } from '@/lib/email/tokens';
+import { env } from '@/lib/env';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { rateLimits } from '@/lib/rate-limit';
@@ -97,11 +99,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    await enviarEmail({
-      to: email,
-      subject: 'Bienvenido a MindBridge — verifica tu cuenta',
-      text: `Hola ${nombre}, gracias por registrarte en MindBridge. En breve recibirás el enlace de verificación.`,
-      html: `<p>Hola <strong>${nombre}</strong>, gracias por registrarte en MindBridge Colombia.<br>Pronto recibirás el enlace para verificar tu cuenta.</p>`,
+    const { token, ts } = generarTokenVerificacion(email);
+    const params = new URLSearchParams({ email, token, ts: String(ts) });
+    const urlVerificacion = `${env.APP_URL}/api/auth/verificar-email?${params}`;
+
+    await enviarVerificacionEmail({
+      email,
+      nombre,
+      token,
+      url: urlVerificacion,
     });
 
     return Response.json(
