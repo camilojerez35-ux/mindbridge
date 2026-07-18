@@ -25,7 +25,7 @@ const CATEGORIAS_CONSEJO = [
 export function construirPromptConsejo(ctx: ContextoUsuario): string {
   const partes: string[] = [];
 
-  partes.push(`Genera un "Consejo del día" personalizado para ${ctx.nombre}, un usuario de MindBridge (app de bienestar emocional en Colombia).`);
+  partes.push(`Genera un "Consejo del día" personalizado para ${ctx.nombre}, un usuario de MenteBridge (app de bienestar emocional en Colombia).`);
 
   if (Object.keys(ctx.perfilPersonalidad).length > 0) {
     partes.push(`\nPerfil de personalidad basado en autoevaluaciones completadas:`);

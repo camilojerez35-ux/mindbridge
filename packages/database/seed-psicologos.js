@@ -7,7 +7,7 @@ async function main() {
     {
       nombre: 'Laura',
       apellido: 'Martínez',
-      email: 'laura.martinez@mindbridge.co',
+      email: 'laura.martinez@mentebridge.com',
       especialidades: ['Ansiedad', 'Depresión', 'Terapia cognitiva'],
       bio: 'Psicóloga clínica con 8 años de experiencia. Especializada en terapia cognitivo-conductual para ansiedad y depresión.',
       tarifa: 120000,
@@ -16,7 +16,7 @@ async function main() {
     {
       nombre: 'Carlos',
       apellido: 'Rodríguez',
-      email: 'carlos.rodriguez@mindbridge.co',
+      email: 'carlos.rodriguez@mentebridge.com',
       especialidades: ['Trauma', 'EMDR', 'Estrés postraumático'],
       bio: 'Especialista en trauma y EMDR. Ayudo a personas a superar experiencias difíciles y recuperar su bienestar.',
       tarifa: 150000,
@@ -25,7 +25,7 @@ async function main() {
     {
       nombre: 'Ana',
       apellido: 'Gómez',
-      email: 'ana.gomez@mindbridge.co',
+      email: 'ana.gomez@mentebridge.com',
       especialidades: ['Parejas', 'Familia', 'Comunicación'],
       bio: 'Terapeuta de pareja y familia con enfoque sistémico. Acompaño procesos de cambio en relaciones.',
       tarifa: 130000,
@@ -34,7 +34,7 @@ async function main() {
     {
       nombre: 'Diego',
       apellido: 'Herrera',
-      email: 'diego.herrera@mindbridge.co',
+      email: 'diego.herrera@mentebridge.com',
       especialidades: ['Adolescentes', 'Autoestima', 'Identidad'],
       bio: 'Psicólogo enfocado en jóvenes y adultos jóvenes. Trabajo temas de identidad, autoestima y desarrollo personal.',
       tarifa: 100000,

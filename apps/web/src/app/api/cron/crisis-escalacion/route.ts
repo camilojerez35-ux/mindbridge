@@ -109,7 +109,7 @@ async function escalarIncidente(
 
     if (!psicologoUsuario?.email) return;
 
-    const baseUrl = process.env.NEXTAUTH_URL ?? 'https://mindbridge.co';
+    const baseUrl = process.env.NEXTAUTH_URL ?? 'https://mentebridge.com';
     const urlConfirmacion = `${baseUrl}/api/crisis/confirmar/${tokenConfirmacion}`;
 
     const { enviarEmail } = await import('@/lib/email/confirmaciones');

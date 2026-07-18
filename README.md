@@ -1,4 +1,4 @@
-# 🇨🇴 MindBridge — Plataforma de Salud Mental con IA + Psicólogos
+# 🇨🇴 MenteBridge — Plataforma de Salud Mental con IA + Psicólogos
 
 > Plataforma SaaS de bienestar emocional para Colombia, impulsada por la API de Claude (Anthropic) y conectada con psicólogos profesionales verificados.
 
@@ -6,7 +6,7 @@
 
 ## 📋 Descripción
 
-MindBridge es una plataforma de acceso económico que combina:
+MenteBridge es una plataforma de acceso económico que combina:
 
 1. **IA Especializada en Salud Mental** — disponible 24/7, empática, clínicamente fundamentada en TCC/ACT, impulsada por Claude API.
 2. **Red de Psicólogos Verificados** — teleconsulta con profesionales habilitados en Colombia (COLPSIC), pago por sesión.
@@ -118,4 +118,4 @@ Ver `infrastructure/env/.env.example` para la lista completa.
 
 ## 📜 Licencia
 
-Propietaria — MindBridge Colombia SAS © 2026. Todos los derechos reservados.
+Propietaria — MenteBridge Colombia SAS © 2026. Todos los derechos reservados.

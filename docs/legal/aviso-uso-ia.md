@@ -1,14 +1,14 @@
 # AVISO DE USO DE INTELIGENCIA ARTIFICIAL EN SALUD MENTAL
-## MindBridge Colombia SAS
+## MenteBridge Colombia SAS
 ### Versión 1.0 — Vigente desde: 2026-05-21
 
 *Documento independiente exigido por la Resolución 2654 de 2019 del Ministerio de Salud y Protección Social de Colombia — Artículo sobre uso de tecnologías en telesalud.*
 
 ---
 
-## ¿QUÉ ES EL ASISTENTE DE IA DE MINDBRIDGE?
+## ¿QUÉ ES EL ASISTENTE DE IA DE MENTEBRIDGE?
 
-El asistente de MindBridge es un programa de **Inteligencia Artificial (IA)** diseñado para
+El asistente de MenteBridge es un programa de **Inteligencia Artificial (IA)** diseñado para
 brindar apoyo emocional, psicoeducación y acompañamiento en el bienestar mental.
 
 **El asistente de IA:**
@@ -29,13 +29,13 @@ brindar apoyo emocional, psicoeducación y acompañamiento en el bienestar menta
 
 ## TECNOLOGÍA UTILIZADA
 
-El asistente de IA de MindBridge está construido sobre modelos de lenguaje de gran escala
+El asistente de IA de MenteBridge está construido sobre modelos de lenguaje de gran escala
 (LLM) provistos por **Anthropic PBC**, empresa estadounidense especializada en IA de seguridad.
 
 - **Modelo:** Claude (Anthropic) — versión actualizada periódicamente
 - **Supervisión:** Los protocolos clínicos son validados por psicólogos colombianos certificados por COLPSIC
-- **Entrenamiento específico:** Los prompts y guías clínicas son configurados por MindBridge
-- **Datos de entrenamiento:** Las conversaciones de los usuarios de MindBridge **no se usan** para entrenar modelos de Anthropic (conforme a su política de API)
+- **Entrenamiento específico:** Los prompts y guías clínicas son configurados por MenteBridge
+- **Datos de entrenamiento:** Las conversaciones de los usuarios de MenteBridge **no se usan** para entrenar modelos de Anthropic (conforme a su política de API)
 
 ---
 
@@ -80,7 +80,7 @@ Como usuario, es importante que conozca las limitaciones de cualquier sistema de
 
 ## CONSENTIMIENTO PARA USO DE IA
 
-Al usar el asistente de IA de MindBridge, usted:
+Al usar el asistente de IA de MenteBridge, usted:
 
 - ✅ Comprende que el asistente es un programa informático, no un profesional de la salud
 - ✅ Acepta que sus conversaciones se almacenan de forma segura y cifrada
@@ -94,7 +94,7 @@ Al usar el asistente de IA de MindBridge, usted:
 
 Los protocolos del asistente de IA son supervisados por:
 
-- **Psicólogo/a Co-Fundador/a** de MindBridge (validación clínica inicial)
+- **Psicólogo/a Co-Fundador/a** de MenteBridge (validación clínica inicial)
 - Revisión periódica por el Comité Clínico (⚑ constituir formalmente antes del lanzamiento)
 - Auditoría mensual de incidentes de crisis y resultados
 
@@ -103,10 +103,10 @@ Los protocolos del asistente de IA son supervisados por:
 ## CONTACTO
 
 Para preguntas sobre el funcionamiento de la IA o para reportar respuestas inapropiadas:
-- **Correo:** ia@mindbridge.co
+- **Correo:** ia@mentebridge.com
 - **En la app:** Cualquier mensaje → Botón "Reportar respuesta"
 
 ---
 
 *Resolución 2654/2019 — Artículo sobre tecnologías de apoyo en telesalud*
-*Versión 1.0 — MindBridge Colombia SAS — Borrador para revisión legal*
+*Versión 1.0 — MenteBridge Colombia SAS — Borrador para revisión legal*

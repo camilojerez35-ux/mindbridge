@@ -1,5 +1,5 @@
 # POLÍTICA DE PRIVACIDAD Y TRATAMIENTO DE DATOS PERSONALES
-## MindBridge Colombia SAS
+## MenteBridge Colombia SAS
 ### Versión 1.0 — Vigente desde: 2026-05-21
 
 > **📋 ESTADO:** Borrador completo. Requiere revisión de abogado especialista en datos personales
@@ -12,10 +12,10 @@
 
 | Campo | Valor |
 |-------|-------|
-| **Razón social** | MindBridge Colombia SAS |
+| **Razón social** | MenteBridge Colombia SAS |
 | **NIT** | ⚑ [Completar al obtener NIT en DIAN] |
 | **Domicilio** | ⚑ [Dirección física en Colombia — Ciudad] |
-| **Correo de privacidad** | privacidad@mindbridge.co |
+| **Correo de privacidad** | privacidad@mentebridge.com |
 | **Teléfono** | ⚑ [Número de contacto] |
 | **Oficial de Protección de Datos (DPO)** | ⚑ [Nombre del responsable designado] |
 | **Registro ante la SIC** | ⚑ [Número tras registro obligatorio — Ley 1581 Art. 27] |
@@ -74,7 +74,7 @@ Los siguientes datos se recopilan únicamente con consentimiento explícito prev
 
 ### 3.4 Datos de Pago
 Los datos de tarjetas bancarias son procesados directamente por **Wompi** (certificado PCI-DSS).
-MindBridge **no almacena** números de tarjeta, CVV ni datos bancarios sensibles.
+MenteBridge **no almacena** números de tarjeta, CVV ni datos bancarios sensibles.
 Guardamos únicamente: monto, método de pago, referencia de transacción y estado.
 
 ---
@@ -94,17 +94,17 @@ Los datos se tratan **únicamente** para las siguientes finalidades:
 | 7 | Mejorar la IA con análisis agregados y anonimizados | Interés legítimo (datos no vinculables) |
 | 8 | Enviar contenido de salud mental y promociones | **Solo con autorización separada y revocable** |
 
-**MindBridge NO vende, arrienda ni cede datos personales a terceros con fines comerciales.**
+**MenteBridge NO vende, arrienda ni cede datos personales a terceros con fines comerciales.**
 
 ---
 
 ## 5. TRATAMIENTO ESPECIAL DE DATOS SENSIBLES
 
-Los datos de salud mental son categoría especial protegida por el Art. 5° de la Ley 1581. MindBridge aplica las siguientes garantías adicionales:
+Los datos de salud mental son categoría especial protegida por el Art. 5° de la Ley 1581. MenteBridge aplica las siguientes garantías adicionales:
 
 1. **Consentimiento separado y específico** antes de recopilar cualquier dato sensible.
 2. **Cifrado end-to-end** en reposo y en tránsito (AES-256-GCM + TLS 1.3).
-3. **Acceso mínimo necesario** — ningún empleado de MindBridge accede al contenido de las conversaciones salvo por requerimiento judicial.
+3. **Acceso mínimo necesario** — ningún empleado de MenteBridge accede al contenido de las conversaciones salvo por requerimiento judicial.
 4. **Compartición restringida** — los datos de salud se comparten únicamente:
    - Con el psicólogo asignado (requiere consentimiento explícito del usuario)
    - Ante riesgo de vida del usuario o de terceros (protocolo de crisis)
@@ -129,7 +129,7 @@ De conformidad con la Ley 1581 de 2012, usted tiene derecho a:
 | **Oponerse** | Oponerse al tratamiento para marketing | Inmediato (autoservicio) |
 
 **Cómo ejercer sus derechos:**
-- **Correo:** privacidad@mindbridge.co
+- **Correo:** privacidad@mentebridge.com
 - **Autoservicio en la app:** Dashboard → Configuración → Mis Datos → Exportar / Eliminar
 - **Plazo de respuesta:** Los plazos empiezan a contar desde la recepción de la solicitud completa.
 
@@ -138,9 +138,9 @@ De conformidad con la Ley 1581 de 2012, usted tiene derecho a:
 ## 7. AVISO SOBRE USO DE INTELIGENCIA ARTIFICIAL
 *Cumplimiento de la Resolución 2654 de 2019 del Ministerio de Salud — OBLIGATORIO*
 
-**MindBridge usa Inteligencia Artificial (IA) para brindar apoyo emocional.**
+**MenteBridge usa Inteligencia Artificial (IA) para brindar apoyo emocional.**
 
-- El sistema de IA es operado y supervisado por **MindBridge Colombia SAS**.
+- El sistema de IA es operado y supervisado por **MenteBridge Colombia SAS**.
 - La IA es una herramienta de **bienestar emocional**, NO un profesional de la salud mental.
 - Las conversaciones con la IA **no constituyen** diagnóstico, prescripción, tratamiento médico ni psicológico clínico.
 - La IA puede detectar señales de crisis y activar protocolos de seguridad (derivación a líneas de emergencia).
@@ -183,7 +183,7 @@ Todas las transferencias se realizan bajo las garantías del **Artículo 26 de l
 
 ## 10. SEGURIDAD DE LA INFORMACIÓN
 
-MindBridge implementa las siguientes medidas técnicas y organizativas:
+MenteBridge implementa las siguientes medidas técnicas y organizativas:
 
 - Cifrado AES-256-GCM para datos sensibles en reposo
 - TLS 1.3 para todo el tráfico de red
@@ -197,7 +197,7 @@ MindBridge implementa las siguientes medidas técnicas y organizativas:
 
 ## 11. VIGENCIA Y MODIFICACIONES
 
-Esta política está vigente desde **2026-05-21**. MindBridge puede modificarla y notificará a los usuarios registrados por correo electrónico con **30 días de anticipación** antes de cambios sustanciales. El uso continuado de la plataforma tras los cambios implica aceptación de la nueva versión.
+Esta política está vigente desde **2026-05-21**. MenteBridge puede modificarla y notificará a los usuarios registrados por correo electrónico con **30 días de anticipación** antes de cambios sustanciales. El uso continuado de la plataforma tras los cambios implica aceptación de la nueva versión.
 
 ---
 
@@ -212,5 +212,5 @@ La **Superintendencia de Industria y Comercio (SIC)** es la autoridad de protecc
 
 ---
 
-*Versión 1.0 — MindBridge Colombia SAS — Borrador para revisión legal*
+*Versión 1.0 — MenteBridge Colombia SAS — Borrador para revisión legal*
 *Abogado revisor: ⚑ [Nombre del abogado] — Fecha de revisión: ⚑ [Fecha]*

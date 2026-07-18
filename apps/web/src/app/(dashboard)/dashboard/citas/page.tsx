@@ -586,7 +586,7 @@ export default function CitasPage() {
                     {psicologo.tarjetaVencimiento && (
                       <p style={{ fontSize: '11px', color: vencida ? '#f87171' : proxima ? '#fbbf24' : '#5a8a6a' }}>
                         {vencida
-                          ? `Venció hace ${Math.abs(dias!)} días — en revisión por MindBridge`
+                          ? `Venció hace ${Math.abs(dias!)} días — en revisión por MenteBridge`
                           : proxima
                             ? `Vence en ${dias} días`
                             : `Vigente hasta ${new Date(psicologo.tarjetaVencimiento).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}`

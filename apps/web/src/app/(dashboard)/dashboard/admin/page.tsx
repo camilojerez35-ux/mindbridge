@@ -126,7 +126,7 @@ export default function AdminPage() {
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
         <div>
           <h1 style={{ fontSize:'24px', fontWeight:'900', color:'white' }}>⚙️ Panel de Administración</h1>
-          <p style={{ fontSize:'13px', color:'#5a8a6a', marginTop:'4px' }}>MindBridge Colombia · Vista admin</p>
+          <p style={{ fontSize:'13px', color:'#5a8a6a', marginTop:'4px' }}>MenteBridge Colombia · Vista admin</p>
         </div>
         <span style={{ background:'rgba(184,32,32,0.15)', color:'#f87171', border:'1px solid rgba(184,32,32,0.3)', borderRadius:'8px', padding:'6px 14px', fontSize:'12px', fontWeight:'700' }}>🔐 ADMIN</span>
       </div>

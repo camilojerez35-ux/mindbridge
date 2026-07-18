@@ -264,7 +264,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
       <div style={S.page}>
         <div style={{ maxWidth: 480, width: '100%', padding: '32px 24px' }}>
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
-            <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MindBridge</span>
+            <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MenteBridge</span>
             <h2 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: '12px 0 4px' }}>Sala de espera</h2>
             <p style={{ color: '#5a8a6a', fontSize: 14 }}>Hola, <strong style={{ color: '#8aab96' }}>{nombreUsuario}</strong></p>
           </div>
@@ -415,7 +415,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
       {/* Top bar */}
       <div style={{ height: 56, background: '#0d1a12', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MindBridge</span>
+          <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MenteBridge</span>
           <span style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.2)', color: '#2dd4bf', fontSize: 12, padding: '3px 10px', borderRadius: 10 }}>
             {estado === 'esperando'  && 'Esperando conexión...'}
             {estado === 'conectando' && 'Conectando...'}

@@ -195,8 +195,8 @@ async function procesarPagoSuscripcion(tx: WompiTransaction) {
 
     await enviarEmail({
       to: usuario.email,
-      subject: `✅ Plan ${plan} activado — MindBridge`,
-      text: `Hola ${usuario.nombre},\n\nTu plan ${plan} ha sido activado. Próxima renovación: ${venceFmt}.\n\nEquipo MindBridge`,
+      subject: `✅ Plan ${plan} activado — MenteBridge`,
+      text: `Hola ${usuario.nombre},\n\nTu plan ${plan} ha sido activado. Próxima renovación: ${venceFmt}.\n\nEquipo MenteBridge`,
       html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
         <h2 style="color:#0d9488">✅ Plan ${plan} activado</h2>
         <p>Hola <strong>${usuario.nombre}</strong>,</p>
@@ -263,7 +263,7 @@ async function procesarPagoCita(tx: WompiTransaction) {
   if (cita.usuario?.email) {
     await enviarEmail({
       to: cita.usuario.email,
-      subject: '✅ Cita confirmada — MindBridge',
+      subject: '✅ Cita confirmada — MenteBridge',
       text: `Tu cita con ${cita.psicologo.nombreCompleto} el ${fechaFmt} está confirmada.`,
       html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
         <h2 style="color:#0d9488">✅ Cita confirmada</h2>
@@ -287,7 +287,7 @@ async function procesarPagoCita(tx: WompiTransaction) {
   if (psicologoUser?.email) {
     await enviarEmail({
       to: psicologoUser.email,
-      subject: '✅ Cita pagada y confirmada — MindBridge',
+      subject: '✅ Cita pagada y confirmada — MenteBridge',
       text: `La cita con ${cita.usuario?.nombre} el ${fechaFmt} está confirmada y pagada.`,
       html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
         <h2 style="color:#0d9488">✅ Cita confirmada y pagada</h2>

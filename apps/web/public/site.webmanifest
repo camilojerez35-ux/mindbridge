@@ -1,6 +1,6 @@
 {
-  "name": "MindBridge Colombia",
-  "short_name": "MindBridge",
+  "name": "MenteBridge Colombia",
+  "short_name": "MenteBridge",
   "description": "Acompañamiento emocional con IA clínica y psicólogos certificados. Disponible 24/7.",
   "start_url": "/dashboard",
   "display": "standalone",

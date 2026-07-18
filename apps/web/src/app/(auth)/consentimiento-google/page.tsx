@@ -61,7 +61,7 @@ export default function ConsentimientoGooglePage() {
       <div style={{ width: '100%', maxWidth: '480px' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <Link href="/" style={{ fontSize: '26px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MindBridge</Link>
+          <Link href="/" style={{ fontSize: '26px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MenteBridge</Link>
           <p style={{ fontSize: '12px', color: '#3d5c48', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
         </div>
 
@@ -74,14 +74,14 @@ export default function ConsentimientoGooglePage() {
               Un paso más antes de continuar
             </h1>
             <p style={{ fontSize: '13px', color: '#8aab96', lineHeight: 1.6 }}>
-              MindBridge trata datos sensibles de salud mental. La ley colombiana exige tu consentimiento explícito antes de comenzar.
+              MenteBridge trata datos sensibles de salud mental. La ley colombiana exige tu consentimiento explícito antes de comenzar.
             </p>
           </div>
 
           {/* Info legal */}
           <div style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: '10px', padding: '14px 16px', marginBottom: '24px' }}>
             <p style={{ fontSize: '11px', color: '#5a8a6a', lineHeight: 1.7 }}>
-              Al usar MindBridge accedes a apoyo emocional mediante Inteligencia Artificial. Tus conversaciones pueden contener información de salud protegida por la <strong style={{ color: '#2dd4bf' }}>Ley 1581/2012</strong> y la <strong style={{ color: '#2dd4bf' }}>Resolución 2654/2019</strong>.
+              Al usar MenteBridge accedes a apoyo emocional mediante Inteligencia Artificial. Tus conversaciones pueden contener información de salud protegida por la <strong style={{ color: '#2dd4bf' }}>Ley 1581/2012</strong> y la <strong style={{ color: '#2dd4bf' }}>Resolución 2654/2019</strong>.
             </p>
           </div>
 
@@ -108,7 +108,7 @@ export default function ConsentimientoGooglePage() {
                 <p style={{ fontSize: '11px', color: '#f87171', marginTop: '4px' }}>{errors.fechaNacimiento}</p>
               )}
               <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '4px' }}>
-                MindBridge está disponible solo para mayores de 18 años.
+                MenteBridge está disponible solo para mayores de 18 años.
               </p>
             </div>
 

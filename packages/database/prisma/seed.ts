@@ -1,5 +1,5 @@
 /**
- * MindBridge — Seed de base de datos
+ * MenteBridge — Seed de base de datos
  * Datos iniciales requeridos para funcionamiento de la plataforma.
  * Ejecutar: npm run seed (en packages/database)
  */
@@ -9,20 +9,20 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Iniciando seed de MindBridge...');
+  console.log('🌱 Iniciando seed de MenteBridge...');
 
   // ── 1. Usuario Super Admin ──────────────────────────────────────
   const bcrypt = await import('bcryptjs');
-  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? 'MindBridge@2026!';
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? 'MenteBridge@2026!';
   const hashed = await bcrypt.hash(adminPassword, 12);
 
   const admin = await prisma.usuario.upsert({
-    where:  { email: 'admin@mindbridge.co' },
+    where:  { email: 'admin@mentebridge.com' },
     update: { hashedPassword: hashed, rol: 'SUPERADMIN', estado: 'ACTIVO', planActual: 'EMPRESARIAL' },
     create: {
-      email:                'admin@mindbridge.co',
+      email:                'admin@mentebridge.com',
       nombre:               'Admin',
-      apellido:             'MindBridge',
+      apellido:             'MenteBridge',
       hashedPassword:       hashed,
       rol:                  'SUPERADMIN',
       estado:               'ACTIVO',
@@ -62,10 +62,10 @@ async function main() {
     const psiPassword = await bcrypt.hash('PsicoDemo@2026!', 12);
 
     const psicoUsuario = await prisma.usuario.upsert({
-      where:  { email: 'psicologo@mindbridge.co' },
+      where:  { email: 'psicologo@mentebridge.com' },
       update: {},
       create: {
-        email:               'psicologo@mindbridge.co',
+        email:               'psicologo@mentebridge.com',
         nombre:              'Andrea',
         apellido:            'Morales Demo',
         hashedPassword:      psiPassword,
@@ -114,10 +114,10 @@ async function main() {
     // Usuario paciente demo
     const pacientePassword = await bcrypt.hash('Paciente@2026!', 12);
     const paciente = await prisma.usuario.upsert({
-      where:  { email: 'paciente@mindbridge.co' },
+      where:  { email: 'paciente@mentebridge.com' },
       update: {},
       create: {
-        email:               'paciente@mindbridge.co',
+        email:               'paciente@mentebridge.com',
         nombre:              'Usuario',
         apellido:            'Demo',
         hashedPassword:      pacientePassword,

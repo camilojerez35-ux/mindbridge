@@ -17,7 +17,7 @@ interface SesionResumen {
   mensajes: number;
 }
 
-const BIENVENIDA_CONTENIDO = `¡Hola! Soy MindBridge IA, tu asistente de bienestar emocional. 💚
+const BIENVENIDA_CONTENIDO = `¡Hola! Soy MenteBridge IA, tu asistente de bienestar emocional. 💚
 
 Estoy aquí para acompañarte con empatía y apoyo basado en técnicas clínicas como TCC y mindfulness.
 
@@ -336,7 +336,7 @@ export default function ChatPage() {
           </div>
 
           <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: '800', fontSize: '15px', color: 'white', lineHeight: 1 }}>MindBridge IA</p>
+            <p style={{ fontWeight: '800', fontSize: '15px', color: 'white', lineHeight: 1 }}>MenteBridge IA</p>
             <p style={{ fontSize: '11px', color: 'rgba(45,212,191,0.6)', marginTop: '3px' }}>Apoyo emocional · TCC · ACT · Mindfulness</p>
           </div>
 

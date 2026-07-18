@@ -143,16 +143,16 @@ async function notificarPsicologoAsync(
   const { enviarEmail } = await import('@/lib/email/confirmaciones');
 
   const mensajes = {
-    APROBAR:   '¡Tu perfil ha sido verificado! Ya puedes recibir citas a través de MindBridge.',
+    APROBAR:   '¡Tu perfil ha sido verificado! Ya puedes recibir citas a través de MenteBridge.',
     RECHAZAR:  'Tu solicitud de verificación no pudo ser aprobada en este momento.',
     SUSPENDER: 'Tu perfil ha sido suspendido temporalmente. Contáctanos para más información.',
   };
 
   await enviarEmail({
     to:      usuario.email,
-    subject: 'MindBridge — Actualización de tu verificación COLPSIC',
-    html: `<p>Hola ${psicologo.nombreCompleto},</p><p>${mensajes[accion]}</p>${notas ? `<p><strong>Notas:</strong> ${notas}</p>` : ''}<p>— Equipo MindBridge</p>`,
-    text: `Hola ${psicologo.nombreCompleto}, ${mensajes[accion]}${notas ? ` Notas: ${notas}` : ''} — Equipo MindBridge`,
+    subject: 'MenteBridge — Actualización de tu verificación COLPSIC',
+    html: `<p>Hola ${psicologo.nombreCompleto},</p><p>${mensajes[accion]}</p>${notas ? `<p><strong>Notas:</strong> ${notas}</p>` : ''}<p>— Equipo MenteBridge</p>`,
+    text: `Hola ${psicologo.nombreCompleto}, ${mensajes[accion]}${notas ? ` Notas: ${notas}` : ''} — Equipo MenteBridge`,
   });
 }
 

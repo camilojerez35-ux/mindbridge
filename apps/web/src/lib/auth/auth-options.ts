@@ -55,7 +55,7 @@ export const authOptions: AuthOptions = {
         name: 'Dev Bypass',
         credentials: { secret: { label: 'secret', type: 'text' } },
         async authorize(credentials) {
-          if (credentials?.secret === 'dev-mindbridge-2026') return DEV_USER;
+          if (credentials?.secret === 'dev-mentebridge-2026') return DEV_USER;
           return null;
         },
       }),

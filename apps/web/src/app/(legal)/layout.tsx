@@ -8,7 +8,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
           <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
             <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Volver a MindBridge
+          Volver a MenteBridge
         </Link>
         <span className="text-xs text-gray-600">🔒 Ley 1581/2012</span>
       </header>
@@ -22,7 +22,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
           <Link href="/aviso-ia" className="hover:text-gray-400 transition-colors">Aviso IA</Link>
           <Link href="/tratamiento-datos" className="hover:text-gray-400 transition-colors">Tratamiento de Datos</Link>
         </div>
-        <p className="mt-3">MindBridge Colombia · <a href="mailto:legal@mindbridge.co" className="hover:text-gray-400 transition-colors">legal@mindbridge.co</a></p>
+        <p className="mt-3">MenteBridge Colombia · <a href="mailto:legal@mentebridge.com" className="hover:text-gray-400 transition-colors">legal@mentebridge.com</a></p>
       </footer>
     </div>
   );

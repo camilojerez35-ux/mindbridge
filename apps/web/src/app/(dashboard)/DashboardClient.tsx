@@ -129,7 +129,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
         <div className="px-5 py-5 border-b border-white/5 flex items-center justify-between">
           <Link href="/" onClick={() => setSidebarOpen(false)}>
             <span className="text-xl font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-              MindBridge
+              MenteBridge
             </span>
             <p className="text-[10px] text-gray-600 mt-0.5 uppercase tracking-widest">Colombia</p>
           </Link>
@@ -243,7 +243,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
 
             {/* Logo mobile */}
             <span className="md:hidden text-base font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-              MindBridge
+              MenteBridge
             </span>
 
             {/* Fecha — desktop */}

@@ -5,7 +5,7 @@ const API_URL = __DEV__
   ? 'http://10.0.2.2:3000/api'
   : (process.env.EXPO_PUBLIC_API_URL ?? (() => {
       console.error('[API] EXPO_PUBLIC_API_URL no está configurada — usando fallback');
-      return 'https://mindbridge.co/api';
+      return 'https://mentebridge.com/api';
     })());
 
 async function getToken() {

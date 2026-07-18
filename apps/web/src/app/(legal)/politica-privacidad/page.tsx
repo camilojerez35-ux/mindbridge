@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { VERSIONES_DOCUMENTOS } from '@/lib/legal/versiones';
 
 export const metadata: Metadata = {
-  title: 'Política de Privacidad — MindBridge Colombia',
+  title: 'Política de Privacidad — MenteBridge Colombia',
   description: 'Tratamiento de datos personales conforme a la Ley 1581 de 2012 y sus decretos reglamentarios.',
 };
 
@@ -21,10 +21,10 @@ export default function PoliticaPrivacidadPage() {
 
         <Seccion titulo="1. Responsable del Tratamiento">
           <p>
-            <strong className="text-white">MindBridge Colombia S.A.S.</strong><br />
+            <strong className="text-white">MenteBridge Colombia S.A.S.</strong><br />
             Domicilio: Bogotá D.C., Colombia<br />
             Correo de contacto:{' '}
-            <a href="mailto:privacidad@mindbridge.co" className="text-teal-400 hover:underline">privacidad@mindbridge.co</a>
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>
           </p>
         </Seccion>
 
@@ -49,7 +49,7 @@ export default function PoliticaPrivacidadPage() {
               Dirección IP (anonimizada a los 30 días), agente de usuario, marcas de tiempo de sesión, páginas visitadas.
             </Bloque>
             <Bloque titulo="Datos de pago">
-              Referencia de transacción y plan activo. MindBridge <strong className="text-white">no almacena</strong> datos de tarjetas —
+              Referencia de transacción y plan activo. MenteBridge <strong className="text-white">no almacena</strong> datos de tarjetas —
               procesados exclusivamente por Wompi Colombia.
             </Bloque>
           </div>
@@ -70,7 +70,7 @@ export default function PoliticaPrivacidadPage() {
 
         <Seccion titulo="5. Uso de Inteligencia Artificial">
           <p>
-            MindBridge utiliza modelos de lenguaje (Claude de Anthropic) para el acompañamiento emocional.{' '}
+            MenteBridge utiliza modelos de lenguaje (Claude de Anthropic) para el acompañamiento emocional.{' '}
             <strong className="text-white">La IA no reemplaza la psicoterapia ni el diagnóstico clínico.</strong>{' '}
             Los psicólogos de la plataforma pueden acceder a resúmenes de sesión únicamente con tu consentimiento explícito previo.
             Las conversaciones se procesan bajo los acuerdos de procesamiento de datos de Anthropic, Inc.
@@ -94,7 +94,7 @@ export default function PoliticaPrivacidadPage() {
           <p className="mb-3">
             Puedes ejercer los derechos de <strong className="text-white">Conocer, Actualizar, Rectificar, Suprimir, Revocar y presentar Quejas</strong>{' '}
             escribiendo a{' '}
-            <a href="mailto:privacidad@mindbridge.co" className="text-teal-400 hover:underline">privacidad@mindbridge.co</a>.
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>.
             Tiempo de respuesta: <strong className="text-white">10 días hábiles</strong>.
           </p>
           <p>
@@ -131,7 +131,7 @@ export default function PoliticaPrivacidadPage() {
         <Seccion titulo="11. Cambios a esta Política">
           <p>
             Notificaremos cambios materiales con al menos <strong className="text-white">15 días de anticipación</strong> por email.
-            La versión vigente estará siempre en <strong className="text-white">mindbridge.co/politica-privacidad</strong>.
+            La versión vigente estará siempre en <strong className="text-white">mentebridge.com/politica-privacidad</strong>.
           </p>
         </Seccion>
 

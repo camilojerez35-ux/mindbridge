@@ -4,20 +4,20 @@ import Link from 'next/link';
 import LandingNav from '@/components/landing/LandingNav';
 
 export const metadata: Metadata = {
-  title: 'MindBridge Colombia — Salud Mental con IA y Psicólogos Certificados',
+  title: 'MenteBridge Colombia — Salud Mental con IA y Psicólogos Certificados',
   description: 'Acompañamiento emocional con IA clínica y psicólogos verificados por COLPSIC. Chat 24/7, videocitas, diario emocional. Cumple Ley 1581/2012.',
   keywords: 'salud mental colombia, psicólogo online colombia, terapia online, ansiedad, depresión, bienestar emocional, IA salud mental',
   openGraph: {
-    title: 'MindBridge Colombia — Salud Mental con IA',
+    title: 'MenteBridge Colombia — Salud Mental con IA',
     description: 'Acompañamiento emocional con IA y psicólogos certificados. Disponible 24/7 en Colombia.',
-    url: 'https://mindbridge.co',
-    siteName: 'MindBridge Colombia',
+    url: 'https://mentebridge.com',
+    siteName: 'MenteBridge Colombia',
     locale: 'es_CO',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MindBridge Colombia — Salud Mental con IA',
+    title: 'MenteBridge Colombia — Salud Mental con IA',
     description: 'Acompañamiento emocional con IA y psicólogos certificados en Colombia.',
   },
 };
@@ -150,7 +150,7 @@ const testimonios = [
     estrellas: 5,
   },
   {
-    texto: '"Como hombre siempre me costó buscar ayuda. Con MindBridge pude hablar sin sentir juicio. Cambió cómo veo mi salud mental."',
+    texto: '"Como hombre siempre me costó buscar ayuda. Con MenteBridge pude hablar sin sentir juicio. Cambió cómo veo mi salud mental."',
     autor: 'Santiago R.',
     profesion: 'Ingeniero de sistemas',
     ciudad: 'Medellín',
@@ -375,7 +375,7 @@ export default function Home() {
               <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/5 bg-[#0a1510]">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-sm">🤖</div>
                 <div>
-                  <p className="text-xs font-semibold text-white">IA Clínica · MindBridge</p>
+                  <p className="text-xs font-semibold text-white">IA Clínica · MenteBridge</p>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-teal-400 rounded-full" />
                     <span className="text-[10px] text-teal-400">En línea</span>
@@ -428,7 +428,7 @@ export default function Home() {
             <h2 className="text-2xl md:text-3xl font-black text-white">
               ¿Te identificas con alguna de estas situaciones?
             </h2>
-            <p className="text-sm text-gray-500 mt-2">MindBridge fue creado exactamente para esto</p>
+            <p className="text-sm text-gray-500 mt-2">MenteBridge fue creado exactamente para esto</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-3">
             {dolorPuntos.map((d) => (
@@ -439,7 +439,7 @@ export default function Home() {
             ))}
           </div>
           <p className="text-center text-sm text-teal-400 mt-8 font-medium">
-            Si dijiste que sí a alguna → <Link href="/registro" className="underline underline-offset-2 hover:text-teal-300">MindBridge es para ti</Link>
+            Si dijiste que sí a alguna → <Link href="/registro" className="underline underline-offset-2 hover:text-teal-300">MenteBridge es para ti</Link>
           </p>
         </div>
       </section>
@@ -692,8 +692,8 @@ export default function Home() {
 
           <p className="text-center text-sm text-gray-500 mt-10">
             ¿Otra pregunta?{' '}
-            <a href="mailto:soporte@mindbridge.co" className="text-teal-400 hover:underline hover:text-teal-300 transition-colors">
-              soporte@mindbridge.co
+            <a href="mailto:soporte@mentebridge.com" className="text-teal-400 hover:underline hover:text-teal-300 transition-colors">
+              soporte@mentebridge.com
             </a>
           </p>
         </div>
@@ -710,7 +710,7 @@ export default function Home() {
                 Empieza hoy.<br />Es gratis.
               </h2>
               <p className="text-gray-400 mb-8 leading-relaxed text-sm">
-                Miles de colombianos ya cuidan su salud mental con MindBridge.
+                Miles de colombianos ya cuidan su salud mental con MenteBridge.
                 Tu primera sesión puede ser en los próximos 2 minutos.
               </p>
               <Link
@@ -738,7 +738,7 @@ export default function Home() {
             {/* Brand */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">MindBridge</span>
+                <span className="text-lg font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">MenteBridge</span>
               </div>
               <p className="text-xs text-gray-500 leading-relaxed">
                 Plataforma de salud mental con IA y psicólogos certificados. Hecha en Colombia, para Colombia.
@@ -789,9 +789,9 @@ export default function Home() {
           </div>
 
           <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-gray-600">© 2026 MindBridge Colombia. Todos los derechos reservados.</p>
+            <p className="text-xs text-gray-600">© 2026 MenteBridge Colombia. Todos los derechos reservados.</p>
             <div className="flex gap-4 text-xs text-gray-600">
-              <a href="mailto:soporte@mindbridge.co" className="hover:text-gray-400 transition-colors">soporte@mindbridge.co</a>
+              <a href="mailto:soporte@mentebridge.com" className="hover:text-gray-400 transition-colors">soporte@mentebridge.com</a>
             </div>
           </div>
         </div>

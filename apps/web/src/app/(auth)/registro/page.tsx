@@ -261,7 +261,7 @@ export default function RegistroPage() {
               <Brain className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-extrabold bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
-              MindBridge
+              MenteBridge
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-white mb-2">Crear tu cuenta</h1>
@@ -368,7 +368,7 @@ export default function RegistroPage() {
               <p className="text-xs text-red-400 mt-1">{form.fechaNacimiento.error}</p>
             )}
             <p className="text-xs text-gray-500 mt-1">
-              MindBridge es una plataforma para mayores de 18 años (Ley 1581/2012).
+              MenteBridge es una plataforma para mayores de 18 años (Ley 1581/2012).
             </p>
           </div>
 
@@ -551,13 +551,13 @@ export default function RegistroPage() {
               </button>
             </div>
             <div className="text-sm text-gray-300 space-y-4">
-              <p><strong>1. Responsable del tratamiento:</strong> MindBridge S.A.S., Colombia</p>
+              <p><strong>1. Responsable del tratamiento:</strong> MenteBridge S.A.S., Colombia</p>
               <p><strong>2. Datos recogidos:</strong> Nombre, apellido, correo electrónico, datos de salud emocional, historial de uso.</p>
               <p><strong>3. Finalidad:</strong> Prestar servicios de bienestar emocional, mejorar la experiencia del usuario, cumplir con obligaciones legales.</p>
               <p><strong>4. Base legal:</strong> Consentimiento del usuario (Ley 1581/2012), interés legítimo, cumplimiento de obligaciones legales.</p>
               <p><strong>5. Derechos:</strong> Acceso, rectificación, cancelación, oposición, portabilidad de datos.</p>
               <p><strong>6. Seguridad:</strong> Encriptación de extremo a extremo, acceso restringido, auditorías periódicas.</p>
-              <p><strong>7. Contacto:</strong> privacidad@mindbridge.co</p>
+              <p><strong>7. Contacto:</strong> privacidad@mentebridge.com</p>
             </div>
           </div>
         </div>

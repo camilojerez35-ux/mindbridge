@@ -26,7 +26,7 @@ interface ChatIAProps {
   contextoPractica?: string;
 }
 
-const BIENVENIDA = `¡Hola! Soy MindBridge AI, tu asistente de bienestar emocional. 💚
+const BIENVENIDA = `¡Hola! Soy MenteBridge AI, tu asistente de bienestar emocional. 💚
 
 Estoy aquí para escucharte y acompañarte. Puedes hablarme con total confianza sobre lo que estés viviendo.
 
@@ -183,7 +183,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-bold text-white">MindBridge AI</h2>
+            <h2 className="text-sm font-bold text-white">MenteBridge AI</h2>
             <span className="flex items-center gap-1 text-[10px] text-teal-400 font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
               En línea
@@ -317,7 +317,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
             placeholder="Cuéntame cómo te sientes hoy..."
             rows={1}
             disabled={cargando}
-            aria-label="Mensaje para el asistente de MindBridge"
+            aria-label="Mensaje para el asistente de MenteBridge"
             className="flex-1 bg-transparent resize-none outline-none text-sm text-gray-200 placeholder-gray-600 py-0.5 max-h-[120px]"
           />
           <button

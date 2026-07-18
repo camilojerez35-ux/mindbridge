@@ -1,5 +1,5 @@
 # CONTRATO DE PRESTACIÓN DE SERVICIOS PROFESIONALES
-## MindBridge Colombia SAS — Psicólogos de la Red
+## MenteBridge Colombia SAS — Psicólogos de la Red
 ### Versión 1.0 — 2026-05-21
 
 > **📋 ESTADO:** Borrador completo. Requiere aprobación de abogado consultor antes de firmar.
@@ -7,7 +7,7 @@
 
 ---
 
-Entre **MindBridge Colombia SAS**, con NIT ⚑ y domicilio en ⚑ Colombia (en adelante "LA PLATAFORMA"),
+Entre **MenteBridge Colombia SAS**, con NIT ⚑ y domicilio en ⚑ Colombia (en adelante "LA PLATAFORMA"),
 representada por ⚑ [Nombre del Representante Legal], y el/la psicólogo/a
 **⚑ [NOMBRE COMPLETO]**, identificado/a con C.C. No. ⚑ [NÚMERO], con tarjeta profesional
 COLPSIC No. **⚑ [NÚMERO]** vigente hasta ⚑ [FECHA], (en adelante "EL PROFESIONAL"),
@@ -18,7 +18,7 @@ se suscribe el presente contrato de prestación de servicios independientes:
 ## CLÁUSULA 1 — OBJETO
 
 EL PROFESIONAL prestará servicios de orientación y atención psicológica a través de la
-plataforma tecnológica MindBridge, mediante videollamada, a los usuarios que así lo soliciten
+plataforma tecnológica MenteBridge, mediante videollamada, a los usuarios que así lo soliciten
 y paguen el valor correspondiente.
 
 ---
@@ -136,10 +136,10 @@ EL PROFESIONAL recibirá retroalimentación trimestral y tendrá 30 días para c
 **EL PROFESIONAL declara:**
 - Tener tarjeta COLPSIC No. ⚑ _______________ vigente hasta: ⚑ _______________
 - Haber leído, comprendido y aceptado este contrato en su totalidad.
-- Aceptar los protocolos clínicos, de crisis y de privacidad de MindBridge.
+- Aceptar los protocolos clínicos, de crisis y de privacidad de MenteBridge.
 - No tener investigaciones disciplinarias activas ante el Tribunal Deontológico de COLPSIC.
 
-| | EL PROFESIONAL | POR MINDBRIDGE COLOMBIA SAS |
+| | EL PROFESIONAL | POR MENTEBRIDGE COLOMBIA SAS |
 |-|---------------|---------------------------|
 | **Nombre** | ⚑ | ⚑ [Representante Legal] |
 | **C.C. / NIT** | ⚑ | ⚑ |
@@ -150,5 +150,5 @@ EL PROFESIONAL recibirá retroalimentación trimestral y tendrá 30 días para c
 
 ---
 
-*Versión 1.0 — MindBridge Colombia SAS — Borrador para revisión legal*
+*Versión 1.0 — MenteBridge Colombia SAS — Borrador para revisión legal*
 *Abogado revisor: ⚑ [Nombre] — Fecha de aprobación: ⚑ [Fecha]*

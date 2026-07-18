@@ -1,5 +1,5 @@
 /**
- * MindBridge — API Route: Citas con Psicólogos
+ * MenteBridge — API Route: Citas con Psicólogos
  * GET  /api/citas  → listar citas del usuario
  * POST /api/citas  → crear cita pendiente y devolver datos para widget Wompi
  */
@@ -165,8 +165,8 @@ export async function POST(req: NextRequest) {
 
     enviarEmail({
       to: usuario?.email ?? user.email ?? '',
-      subject: '📅 Cita agendada — MindBridge',
-      text: `Hola ${nombrePaciente},\n\nTu cita con ${nombrePsicologo} ha sido agendada para el ${fechaFmt}.\n\nEsta pendiente de confirmación por el psicólogo.\n\nEquipo MindBridge`,
+      subject: '📅 Cita agendada — MenteBridge',
+      text: `Hola ${nombrePaciente},\n\nTu cita con ${nombrePsicologo} ha sido agendada para el ${fechaFmt}.\n\nEsta pendiente de confirmación por el psicólogo.\n\nEquipo MenteBridge`,
       html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
         <h2 style="color:#0d9488">📅 Cita agendada</h2>
         <p>Hola <strong>${nombrePaciente}</strong>,</p>
@@ -182,8 +182,8 @@ export async function POST(req: NextRequest) {
     if (psicologoUsuario?.email) {
       enviarEmail({
         to: psicologoUsuario.email,
-        subject: '🔔 Nueva cita pendiente — MindBridge',
-        text: `Hola ${nombrePsicologo},\n\nTienes una nueva cita con ${nombrePaciente} el ${fechaFmt}.\n\nEquipo MindBridge`,
+        subject: '🔔 Nueva cita pendiente — MenteBridge',
+        text: `Hola ${nombrePsicologo},\n\nTienes una nueva cita con ${nombrePaciente} el ${fechaFmt}.\n\nEquipo MenteBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#0d9488">🔔 Nueva cita pendiente</h2>
           <p>Hola <strong>${nombrePsicologo}</strong>,</p>

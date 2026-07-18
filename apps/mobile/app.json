@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "MindBridge",
+    "name": "MenteBridge",
     "slug": "mindbridge",
     "version": "1.0.0",
     "scheme": "mindbridge",
@@ -33,7 +33,7 @@
           "color": "#10B981",
           "sounds": [],
           "androidMode": "default",
-          "androidCollapsedTitle": "MindBridge"
+          "androidCollapsedTitle": "MenteBridge"
         }
       ]
     ],

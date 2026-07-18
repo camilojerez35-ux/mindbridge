@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
         // Anonimizar PII
         nombre:          'Usuario',
         apellido:        'Eliminado',
-        email:           `deleted_${usuarioId}@mindbridge.deleted`,
+        email:           `deleted_${usuarioId}@mentebridge.deleted`,
         telefono:        null,
         ciudadColombia:  null,
         fechaNacimiento: null,
@@ -131,6 +131,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error('[ELIMINAR-DATOS]', err);
-    return Response.json({ error: 'Error interno. Contacta privacidad@mindbridge.co' }, { status: 500 });
+    return Response.json({ error: 'Error interno. Contacta privacidad@mentebridge.com' }, { status: 500 });
   }
 }

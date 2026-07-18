@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Aviso de Privacidad y Tratamiento de Datos — MindBridge Colombia',
+  title: 'Aviso de Privacidad y Tratamiento de Datos — MenteBridge Colombia',
   description: 'Aviso de privacidad conforme a la Ley 1581 de 2012. Autorización para el tratamiento de datos personales y de salud.',
 };
 
@@ -22,17 +22,17 @@ export default function TratamientoDatosPage() {
 
         <Seccion titulo="Identificación del Responsable">
           <p>
-            <strong className="text-white">MindBridge Colombia S.A.S.</strong><br />
+            <strong className="text-white">MenteBridge Colombia S.A.S.</strong><br />
             Domicilio: Bogotá D.C., Colombia<br />
             Correo:{' '}
-            <a href="mailto:privacidad@mindbridge.co" className="text-teal-400 hover:underline">privacidad@mindbridge.co</a>
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>
           </p>
         </Seccion>
 
         <Seccion titulo="Objeto del Aviso">
           <p>
             En cumplimiento del artículo 15 de la <strong className="text-white">Ley 1581 de 2012</strong> y el Decreto 1377 de 2013,
-            MindBridge informa al titular sobre el tratamiento que dará a sus datos personales, incluyendo los datos
+            MenteBridge informa al titular sobre el tratamiento que dará a sus datos personales, incluyendo los datos
             sensibles de salud mental recopilados en el uso de la plataforma.
           </p>
         </Seccion>
@@ -141,7 +141,7 @@ export default function TratamientoDatosPage() {
           </ul>
           <p className="mt-4">
             Para ejercer sus derechos:{' '}
-            <a href="mailto:privacidad@mindbridge.co" className="text-teal-400 hover:underline">privacidad@mindbridge.co</a>
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>
             {' '}— Respondemos en máximo <strong className="text-white">10 días hábiles</strong>.
           </p>
         </Seccion>

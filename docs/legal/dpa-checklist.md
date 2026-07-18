@@ -1,6 +1,6 @@
 # CHECKLIST — DATA PROCESSING AGREEMENTS (DPA)
 ## Transferencias Internacionales de Datos — Ley 1581/2012 Art. 26
-### MindBridge Colombia SAS
+### MenteBridge Colombia SAS
 
 > Los DPA deben firmarse ANTES del lanzamiento. Sin ellos, las transferencias
 > de datos a servidores en EE.UU. no tienen base legal suficiente bajo la Ley 1581.
@@ -110,5 +110,5 @@
 
 ---
 
-*Documento interno — No publicar — MindBridge Colombia SAS*
+*Documento interno — No publicar — MenteBridge Colombia SAS*
 *Actualizado: 2026-05-21*

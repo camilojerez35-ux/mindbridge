@@ -71,8 +71,8 @@ export async function PATCH(
     if (cita.usuario?.email) {
       await enviarEmail({
         to: cita.usuario.email,
-        subject: '✅ Tu cita fue confirmada por el psicólogo — MindBridge',
-        text: `Hola ${nombrePaciente},\n\n${cita.psicologo.nombreCompleto} ha confirmado tu cita para el ${fechaFmt}.\n\nEquipo MindBridge`,
+        subject: '✅ Tu cita fue confirmada por el psicólogo — MenteBridge',
+        text: `Hola ${nombrePaciente},\n\n${cita.psicologo.nombreCompleto} ha confirmado tu cita para el ${fechaFmt}.\n\nEquipo MenteBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#0d9488">✅ Cita confirmada</h2>
           <p>Hola <strong>${nombrePaciente}</strong>,</p>
@@ -102,8 +102,8 @@ export async function PATCH(
     if (cita.usuario?.email) {
       await enviarEmail({
         to: cita.usuario.email,
-        subject: '⚠️ Cita no disponible — MindBridge',
-        text: `Hola ${nombrePaciente},\n\nLamentablemente ${cita.psicologo.nombreCompleto} no puede atenderte en el horario solicitado.\n\n${motivo ? `Motivo: ${motivo}\n\n` : ''}Por favor agenda una nueva cita con otro psicólogo disponible.\n\nEquipo MindBridge`,
+        subject: '⚠️ Cita no disponible — MenteBridge',
+        text: `Hola ${nombrePaciente},\n\nLamentablemente ${cita.psicologo.nombreCompleto} no puede atenderte en el horario solicitado.\n\n${motivo ? `Motivo: ${motivo}\n\n` : ''}Por favor agenda una nueva cita con otro psicólogo disponible.\n\nEquipo MenteBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#d97706">⚠️ Cita no disponible</h2>
           <p>Hola <strong>${nombrePaciente}</strong>,</p>

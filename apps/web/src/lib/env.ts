@@ -52,8 +52,8 @@ const schema = z.object({
 
   // ── Email — Resend ────────────────────────────────────────────
   RESEND_API_KEY:    z.string().optional(),
-  EMAIL_FROM:        z.string().email().default('noreply@mindbridge.co'),
-  EMAIL_FROM_NAME:   z.string().default('MindBridge Colombia'),
+  EMAIL_FROM:        z.string().email().default('noreply@mentebridge.com'),
+  EMAIL_FROM_NAME:   z.string().default('MenteBridge Colombia'),
 
   // ── Cron jobs (Vercel Cron) ───────────────────────────────────
   CRON_SECRET: z.string().min(32).optional(),
@@ -101,7 +101,7 @@ function validate() {
       .map(i => `  • ${i.path.join('.')}: ${i.message}`)
       .join('\n');
     throw new Error(
-      `\n[MindBridge] Variables de entorno inválidas o faltantes:\n${errores}\n\n` +
+      `\n[MenteBridge] Variables de entorno inválidas o faltantes:\n${errores}\n\n` +
       `Copia infrastructure/env/.env.example → apps/web/.env.local y completa los valores requeridos.\n`
     );
   }
