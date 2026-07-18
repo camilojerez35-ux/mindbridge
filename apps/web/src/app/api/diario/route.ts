@@ -3,8 +3,10 @@ import { z } from 'zod';
 import { db } from '@/lib/db/client';
 import { detectarNivelCrisis } from '@mindbridge/ai-clinical/protocols/crisis-protocol';
 import { registrarIncidente, registrarIncidenteAsync } from '@/lib/crisis/incident-logger';
+import { notificarPsicologoAsignado } from '@/lib/crisis/notificar-psicologo';
 import { encryption } from '@/lib/encryption';
 import { getAuthUser } from '@/lib/auth/get-auth-user';
+import crypto from 'crypto';
 
 const EntradaSchema = z.object({
   contenido:    z.string().min(1).max(5000),
@@ -109,16 +111,21 @@ export async function POST(req: NextRequest) {
     const nivelCrisis = evaluacionCrisis.nivel;
 
     if (nivelCrisis === 'critico' || nivelCrisis === 'alto') {
+      const tokenConfirmacion = crypto.randomBytes(32).toString('hex');
+      const fragmento = anonimizarFragmento(contenido);
       await registrarIncidente({
         usuarioId: user.id,
         sesionId:  `diario-${user.id}-${Date.now()}`,
         nivel:     nivelCrisis.toUpperCase(),
         indicadoresDetectados: evaluacionCrisis.indicadores,
-        fragmentoAnonimizado:  anonimizarFragmento(contenido),
+        fragmentoAnonimizado:  fragmento,
         timestampDeteccion:    new Date(),
         protocoloActivado:     true,
-        psicologoNotificado:   false,
+        psicologoNotificado:   true,
+        tokenConfirmacion,
       });
+      const nivelNotificacion = nivelCrisis === 'critico' ? 'CRITICO' : 'ALTO';
+      await notificarPsicologoAsignado(user.id, nivelNotificacion, fragmento, 'diario', tokenConfirmacion);
     } else if (nivelCrisis === 'moderado') {
       registrarIncidenteAsync({
         usuarioId: user.id,

@@ -60,12 +60,13 @@ Usted es responsable de toda actividad realizada desde su cuenta.
 | Plan | Precio | Características principales |
 |------|--------|----------------------------|
 | **Gratuito** | $0 COP | 3 sesiones IA/semana, diario básico |
-| **Plus** | ⚑ COP/mes | Sesiones IA ilimitadas, 1 cita con descuento |
+| **Plus** | ⚑ COP/mes | Sesiones IA ilimitadas |
 | **Familia** | ⚑ COP/mes | Hasta 5 perfiles, sesiones ilimitadas |
 | **Empresarial** | ⚑ COP/mes | Licencias por empleado, panel administrativo |
 
 ### 5.2 Citas con Psicólogos
 
+- Las videocitas con psicólogos **no están incluidas en ningún plan de suscripción**; se agendan y se pagan por separado, independientemente del plan contratado.
 - Las tarifas son fijadas individualmente por cada psicólogo (entre $⚑ y $⚑ COP por sesión de 45 min).
 - El pago se realiza en el momento de agendar la cita.
 - La plataforma aplica una comisión del **20%** sobre el valor de cada cita.

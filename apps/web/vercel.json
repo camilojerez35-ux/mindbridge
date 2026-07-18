@@ -19,10 +19,6 @@
     {
       "path": "/api/notificaciones?job=limpiar-senales-rtc",
       "schedule": "0 3 * * *"
-    },
-    {
-      "path": "/api/cron/crisis-escalacion",
-      "schedule": "0 12 * * *"
     }
   ]
 }

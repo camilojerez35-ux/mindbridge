@@ -13,6 +13,8 @@ import {
   registrarIncidenteAsync,
   type DatosIncidente,
 } from '@/lib/crisis/incident-logger';
+import { notificarPsicologoAsignado } from '@/lib/crisis/notificar-psicologo';
+import crypto from 'crypto';
 
 // Singleton — instanciado una vez por proceso, no por request
 const anthropic = process.env.ANTHROPIC_API_KEY
@@ -164,6 +166,11 @@ export async function POST(req: NextRequest) {
       ? { nivel: 'ninguno' as const, indicadores: [], registrarIncidente: false, escalarAPsicologo: false }
       : detectarNivelCrisis(mensaje);
 
+    const esCrisisAlta = evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto';
+    const tokenConfirmacion = esCrisisAlta && evaluacion.escalarAPsicologo
+      ? crypto.randomBytes(32).toString('hex')
+      : undefined;
+
     const datosIncidente: DatosIncidente = {
       usuarioId: user.id,
       sesionId: sesionId ?? 'sin-sesion',
@@ -171,15 +178,22 @@ export async function POST(req: NextRequest) {
       indicadoresDetectados: evaluacion.indicadores,
       fragmentoAnonimizado: anonimizarMensaje(mensaje),
       timestampDeteccion: new Date(),
-      protocoloActivado: evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto',
+      protocoloActivado: esCrisisAlta,
       psicologoNotificado: evaluacion.escalarAPsicologo,
+      tokenConfirmacion,
     };
 
     // CRITICO y ALTO: logging síncrono antes de responder — audit trail garantizado
     // MODERADO/BAJO: async, no bloquea la respuesta
-    if (evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto') {
+    if (esCrisisAlta) {
       if (evaluacion.registrarIncidente) {
         await registrarIncidente(datosIncidente);
+      }
+      if (evaluacion.escalarAPsicologo && tokenConfirmacion) {
+        const nivelNotificacion = evaluacion.nivel === 'critico' ? 'CRITICO' : 'ALTO';
+        await notificarPsicologoAsignado(
+          user.id, nivelNotificacion, anonimizarMensaje(mensaje), 'chat', tokenConfirmacion,
+        );
       }
     } else if (evaluacion.registrarIncidente) {
       registrarIncidenteAsync(datosIncidente);

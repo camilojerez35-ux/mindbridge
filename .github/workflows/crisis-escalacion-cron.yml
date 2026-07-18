@@ -1,0 +1,24 @@
+name: Crisis Escalacion Cron
+
+# Vercel Hobby solo permite crons diarios; este job reemplaza al cron nativo
+# de Vercel para /api/cron/crisis-escalacion, que necesita correr cada 15 min
+# para escalar incidentes CRITICO/ALTO sin confirmar por el psicologo.
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  llamar-endpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invocar /api/cron/crisis-escalacion
+        run: |
+          status=$(curl -s -o /tmp/respuesta.txt -w "%{http_code}" \
+            -X GET "https://mentebridge.com/api/cron/crisis-escalacion" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+          cat /tmp/respuesta.txt
+          if [ "$status" -ge 400 ]; then
+            echo "Fallo con status $status"
+            exit 1
+          fi
