@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Conoce a los psicólogos verificados COLPSIC disponibles en MenteBridge. Agenda tu primera cita en minutos.',
 };
 
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 export default async function PsicologosPage() {
   const psicologos = await db.psicologo.findMany({
