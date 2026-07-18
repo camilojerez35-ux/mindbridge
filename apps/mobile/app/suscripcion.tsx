@@ -25,14 +25,14 @@ const PLANES = [
     precio: 49900,
     color: '#10B981',
     popular: true,
-    features: ['Chat IA ilimitado', 'Diario emocional', 'Todos los tests', '1 cita con psicólogo/mes', 'Análisis de progreso'],
+    features: ['Chat IA ilimitado', 'Diario emocional', 'Todos los tests', 'Análisis de progreso'],
   },
   {
     id: 'FAMILIA' as const,
     nombre: 'Familia',
     precio: 89900,
     color: '#3B82F6',
-    features: ['Todo lo de Plus', 'Hasta 4 miembros', '3 citas/mes por miembro', 'Sesiones grupales'],
+    features: ['Todo lo de Plus', 'Hasta 4 miembros', 'Sesiones grupales'],
   },
 ];
 

@@ -195,7 +195,7 @@ const planes = [
     nombre: 'Plus',
     precio: '25.000',
     paraQuien: 'Para quien quiere resultados reales',
-    desc: 'El plan más completo. IA ilimitada + psicólogo cuando lo necesites.',
+    desc: 'El plan más completo de IA. Agenda videocitas con psicólogos por aparte cuando las necesites.',
     destacado: true,
     cta: 'Comenzar con Plus',
     href: '/registro',
@@ -205,9 +205,8 @@ const planes = [
       'Ejercicios guiados ilimitados',
       'Reportes emocionales avanzados',
       'Cifrado AES-256 de tus datos',
-      '2 videocitas con psicólogo/mes',
     ],
-    noFeatures: [],
+    noFeatures: ['Videocitas con psicólogos incluidas'],
   },
   {
     nombre: 'Familia',
@@ -221,11 +220,10 @@ const planes = [
       'Todo lo del plan Plus',
       'Hasta 4 perfiles familiares',
       'IA clínica sin límite para todos',
-      '5 videocitas con psicólogo/mes',
       'Panel familiar de bienestar',
       'Reportes comparativos familiares',
     ],
-    noFeatures: [],
+    noFeatures: ['Videocitas con psicólogos incluidas'],
   },
 ];
 
