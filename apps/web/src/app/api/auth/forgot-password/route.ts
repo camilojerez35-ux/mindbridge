@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     await enviarEmail({
       to: email,
-      subject: 'Recupera tu contraseña de MindBridge',
+      subject: 'Recupera tu contraseña de MenteBridge',
       text: `Hola ${nombre}, haz clic en este enlace para restablecer tu contraseña (válido 1 hora): ${url}. Si no solicitaste esto, ignora este mensaje.`,
       html: `
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head>
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto">
     <tr><td style="padding:0 20px">
       <div style="text-align:center;margin-bottom:24px">
-        <h1 style="color:#2dd4bf;font-size:26px;font-weight:900;margin:0">MindBridge</h1>
+        <h1 style="color:#2dd4bf;font-size:26px;font-weight:900;margin:0">MenteBridge</h1>
       </div>
       <div style="background:rgba(255,255,255,0.03);border:1px solid #1a2e1f;border-radius:16px;padding:32px">
         <h2 style="color:white;font-size:18px;font-weight:800;margin:0 0 12px">Restablecer contraseña</h2>

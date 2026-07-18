@@ -111,9 +111,9 @@ export async function POST(req: NextRequest) {
     // Notificar al psicólogo
     enviarEmail({
       to: email,
-      subject: 'MindBridge — Solicitud recibida, en revisión',
-      text: `Hola ${nombre}, recibimos tu solicitud para unirte a MindBridge como psicólogo. Revisaremos tu información y tarjeta COLPSIC (${tarjetaProfesionalId}) en los próximos 2-3 días hábiles. Te notificaremos por email cuando tu perfil esté aprobado. — Equipo MindBridge`,
-      html: `<p>Hola <strong>${nombre}</strong>,</p><p>Recibimos tu solicitud para unirte a MindBridge como psicólogo.</p><p>Revisaremos tu información y tarjeta COLPSIC <strong>${tarjetaProfesionalId}</strong> en los próximos <strong>2–3 días hábiles</strong>. Te notificaremos por email cuando tu perfil esté aprobado.</p><p>— Equipo MindBridge</p>`,
+      subject: 'MenteBridge — Solicitud recibida, en revisión',
+      text: `Hola ${nombre}, recibimos tu solicitud para unirte a MenteBridge como psicólogo. Revisaremos tu información y tarjeta COLPSIC (${tarjetaProfesionalId}) en los próximos 2-3 días hábiles. Te notificaremos por email cuando tu perfil esté aprobado. — Equipo MenteBridge`,
+      html: `<p>Hola <strong>${nombre}</strong>,</p><p>Recibimos tu solicitud para unirte a MenteBridge como psicólogo.</p><p>Revisaremos tu información y tarjeta COLPSIC <strong>${tarjetaProfesionalId}</strong> en los próximos <strong>2–3 días hábiles</strong>. Te notificaremos por email cuando tu perfil esté aprobado.</p><p>— Equipo MenteBridge</p>`,
     }).catch(console.error);
 
     // Notificar al equipo admin
@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
     if (adminEmail) {
       enviarEmail({
         to: adminEmail,
-        subject: `MindBridge — Nuevo psicólogo pendiente: ${nombre} ${apellido}`,
+        subject: `MenteBridge — Nuevo psicólogo pendiente: ${nombre} ${apellido}`,
         text: `Nuevo psicólogo solicita verificación.\nNombre: ${nombre} ${apellido}\nEmail: ${email}\nCOLPSIC: ${tarjetaProfesionalId}\nEspecialidades: ${especialidades.join(', ')}\n\nRevisa en: /dashboard/admin/verificacion`,
         html: `<p><strong>Nuevo psicólogo solicita verificación</strong></p><ul><li>Nombre: ${nombre} ${apellido}</li><li>Email: ${email}</li><li>COLPSIC: <code>${tarjetaProfesionalId}</code></li><li>Especialidades: ${especialidades.join(', ')}</li></ul><p><a href="/dashboard/admin/verificacion">Ver en panel admin →</a></p>`,
       }).catch(console.error);

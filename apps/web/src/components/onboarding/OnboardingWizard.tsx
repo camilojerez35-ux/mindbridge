@@ -66,7 +66,7 @@ export default function OnboardingWizard() {
       <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
         <div style={{ fontSize: '52px', marginBottom: '12px' }}>💚</div>
         <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '8px' }}>
-          Bienvenido/a a MindBridge
+          Bienvenido/a a MenteBridge
         </h2>
         <p style={{ fontSize: '14px', color: '#8aab96', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto' }}>
           Este es tu espacio seguro para el bienestar emocional. En 2 minutos te mostramos cómo sacarle el máximo provecho.
@@ -91,7 +91,7 @@ export default function OnboardingWizard() {
     <div key="objetivo" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
       <div>
         <h2 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>
-          ¿Qué te trae a MindBridge?
+          ¿Qué te trae a MenteBridge?
         </h2>
         <p style={{ fontSize: '13px', color: '#5a8a6a' }}>
           Puedes elegir varias. Puedes cambiar esto en cualquier momento.
@@ -141,7 +141,7 @@ export default function OnboardingWizard() {
     <div key="ia" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div>
         <h2 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>
-          Sobre la IA de MindBridge
+          Sobre la IA de MenteBridge
         </h2>
         <p style={{ fontSize: '13px', color: '#5a8a6a', lineHeight: 1.5 }}>
           Para usarla bien, es importante entender qué puede y qué no puede hacer.
@@ -241,7 +241,7 @@ export default function OnboardingWizard() {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Bienvenida a MindBridge"
+      aria-label="Bienvenida a MenteBridge"
       style={{
         position: 'fixed', inset: 0,
         background: 'rgba(0,0,0,0.8)',

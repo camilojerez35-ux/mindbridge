@@ -87,18 +87,18 @@ export async function PATCH(
     if (psicologo.usuario.email) {
       await enviarEmail({
         to: psicologo.usuario.email,
-        subject: '✅ Tu perfil en MindBridge fue verificado',
-        text: `Hola ${psicologo.usuario.nombre},\n\nTu tarjeta profesional COLPSIC ha sido verificada. Ya puedes recibir citas en MindBridge.\n\nEquipo MindBridge`,
+        subject: '✅ Tu perfil en MenteBridge fue verificado',
+        text: `Hola ${psicologo.usuario.nombre},\n\nTu tarjeta profesional COLPSIC ha sido verificada. Ya puedes recibir citas en MenteBridge.\n\nEquipo MenteBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#0d9488">✅ ¡Perfil verificado!</h2>
           <p>Hola <strong>${psicologo.usuario.nombre}</strong>,</p>
-          <p>Tu tarjeta profesional COLPSIC ha sido verificada exitosamente. Tu cuenta está activa y puedes comenzar a recibir citas en MindBridge.</p>
+          <p>Tu tarjeta profesional COLPSIC ha sido verificada exitosamente. Tu cuenta está activa y puedes comenzar a recibir citas en MenteBridge.</p>
           <div style="background:#f0fdf4;border-left:4px solid #0d9488;padding:14px 18px;border-radius:6px;margin:16px 0">
             <p style="margin:0;font-weight:bold">Tarjeta: ${psicologo.tarjetaProfesionalId}</p>
             <p style="margin:6px 0 0;color:#555">Verificada el ${ahora.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
           </div>
           <a href="${process.env.APP_URL}/dashboard/psicologo" style="display:inline-block;background:#0d9488;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold">Ir a mi panel →</a>
-          <p style="color:#888;font-size:12px;margin-top:24px">Si tienes preguntas, escríbenos a soporte@mindbridge.co</p>
+          <p style="color:#888;font-size:12px;margin-top:24px">Si tienes preguntas, escríbenos a soporte@mentebridge.com</p>
         </div>`,
       }).catch(console.error);
     }
@@ -124,8 +124,8 @@ export async function PATCH(
     if (psicologo.usuario.email) {
       await enviarEmail({
         to: psicologo.usuario.email,
-        subject: '⚠️ Verificación COLPSIC — acción requerida — MindBridge',
-        text: `Hola ${psicologo.usuario.nombre},\n\nHemos revisado tu solicitud de verificación COLPSIC y necesitamos información adicional.\n\nMotivo: ${motivoRechazo}\n\nPor favor escríbenos a soporte@mindbridge.co para continuar.\n\nEquipo MindBridge`,
+        subject: '⚠️ Verificación COLPSIC — acción requerida — MenteBridge',
+        text: `Hola ${psicologo.usuario.nombre},\n\nHemos revisado tu solicitud de verificación COLPSIC y necesitamos información adicional.\n\nMotivo: ${motivoRechazo}\n\nPor favor escríbenos a soporte@mentebridge.com para continuar.\n\nEquipo MenteBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#dc2626">⚠️ Verificación — acción requerida</h2>
           <p>Hola <strong>${psicologo.usuario.nombre}</strong>,</p>
@@ -135,7 +135,7 @@ export async function PATCH(
             <p style="margin:6px 0 0;color:#333">${motivoRechazo}</p>
             ${notas ? `<p style="margin:8px 0 0;color:#555;font-size:13px">${notas}</p>` : ''}
           </div>
-          <p>Por favor responde a este correo o escríbenos a <a href="mailto:soporte@mindbridge.co">soporte@mindbridge.co</a> para continuar con el proceso.</p>
+          <p>Por favor responde a este correo o escríbenos a <a href="mailto:soporte@mentebridge.com">soporte@mentebridge.com</a> para continuar con el proceso.</p>
         </div>`,
       }).catch(console.error);
     }

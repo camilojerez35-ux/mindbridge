@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
     return new Response(new Uint8Array(pdfBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="mindbridge-mis-datos-${fecha}.pdf"`,
+        'Content-Disposition': `attachment; filename="mentebridge-mis-datos-${fecha}.pdf"`,
       },
     });
   } catch (error) {
@@ -99,7 +99,7 @@ async function generarPDF(usuario: any, fecha: string): Promise<Buffer> {
     // ── Encabezado ─────────────────────────────────────────────────────────
     doc.rect(0, 0, doc.page.width, 80).fill(COLOR_DARK);
     doc.fillColor(COLOR_TEAL).fontSize(22).font('Helvetica-Bold')
-       .text('MindBridge Colombia', 50, 22);
+       .text('MenteBridge Colombia', 50, 22);
     doc.fillColor(COLOR_GRAY).fontSize(10).font('Helvetica')
        .text('Exportación de datos personales — Ley 1581/2012 (Habeas Data)', 50, 50);
     doc.fillColor(COLOR_WHITE).fontSize(9)
@@ -223,7 +223,7 @@ async function generarPDF(usuario: any, fecha: string): Promise<Buffer> {
        .text(
          'Documento generado en cumplimiento de la Ley 1581 de 2012 (Habeas Data) y la Resolución 2654/2019 del ' +
          'Ministerio de Salud de Colombia. Para ejercer derechos de acceso, rectificación, cancelación u oposición: ' +
-         'privacidad@mindbridge.co — Tiempo de respuesta: 10-15 días hábiles.',
+         'privacidad@mentebridge.com — Tiempo de respuesta: 10-15 días hábiles.',
          50, doc.y, { width: W, align: 'justify' },
        );
 

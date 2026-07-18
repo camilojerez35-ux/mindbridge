@@ -1,5 +1,5 @@
 /**
- * PostHog Analytics — MindBridge
+ * PostHog Analytics — MenteBridge
  *
  * PRIVACIDAD: Nunca enviar contenido de mensajes, datos clínicos ni PII sensible.
  * Solo se trackean eventos de producto (navegación, features usadas, conversiones).

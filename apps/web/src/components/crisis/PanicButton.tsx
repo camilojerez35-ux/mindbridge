@@ -306,7 +306,7 @@ export default function PanicButton() {
               marginBottom: '20px',
             }}>
               <p style={{ fontSize: '12px', color: '#fbbf24', lineHeight: 1.5 }}>
-                <strong>Recuerda:</strong> La IA de MindBridge no reemplaza la atención en crisis.
+                <strong>Recuerda:</strong> La IA de MenteBridge no reemplaza la atención en crisis.
                 En emergencias reales, llama al 123.
               </p>
             </div>
@@ -320,7 +320,7 @@ export default function PanicButton() {
                 cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit',
               }}
             >
-              Cerrar y volver a MindBridge
+              Cerrar y volver a MenteBridge
             </button>
           </div>
         </div>

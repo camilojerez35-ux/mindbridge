@@ -16,7 +16,7 @@ const SLIDES = [
   {
     emoji: '🧠',
     titulo: 'Tu bienestar mental, inteligente',
-    desc: 'MindBridge combina IA clínica con psicólogos certificados para acompañarte 24/7.',
+    desc: 'MenteBridge combina IA clínica con psicólogos certificados para acompañarte 24/7.',
     bg: '#F0FDF4',
     accent: '#10B981',
   },
@@ -120,7 +120,7 @@ export default function OnboardingScreen() {
             <Text style={styles.iaAvisoTitulo}>Importante sobre la IA</Text>
           </View>
           <Text style={styles.iaAvisoTexto}>
-            MindBridge usa Inteligencia Artificial para acompañamiento emocional.{'\n\n'}
+            MenteBridge usa Inteligencia Artificial para acompañamiento emocional.{'\n\n'}
             <Text style={styles.iaAvisoNegrita}>✅ La IA puede:</Text> escucharte, enseñarte técnicas, detectar crisis y conectarte con ayuda.{'\n\n'}
             <Text style={styles.iaAvisoNegrita}>❌ La IA NO puede:</Text> diagnosticarte, prescribir medicamentos ni reemplazar a un psicólogo.{'\n\n'}
             En caso de emergencia: <Text style={styles.iaAvisoLink} onPress={() => Linking.openURL('tel:106')}>Línea 106</Text> · <Text style={styles.iaAvisoLink} onPress={() => Linking.openURL('tel:123')}>123</Text>
@@ -136,7 +136,7 @@ export default function OnboardingScreen() {
           >
             <Text style={styles.checkTexto}>
               Acepto la{' '}
-              <Text style={styles.checkLink} onPress={() => abrirUrl('https://mindbridge.co/politica-privacidad')}>
+              <Text style={styles.checkLink} onPress={() => abrirUrl('https://mentebridge.com/politica-privacidad')}>
                 Política de Privacidad
               </Text>
               {' '}(Ley 1581/2012 · datos de salud mental)
@@ -150,7 +150,7 @@ export default function OnboardingScreen() {
           >
             <Text style={styles.checkTexto}>
               Acepto los{' '}
-              <Text style={styles.checkLink} onPress={() => abrirUrl('https://mindbridge.co/terminos-uso')}>
+              <Text style={styles.checkLink} onPress={() => abrirUrl('https://mentebridge.com/terminos-uso')}>
                 Términos de Uso
               </Text>
               {' '}del servicio
@@ -163,8 +163,8 @@ export default function OnboardingScreen() {
             obligatorio
           >
             <Text style={styles.checkTexto}>
-              Entiendo que MindBridge usa IA y acepto el{' '}
-              <Text style={styles.checkLink} onPress={() => abrirUrl('https://mindbridge.co/aviso-ia')}>
+              Entiendo que MenteBridge usa IA y acepto el{' '}
+              <Text style={styles.checkLink} onPress={() => abrirUrl('https://mentebridge.com/aviso-ia')}>
                 Aviso de Uso de IA
               </Text>
               {' '}(Resolución 2654/2019)
@@ -177,7 +177,7 @@ export default function OnboardingScreen() {
             obligatorio={false}
           >
             <Text style={styles.checkTexto}>
-              (Opcional) Acepto recibir contenido educativo y novedades de MindBridge
+              (Opcional) Acepto recibir contenido educativo y novedades de MenteBridge
             </Text>
           </CheckItem>
         </View>

@@ -1,4 +1,4 @@
-# MindBridge Colombia — Rutas y Estructura Completa
+# MenteBridge Colombia — Rutas y Estructura Completa
 
 ## 🗺️ Mapa de Rutas
 
@@ -157,4 +157,4 @@ El sistema detecta localmente (sin llamar a Claude) las siguientes frases:
 
 ---
 
-*MindBridge Colombia SAS · v1.0 · Mayo 2026*
+*MenteBridge Colombia SAS · v1.0 · Mayo 2026*

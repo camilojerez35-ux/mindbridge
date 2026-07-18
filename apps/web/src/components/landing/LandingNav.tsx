@@ -31,7 +31,7 @@ export function Logo({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
     <span className="flex items-center gap-2">
       <LogoIcon className={iconClass} />
       <span className={`${textClass} font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent`}>
-        MindBridge
+        MenteBridge
       </span>
     </span>
   );

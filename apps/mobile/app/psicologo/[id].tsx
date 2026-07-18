@@ -119,7 +119,7 @@ export default function DetallePsicologoScreen() {
         <View style={styles.infoCard}>
           <View style={styles.infoRow}>
             <Ionicons name="shield-checkmark" size={18} color={Colors.primary} />
-            <Text style={styles.infoText}>Psicólogo verificado por MindBridge</Text>
+            <Text style={styles.infoText}>Psicólogo verificado por MenteBridge</Text>
           </View>
           <View style={styles.infoRow}>
             <Ionicons name="lock-closed" size={18} color={Colors.primary} />

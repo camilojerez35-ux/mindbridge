@@ -39,7 +39,7 @@
     "node": ">=20.0.0",
     "npm": ">=10.0.0"
   },
-  "author": "MindBridge Colombia SAS",
+  "author": "MenteBridge Colombia SAS",
   "license": "UNLICENSED",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",

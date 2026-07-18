@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { VERSIONES_DOCUMENTOS } from '@/lib/legal/versiones';
 
 export const metadata: Metadata = {
-  title: 'Aviso sobre Uso de IA — MindBridge Colombia',
-  description: 'Información sobre el uso de inteligencia artificial en MindBridge, conforme a la Resolución 2654/2019 y Ley 2460/2025.',
+  title: 'Aviso sobre Uso de IA — MenteBridge Colombia',
+  description: 'Información sobre el uso de inteligencia artificial en MenteBridge, conforme a la Resolución 2654/2019 y Ley 2460/2025.',
 };
 
 export default function AvisoIAPage() {
@@ -15,7 +15,7 @@ export default function AvisoIAPage() {
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
         <p className="font-semibold text-amber-800">Aviso importante</p>
         <p className="text-amber-700 mt-1">
-          La inteligencia artificial de MindBridge <strong>no es un médico, psicólogo ni terapeuta.</strong>{' '}
+          La inteligencia artificial de MenteBridge <strong>no es un médico, psicólogo ni terapeuta.</strong>{' '}
           No puede diagnosticar enfermedades mentales ni prescribir tratamientos. En caso de emergencia,
           llama al <a href="tel:123" className="font-bold text-red-700 hover:underline">123</a> (emergencias)
           o a la <a href="tel:106" className="font-bold text-amber-700 hover:underline">Línea 106</a> (salud mental, gratuita 24h).
@@ -25,7 +25,7 @@ export default function AvisoIAPage() {
       <section className="mb-6">
         <h2 className="font-semibold text-base mb-2">¿Qué IA usamos?</h2>
         <p>
-          MindBridge utiliza <strong>Claude</strong>, un modelo de lenguaje desarrollado por Anthropic, Inc. (EE.UU.).
+          MenteBridge utiliza <strong>Claude</strong>, un modelo de lenguaje desarrollado por Anthropic, Inc. (EE.UU.).
           Este modelo ha sido configurado con protocolos clínicos validados por psicólogos colombianos
           especializados en salud mental.
         </p>
@@ -57,7 +57,7 @@ export default function AvisoIAPage() {
         <h2 className="font-semibold text-base mb-2">Supervisión Humana</h2>
         <p>
           Conforme a la <strong>Resolución 2654 de 2019</strong> del Ministerio de Salud, todos los procesos de
-          IA clínica en MindBridge están supervisados por psicólogos certificados. Los psicólogos de la plataforma
+          IA clínica en MenteBridge están supervisados por psicólogos certificados. Los psicólogos de la plataforma
           pueden revisar resúmenes de sesión con tu consentimiento previo para garantizar la calidad del servicio.
         </p>
       </section>
@@ -75,7 +75,7 @@ export default function AvisoIAPage() {
       <section>
         <h2 className="font-semibold text-base mb-2">Preguntas o Reclamos</h2>
         <p>
-          <a href="mailto:ia@mindbridge.co" className="text-blue-600 underline">ia@mindbridge.co</a>
+          <a href="mailto:ia@mentebridge.com" className="text-blue-600 underline">ia@mentebridge.com</a>
         </p>
       </section>
     </main>

@@ -1,5 +1,5 @@
 # TÉRMINOS Y CONDICIONES DE USO
-## MindBridge Colombia SAS
+## MenteBridge Colombia SAS
 ### Versión 1.0 — Vigentes desde: 2026-05-21
 
 > **📋 ESTADO:** Borrador completo. Requiere revisión de abogado antes del lanzamiento.
@@ -9,17 +9,17 @@
 
 ## 1. ACEPTACIÓN DE LOS TÉRMINOS
 
-Al crear una cuenta o usar MindBridge (la "Plataforma"), usted acepta estos Términos y Condiciones
+Al crear una cuenta o usar MenteBridge (la "Plataforma"), usted acepta estos Términos y Condiciones
 en su totalidad. Si no está de acuerdo, no debe usar la Plataforma.
 
-MindBridge Colombia SAS (NIT ⚑) es la empresa responsable de la Plataforma, constituida
+MenteBridge Colombia SAS (NIT ⚑) es la empresa responsable de la Plataforma, constituida
 bajo las leyes de la República de Colombia.
 
 ---
 
 ## 2. DESCRIPCIÓN DEL SERVICIO
 
-MindBridge es una plataforma digital de **bienestar emocional** que ofrece:
+MenteBridge es una plataforma digital de **bienestar emocional** que ofrece:
 
 1. **Asistente de IA:** Herramienta de apoyo emocional basada en Inteligencia Artificial.
 2. **Directorio de psicólogos:** Conexión con psicólogos colombianos verificados por COLPSIC.
@@ -31,7 +31,7 @@ MindBridge es una plataforma digital de **bienestar emocional** que ofrece:
 
 ## 3. NATURALEZA DEL SERVICIO — AVISO IMPORTANTE
 
-> ⚠️ **MindBridge NO es un servicio médico ni psiquiátrico de urgencias.**
+> ⚠️ **MenteBridge NO es un servicio médico ni psiquiátrico de urgencias.**
 
 - El asistente de IA es una herramienta de **bienestar emocional**, NO un profesional de la salud.
 - Las interacciones con la IA **no constituyen** diagnóstico, tratamiento médico, psiquiátrico ni psicológico.
@@ -42,7 +42,7 @@ MindBridge es una plataforma digital de **bienestar emocional** que ofrece:
 
 ## 4. ELEGIBILIDAD Y REGISTRO
 
-Para usar MindBridge usted debe:
+Para usar MenteBridge usted debe:
 
 - Tener **18 años o más**. (Menores requieren autorización de padres/tutores — ⚑ implementar flujo)
 - Ser residente en Colombia o ciudadano colombiano.
@@ -75,7 +75,7 @@ Usted es responsable de toda actividad realizada desde su cuenta.
 - **Cancelación con más de 24 horas de anticipación:** reembolso del 100%.
 - **Cancelación con menos de 24 horas:** sin reembolso (cubre el tiempo reservado del profesional).
 - **Cancelación por el psicólogo:** reembolso del 100% + crédito de $⚑ COP.
-- **Problemas técnicos imputables a MindBridge:** reembolso del 100%.
+- **Problemas técnicos imputables a MenteBridge:** reembolso del 100%.
 
 Los reembolsos se procesan en **5-10 días hábiles** al método de pago original.
 
@@ -104,7 +104,7 @@ El incumplimiento puede resultar en suspensión o eliminación de la cuenta **si
 
 ## 7. PROPIEDAD INTELECTUAL
 
-Todo el contenido de MindBridge — código, diseño, marca, textos, protocolos clínicos y modelos de IA propios — es propiedad de MindBridge Colombia SAS o de sus licenciantes.
+Todo el contenido de MenteBridge — código, diseño, marca, textos, protocolos clínicos y modelos de IA propios — es propiedad de MenteBridge Colombia SAS o de sus licenciantes.
 
 El usuario recibe una licencia limitada, no exclusiva e intransferible para usar la Plataforma según estos términos.
 
@@ -126,10 +126,10 @@ La Plataforma incluye sistemas automatizados de detección de situaciones de rie
 
 En la máxima extensión permitida por la ley colombiana:
 
-- MindBridge no garantiza que el servicio esté disponible de forma ininterrumpida.
-- MindBridge no es responsable de las decisiones clínicas de los psicólogos independientes de la red.
-- MindBridge no es responsable de daños indirectos, incidentales o consecuentes derivados del uso o imposibilidad de uso de la Plataforma.
-- La responsabilidad máxima de MindBridge ante el usuario no excederá el valor pagado por el usuario en los 3 meses anteriores al evento que da lugar a la reclamación.
+- MenteBridge no garantiza que el servicio esté disponible de forma ininterrumpida.
+- MenteBridge no es responsable de las decisiones clínicas de los psicólogos independientes de la red.
+- MenteBridge no es responsable de daños indirectos, incidentales o consecuentes derivados del uso o imposibilidad de uso de la Plataforma.
+- La responsabilidad máxima de MenteBridge ante el usuario no excederá el valor pagado por el usuario en los 3 meses anteriores al evento que da lugar a la reclamación.
 
 Nada en esta sección excluye la responsabilidad por dolo o culpa grave.
 
@@ -137,7 +137,7 @@ Nada en esta sección excluye la responsabilidad por dolo o culpa grave.
 
 ## 10. MODIFICACIONES AL SERVICIO Y A LOS TÉRMINOS
 
-MindBridge puede modificar estos Términos o el Servicio en cualquier momento. Los cambios sustanciales serán notificados con **30 días de anticipación** por correo electrónico. El uso continuado tras la notificación implica aceptación.
+MenteBridge puede modificar estos Términos o el Servicio en cualquier momento. Los cambios sustanciales serán notificados con **30 días de anticipación** por correo electrónico. El uso continuado tras la notificación implica aceptación.
 
 Si los cambios son adversos para el usuario, este puede cancelar su suscripción sin penalidad dentro de los 30 días siguientes a la notificación.
 
@@ -145,7 +145,7 @@ Si los cambios son adversos para el usuario, este puede cancelar su suscripción
 
 ## 11. TERMINACIÓN
 
-El usuario puede cancelar su cuenta en cualquier momento desde Dashboard → Configuración → Eliminar cuenta. MindBridge puede suspender o cancelar cuentas que violen estos términos.
+El usuario puede cancelar su cuenta en cualquier momento desde Dashboard → Configuración → Eliminar cuenta. MenteBridge puede suspender o cancelar cuentas que violen estos términos.
 
 Tras la terminación, los datos se conservarán por el período legal aplicable (ver Política de Privacidad, sección 9).
 
@@ -159,12 +159,12 @@ Estos términos se rigen por las leyes de la **República de Colombia**. Las con
 
 ## 13. CONTACTO
 
-- **Soporte general:** soporte@mindbridge.co
-- **Privacidad y datos:** privacidad@mindbridge.co
-- **Disputas de pago:** pagos@mindbridge.co
+- **Soporte general:** soporte@mentebridge.com
+- **Privacidad y datos:** privacidad@mentebridge.com
+- **Disputas de pago:** pagos@mentebridge.com
 - **Horario de atención:** ⚑ [Horario] — lunes a viernes
 
 ---
 
-*Versión 1.0 — MindBridge Colombia SAS — Borrador para revisión legal*
+*Versión 1.0 — MenteBridge Colombia SAS — Borrador para revisión legal*
 *Abogado revisor: ⚑ [Nombre] — Fecha de aprobación: ⚑ [Fecha]*

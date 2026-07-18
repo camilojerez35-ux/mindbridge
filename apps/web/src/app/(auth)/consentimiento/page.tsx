@@ -63,12 +63,12 @@ function ConsentimientoForm() {
               <Brain className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-extrabold bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
-              MindBridge
+              MenteBridge
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-white mb-2">Tu privacidad, primero</h1>
           <p className="text-gray-400 text-sm">
-            MindBridge trata datos sensibles de salud mental. La ley colombiana exige tu consentimiento explícito.
+            MenteBridge trata datos sensibles de salud mental. La ley colombiana exige tu consentimiento explícito.
           </p>
         </div>
 

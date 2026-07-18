@@ -220,7 +220,7 @@ export default async function DashboardPage() {
       <div className="bg-red-950/20 border border-red-900/20 rounded-xl px-4 py-3 flex items-center gap-3">
         <span className="text-sm flex-shrink-0">⚠️</span>
         <p className="text-xs text-red-900/80 leading-relaxed text-red-400/60">
-          MindBridge es una herramienta de bienestar emocional, no sustituye la atención profesional.
+          MenteBridge es una herramienta de bienestar emocional, no sustituye la atención profesional.
           Crisis: <strong className="text-red-400">106 · 800-112-5555 · 123</strong>
         </p>
       </div>

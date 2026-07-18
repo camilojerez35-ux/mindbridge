@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 import { db } from '@/lib/db/client';
 
 export const metadata: Metadata = {
-  title: 'Psicólogos verificados — MindBridge Colombia',
-  description: 'Conoce a los psicólogos verificados COLPSIC disponibles en MindBridge. Agenda tu primera cita en minutos.',
+  title: 'Psicólogos verificados — MenteBridge Colombia',
+  description: 'Conoce a los psicólogos verificados COLPSIC disponibles en MenteBridge. Agenda tu primera cita en minutos.',
 };
 
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 export default async function PsicologosPage() {
   const psicologos = await db.psicologo.findMany({
@@ -43,7 +43,7 @@ export default async function PsicologosPage() {
       }}>
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: 'linear-gradient(135deg,#1a6b4a,#0d4a32)', border: '1px solid rgba(45,212,191,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>💚</div>
-          <span style={{ fontSize: '19px', fontWeight: '900', color: '#2dd4bf', letterSpacing: '-0.02em' }}>MindBridge</span>
+          <span style={{ fontSize: '19px', fontWeight: '900', color: '#2dd4bf', letterSpacing: '-0.02em' }}>MenteBridge</span>
         </Link>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ color: '#5a8a6a', textDecoration: 'none', fontSize: '14px', fontWeight: '500', padding: '8px 16px', borderRadius: '8px' }}>Iniciar sesión</Link>
@@ -64,7 +64,7 @@ export default async function PsicologosPage() {
             Profesionales reales,<br /><span style={{ background: 'linear-gradient(90deg,#2dd4bf,#4ade80)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>verificados COLPSIC</span>
           </h1>
           <p style={{ color: '#5a8a6a', fontSize: '16px', maxWidth: '520px', lineHeight: 1.7 }}>
-            Cada psicólogo en MindBridge tiene su tarjeta profesional verificada. Elige por especialidad, modalidad o ciudad y agenda tu primera cita.
+            Cada psicólogo en MenteBridge tiene su tarjeta profesional verificada. Elige por especialidad, modalidad o ciudad y agenda tu primera cita.
           </p>
         </div>
       </section>
@@ -165,7 +165,7 @@ export default async function PsicologosPage() {
       {/* Footer mínimo */}
       <footer style={{ padding: '24px 48px', borderTop: '1px solid rgba(255,255,255,0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <p style={{ fontSize: '12px', color: '#2a3d2e' }}>
-          © 2026 MindBridge Colombia · Crisis:{' '}
+          © 2026 MenteBridge Colombia · Crisis:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
           {' · '}
           <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>

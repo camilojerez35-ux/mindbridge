@@ -135,7 +135,7 @@ async function notificarPsicologoAsignado(
       ? 'Contacta al usuario INMEDIATAMENTE o llama al 123 si no puedes localizarlo.'
       : 'Contacta al usuario en las próximas 2 horas.';
 
-    const baseUrl = process.env.NEXTAUTH_URL ?? 'https://mindbridge.co';
+    const baseUrl = process.env.NEXTAUTH_URL ?? 'https://mentebridge.com';
     const urlConfirmacion = `${baseUrl}/api/crisis/confirmar/${tokenConfirmacion}`;
 
     const bannerFueraHorario = fueraDeHorario ? `
@@ -147,7 +147,7 @@ async function notificarPsicologoAsignado(
 
     await enviarEmail({
       to: psicologoUsuario.email,
-      subject: `[${nivelTexto}]${fueraDeHorario ? ' ⚠️ FUERA DE HORARIO' : ''} Crisis detectada — ${usuario?.nombre ?? 'Usuario'} — MindBridge`,
+      subject: `[${nivelTexto}]${fueraDeHorario ? ' ⚠️ FUERA DE HORARIO' : ''} Crisis detectada — ${usuario?.nombre ?? 'Usuario'} — MenteBridge`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: ${nivel === 'CRITICO' ? '#7f1d1d' : '#78350f'}; color: white; padding: 20px; border-radius: 8px 8px 0 0;">
@@ -156,7 +156,7 @@ async function notificarPsicologoAsignado(
           </div>
           <div style="padding: 20px; border: 1px solid #e5e7eb; border-radius: 0 0 8px 8px;">
             <p>Estimado/a <strong>${cita.psicologo.nombreCompleto}</strong>,</p>
-            <p>El sistema de MindBridge ha detectado una posible crisis de nivel <strong>${nivelTexto}</strong> en uno de sus pacientes.</p>
+            <p>El sistema de MenteBridge ha detectado una posible crisis de nivel <strong>${nivelTexto}</strong> en uno de sus pacientes.</p>
 
             ${bannerFueraHorario}
 

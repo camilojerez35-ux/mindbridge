@@ -273,7 +273,7 @@ export default function PsicologoPage() {
         <div>
           <h1 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>👨‍⚕️ Panel del Psicólogo</h1>
           <p style={{ fontSize: '13px', color: '#5a8a6a', marginTop: '4px' }}>
-            {form.nombreCompleto ? `Dr/a. ${form.nombreCompleto}` : 'MindBridge'}
+            {form.nombreCompleto ? `Dr/a. ${form.nombreCompleto}` : 'MenteBridge'}
           </p>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>

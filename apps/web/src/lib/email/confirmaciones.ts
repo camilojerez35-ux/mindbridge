@@ -3,8 +3,8 @@
  * https://resend.com — 3.000 emails/mes gratis.
  */
 
-const FROM_EMAIL = process.env.EMAIL_FROM      ?? 'noreply@mindbridge.co';
-const FROM_NAME  = process.env.EMAIL_FROM_NAME ?? 'MindBridge Colombia';
+const FROM_EMAIL = process.env.EMAIL_FROM      ?? 'noreply@mentebridge.com';
+const FROM_NAME  = process.env.EMAIL_FROM_NAME ?? 'MenteBridge Colombia';
 
 /** Escapa caracteres HTML para evitar XSS en templates de email. */
 export function escapeHtml(str: string): string {
@@ -71,9 +71,9 @@ export async function enviarEmailBienvenida(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.email,
-    subject: '¡Bienvenido/a a MindBridge! 💚',
-    text: `Hola ${params.nombre},\n\nTu cuenta en MindBridge Colombia ha sido creada exitosamente.\n\nCuida tu bienestar mental con nosotros.\n\nEquipo MindBridge`,
-    html: `<p>Hola <strong>${params.nombre}</strong>,</p><p>Tu cuenta en <strong>MindBridge Colombia</strong> ha sido creada exitosamente.</p><p>Cuida tu bienestar mental con nosotros. 💚</p>`,
+    subject: '¡Bienvenido/a a MenteBridge! 💚',
+    text: `Hola ${params.nombre},\n\nTu cuenta en MenteBridge Colombia ha sido creada exitosamente.\n\nCuida tu bienestar mental con nosotros.\n\nEquipo MenteBridge`,
+    html: `<p>Hola <strong>${params.nombre}</strong>,</p><p>Tu cuenta en <strong>MenteBridge Colombia</strong> ha sido creada exitosamente.</p><p>Cuida tu bienestar mental con nosotros. 💚</p>`,
   });
 }
 
@@ -85,7 +85,7 @@ export async function enviarVerificacionEmail(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.email,
-    subject: 'Verifica tu email — MindBridge',
+    subject: 'Verifica tu email — MenteBridge',
     text: `Hola ${params.nombre},\n\nVerifica tu email haciendo clic en este enlace:\n${params.url}\n\nEl enlace expira en 24 horas.`,
     html: `<p>Hola <strong>${params.nombre}</strong>,</p><p>Haz clic para verificar tu email:</p><p><a href="${params.url}">${params.url}</a></p><p>Expira en 24 horas.</p>`,
   });
@@ -98,7 +98,7 @@ export async function enviarRecuperacionPassword(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.email,
-    subject: 'Recuperar contraseña — MindBridge',
+    subject: 'Recuperar contraseña — MenteBridge',
     text: `Hola ${params.nombre},\n\nRecupera tu contraseña aquí:\n${params.url}\n\nSi no solicitaste esto, ignora este email.`,
     html: `<p>Hola <strong>${params.nombre}</strong>,</p><p>Haz clic para restablecer tu contraseña:</p><p><a href="${params.url}">${params.url}</a></p><p>Si no lo solicitaste, ignora este mensaje.</p>`,
   });
@@ -115,8 +115,8 @@ export async function enviarConfirmacionCita(params: {
   });
   await sendEmail({
     to: params.emailUsuario,
-    subject: 'Cita confirmada — MindBridge',
-    text: `Hola ${params.nombreUsuario},\n\nTu cita con ${params.cita.psicologo?.nombreCompleto ?? 'tu psicólogo'} está confirmada para el ${fecha}.\n\nEquipo MindBridge`,
+    subject: 'Cita confirmada — MenteBridge',
+    text: `Hola ${params.nombreUsuario},\n\nTu cita con ${params.cita.psicologo?.nombreCompleto ?? 'tu psicólogo'} está confirmada para el ${fecha}.\n\nEquipo MenteBridge`,
   });
 }
 
@@ -131,8 +131,8 @@ export async function enviarRecordatorioCita(params: {
   });
   await sendEmail({
     to: params.email,
-    subject: 'Recordatorio de cita — MindBridge',
-    text: `Hola ${params.nombre},\n\nTe recordamos tu cita con ${params.psicologoNombre} mañana ${fecha}.\n\nEquipo MindBridge`,
+    subject: 'Recordatorio de cita — MenteBridge',
+    text: `Hola ${params.nombre},\n\nTe recordamos tu cita con ${params.psicologoNombre} mañana ${fecha}.\n\nEquipo MenteBridge`,
   });
 }
 
@@ -142,8 +142,8 @@ export async function enviarResumenSemanal(params: {
 }): Promise<void> {
   await sendEmail({
     to: params.email,
-    subject: 'Tu resumen semanal — MindBridge',
-    text: `Hola ${params.nombre},\n\nAquí está tu resumen de bienestar de esta semana en MindBridge.\n\nEquipo MindBridge`,
+    subject: 'Tu resumen semanal — MenteBridge',
+    text: `Hola ${params.nombre},\n\nAquí está tu resumen de bienestar de esta semana en MenteBridge.\n\nEquipo MenteBridge`,
   });
 }
 
@@ -164,8 +164,8 @@ export async function enviarConfirmacionSuscripcion(params: {
 
   await sendEmail({
     to: params.email,
-    subject: `Plan ${params.plan} activado — MindBridge`,
-    text: `Hola ${params.nombre},\n\nTu plan ${params.plan} ha sido activado exitosamente.${monto ? `\nMonto: ${monto}` : ''}${vence ? `\nVigente hasta: ${vence}` : ''}\n\nEquipo MindBridge`,
-    html: `<p>Hola <strong>${params.nombre}</strong>,</p><p>Tu plan <strong>${params.plan}</strong> ha sido activado exitosamente. 🎉</p>${monto ? `<p>Monto: <strong>${monto}</strong></p>` : ''}${vence ? `<p>Vigente hasta: <strong>${vence}</strong></p>` : ''}<p>Equipo MindBridge 💚</p>`,
+    subject: `Plan ${params.plan} activado — MenteBridge`,
+    text: `Hola ${params.nombre},\n\nTu plan ${params.plan} ha sido activado exitosamente.${monto ? `\nMonto: ${monto}` : ''}${vence ? `\nVigente hasta: ${vence}` : ''}\n\nEquipo MenteBridge`,
+    html: `<p>Hola <strong>${params.nombre}</strong>,</p><p>Tu plan <strong>${params.plan}</strong> ha sido activado exitosamente. 🎉</p>${monto ? `<p>Monto: <strong>${monto}</strong></p>` : ''}${vence ? `<p>Vigente hasta: <strong>${vence}</strong></p>` : ''}<p>Equipo MenteBridge 💚</p>`,
   });
 }

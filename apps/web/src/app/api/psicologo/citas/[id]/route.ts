@@ -87,8 +87,8 @@ export async function PATCH(
     if (parsed.data.accion === 'CONFIRMAR') {
       enviarEmail({
         to: cita.usuario.email,
-        subject: '✅ Cita confirmada — MindBridge',
-        text: `Hola ${nombrePaciente},\n\nTu cita con ${psNombre} ha sido CONFIRMADA para el ${fechaFmt}.\n\nVer mis citas: ${appUrl}/dashboard/citas\n\nEquipo MindBridge`,
+        subject: '✅ Cita confirmada — MenteBridge',
+        text: `Hola ${nombrePaciente},\n\nTu cita con ${psNombre} ha sido CONFIRMADA para el ${fechaFmt}.\n\nVer mis citas: ${appUrl}/dashboard/citas\n\nEquipo MenteBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#0d9488">✅ Cita confirmada</h2>
           <p>Hola <strong>${nombrePaciente}</strong>,</p>
@@ -99,21 +99,21 @@ export async function PATCH(
           </div>
           <a href="${appUrl}/dashboard/citas" style="display:inline-block;background:#0d9488;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold">Ver mis citas →</a>
           <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-          <p style="color:#aaa;font-size:12px">MindBridge Colombia</p>
+          <p style="color:#aaa;font-size:12px">MenteBridge Colombia</p>
         </div>`,
       }).catch(console.error);
     } else {
       enviarEmail({
         to: cita.usuario.email,
-        subject: '❌ Cita cancelada — MindBridge',
-        text: `Hola ${nombrePaciente},\n\nLamentamos informarte que tu cita del ${fechaFmt} con ${psNombre} ha sido cancelada por el profesional.\n\nPuedes agendar una nueva cita en: ${appUrl}/dashboard/citas\n\nEquipo MindBridge`,
+        subject: '❌ Cita cancelada — MenteBridge',
+        text: `Hola ${nombrePaciente},\n\nLamentamos informarte que tu cita del ${fechaFmt} con ${psNombre} ha sido cancelada por el profesional.\n\nPuedes agendar una nueva cita en: ${appUrl}/dashboard/citas\n\nEquipo MenteBridge`,
         html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
           <h2 style="color:#dc2626">❌ Cita cancelada</h2>
           <p>Hola <strong>${nombrePaciente}</strong>,</p>
           <p>Tu cita del <strong>${fechaFmt}</strong> con <strong>${psNombre}</strong> ha sido cancelada por el profesional.</p>
           <a href="${appUrl}/dashboard/citas" style="display:inline-block;background:#0d9488;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:8px">Agendar nueva cita →</a>
           <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-          <p style="color:#aaa;font-size:12px">MindBridge Colombia</p>
+          <p style="color:#aaa;font-size:12px">MenteBridge Colombia</p>
         </div>`,
       }).catch(console.error);
     }

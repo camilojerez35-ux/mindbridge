@@ -109,7 +109,7 @@ export default function RegistroPsicologoPage() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '28px', fontWeight: '900', color: '#2dd4bf' }}>🧠 MindBridge</span>
+            <span style={{ fontSize: '28px', fontWeight: '900', color: '#2dd4bf' }}>🧠 MenteBridge</span>
           </Link>
           <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'white', marginTop: '16px', marginBottom: '6px' }}>
             Únete como psicólogo
@@ -253,7 +253,7 @@ export default function RegistroPsicologoPage() {
               <Link href="/politica-privacidad" target="_blank" style={{ color: '#2dd4bf', textDecoration: 'none' }}>
                 Política de Privacidad
               </Link>{' '}
-              y el tratamiento de mis datos (Ley 1581/2012). Entiendo que mi perfil estará inactivo hasta ser verificado por el equipo de MindBridge.
+              y el tratamiento de mis datos (Ley 1581/2012). Entiendo que mi perfil estará inactivo hasta ser verificado por el equipo de MenteBridge.
             </span>
           </label>
 

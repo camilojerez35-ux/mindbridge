@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   if (edad < EDAD_MINIMA) {
     return Response.json(
       {
-        error: `MindBridge está disponible solo para personas mayores de ${EDAD_MINIMA} años. Si necesitas apoyo emocional, llama a la Línea 106 (gratuita, 24/7).`,
+        error: `MenteBridge está disponible solo para personas mayores de ${EDAD_MINIMA} años. Si necesitas apoyo emocional, llama a la Línea 106 (gratuita, 24/7).`,
         codigo: 'MENOR_DE_EDAD',
       },
       { status: 400 },

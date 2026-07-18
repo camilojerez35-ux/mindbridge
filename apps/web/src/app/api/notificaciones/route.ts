@@ -22,8 +22,8 @@ function emailRecordatorio24h(params: {
   const ps = escapeHtml(params.nombrePsicologo);
   return enviarEmail({
     to: params.to,
-    subject: '📅 Recordatorio: tu cita es mañana — MindBridge',
-    text: `Hola ${p},\n\nRecuerda que mañana tienes una cita con ${ps} a las ${params.fechaFmt}.\n\nUna hora antes recibirás otro recordatorio con el enlace directo.\n\nEquipo MindBridge`,
+    subject: '📅 Recordatorio: tu cita es mañana — MenteBridge',
+    text: `Hola ${p},\n\nRecuerda que mañana tienes una cita con ${ps} a las ${params.fechaFmt}.\n\nUna hora antes recibirás otro recordatorio con el enlace directo.\n\nEquipo MenteBridge`,
     html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
       <h2 style="color:#0d9488">📅 Tu cita es mañana</h2>
       <p>Hola <strong>${p}</strong>,</p>
@@ -35,7 +35,7 @@ function emailRecordatorio24h(params: {
       </div>
       <p style="color:#555;font-size:14px">Recibirás otro aviso 1 hora antes con el enlace directo a la sesión.</p>
       <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-      <p style="color:#aaa;font-size:12px">MindBridge Colombia · Apoyo emocional profesional</p>
+      <p style="color:#aaa;font-size:12px">MenteBridge Colombia · Apoyo emocional profesional</p>
     </div>`,
   });
 }
@@ -49,8 +49,8 @@ function emailRecordatorio1h(params: {
   const enlace = `${params.appUrl}/dashboard/citas/${params.citaId}/videollamada`;
   return enviarEmail({
     to: params.to,
-    subject: '🔔 Tu sesión comienza en 1 hora — MindBridge',
-    text: `Hola ${p},\n\nTu sesión con ${ps} comienza en 1 hora (${params.fechaFmt}).\n\nEntra aquí cuando estés listo: ${enlace}\n\nEquipo MindBridge`,
+    subject: '🔔 Tu sesión comienza en 1 hora — MenteBridge',
+    text: `Hola ${p},\n\nTu sesión con ${ps} comienza en 1 hora (${params.fechaFmt}).\n\nEntra aquí cuando estés listo: ${enlace}\n\nEquipo MenteBridge`,
     html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
       <h2 style="color:#0d9488">🔔 Tu sesión comienza en 1 hora</h2>
       <p>Hola <strong>${p}</strong>,</p>
@@ -63,7 +63,7 @@ function emailRecordatorio1h(params: {
         Entrar a la sesión →
       </a>
       <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-      <p style="color:#aaa;font-size:12px">MindBridge Colombia · Línea de crisis: 106</p>
+      <p style="color:#aaa;font-size:12px">MenteBridge Colombia · Línea de crisis: 106</p>
     </div>`,
   });
 }
@@ -75,8 +75,8 @@ function emailRecordatorio1hPsicologo(params: {
   const enlace = `${params.appUrl}/dashboard/citas/${params.citaId}/videollamada`;
   return enviarEmail({
     to: params.to,
-    subject: '🔔 Tu sesión comienza en 1 hora — MindBridge',
-    text: `Hola ${params.nombrePsicologo},\n\nTu sesión con ${params.nombrePaciente} comienza en 1 hora (${params.fechaFmt}).\n\nEntra aquí: ${enlace}\n\nEquipo MindBridge`,
+    subject: '🔔 Tu sesión comienza en 1 hora — MenteBridge',
+    text: `Hola ${params.nombrePsicologo},\n\nTu sesión con ${params.nombrePaciente} comienza en 1 hora (${params.fechaFmt}).\n\nEntra aquí: ${enlace}\n\nEquipo MenteBridge`,
     html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
       <h2 style="color:#0d9488">🔔 Tu sesión comienza en 1 hora</h2>
       <p>Hola <strong>${params.nombrePsicologo}</strong>,</p>
@@ -88,7 +88,7 @@ function emailRecordatorio1hPsicologo(params: {
         Iniciar sesión →
       </a>
       <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-      <p style="color:#aaa;font-size:12px">MindBridge Colombia</p>
+      <p style="color:#aaa;font-size:12px">MenteBridge Colombia</p>
     </div>`,
   });
 }
@@ -224,15 +224,15 @@ async function recordatorioAnimo(appUrl: string) {
     const nombre = escapeHtml(u.nombre ?? 'amigo/a');
     await enviarEmail({
       to: u.email,
-      subject: '💚 ¿Cómo te sientes hoy? — MindBridge',
-      text: `Hola ${nombre},\n\nNo olvides registrar tu estado de ánimo hoy. Solo toma un minuto y te ayuda a entender tus patrones emocionales.\n\n${appUrl}/dashboard/diario\n\nEquipo MindBridge`,
+      subject: '💚 ¿Cómo te sientes hoy? — MenteBridge',
+      text: `Hola ${nombre},\n\nNo olvides registrar tu estado de ánimo hoy. Solo toma un minuto y te ayuda a entender tus patrones emocionales.\n\n${appUrl}/dashboard/diario\n\nEquipo MenteBridge`,
       html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
         <h2 style="color:#0d9488">💚 ¿Cómo te sientes hoy?</h2>
         <p>Hola <strong>${nombre}</strong>,</p>
         <p>Registrar tu estado de ánimo solo toma un minuto y te ayuda a entender tus patrones emocionales.</p>
         <a href="${appUrl}/dashboard/diario" style="display:inline-block;background:#0d9488;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:8px">Registrar mi ánimo →</a>
         <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-        <p style="color:#aaa;font-size:12px">MindBridge Colombia · Puedes desactivar estos recordatorios en tu perfil.</p>
+        <p style="color:#aaa;font-size:12px">MenteBridge Colombia · Puedes desactivar estos recordatorios en tu perfil.</p>
       </div>`,
     }).catch(console.error);
     enviados++;
@@ -268,15 +268,15 @@ async function inactividadIA(appUrl: string) {
     const nombre = escapeHtml(u.nombre ?? 'amigo/a');
     await enviarEmail({
       to: u.email,
-      subject: '🤝 Te echamos de menos — MindBridge',
-      text: `Hola ${nombre},\n\nHace unos días que no usas tu diario de bienestar ni el chat con nuestra IA. Estamos aquí cuando lo necesites.\n\n${appUrl}/dashboard\n\nEquipo MindBridge`,
+      subject: '🤝 Te echamos de menos — MenteBridge',
+      text: `Hola ${nombre},\n\nHace unos días que no usas tu diario de bienestar ni el chat con nuestra IA. Estamos aquí cuando lo necesites.\n\n${appUrl}/dashboard\n\nEquipo MenteBridge`,
       html: `<div style="font-family:sans-serif;max-width:520px;margin:auto">
         <h2 style="color:#0d9488">🤝 Te echamos de menos</h2>
         <p>Hola <strong>${nombre}</strong>,</p>
         <p>Hace unos días que no registras tu bienestar. Recuerda que tu salud mental importa, y nuestra IA está disponible cuando la necesites.</p>
-        <a href="${appUrl}/dashboard" style="display:inline-block;background:#0d9488;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:8px">Volver a MindBridge →</a>
+        <a href="${appUrl}/dashboard" style="display:inline-block;background:#0d9488;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:8px">Volver a MenteBridge →</a>
         <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-        <p style="color:#aaa;font-size:12px">MindBridge Colombia · Puedes desactivar estos avisos en tu perfil.</p>
+        <p style="color:#aaa;font-size:12px">MenteBridge Colombia · Puedes desactivar estos avisos en tu perfil.</p>
       </div>`,
     }).catch(console.error);
     enviados++;

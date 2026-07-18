@@ -261,7 +261,7 @@ export default function PerfilPage() {
                   alert('Cuenta eliminada. Serás redirigido al inicio.');
                   window.location.href = '/';
                 } catch {
-                  setErrorEliminacion('Error de conexión. Intenta nuevamente o escribe a privacidad@mindbridge.co');
+                  setErrorEliminacion('Error de conexión. Intenta nuevamente o escribe a privacidad@mentebridge.com');
                 } finally {
                   setEliminandoCuenta(false);
                 }
@@ -312,7 +312,7 @@ export default function PerfilPage() {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `mindbridge-mis-datos-${new Date().toISOString().split('T')[0]}.json`;
+                a.download = `mentebridge-mis-datos-${new Date().toISOString().split('T')[0]}.json`;
                 a.click();
                 URL.revokeObjectURL(url);
               }}
@@ -333,13 +333,13 @@ export default function PerfilPage() {
               <span style={{ fontSize: '16px' }}>🗑️</span> Eliminar mi cuenta
             </button>
             <a
-              href="mailto:privacidad@mindbridge.co?subject=Solicitud%20Habeas%20Data"
+              href="mailto:privacidad@mentebridge.com?subject=Solicitud%20Habeas%20Data"
               style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', textDecoration: 'none' }}
             >
               <span style={{ fontSize: '16px' }}>📬</span> Contactar privacidad
             </a>
           </div>
-          <p style={{ fontSize: '12px', color: '#3d5c48' }}>Tiempo de respuesta: 10-15 días hábiles · privacidad@mindbridge.co</p>
+          <p style={{ fontSize: '12px', color: '#3d5c48' }}>Tiempo de respuesta: 10-15 días hábiles · privacidad@mentebridge.com</p>
         </div>
       )}
 

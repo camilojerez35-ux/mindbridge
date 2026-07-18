@@ -146,7 +146,7 @@ export default function BlogPage() {
       }}>
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: 'linear-gradient(135deg,#1a6b4a,#0d4a32)', border: '1px solid rgba(45,212,191,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>💚</div>
-          <span style={{ fontSize: '19px', fontWeight: '900', color: '#2dd4bf', letterSpacing: '-0.02em' }}>MindBridge</span>
+          <span style={{ fontSize: '19px', fontWeight: '900', color: '#2dd4bf', letterSpacing: '-0.02em' }}>MenteBridge</span>
         </Link>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Link href="/login" style={{ color: '#5a8a6a', textDecoration: 'none', fontSize: '14px', fontWeight: '500', padding: '8px 16px', borderRadius: '8px' }}>Iniciar sesión</Link>
@@ -161,7 +161,7 @@ export default function BlogPage() {
         <div style={{ position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)', width: '700px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(45,212,191,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.2)', borderRadius: '20px', padding: '7px 18px', fontSize: '11px', color: '#2dd4bf', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '20px' }}>
-            📖 Blog MindBridge
+            📖 Blog MenteBridge
           </div>
           <h1 style={{ fontSize: 'clamp(32px,5vw,52px)', fontWeight: '900', letterSpacing: '-0.02em', marginBottom: '14px', lineHeight: 1.1 }}>
             Salud mental con<br /><span style={{ background: 'linear-gradient(90deg,#2dd4bf,#4ade80)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>evidencia científica</span>
@@ -318,7 +318,7 @@ export default function BlogPage() {
           <div style={{ fontSize: '32px', marginBottom: '12px' }}>💚</div>
           <h3 style={{ fontSize: '22px', fontWeight: '900', marginBottom: '10px', letterSpacing: '-0.01em' }}>¿Listo para practicar lo que aprendiste?</h3>
           <p style={{ color: '#5a8a6a', fontSize: '14px', marginBottom: '24px', maxWidth: '420px', margin: '0 auto 24px', lineHeight: 1.7 }}>
-            MindBridge te guía en estos ejercicios con IA clínica disponible 24/7.
+            MenteBridge te guía en estos ejercicios con IA clínica disponible 24/7.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/registro" style={{ background: 'linear-gradient(135deg,#1a6b4a,#0d5438)', color: 'white', padding: '13px 32px', borderRadius: '10px', textDecoration: 'none', fontWeight: '700', fontSize: '14px', boxShadow: '0 2px 12px rgba(26,107,74,0.4)' }}>
@@ -334,7 +334,7 @@ export default function BlogPage() {
       {/* Footer mínimo */}
       <footer style={{ padding: '24px 48px', borderTop: '1px solid rgba(255,255,255,0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <p style={{ fontSize: '12px', color: '#2a3d2e' }}>
-          © 2026 MindBridge Colombia · Crisis:{' '}
+          © 2026 MenteBridge Colombia · Crisis:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
           {' · '}
           <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>

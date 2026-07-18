@@ -10,8 +10,8 @@ export async function POST(req: NextRequest) {
   if (!to) return Response.json({ error: 'Falta el campo "to"' }, { status: 400 });
 
   const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.EMAIL_FROM ?? 'noreply@mindbridge.co';
-  const fromName  = process.env.EMAIL_FROM_NAME ?? 'MindBridge Colombia';
+  const fromEmail = process.env.EMAIL_FROM ?? 'noreply@mentebridge.com';
+  const fromName  = process.env.EMAIL_FROM_NAME ?? 'MenteBridge Colombia';
 
   // Diagnóstico de variables
   const diagnostico = {
@@ -38,9 +38,9 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       from: `${fromName} <${fromEmail}>`,
       to: [to],
-      subject: '✅ Test de email — MindBridge',
+      subject: '✅ Test de email — MenteBridge',
       text: 'Si recibes esto, el email está funcionando correctamente.',
-      html: '<p>✅ Si recibes esto, el email está funcionando correctamente en <strong>MindBridge</strong>.</p>',
+      html: '<p>✅ Si recibes esto, el email está funcionando correctamente en <strong>MenteBridge</strong>.</p>',
     }),
   });
 

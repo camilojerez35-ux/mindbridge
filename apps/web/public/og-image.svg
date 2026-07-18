@@ -36,7 +36,7 @@
   <line x1="125.5" y1="196" x2="134.5" y2="196" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
 
   <!-- Brand name -->
-  <text x="178" y="202" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="900" fill="url(#accent)">MindBridge</text>
+  <text x="178" y="202" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="900" fill="url(#accent)">MenteBridge</text>
 
   <!-- Colombia tag -->
   <rect x="100" y="240" width="130" height="24" rx="12" fill="#2dd4bf" fill-opacity="0.1" stroke="#2dd4bf" stroke-opacity="0.3" stroke-width="1"/>
@@ -64,5 +64,5 @@
 
   <!-- Bottom line -->
   <line x1="100" y1="570" x2="1100" y2="570" stroke="white" stroke-opacity="0.05" stroke-width="1"/>
-  <text x="100" y="600" font-family="system-ui, sans-serif" font-size="16" fill="#3d5c48">mindbridge.co · Salud Mental Accesible en Colombia</text>
+  <text x="100" y="600" font-family="system-ui, sans-serif" font-size="16" fill="#3d5c48">mentebridge.com · Salud Mental Accesible en Colombia</text>
 </svg>

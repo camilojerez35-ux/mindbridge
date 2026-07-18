@@ -117,7 +117,7 @@ function LoginForm() {
               <Brain className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-extrabold bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
-              MindBridge
+              MenteBridge
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-white mb-2">Bienvenido de vuelta</h1>
@@ -216,7 +216,7 @@ function LoginForm() {
               setLoading(true);
               const result = await signIn('dev-bypass', {
                 redirect: false,
-                secret: 'dev-mindbridge-2026',
+                secret: 'dev-mentebridge-2026',
               });
               setLoading(false);
               if (result?.ok) { router.push('/dashboard'); router.refresh(); }

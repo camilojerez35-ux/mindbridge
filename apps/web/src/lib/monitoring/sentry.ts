@@ -58,7 +58,7 @@ export function capturarEventoCrisis(meta: CrisisEventMeta): void {
   if (meta.nivel === 'critico' || meta.nivel === 'alto') {
     const emoji = meta.nivel === 'critico' ? '🚨' : '⚠️';
     alertarSlack(
-      `${emoji} *Crisis ${meta.nivel.toUpperCase()}* detectada en MindBridge\n` +
+      `${emoji} *Crisis ${meta.nivel.toUpperCase()}* detectada en MenteBridge\n` +
       `• Indicadores: ${meta.cantidadIndicadores}\n` +
       `• Escaló a psicólogo: ${meta.escaloAPsicologo ? 'Sí' : 'No'}\n` +
       `• Sesión: \`${meta.sesionId ?? 'desconocida'}\``

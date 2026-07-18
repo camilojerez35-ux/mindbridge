@@ -151,7 +151,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#0d1a12,#0a1510)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
       <div style={{ width: '100%', maxWidth: '440px' }}>
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <Link href="/" style={{ fontSize: '26px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MindBridge</Link>
+          <Link href="/" style={{ fontSize: '26px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MenteBridge</Link>
           <p style={{ fontSize: '12px', color: '#3d5c48', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
         </div>
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid #1a2e1f', borderRadius: '18px', padding: '40px 36px' }}>
