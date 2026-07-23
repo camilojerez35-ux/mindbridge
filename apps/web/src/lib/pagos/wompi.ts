@@ -5,7 +5,7 @@ export function generarFirmaIntegridad(params: {
   amountInCents: number;
   currency: string;
 }): string {
-  const secret = process.env.WOMPI_EVENTS_SECRET ?? '';
+  const secret = process.env.WOMPI_INTEGRITY_KEY ?? '';
   if (!secret) return '';
   const data = `${params.referencia}${params.amountInCents}${params.currency}${secret}`;
   return createHash('sha256').update(data).digest('hex');

@@ -8,11 +8,17 @@
  */
 
 import { NextRequest } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { db } from '@/lib/db/client';
 import { capturarErrorApi } from '@/lib/monitoring/sentry';
 import { enviarEmail } from '@/lib/email/confirmaciones';
 
 const EVENTS_SECRET = process.env.WOMPI_EVENTS_SECRET ?? '';
+
+const PRECIOS_PLAN: Record<string, number> = {
+  PLUS: 25000,
+  FAMILIA: 45000,
+};
 
 // ── Verificación de firma ──────────────────────────────────────
 async function verificarFirma(body: WompiEvent): Promise<boolean> {
@@ -42,7 +48,10 @@ async function verificarFirma(body: WompiEvent): Promise<boolean> {
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
 
-  return hashHex === signature.checksum;
+  const recibidoBuf = Buffer.from(signature.checksum, 'hex');
+  const esperadoBuf = Buffer.from(hashHex, 'hex');
+  if (recibidoBuf.length !== esperadoBuf.length) return false;
+  return timingSafeEqual(recibidoBuf, esperadoBuf);
 }
 
 // ── Tipos Wompi ────────────────────────────────────────────────
@@ -143,6 +152,12 @@ async function procesarPagoSuscripcion(tx: WompiTransaction) {
   const plan   = partes[2] as 'PLUS' | 'FAMILIA' | 'EMPRESARIAL';
 
   if (!['PLUS', 'FAMILIA', 'EMPRESARIAL'].includes(plan)) return;
+
+  const precioEsperado = PRECIOS_PLAN[plan];
+  if (precioEsperado && tx.amount_in_cents !== precioEsperado * 100) {
+    console.error('[WOMPI WEBHOOK] Monto no coincide con el plan — rechazado:', tx.reference, tx.amount_in_cents);
+    return;
+  }
 
   const ahora = new Date();
   const vence = new Date(ahora);

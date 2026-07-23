@@ -6,14 +6,26 @@
  * Protegido con CRON_SECRET para que solo Vercel pueda invocarlo.
  */
 import { NextRequest } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { db } from '@/lib/db/client';
 
 const UMBRAL_MINUTOS_CRITICO = 15;
 const UMBRAL_MINUTOS_ALTO = 30;
 
+function autorizado(req: NextRequest): boolean {
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) return false;
+
+  const header = req.headers.get('authorization') ?? '';
+  const esperado = `Bearer ${cronSecret}`;
+  const headerBuf = Buffer.from(header);
+  const esperadoBuf = Buffer.from(esperado);
+  if (headerBuf.length !== esperadoBuf.length) return false;
+  return timingSafeEqual(headerBuf, esperadoBuf);
+}
+
 export async function GET(req: NextRequest) {
-  const secret = req.headers.get('authorization');
-  if (secret !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!autorizado(req)) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });
   }
 

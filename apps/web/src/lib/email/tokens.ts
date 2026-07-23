@@ -5,7 +5,10 @@
  */
 import crypto from 'crypto';
 
-const SECRET = process.env.NEXTAUTH_SECRET ?? 'dev-secret-change-in-production';
+const SECRET = process.env.NEXTAUTH_SECRET;
+if (!SECRET) {
+  throw new Error('NEXTAUTH_SECRET no está configurado — requerido para firmar tokens de verificación/reset.');
+}
 
 function firmar(payload: string): string {
   return crypto.createHmac('sha256', SECRET).update(payload).digest('hex');

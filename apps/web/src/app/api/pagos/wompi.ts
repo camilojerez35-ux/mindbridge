@@ -134,7 +134,12 @@ export async function verificarWebhook(payload: string, firma: string): Promise<
   const hashHex = Array.from(new Uint8Array(hashBuffer))
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
-  return hashHex === firma;
+
+  const { timingSafeEqual } = await import('crypto');
+  const recibidoBuf = Buffer.from(firma, 'hex');
+  const esperadoBuf = Buffer.from(hashHex, 'hex');
+  if (recibidoBuf.length !== esperadoBuf.length) return false;
+  return timingSafeEqual(recibidoBuf, esperadoBuf);
 }
 
 // ── Obtener lista de bancos PSE ────────────────────────────────

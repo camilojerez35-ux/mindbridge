@@ -4,6 +4,11 @@ import { verificarWebhook } from '@/app/api/pagos/wompi';
 import { enviarConfirmacionSuscripcion } from '@/lib/email/confirmaciones';
 import { capturarErrorApi } from '@/lib/monitoring/sentry';
 
+const PRECIOS_PLAN: Record<string, number> = {
+  PLUS: 25000,
+  FAMILIA: 45000,
+};
+
 // Wompi envía el payload como texto plano para verificar la firma
 export async function POST(req: NextRequest) {
   let rawBody: string;
@@ -127,6 +132,11 @@ async function procesarSuscripcion(
 
   const planesValidos = ['PLUS', 'FAMILIA', 'EMPRESARIAL'];
   if (!planesValidos.includes(plan)) throw new Error(`Plan desconocido: ${plan}`);
+
+  const precioEsperado = PRECIOS_PLAN[plan];
+  if (precioEsperado && montoCOP !== precioEsperado) {
+    throw new Error(`Monto no coincide con el plan ${plan}: recibido ${montoCOP}, esperado ${precioEsperado}`);
+  }
 
   const fechaVencimiento = new Date();
   fechaVencimiento.setMonth(fechaVencimiento.getMonth() + 1);
