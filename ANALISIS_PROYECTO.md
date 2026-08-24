@@ -122,10 +122,10 @@ Librerías dedicadas: `apps/web/src/lib/encryption.ts`, `apps/web/src/lib/rate-l
 
 ## 8. Testing
 
-- **`tests/` (raíz)**: unit (crisis-protocol, encryption, tokens), integration (chat-api, registro, sesiones, usuarios-registro, **webhook-wompi** — nuevo, 8 casos: firma, anti-tampering de monto, activación mensual/anual, idempotencia, confirmación de cita), e2e con Playwright (landing, registro, chat-crisis, psicólogos, flujo-usuario), y suite de IA clínica (`protocol-crisis-test.ts`) que actúa como **gate obligatorio en CI**.
+- **`tests/` (raíz)**: unit (crisis-protocol, encryption, tokens), integration (chat-api, registro, sesiones, usuarios-registro, **webhook-wompi** — 8 casos: firma, anti-tampering de monto, activación mensual/anual, idempotencia, confirmación de cita, **notificaciones** — 12 casos: ventanas de recordatorios de citas por dedup, zona horaria de "hoy", reintento de inactividad-ia, límite de reenvío de reengagement), e2e con Playwright (landing, registro, chat-crisis, psicólogos, flujo-usuario), y suite de IA clínica (`protocol-crisis-test.ts`) que actúa como **gate obligatorio en CI**.
 - **Mobile**: 27 archivos de test (components/hooks/lib/store).
-- **`apps/web`**: sin tests propios dentro del workspace — todo centralizado en `tests/` raíz; cobertura sigue siendo parcial frente a ~60 rutas API (solo el flujo de pagos Wompi tiene cobertura dedicada por ahora).
-- **Estado actual**: 131/131 tests pasando, typecheck y build de producción limpios.
+- **`apps/web`**: sin tests propios dentro del workspace — todo centralizado en `tests/` raíz; cobertura sigue siendo parcial frente a ~60 rutas API — cubiertos: pagos/webhook, crons de notificaciones, chat/crisis, registro de usuarios, sesiones de chat. Faltan: login, citas (creación), suscripciones (creación de intención de pago), reset/forgot password.
+- **Estado actual**: 143/143 tests pasando, typecheck y build de producción limpios.
 
 ---
 
@@ -159,7 +159,7 @@ Librerías dedicadas: `apps/web/src/lib/encryption.ts`, `apps/web/src/lib/rate-l
 
 1. **React 18 (web) vs React 19 (mobile)**: divergencia de major version que puede complicar código compartido. El plan es esperar a que Next.js soporte React 19 completamente — no forzar antes.
 2. **`api/auth/registro`**: endpoint huérfano (nadie lo llama — el registro real es `api/usuarios/registro`), no eliminado a la espera de confirmación explícita.
-3. Cobertura de tests en `apps/web` sigue siendo parcial frente a ~60 rutas API — prioridad sugerida: auth, chat/crisis, citas, suscripciones (en ese orden).
+3. Cobertura de tests en `apps/web` sigue siendo parcial frente a ~60 rutas API — cubiertos hoy: pagos/webhook y crons de notificaciones (ambos con bugs reales encontrados y corregidos). Prioridad sugerida para lo que falta: login (`auth-options.authorize`), citas, suscripciones/pagos (creación de intención), reset/forgot password.
 4. Verificación operativa pendiente: confirmar contra el sandbox real de Wompi que el fix de firma funciona con webhooks genuinos (no solo con los tests, que simulan la firma).
 
 ---
