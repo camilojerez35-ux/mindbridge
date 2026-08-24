@@ -58,6 +58,10 @@ model Usuario {
   updatedAt     DateTime  @updatedAt
   ultimoAcceso  DateTime?
 
+  // Dedup de recordatorios de inactividad — evita reenvíos diarios indefinidos
+  ultimoReengagementEnviadoEn  DateTime?
+  ultimaInactividadIAEnviadoEn DateTime?
+
   // Derecho al olvido (Ley 1581/2012 — Habeas Data)
   solicitudEliminacionAt DateTime?  // Momento en que el usuario solicitó eliminar su cuenta
   eliminadoDefinitivoAt  DateTime?  // Momento en que se ejecutó la eliminación definitiva (30 días después)
@@ -101,6 +105,7 @@ enum RolUsuario {
 
 enum PlanSuscripcion {
   GRATIS
+  BASICO
   PLUS
   FAMILIA
   EMPRESARIAL
@@ -394,7 +399,11 @@ model Cita {
   motivoCancelacion String?
   canceladaBy       String?
   canceladaEn       DateTime?
-  
+
+  // Recordatorios (dedup — evita reenvíos y no dependen de la frecuencia exacta del cron)
+  recordatorio24hEnviadoEn DateTime?
+  recordatorio1hEnviadoEn  DateTime?
+
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   
