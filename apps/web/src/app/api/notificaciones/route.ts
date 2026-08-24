@@ -12,6 +12,15 @@ const fmtCita = (fecha: Date) =>
     hour: '2-digit', minute: '2-digit', timeZone: TZ,
   });
 
+// Colombia no tiene horario de verano — offset fijo UTC-5.
+const OFFSET_BOGOTA_MS = 5 * 60 * 60 * 1000;
+
+/** Medianoche de "hoy" en hora de Bogotá, expresada como instante UTC correcto. */
+function medianocheBogotaHoy(): Date {
+  const bogotaNow = new Date(Date.now() - OFFSET_BOGOTA_MS);
+  return new Date(Date.UTC(bogotaNow.getUTCFullYear(), bogotaNow.getUTCMonth(), bogotaNow.getUTCDate()) + OFFSET_BOGOTA_MS);
+}
+
 // ── Helpers de email ──────────────────────────────────────────
 
 function emailRecordatorio24h(params: {
@@ -97,11 +106,17 @@ function emailRecordatorio1hPsicologo(params: {
 
 async function recordatorios24h(appUrl: string) {
   const ahora = new Date();
-  const desde = new Date(ahora.getTime() + 23 * 60 * 60 * 1000);
-  const hasta  = new Date(ahora.getTime() + 25 * 60 * 60 * 1000);
+  const limite24h = new Date(ahora.getTime() + 24 * 60 * 60 * 1000);
 
+  // Cualquier cita confirmada cuya hora caiga dentro de las próximas 24h y aún no
+  // haya recibido el recordatorio — no depende de que el cron corra en un instante
+  // exacto, así que se auto-recupera sin importar la frecuencia de ejecución.
   const citas = await db.cita.findMany({
-    where: { estado: 'CONFIRMADA', fechaHora: { gte: desde, lte: hasta } },
+    where: {
+      estado: 'CONFIRMADA',
+      fechaHora: { gt: ahora, lte: limite24h },
+      recordatorio24hEnviadoEn: null,
+    },
     include: {
       usuario:   { select: { nombre: true, apellido: true, email: true, pushToken: true } },
       psicologo: { select: { nombreCompleto: true,
@@ -130,6 +145,11 @@ async function recordatorios24h(appUrl: string) {
         { tipo: 'cita', citaId: cita.id },
       ).catch(console.error);
     }
+
+    await db.cita.update({
+      where: { id: cita.id },
+      data: { recordatorio24hEnviadoEn: new Date() },
+    });
   }
 
   return { job: 'recordatorios-24h', citas: citas.length, enviados };
@@ -139,11 +159,14 @@ async function recordatorios24h(appUrl: string) {
 
 async function recordatorios1h(appUrl: string) {
   const ahora = new Date();
-  const desde = new Date(ahora.getTime() + 55 * 60 * 1000);
-  const hasta  = new Date(ahora.getTime() + 65 * 60 * 1000);
+  const limite1h = new Date(ahora.getTime() + 60 * 60 * 1000);
 
   const citas = await db.cita.findMany({
-    where: { estado: 'CONFIRMADA', fechaHora: { gte: desde, lte: hasta } },
+    where: {
+      estado: 'CONFIRMADA',
+      fechaHora: { gt: ahora, lte: limite1h },
+      recordatorio1hEnviadoEn: null,
+    },
     include: {
       usuario:   { select: { nombre: true, apellido: true, email: true, pushToken: true } },
       psicologo: { select: { nombreCompleto: true,
@@ -194,6 +217,11 @@ async function recordatorios1h(appUrl: string) {
       }).catch(console.error);
       enviados++;
     }
+
+    await db.cita.update({
+      where: { id: cita.id },
+      data: { recordatorio1hEnviadoEn: new Date() },
+    });
   }
 
   return { job: 'recordatorios-1h', citas: citas.length, enviados };
@@ -203,8 +231,7 @@ async function recordatorios1h(appUrl: string) {
 // Notifica a usuarios activos que no han registrado su ánimo hoy
 
 async function recordatorioAnimo(appUrl: string) {
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
+  const hoy = medianocheBogotaHoy();
   const manana = new Date(hoy.getTime() + 24 * 60 * 60 * 1000);
 
   // Usuarios activos que no registraron entrada hoy
@@ -242,23 +269,25 @@ async function recordatorioAnimo(appUrl: string) {
 }
 
 // ── Cron: inactividad IA (lunes) ──────────────────────────────
-// Re-engancha usuarios que llevan más de 7 días sin usar el chat de IA
+// Re-engancha usuarios que llevan 7+ días sin usar el diario. A diferencia de la
+// versión anterior (que solo capturaba a quien cruzaba el umbral esa semana exacta),
+// esto reintenta cada 7 días mientras el usuario siga inactivo — sin límite de cuánto
+// tiempo lleve inactivo — pero nunca más de una vez por semana por usuario (dedup).
 
 async function inactividadIA(appUrl: string) {
-  const haceUnaSemanaMas = new Date(Date.now() - 8 * 24 * 60 * 60 * 1000);
   const haceSemana = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-  // Usuarios cuya última entrada de diario fue hace exactamente 7-8 días (ventana del cron semanal)
   const usuarios = await db.usuario.findMany({
     where: {
       estado: 'ACTIVO',
       email: { not: null },
-      entradasDiario: {
-        none: { createdAt: { gte: haceSemana } },
-        some: { createdAt: { gte: haceUnaSemanaMas } },
-      },
+      entradasDiario: { none: { createdAt: { gte: haceSemana } } },
+      OR: [
+        { ultimaInactividadIAEnviadoEn: null },
+        { ultimaInactividadIAEnviadoEn: { lt: haceSemana } },
+      ],
     },
-    select: { email: true, nombre: true },
+    select: { id: true, email: true, nombre: true },
     take: 500,
   });
 
@@ -279,10 +308,80 @@ async function inactividadIA(appUrl: string) {
         <p style="color:#aaa;font-size:12px">MenteBridge Colombia · Puedes desactivar estos avisos en tu perfil.</p>
       </div>`,
     }).catch(console.error);
+
+    await db.usuario.update({
+      where: { id: u.id },
+      data: { ultimaInactividadIAEnviadoEn: new Date() },
+    });
     enviados++;
   }
 
   return { job: 'inactividad-ia', usuariosInactivos: usuarios.length, enviados };
+}
+
+// ── Cron: reengagement push por inactividad (3+ días) ─────────
+// Empuja a usuarios sin ninguna actividad (diario/ánimo) en 3+ días,
+// con mensaje personalizado referenciando su última entrada del diario.
+// Se reenvía como máximo una vez cada 7 días por usuario (dedup) — sin esto,
+// un usuario inactivo recibiría el push todos los días indefinidamente.
+
+async function reengagement3Dias() {
+  const hace3Dias = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+  const hace7Dias = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+  const usuarios = await db.usuario.findMany({
+    where: {
+      estado: 'ACTIVO',
+      pushToken: { not: null },
+      entradasDiario: { none: { createdAt: { gte: hace3Dias } } },
+      registrosAnimo: { none: { fecha: { gte: hace3Dias } } },
+      OR: [
+        { ultimoReengagementEnviadoEn: null },
+        { ultimoReengagementEnviadoEn: { lt: hace7Dias } },
+      ],
+    },
+    select: {
+      id: true,
+      pushToken: true,
+      nombre: true,
+      entradasDiario: {
+        take: 1,
+        orderBy: { createdAt: 'desc' },
+        select: { emociones: true, sentimientos: true },
+      },
+    },
+    take: 500,
+  });
+
+  let enviados = 0;
+  for (const u of usuarios) {
+    if (!u.pushToken) continue;
+    const nombre = u.nombre?.split(' ')[0] ?? '';
+    const ultimaEntrada = u.entradasDiario[0];
+    const emocion = [
+      ...((ultimaEntrada?.emociones as string[]) ?? []),
+      ...((ultimaEntrada?.sentimientos as string[]) ?? []),
+    ][0];
+
+    const cuerpo = emocion
+      ? `La última vez hablaste de sentirte "${emocion}". ¿Cómo has estado desde entonces?`
+      : 'Hace unos días que no sabemos de ti. Tu espacio sigue aquí cuando quieras volver.';
+
+    await enviarPushUno(
+      u.pushToken,
+      nombre ? `Hola ${nombre} 💚` : 'Te extrañamos 💚',
+      cuerpo,
+      { tipo: 'reengagement' },
+    ).catch(console.error);
+
+    await db.usuario.update({
+      where: { id: u.id },
+      data: { ultimoReengagementEnviadoEn: new Date() },
+    });
+    enviados++;
+  }
+
+  return { job: 'reengagement-3dias', usuariosInactivos: usuarios.length, enviados };
 }
 
 // ── POST: envío manual (solo ADMIN) ──────────────────────────
@@ -328,6 +427,7 @@ export async function GET(req: NextRequest) {
 
     if (job === 'recordatorio-animo') return Response.json(await recordatorioAnimo(appUrl));
     if (job === 'inactividad-ia')    return Response.json(await inactividadIA(appUrl));
+    if (job === 'reengagement-3dias') return Response.json(await reengagement3Dias());
 
     if (job === 'limpiar-senales-rtc') {
       const { count } = await db.senalRTC.deleteMany({

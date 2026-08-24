@@ -1,14 +1,6 @@
 {
   "crons": [
     {
-      "path": "/api/notificaciones?job=citas-24h",
-      "schedule": "0 13 * * *"
-    },
-    {
-      "path": "/api/notificaciones?job=citas-1h",
-      "schedule": "0 8 * * *"
-    },
-    {
       "path": "/api/notificaciones?job=recordatorio-animo",
       "schedule": "0 9 * * *"
     },
@@ -19,6 +11,10 @@
     {
       "path": "/api/notificaciones?job=limpiar-senales-rtc",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/notificaciones?job=reengagement-3dias",
+      "schedule": "0 14 * * *"
     }
   ]
 }
