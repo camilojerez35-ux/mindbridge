@@ -21,11 +21,9 @@ const BIENVENIDA_CONTENIDO = `¡Hola! Soy MenteBridge IA, tu asistente de bienes
 
 Estoy aquí para acompañarte con empatía y apoyo basado en técnicas clínicas como TCC y mindfulness.
 
-Puedes contarme cómo te sientes, qué está pasando en tu vida, o pedirme que te guíe en un ejercicio de respiración o relajación.
-
 ⚠️ _Soy una IA de apoyo emocional, no un psicólogo. En caso de crisis: Línea 106 · 123_
 
-¿Cómo te encuentras hoy?`;
+¿Cómo llegaste hoy hasta aquí? No hay respuesta correcta — solo cuéntame lo que quieras.`;
 
 const PALABRAS_CRITICAS = ['suicidio', 'quitarme la vida', 'no quiero vivir', 'hacerme daño', 'mejor muerto', 'acabar con todo', 'me corté', 'me lastimé'];
 const PALABRAS_ALTO = ['no puedo más', 'soy una carga', 'todos estarían mejor sin mí', 'quiero desaparecer', 'quisiera no despertar'];

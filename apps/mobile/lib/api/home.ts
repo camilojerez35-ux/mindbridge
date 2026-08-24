@@ -25,6 +25,9 @@ export const homeService = {
   registrarAnimo: (valor: number, nota?: string) =>
     api.post<RegistroAnimo>('/animo', { valor, nota }),
 
+  getHistorialAnimo: (dias = 28) =>
+    api.get<{ registros: RegistroAnimo[] }>(`/animo?dias=${dias}`).then(r => r.registros),
+
   getUsuario: () =>
     api.get<{ usuario: { nombre: string; apellido: string | null; planActual: string } }>('/usuarios')
       .then(r => ({ nombre: [r.usuario.nombre, r.usuario.apellido].filter(Boolean).join(' '), plan: r.usuario.planActual })),

@@ -124,7 +124,7 @@ export default function ChatSesionScreen() {
             <View style={styles.emptyChat}>
               <Text style={styles.emptyChatEmoji}>🤗</Text>
               <Text style={styles.emptyChatText}>Hola, estoy aquí para escucharte.</Text>
-              <Text style={styles.emptyChatSubtext}>¿Cómo te sientes hoy?</Text>
+              <Text style={styles.emptyChatSubtext}>¿Cómo llegaste hoy hasta aquí? No hay respuesta correcta.</Text>
               <View style={styles.emptyChatSugerencias}>
                 {['Me siento ansioso/a', 'Quiero hablar de algo', 'Necesito apoyo'].map(s => (
                   <TouchableOpacity key={s} style={styles.sugerencia} onPress={() => setTexto(s)}>

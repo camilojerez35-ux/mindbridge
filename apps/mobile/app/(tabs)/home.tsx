@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { homeService, ConsejoDiario } from '@/lib/api/home';
 import { statsService } from '@/lib/api/stats';
-import { LoadingSpinner, BottomSheetModal } from '@/components';
+import { LoadingSpinner, BottomSheetModal, RachaAnimo } from '@/components';
 import { useModal } from '@/hooks';
 import { useAuthStore } from '@/store';
 
@@ -141,6 +141,9 @@ export default function HomeScreen() {
             </>
           )}
         </View>
+
+        {/* Racha y progreso de ánimo */}
+        <RachaAnimo key={animoGuardado ? 'guardado' : 'inicial'} />
 
         {/* Consejo del día */}
         {consejo && (

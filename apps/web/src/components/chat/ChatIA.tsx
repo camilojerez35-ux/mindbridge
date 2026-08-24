@@ -28,11 +28,11 @@ interface ChatIAProps {
 
 const BIENVENIDA = `¡Hola! Soy MenteBridge AI, tu asistente de bienestar emocional. 💚
 
-Estoy aquí para escucharte y acompañarte. Puedes hablarme con total confianza sobre lo que estés viviendo.
+Estoy aquí para escucharte y acompañarte, con total confianza sobre lo que estés viviendo.
 
 _Soy una IA de apoyo emocional, no una psicóloga. En emergencias: **Línea 106** · **123**._
 
-¿Cómo te encuentras hoy?`;
+¿Cómo llegaste hoy hasta aquí? No hay respuesta correcta — solo cuéntame lo que quieras.`;
 
 const SUGERENCIAS = [
   'Me siento ansioso/a últimamente',

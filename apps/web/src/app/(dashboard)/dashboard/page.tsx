@@ -6,6 +6,7 @@ import OnboardingWizard from '@/components/onboarding/OnboardingWizard';
 import PrimerosPasos from '@/components/onboarding/PrimerosPasos';
 import ConsejoDelDia from '@/components/inicio/ConsejoDelDia';
 import RachaBienestar from '@/components/progreso/RachaBienestar';
+import GraficaAnimoMensual from '@/components/progreso/GraficaAnimoMensual';
 import WidgetTareas from '@/components/tareas/WidgetTareas';
 import BannersAdherencia from '@/components/inicio/BannersAdherencia';
 import {
@@ -170,6 +171,9 @@ export default async function DashboardPage() {
 
       {/* ── RACHA Y RESUMEN SEMANAL ── */}
       <RachaBienestar />
+
+      {/* ── GRÁFICA DE ÁNIMO — ÚLTIMAS 4 SEMANAS ── */}
+      <GraficaAnimoMensual />
 
       {/* ── TAREAS DEL PSICÓLOGO ── */}
       {datos?.tareasPendientes && datos.tareasPendientes.length > 0 && (
