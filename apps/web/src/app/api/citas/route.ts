@@ -10,6 +10,7 @@ import { db } from '@/lib/db/client';
 import { z } from 'zod';
 import { enviarEmail, escapeHtml } from '@/lib/email/confirmaciones';
 import { getAuthUser } from '@/lib/auth/get-auth-user';
+import { capturarEvento } from '@/lib/analytics/posthog';
 
 const TZ = 'America/Bogota';
 const fmtCita = (iso: string) =>
@@ -93,7 +94,7 @@ export async function POST(req: NextRequest) {
     const parsed = AgendarCitaSchema.safeParse(body);
     if (!parsed.success) {
       return Response.json(
-        { error: parsed.error.errors[0]?.message ?? 'Datos inválidos' },
+        { error: parsed.error.issues[0]?.message ?? 'Datos inválidos' },
         { status: 400 },
       );
     }
@@ -148,6 +149,8 @@ export async function POST(req: NextRequest) {
         estadoPago: 'PENDIENTE',
       },
     });
+
+    capturarEvento('cita_agendada', { usuarioId, psicologoId });
 
     const referencia = `CITA-${cita.id}-${Date.now()}`;
 

@@ -14,6 +14,7 @@ import {
   type DatosIncidente,
 } from '@/lib/crisis/incident-logger';
 import { notificarPsicologoAsignado } from '@/lib/crisis/notificar-psicologo';
+import { capturarEvento } from '@/lib/analytics/posthog';
 import crypto from 'crypto';
 
 // Singleton — instanciado una vez por proceso, no por request
@@ -199,6 +200,10 @@ export async function POST(req: NextRequest) {
       registrarIncidenteAsync(datosIncidente);
     }
 
+    if (evaluacion.nivel === 'critico' || evaluacion.nivel === 'alto' || evaluacion.nivel === 'moderado') {
+      capturarEvento('crisis_detectada', { usuarioId: user.id, nivel: evaluacion.nivel });
+    }
+
     // CRITICO: respuesta inmediata sin llamar a Claude
     if (evaluacion.nivel === 'critico') {
       return Response.json({
@@ -239,27 +244,32 @@ export async function POST(req: NextRequest) {
       cargarContextoUsuario(user.id),
     ]);
 
-    let systemPrompt = SYSTEM_PROMPT_LITE + contextoUsuario;
+    let systemDinamico = contextoUsuario;
 
     if (evaluacion.nivel === 'moderado') {
-      systemPrompt += '\n\nALERTA CLÍNICA: El usuario muestra malestar moderado en este mensaje. Aplica escucha activa profunda. Valida primero, sin apresurarte a soluciones. Si el momento es oportuno, ofrece una técnica de regulación concreta paso a paso.';
+      systemDinamico += '\n\nALERTA CLÍNICA: El usuario muestra malestar moderado en este mensaje. Aplica escucha activa profunda. Valida primero, sin apresurarte a soluciones. Si el momento es oportuno, ofrece una técnica de regulación concreta paso a paso.';
     }
     if (evaluacion.nivel === 'bajo') {
-      systemPrompt += '\n\nNOTA: Hay indicadores leves de malestar. Profundiza con curiosidad genuina antes de ofrecer recursos.';
+      systemDinamico += '\n\nNOTA: Hay indicadores leves de malestar. Profundiza con curiosidad genuina antes de ofrecer recursos.';
     }
     if (contextoPractica) {
       const esInicioPractica = mensaje === '[INICIO_PRACTICA]';
-      systemPrompt += `\n\nCONTEXTO DE PRÁCTICA GUIADA: ${contextoPractica}\n\n${
+      systemDinamico += `\n\nCONTEXTO DE PRÁCTICA GUIADA: ${contextoPractica}\n\n${
         esInicioPractica
           ? 'El usuario acaba de terminar la lección y quiere practicar. Salúdalo brevemente y haz la primera pregunta de práctica de forma directa y cálida.'
           : 'Adapta tu respuesta para acompañar esta práctica específica.'
       }`;
     }
 
+    // System prompt clínico estático primero (cacheable — se repite en cada request),
+    // seguido del contexto dinámico del usuario/turno (nunca cacheado).
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 700,
-      system: systemPrompt,
+      system: [
+        { type: 'text', text: SYSTEM_PROMPT_LITE, cache_control: { type: 'ephemeral' } },
+        ...(systemDinamico ? [{ type: 'text' as const, text: systemDinamico }] : []),
+      ],
       messages: [
         ...mensajesHistorial,
         { role: 'user', content: mensaje },

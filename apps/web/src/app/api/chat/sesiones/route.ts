@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { db } from '@/lib/db/client';
 import { getAuthUser } from '@/lib/auth/get-auth-user';
+import { capturarEvento } from '@/lib/analytics/posthog';
 
 const CrearSesionSchema = z.object({
   titulo: z.string().max(120).optional(),
@@ -57,7 +58,7 @@ export async function POST(req: NextRequest) {
 
   const resultado = CrearSesionSchema.safeParse(body);
   if (!resultado.success) {
-    return Response.json({ error: resultado.error.errors[0].message }, { status: 400 });
+    return Response.json({ error: resultado.error.issues[0].message }, { status: 400 });
   }
 
   try {
@@ -68,6 +69,8 @@ export async function POST(req: NextRequest) {
       },
       select: { id: true, titulo: true, createdAt: true },
     });
+
+    capturarEvento('sesion_chat_iniciada', { usuarioId: user.id });
 
     return Response.json({ id: sesion.id, titulo: sesion.titulo, creadaEn: sesion.createdAt, estado: 'ACTIVA' }, { status: 201 });
   } catch (error) {

@@ -2,6 +2,7 @@ import { type NextRequest } from 'next/server';
 import { db } from '@/lib/db/client';
 import { verificarTokenEmail } from '@/lib/email/tokens';
 import { enviarEmailBienvenida } from '@/lib/email/confirmaciones';
+import { capturarEvento } from '@/lib/analytics/posthog';
 
 // GET /api/auth/verificar-email?email=...&token=...&ts=...
 export async function GET(req: NextRequest) {
@@ -43,6 +44,8 @@ export async function GET(req: NextRequest) {
       estado: 'ACTIVO',
     },
   });
+
+  capturarEvento('email_verificado', { usuarioId: usuario.id });
 
   // Email de bienvenida (no bloquea la respuesta)
   enviarEmailBienvenida({ email, nombre: usuario.nombre ?? 'Usuario' }).catch(err =>

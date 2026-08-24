@@ -4,6 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { db } from '@/lib/db/client';
 import bcrypt from 'bcryptjs';
 import { rateLimits } from '@/lib/rate-limit';
+import { capturarEvento } from '@/lib/analytics/posthog';
 
 declare module 'next-auth' {
   interface Session {
@@ -104,6 +105,8 @@ export const authOptions: AuthOptions = {
 
         const passwordValida = await bcrypt.compare(credentials.password, usuario.hashedPassword);
         if (!passwordValida) return null;
+
+        capturarEvento('login_exitoso', { usuarioId: usuario.id, plan: usuario.planActual });
 
         return {
           id: usuario.id,

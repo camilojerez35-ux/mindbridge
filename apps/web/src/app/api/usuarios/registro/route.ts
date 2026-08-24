@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { rateLimits } from '@/lib/rate-limit';
 import { EDAD_MINIMA, calcularEdad } from '@/lib/auth/edad';
+import { capturarEvento } from '@/lib/analytics/posthog';
 
 const schema = z.object({
   nombre: z.string().min(2).max(50),
@@ -23,8 +24,8 @@ const schema = z.object({
   fechaNacimiento: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Formato de fecha inválido (AAAA-MM-DD)'),
-  aceptaPoliticaPrivacidad: z.literal(true, { errorMap: () => ({ message: 'Requerido' }) }),
-  aceptaUsoIA: z.literal(true, { errorMap: () => ({ message: 'Requerido' }) }),
+  aceptaPoliticaPrivacidad: z.literal(true, { message: 'Requerido' }),
+  aceptaUsoIA: z.literal(true, { message: 'Requerido' }),
   aceptaMarketing: z.boolean().optional().default(false),
 });
 
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
 
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
-    return Response.json({ error: parsed.error.errors[0].message }, { status: 400 });
+    return Response.json({ error: parsed.error.issues[0].message }, { status: 400 });
   }
 
   const { nombre, apellido, email, password, fechaNacimiento: fnStr, aceptaMarketing } = parsed.data;
@@ -73,7 +74,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 12);
     const ahora = new Date();
 
-    await db.usuario.create({
+    const usuarioCreado = await db.usuario.create({
       data: {
         nombre,
         apellido,
@@ -88,7 +89,10 @@ export async function POST(req: NextRequest) {
         fechaConsentimientoIA: ahora,
         consentimientoMarketing: aceptaMarketing,
       },
+      select: { id: true },
     });
+
+    capturarEvento('usuario_registrado', { usuarioId: usuarioCreado.id, plan: 'GRATIS' });
 
     const { token, ts } = generarTokenVerificacion(email);
     const params = new URLSearchParams({ email, token, ts: String(ts) });
