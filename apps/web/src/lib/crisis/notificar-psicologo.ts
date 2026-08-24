@@ -40,19 +40,34 @@ export async function notificarPsicologoAsignado(
       },
     });
 
-    if (!cita) return false;
-
     const usuario = await db.usuario.findUnique({
       where: { id: usuarioId },
       select: { nombre: true, email: true },
     });
 
-    const psicologoUsuario = await db.usuario.findUnique({
-      where: { id: cita.psicologo.usuarioId },
-      select: { email: true },
-    });
+    // Sin cita previa (usuario nuevo/plan gratuito sin psicólogo asignado) o sin
+    // email del psicólogo: escala al correo de administración en vez de quedar en silencio.
+    const adminEmail = process.env.SENDGRID_FROM_EMAIL;
+    let destinatarioEmail: string | undefined;
+    let nombreDestinatario: string;
+    let sinPsicologoAsignado = false;
 
-    if (!psicologoUsuario?.email) return false;
+    if (cita) {
+      const psicologoUsuario = await db.usuario.findUnique({
+        where: { id: cita.psicologo.usuarioId },
+        select: { email: true },
+      });
+      destinatarioEmail = psicologoUsuario?.email ?? undefined;
+      nombreDestinatario = cita.psicologo.nombreCompleto;
+    }
+
+    if (!destinatarioEmail) {
+      destinatarioEmail = adminEmail;
+      nombreDestinatario = 'Equipo de guardia MenteBridge';
+      sinPsicologoAsignado = true;
+    }
+
+    if (!destinatarioEmail) return false;
 
     const { enviarEmail } = await import('@/lib/email/confirmaciones');
 
@@ -72,9 +87,16 @@ export async function notificarPsicologoAsignado(
         Si no puede atender al usuario, active el protocolo de guardia o redirija a la <strong>Línea 106</strong> (salud mental) o <strong>123</strong> (emergencias).
       </div>` : '';
 
+    const bannerSinPsicologo = sinPsicologoAsignado ? `
+      <div style="background:#3f1d1d;color:#fca5a5;border-left:4px solid #ef4444;padding:12px;margin:16px 0;border-radius:4px;">
+        <strong>⚠️ USUARIO SIN PSICÓLOGO ASIGNADO</strong><br>
+        Este usuario no tiene ninguna cita registrada — no hay un profesional asignado que pueda contactarlo directamente.
+        Se requiere asignar un psicólogo de guardia o contactar al usuario por otro canal disponible.
+      </div>` : '';
+
     await enviarEmail({
-      to: psicologoUsuario.email,
-      subject: `[${nivelTexto}]${fueraDeHorario ? ' ⚠️ FUERA DE HORARIO' : ''} Crisis detectada — ${usuario?.nombre ?? 'Usuario'} — MenteBridge`,
+      to: destinatarioEmail,
+      subject: `[${nivelTexto}]${fueraDeHorario ? ' ⚠️ FUERA DE HORARIO' : ''}${sinPsicologoAsignado ? ' ⚠️ SIN PSICÓLOGO' : ''} Crisis detectada — ${usuario?.nombre ?? 'Usuario'} — MenteBridge`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: ${nivel === 'CRITICO' ? '#7f1d1d' : '#78350f'}; color: white; padding: 20px; border-radius: 8px 8px 0 0;">
@@ -82,9 +104,10 @@ export async function notificarPsicologoAsignado(
             ${fueraDeHorario ? '<p style="margin:8px 0 0;font-size:14px;opacity:0.9;">⚠️ Generada fuera de horario laboral</p>' : ''}
           </div>
           <div style="padding: 20px; border: 1px solid #e5e7eb; border-radius: 0 0 8px 8px;">
-            <p>Estimado/a <strong>${cita.psicologo.nombreCompleto}</strong>,</p>
-            <p>El sistema de MenteBridge ha detectado una posible crisis de nivel <strong>${nivelTexto}</strong> en uno de sus pacientes.</p>
+            <p>Estimado/a <strong>${nombreDestinatario}</strong>,</p>
+            <p>El sistema de MenteBridge ha detectado una posible crisis de nivel <strong>${nivelTexto}</strong> en uno de los usuarios.</p>
 
+            ${bannerSinPsicologo}
             ${bannerFueraHorario}
 
             <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">

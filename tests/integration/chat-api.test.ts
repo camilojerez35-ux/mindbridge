@@ -43,6 +43,9 @@ const dbMock = {
   incidenteCrisis: {
     create: vi.fn().mockResolvedValue({ id: 'inc-1' }),
   },
+  cita: {
+    findFirst: vi.fn().mockResolvedValue(null),
+  },
 };
 
 vi.mock('@/lib/db/client', () => ({ db: dbMock }));
@@ -64,6 +67,7 @@ vi.mock('@/lib/monitoring/sentry', () => ({
   capturarEventoCrisis: vi.fn(),
   capturarErrorPersistencia: vi.fn(),
   capturarErrorApi: vi.fn(),
+  capturarErrorEmail: vi.fn(),
 }));
 
 vi.mock('@/lib/encryption', () => ({
