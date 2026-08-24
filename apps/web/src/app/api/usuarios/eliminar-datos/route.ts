@@ -20,7 +20,7 @@ import { z } from 'zod';
 
 const schema = z.object({
   confirmacion: z.literal('ELIMINAR', {
-    errorMap: () => ({ message: 'Debes escribir exactamente "ELIMINAR" para confirmar' }),
+    message: 'Debes escribir exactamente "ELIMINAR" para confirmar',
   }),
 });
 
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
-    return Response.json({ error: parsed.error.errors[0].message }, { status: 400 });
+    return Response.json({ error: parsed.error.issues[0].message }, { status: 400 });
   }
 
   const usuarioId = session.user.id;
