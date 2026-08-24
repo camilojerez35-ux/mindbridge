@@ -12,12 +12,18 @@ import { timingSafeEqual } from 'crypto';
 import { db } from '@/lib/db/client';
 import { capturarErrorApi } from '@/lib/monitoring/sentry';
 import { enviarEmail } from '@/lib/email/confirmaciones';
+import { capturarEvento } from '@/lib/analytics/posthog';
 
 const EVENTS_SECRET = process.env.WOMPI_EVENTS_SECRET ?? '';
 
-const PRECIOS_PLAN: Record<string, number> = {
-  PLUS: 25000,
-  FAMILIA: 45000,
+const PRECIOS_MENSUAL: Record<string, number> = {
+  BASICO: 14900,
+  PLUS: 25900,
+  FAMILIA: 44900,
+};
+
+const PRECIOS_ANUAL: Record<string, number> = {
+  PLUS: 259000,
 };
 
 // ── Verificación de firma ──────────────────────────────────────
@@ -36,7 +42,7 @@ async function verificarFirma(body: WompiEvent): Promise<boolean> {
     // Navegar el objeto anidado: "transaction.id" → body.data.transaction.id
     const partes = prop.split('.');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let valor: any = body;
+    let valor: any = body.data;
     for (const p of partes) valor = valor?.[p];
     cadena += String(valor ?? '');
   }
@@ -145,15 +151,18 @@ async function procesarPagoSuscripcion(tx: WompiTransaction) {
 
   if (tx.status !== 'APPROVED') return;
 
-  // Parsear referencia: SUBS-{userId}-{plan}-{timestamp}
+  // Parsear referencia: SUBS-{userId}-{plan}-{ciclo}-{timestamp} (formato previo sin ciclo: SUBS-{userId}-{plan}-{timestamp})
   const partes = tx.reference.split('-');
   if (partes.length < 4) return;
   const userId = partes[1];
-  const plan   = partes[2] as 'PLUS' | 'FAMILIA' | 'EMPRESARIAL';
+  const plan   = partes[2] as 'BASICO' | 'PLUS' | 'FAMILIA' | 'EMPRESARIAL';
+  const ciclo  = (partes.length >= 5 && (partes[3] === 'ANUAL' || partes[3] === 'MENSUAL'))
+    ? partes[3] as 'MENSUAL' | 'ANUAL'
+    : 'MENSUAL';
 
-  if (!['PLUS', 'FAMILIA', 'EMPRESARIAL'].includes(plan)) return;
+  if (!['BASICO', 'PLUS', 'FAMILIA', 'EMPRESARIAL'].includes(plan)) return;
 
-  const precioEsperado = PRECIOS_PLAN[plan];
+  const precioEsperado = ciclo === 'ANUAL' ? PRECIOS_ANUAL[plan] : PRECIOS_MENSUAL[plan];
   if (precioEsperado && tx.amount_in_cents !== precioEsperado * 100) {
     console.error('[WOMPI WEBHOOK] Monto no coincide con el plan — rechazado:', tx.reference, tx.amount_in_cents);
     return;
@@ -161,7 +170,7 @@ async function procesarPagoSuscripcion(tx: WompiTransaction) {
 
   const ahora = new Date();
   const vence = new Date(ahora);
-  vence.setMonth(vence.getMonth() + 1);
+  vence.setMonth(vence.getMonth() + (ciclo === 'ANUAL' ? 12 : 1));
 
   // Crear o actualizar suscripción
   let suscripcionId = pago?.suscripcionId;
@@ -197,6 +206,8 @@ async function procesarPagoSuscripcion(tx: WompiTransaction) {
       suscripcionVence: vence,
     },
   });
+
+  capturarEvento('plan_upgrade', { usuarioId: userId, plan, ciclo });
 
   // Email de confirmación
   const usuario = await db.usuario.findUnique({
