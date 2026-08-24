@@ -19,8 +19,12 @@ export interface IniciarPagoResult {
 }
 
 export const suscripcionService = {
-  iniciarPago: (plan: 'PLUS' | 'FAMILIA', metodoPago: 'PSE' | 'NEQUI' | 'TARJETA' | 'DAVIPLATA') =>
-    api.post<IniciarPagoResult>('/pagos', { plan, metodoPago }),
+  iniciarPago: (
+    plan: 'BASICO' | 'PLUS' | 'FAMILIA',
+    metodoPago: 'PSE' | 'NEQUI' | 'TARJETA' | 'DAVIPLATA',
+    ciclo: 'MENSUAL' | 'ANUAL' = 'MENSUAL',
+  ) =>
+    api.post<IniciarPagoResult>('/pagos', { plan, metodoPago, ciclo }),
 
   cancelar: () =>
     api.delete<{ exito: boolean; mensaje: string }>('/pagos'),

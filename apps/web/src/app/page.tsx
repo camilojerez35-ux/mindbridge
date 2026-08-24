@@ -179,46 +179,61 @@ const planes = [
     cta: 'Empezar gratis',
     href: '/registro',
     features: [
-      '20 mensajes/día con IA clínica',
+      '5 chats con IA clínica/mes',
+      '1 test PHQ-9',
       'Diario emocional básico',
-      'Ejercicios de respiración y grounding',
-      'Seguimiento semanal de estado de ánimo',
       'Cifrado AES-256 de tus datos',
     ],
     noFeatures: [
+      'Chat IA ilimitado',
       'Videocitas con psicólogos',
-      'IA sin límite de mensajes',
       'Reportes emocionales avanzados',
     ],
   },
   {
+    nombre: 'Básico',
+    precio: '14.900',
+    paraQuien: 'Para empezar a construir el hábito',
+    desc: 'Chat IA sin límite y diario completo, al precio de entrada más bajo.',
+    destacado: false,
+    cta: 'Comenzar con Básico',
+    href: '/registro',
+    features: [
+      'IA clínica sin límite de mensajes',
+      'Diario emocional completo',
+      'Todos los tests psicológicos',
+      'Cifrado AES-256 de tus datos',
+    ],
+    noFeatures: ['Resumen IA semanal', 'Videocitas con psicólogos incluidas'],
+  },
+  {
     nombre: 'Plus',
-    precio: '25.000',
+    precio: '25.900',
     paraQuien: 'Para quien quiere resultados reales',
     desc: 'El plan más completo de IA. Agenda videocitas con psicólogos por aparte cuando las necesites.',
     destacado: true,
     cta: 'Comenzar con Plus',
     href: '/registro',
     features: [
-      'IA clínica sin límite de mensajes',
-      'Diario emocional con insights IA',
-      'Ejercicios guiados ilimitados',
+      'Todo lo del plan Básico',
+      'Resumen IA semanal',
+      'Ejercicios personalizados',
+      'Prioridad en respuestas',
       'Reportes emocionales avanzados',
-      'Cifrado AES-256 de tus datos',
     ],
     noFeatures: ['Videocitas con psicólogos incluidas'],
   },
   {
     nombre: 'Familia',
-    precio: '45.000',
+    precio: '44.900',
     paraQuien: 'Para cuidar a toda tu familia',
-    desc: 'Un plan, hasta 4 perfiles. Bienestar familiar sin complicaciones.',
+    desc: 'Un plan, hasta 5 perfiles. Bienestar familiar sin complicaciones.',
     destacado: false,
     cta: 'Plan Familia',
     href: '/registro',
     features: [
       'Todo lo del plan Plus',
-      'Hasta 4 perfiles familiares',
+      'Hasta 5 perfiles familiares',
       'IA clínica sin límite para todos',
       'Panel familiar de bienestar',
       'Reportes comparativos familiares',
@@ -575,7 +590,7 @@ export default function Home() {
             <p className="text-gray-500 mt-3 text-sm">Pago mensual en COP · Sin permanencia mínima · Cancela cuando quieras</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 items-start">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
             {planes.map((plan) => (
               <div
                 key={plan.nombre}

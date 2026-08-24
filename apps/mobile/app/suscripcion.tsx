@@ -17,22 +17,30 @@ const PLANES = [
     nombre: 'Gratis',
     precio: 0,
     color: '#94A3B8',
-    features: ['5 sesiones de chat IA/mes', 'Diario emocional', 'Tests básicos'],
+    features: ['5 chats IA/mes', '1 test PHQ-9', 'Diario básico'],
+  },
+  {
+    id: 'BASICO' as const,
+    nombre: 'Básico',
+    precio: 14900,
+    color: '#5EEAD4',
+    features: ['Chat IA ilimitado', 'Diario completo', 'Todos los tests'],
   },
   {
     id: 'PLUS' as const,
     nombre: 'Plus',
-    precio: 49900,
+    precio: 25900,
+    precioAnual: 259000,
     color: '#10B981',
     popular: true,
-    features: ['Chat IA ilimitado', 'Diario emocional', 'Todos los tests', 'Análisis de progreso'],
+    features: ['Todo lo de Básico', 'Resumen IA semanal', 'Ejercicios personalizados', 'Prioridad en respuestas'],
   },
   {
     id: 'FAMILIA' as const,
     nombre: 'Familia',
-    precio: 89900,
+    precio: 44900,
     color: '#3B82F6',
-    features: ['Todo lo de Plus', 'Hasta 4 miembros', 'Sesiones grupales'],
+    features: ['Todo lo de Plus', 'Hasta 5 miembros', 'Dashboard familiar'],
   },
 ];
 
@@ -44,13 +52,15 @@ const METODOS_PAGO = [
 ];
 
 type MetodoPago = 'PSE' | 'NEQUI' | 'TARJETA' | 'DAVIPLATA';
-type PlanId = 'PLUS' | 'FAMILIA';
+type PlanId = 'BASICO' | 'PLUS' | 'FAMILIA';
+type Ciclo = 'MENSUAL' | 'ANUAL';
 
 export default function SuscripcionScreen() {
   const [planActual, setPlanActual] = useState('GRATIS');
   const [loading, setLoading] = useState(true);
   const [planSeleccionado, setPlanSeleccionado] = useState<PlanId | null>(null);
   const [metodoPago, setMetodoPago] = useState<MetodoPago>('PSE');
+  const [ciclo, setCiclo] = useState<Ciclo>('MENSUAL');
   const [procesando, setProcesando] = useState(false);
   const pagoModal = useModal();
   const { cop } = useCurrencyFormat();
@@ -66,7 +76,7 @@ export default function SuscripcionScreen() {
     if (!planSeleccionado) return;
     setProcesando(true);
     try {
-      const resultado = await suscripcionService.iniciarPago(planSeleccionado, metodoPago);
+      const resultado = await suscripcionService.iniciarPago(planSeleccionado, metodoPago, ciclo);
       const url = suscripcionService.construirUrlCheckout(resultado.datosWidget);
       const puedeAbrir = await Linking.canOpenURL(url);
       if (!puedeAbrir) {
@@ -84,6 +94,7 @@ export default function SuscripcionScreen() {
 
   function abrirModal(planId: PlanId) {
     setPlanSeleccionado(planId);
+    setCiclo('MENSUAL');
     pagoModal.abrir();
   }
 
@@ -160,6 +171,23 @@ export default function SuscripcionScreen() {
           </Text>
         </Text>
 
+        {PLANES.find(p => p.id === planSeleccionado)?.precioAnual && (
+          <View style={styles.cicloGrid}>
+            <TouchableOpacity
+              style={[styles.cicloBtn, ciclo === 'MENSUAL' && styles.cicloBtnActivo]}
+              onPress={() => setCiclo('MENSUAL')}
+            >
+              <Text style={[styles.cicloLabel, ciclo === 'MENSUAL' && styles.cicloLabelActivo]}>Mensual</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.cicloBtn, ciclo === 'ANUAL' && styles.cicloBtnActivo]}
+              onPress={() => setCiclo('ANUAL')}
+            >
+              <Text style={[styles.cicloLabel, ciclo === 'ANUAL' && styles.cicloLabelActivo]}>Anual · 2 meses gratis</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         <View style={styles.metodosGrid}>
           {METODOS_PAGO.map(m => (
             <TouchableOpacity
@@ -180,7 +208,11 @@ export default function SuscripcionScreen() {
         </View>
 
         <Button onPress={iniciarUpgrade} cargando={procesando} variante="primary">
-          Ir a pagar con Wompi
+          {(() => {
+            const p = PLANES.find(pl => pl.id === planSeleccionado);
+            const monto = ciclo === 'ANUAL' && p?.precioAnual ? p.precioAnual : p?.precio ?? 0;
+            return `Pagar ${cop(monto)} con Wompi`;
+          })()}
         </Button>
 
         <Text style={styles.seguridadNota}>
@@ -211,6 +243,11 @@ const styles = StyleSheet.create({
   upgradeBtnText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   nota: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center', marginTop: 8, lineHeight: 18 },
   modalSub: { fontSize: 14, color: Colors.textSecondary, marginBottom: 20 },
+  cicloGrid: { flexDirection: 'row', gap: 10, marginBottom: 16 },
+  cicloBtn: { flex: 1, alignItems: 'center', padding: 12, borderRadius: 12, borderWidth: 2, borderColor: Colors.border, backgroundColor: Colors.surface },
+  cicloBtnActivo: { borderColor: Colors.primary, backgroundColor: Colors.primary + '10' },
+  cicloLabel: { fontSize: 12, color: Colors.textSecondary, fontWeight: '600' },
+  cicloLabelActivo: { color: Colors.primary },
   metodosGrid: { flexDirection: 'row', gap: 12, marginBottom: 24 },
   metodoBtn: { flex: 1, alignItems: 'center', gap: 8, padding: 14, borderRadius: 14, borderWidth: 2, borderColor: Colors.border, backgroundColor: Colors.surface },
   metodoBtnActivo: { borderColor: Colors.primary, backgroundColor: Colors.primary + '10' },

@@ -5,14 +5,21 @@ import { authOptions } from '@/lib/auth/auth-options';
 import { db } from '@/lib/db/client';
 import { generarFirmaIntegridad } from '@/lib/pagos/wompi';
 
-const PRECIOS: Record<string, number> = {
-  PLUS: 25000,
-  FAMILIA: 45000,
+const PRECIOS_MENSUAL: Record<string, number> = {
+  BASICO: 14900,
+  PLUS: 25900,
+  FAMILIA: 44900,
+};
+
+// Plan anual: 10 meses de precio, 2 meses de regalo. Por ahora solo Plus.
+const PRECIOS_ANUAL: Record<string, number> = {
+  PLUS: 259000,
 };
 
 const SuscripcionSchema = z.object({
-  plan: z.enum(['PLUS', 'FAMILIA']),
+  plan: z.enum(['BASICO', 'PLUS', 'FAMILIA']),
   metodoPago: z.enum(['PSE', 'NEQUI', 'TARJETA', 'DAVIPLATA']),
+  ciclo: z.enum(['MENSUAL', 'ANUAL']).default('MENSUAL'),
 });
 
 export async function POST(req: NextRequest) {
@@ -28,11 +35,15 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: 'Datos inválidos' }, { status: 400 });
     }
 
-    const { plan, metodoPago } = resultado.data;
+    const { plan, metodoPago, ciclo } = resultado.data;
     const { id: usuarioId, email: emailUsuario, name: nombreUsuario } = session.user;
 
-    const montoCOP = PRECIOS[plan];
-    const referencia = `SUBS-${usuarioId}-${plan}-${Date.now()}`;
+    if (ciclo === 'ANUAL' && !PRECIOS_ANUAL[plan]) {
+      return Response.json({ error: 'Este plan no tiene modalidad anual' }, { status: 400 });
+    }
+
+    const montoCOP = ciclo === 'ANUAL' ? PRECIOS_ANUAL[plan] : PRECIOS_MENSUAL[plan];
+    const referencia = `SUBS-${usuarioId}-${plan}-${ciclo}-${Date.now()}`;
     const montoCentavos = montoCOP * 100;
 
     const firma = generarFirmaIntegridad({ referencia, amountInCents: montoCentavos, currency: 'COP' });

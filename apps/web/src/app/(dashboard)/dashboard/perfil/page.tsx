@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 
 const PLANES = [
-  { id:'GRATIS', nombre:'Gratis', precio:'$0', desc:'Para empezar', color:'#1a2e1f', border:'#2a3d2e', items:['3 sesiones IA/semana','Diario básico','1 ejercicio/día'] },
-  { id:'PLUS', nombre:'Plus', precio:'$25.000 COP/mes', desc:'Más popular', color:'#1a6b4a', border:'#2dd4bf', items:['IA ilimitada 24/7','Diario completo + análisis','Programas guiados','Seguimiento de ánimo','15% dto en citas'], highlight:true },
-  { id:'FAMILIA', nombre:'Familia', precio:'$45.000 COP/mes', desc:'Hasta 4 personas', color:'#1a3d6b', border:'#818cf8', items:['Todo el plan Plus','Hasta 4 miembros','Dashboard familiar','20% dto en citas'] },
+  { id:'GRATIS', nombre:'Gratis', precio:'$0', desc:'Para empezar', color:'#1a2e1f', border:'#2a3d2e', items:['5 chats IA/mes','1 test PHQ-9','Diario básico'] },
+  { id:'BASICO', nombre:'Básico', precio:'$14.900 COP/mes', desc:'Precio de entrada', color:'#1a4d3d', border:'#5eead4', items:['Chat IA ilimitado','Diario completo','Todos los tests'] },
+  { id:'PLUS', nombre:'Plus', precio:'$25.900 COP/mes', desc:'Más popular', color:'#1a6b4a', border:'#2dd4bf', items:['Todo el plan Básico','Resumen IA semanal','Ejercicios personalizados','Prioridad en respuestas','15% dto en citas'], highlight:true },
+  { id:'FAMILIA', nombre:'Familia', precio:'$44.900 COP/mes', desc:'Hasta 5 personas', color:'#1a3d6b', border:'#818cf8', items:['Todo el plan Plus','Hasta 5 miembros','Dashboard familiar','20% dto en citas'] },
 ];
 
-type PlanId = 'GRATIS' | 'PLUS' | 'FAMILIA';
+type PlanId = 'GRATIS' | 'BASICO' | 'PLUS' | 'FAMILIA';
 
 export default function PerfilPage() {
   const [tab, setTab] = useState<'perfil'|'plan'|'seguridad'|'consentimientos'>('perfil');
