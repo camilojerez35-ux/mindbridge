@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.24.0",
+    "@anthropic-ai/sdk": "^0.104.1",
     "@mindbridge/ai-clinical": "^1.0.0",
     "@sentry/nextjs": "^10.63.0",
     "@types/pdfkit": "^0.17.6",
@@ -27,7 +27,7 @@
     "react-dom": "^18.3.0",
     "tailwind-merge": "^2.3.0",
     "uuid": "^14.0.0",
-    "zod": "^3.23.0"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20.12.0",

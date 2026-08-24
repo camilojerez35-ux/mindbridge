@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const parsed = CrearResenaSchema.safeParse(body);
   if (!parsed.success) {
-    return Response.json({ error: parsed.error.errors[0]?.message ?? 'Datos inválidos' }, { status: 400 });
+    return Response.json({ error: parsed.error.issues[0]?.message ?? 'Datos inválidos' }, { status: 400 });
   }
 
   const { citaId, calificacion, comentario } = parsed.data;

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     const resultado = CambiarPasswordSchema.safeParse(body);
     if (!resultado.success) {
-      return Response.json({ error: resultado.error.errors[0].message }, { status: 400 });
+      return Response.json({ error: resultado.error.issues[0].message }, { status: 400 });
     }
 
     const { passwordActual: hashedPasswordActual, passwordNueva: hashedPasswordNueva } = resultado.data;

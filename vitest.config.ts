@@ -40,9 +40,9 @@ export default defineConfig({
       // Forzar una sola instancia de next-auth y next para que los mocks funcionen
       'next-auth':               path.resolve(__dirname, 'node_modules/next-auth'),
       'next':                    path.resolve(__dirname, 'node_modules/next'),
-      // apps/web usa @anthropic-ai/sdk ^0.24 — la raíz tiene una versión distinta (^0.104);
-      // forzar la del workspace de apps/web para que el mock en tests coincida con el runtime real.
-      '@anthropic-ai/sdk':       path.resolve(__dirname, 'apps/web/node_modules/@anthropic-ai/sdk'),
+      // apps/web y la raíz usan la misma versión de @anthropic-ai/sdk — npm la dedupea
+      // a node_modules de la raíz, así que resolvemos ahí para evitar duplicados.
+      '@anthropic-ai/sdk':       path.resolve(__dirname, 'node_modules/@anthropic-ai/sdk'),
     },
   },
 });

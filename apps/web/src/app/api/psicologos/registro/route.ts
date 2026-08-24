@@ -26,7 +26,7 @@ const schema = z.object({
   tarifaCOP: z.number().int().min(10000).max(1000000),
   ciudades: z.array(z.string().min(1)).min(1, 'Agrega al menos una ciudad'),
   modalidad: z.array(z.enum(['VIDEOLLAMADA', 'TELEFONICA', 'PRESENCIAL'])).min(1),
-  aceptaPoliticaPrivacidad: z.literal(true, { errorMap: () => ({ message: 'Requerido' }) }),
+  aceptaPoliticaPrivacidad: z.literal(true, { message: 'Requerido' }),
 });
 
 export async function POST(req: NextRequest) {
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
-    return Response.json({ error: parsed.error.errors[0].message }, { status: 400 });
+    return Response.json({ error: parsed.error.issues[0].message }, { status: 400 });
   }
 
   const {

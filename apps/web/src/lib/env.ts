@@ -44,7 +44,7 @@ const schema = z.object({
   WOMPI_PUBLIC_KEY:    z.string().optional(),
   WOMPI_PRIVATE_KEY:   z.string().optional(),
   WOMPI_EVENTS_SECRET: z.string().optional(),
-  WOMPI_SANDBOX:       z.string().transform(v => v !== 'false').default('true'),
+  WOMPI_SANDBOX:       z.string().transform(v => v !== 'false').default(true),
 
   // ── Videollamada — Daily.co ───────────────────────────────────
   DAILY_API_KEY: z.string().optional(),

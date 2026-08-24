@@ -12,7 +12,7 @@ import { z } from 'zod';
 
 const SignalSchema = z.object({
   tipo:    z.enum(['offer', 'answer', 'ice']),
-  payload: z.record(z.unknown()),
+  payload: z.record(z.string(), z.unknown()),
 });
 
 async function getRol(session: { user: { id: string; rol?: string } }, citaId: string) {

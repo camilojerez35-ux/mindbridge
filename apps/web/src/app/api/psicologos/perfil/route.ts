@@ -69,7 +69,7 @@ const PatchSchema = z.object({
   ciudades:           z.array(z.string().max(60)).max(5).optional(),
   modalidad:          z.array(z.enum(['VIDEOLLAMADA', 'TELEFONICA', 'PRESENCIAL'])).optional(),
   idiomas:            z.array(z.string().max(30)).max(5).optional(),
-  disponibilidad:     z.record(z.array(z.string())).optional(),
+  disponibilidad:     z.record(z.string(), z.array(z.string())).optional(),
 }).strict();
 
 export async function PATCH(req: NextRequest) {
@@ -83,7 +83,7 @@ export async function PATCH(req: NextRequest) {
 
     const resultado = PatchSchema.safeParse(body);
     if (!resultado.success) {
-      return Response.json({ error: resultado.error.errors[0].message }, { status: 400 });
+      return Response.json({ error: resultado.error.issues[0].message }, { status: 400 });
     }
 
     if (Object.keys(resultado.data).length === 0) {

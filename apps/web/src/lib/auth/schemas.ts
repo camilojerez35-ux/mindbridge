@@ -19,10 +19,10 @@ export const registerSchema = z.object({
     .regex(/[0-9]/, 'La contraseña debe contener al menos un número')
     .regex(/[^A-Za-z0-9]/, 'La contraseña debe contener al menos un carácter especial'),
   aceptaPoliticaPrivacidad: z.literal(true, {
-    errorMap: () => ({ message: 'Debes aceptar la Política de Privacidad' }),
+    message: 'Debes aceptar la Política de Privacidad',
   }),
   aceptaUsoIA: z.literal(true, {
-    errorMap: () => ({ message: 'Debes autorizar el uso de IA según la Res. 2654/2019' }),
+    message: 'Debes autorizar el uso de IA según la Res. 2654/2019',
   }),
   aceptaMarketing: z.literal(true).optional().or(z.literal(false)),
 }).refine((data) => data.aceptaMarketing !== true, {

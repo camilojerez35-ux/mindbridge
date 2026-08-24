@@ -9,7 +9,7 @@ const RegistroSchema = z.object({
   nombre: z.string().min(1, 'El nombre es requerido').max(100),
   apellido: z.string().max(100).optional(),
   consentimientoDatos: z.literal(true, {
-    errorMap: () => ({ message: 'Debes aceptar la política de privacidad' }),
+    message: 'Debes aceptar la política de privacidad',
   }),
 });
 
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
     if (!resultado.success) {
       return Response.json(
-        { error: resultado.error.errors[0].message },
+        { error: resultado.error.issues[0].message },
         { status: 400 }
       );
     }

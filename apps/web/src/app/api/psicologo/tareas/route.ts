@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => ({}));
   const parsed = CrearTareaSchema.safeParse(body);
-  if (!parsed.success) return Response.json({ error: 'Datos inválidos', detalles: parsed.error.errors }, { status: 400 });
+  if (!parsed.success) return Response.json({ error: 'Datos inválidos', detalles: parsed.error.issues }, { status: 400 });
 
   const { usuarioId, titulo, descripcion, tipo, fechaLimite, citaId } = parsed.data;
 
