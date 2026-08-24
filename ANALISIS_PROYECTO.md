@@ -66,7 +66,7 @@ Esquema con comentarios explícitos de cumplimiento normativo colombiano (Ley 15
 
 ## 4. Rutas API (`apps/web/src/app/api`, ~60 endpoints)
 
-- **Auth**: `[...nextauth]`, `registro`, `forgot-password`, `reset-password`, `verificar-email`, `reenviar-verificacion`, `mobile-login`, `consentimiento-google`.
+- **Auth**: `[...nextauth]`, `forgot-password`, `reset-password`, `verificar-email`, `reenviar-verificacion`, `mobile-login`, `consentimiento-google` (el registro vive en `usuarios/registro`, ver más abajo).
 - **Chat IA**: `ai/chat`, `ai/crisis`, `chat/sesiones`, `chat/sesiones/[id]`.
 - **Crisis**: `crisis/confirmar/[token]`, `cron/crisis-escalacion` (cada 15 min vía GitHub Actions).
 - **Citas/videollamadas**: `citas`, `citas/[citaId]/confirmar`, `citas/[citaId]/sala`, `videollamada/[citaId]/signal`.
@@ -125,7 +125,7 @@ Librerías dedicadas: `apps/web/src/lib/encryption.ts`, `apps/web/src/lib/rate-l
 - **`tests/` (raíz)**: unit (crisis-protocol, encryption, tokens), integration (chat-api, registro, sesiones, usuarios-registro, **webhook-wompi** — 8 casos: firma, anti-tampering de monto, activación mensual/anual, idempotencia, confirmación de cita, **notificaciones** — 12 casos: ventanas de recordatorios de citas por dedup, zona horaria de "hoy", reintento de inactividad-ia, límite de reenvío de reengagement), e2e con Playwright (landing, registro, chat-crisis, psicólogos, flujo-usuario), y suite de IA clínica (`protocol-crisis-test.ts`) que actúa como **gate obligatorio en CI**.
 - **Mobile**: 27 archivos de test (components/hooks/lib/store).
 - **`apps/web`**: sin tests propios dentro del workspace — todo centralizado en `tests/` raíz; cobertura sigue siendo parcial frente a ~60 rutas API — cubiertos: pagos/webhook, crons de notificaciones, chat/crisis, registro de usuarios, sesiones de chat. Faltan: login, citas (creación), suscripciones (creación de intención de pago), reset/forgot password.
-- **Estado actual**: 143/143 tests pasando, typecheck y build de producción limpios.
+- **Estado actual**: 134/134 tests pasando, typecheck y build de producción limpios.
 
 ---
 
@@ -153,14 +153,14 @@ Librerías dedicadas: `apps/web/src/lib/encryption.ts`, `apps/web/src/lib/rate-l
 8. **Bug de zona horaria corregido**: `recordatorioAnimo` calculaba "hoy" en UTC del servidor en vez de hora de Bogotá.
 9. **Gaps de producto corregidos**: `inactividadIA` solo notificaba una vez por usuario (nunca reintentaba); `reengagement3Dias` no tenía límite y podía enviar push diario indefinido — ambos ahora acotados.
 10. Analytics (PostHog) conectado — la infraestructura existía pero no se invocaba en ningún lado.
-11. Test de integración agregado para el webhook de Wompi (8 casos) — único flujo de `apps/web` con cobertura dedicada por ahora.
+11. Tests de integración agregados: webhook de Wompi (8 casos) y crons de notificaciones (12 casos, reproducen los 4 bugs corregidos).
+12. ~~`api/auth/registro` huérfano~~ — eliminado junto con su test dedicado (`tests/integration/registro.test.ts`), confirmado sin referencias en web ni mobile. El registro real sigue siendo `api/usuarios/registro`.
 
 ### Pendiente
 
 1. **React 18 (web) vs React 19 (mobile)**: divergencia de major version que puede complicar código compartido. El plan es esperar a que Next.js soporte React 19 completamente — no forzar antes.
-2. **`api/auth/registro`**: endpoint huérfano (nadie lo llama — el registro real es `api/usuarios/registro`), no eliminado a la espera de confirmación explícita.
-3. Cobertura de tests en `apps/web` sigue siendo parcial frente a ~60 rutas API — cubiertos hoy: pagos/webhook y crons de notificaciones (ambos con bugs reales encontrados y corregidos). Prioridad sugerida para lo que falta: login (`auth-options.authorize`), citas, suscripciones/pagos (creación de intención), reset/forgot password.
-4. Verificación operativa pendiente: confirmar contra el sandbox real de Wompi que el fix de firma funciona con webhooks genuinos (no solo con los tests, que simulan la firma).
+2. Cobertura de tests en `apps/web` sigue siendo parcial frente a ~60 rutas API — cubiertos: pagos/webhook y crons de notificaciones (ambos con bugs reales encontrados y corregidos), chat/crisis, registro de usuarios, sesiones. Prioridad sugerida para lo que falta: login (`auth-options.authorize`), citas, suscripciones/pagos (creación de intención), reset/forgot password.
+3. Verificación operativa pendiente: confirmar contra el sandbox real de Wompi que el fix de firma funciona con webhooks genuinos (no solo con los tests, que simulan la firma) — hay un runbook preparado para esto, pendiente de ejecutar antes del primer pago real en producción.
 
 ---
 
