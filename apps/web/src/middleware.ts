@@ -50,9 +50,8 @@ export async function middleware(request: NextRequest) {
   const ip = request.ip ?? request.headers.get('x-forwarded-for') ?? 'local';
   const { pathname } = request.nextUrl;
 
-  // 1. Rate limiting en rutas de autenticación
-  const authPaths = ['/login', '/registro', '/forgot-password', '/reset-password'];
-  if (authPaths.some(p => pathname.startsWith(p))) {
+  // 1. Rate limiting en APIs de autenticación y mutaciones sensibles (nunca en navegación de páginas GET)
+  if (pathname.startsWith('/api/auth/') && request.method !== 'GET') {
     const { windowMs, maxRequests } = RATE_LIMITING.auth;
     const allowed = await checkRateLimit(ip, windowMs, maxRequests);
     if (!allowed) {
@@ -63,12 +62,12 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 2. Rutas públicas — pasar sin validar
+  // 2. Rutas públicas — pasar sin validar sesión
   if (PUBLIC_PATHS.some(p => pathname.startsWith(p.replace('/*', '')))) {
     return NextResponse.next();
   }
 
-  // 3. Validar sesión de next-auth correctamente
+  // 3. Validar sesión de next-auth
   // Si viene un Bearer token (app móvil), el route handler lo verifica con getAuthUser — dejar pasar
   const authHeader = request.headers.get('authorization');
   if (authHeader?.startsWith('Bearer ')) {
@@ -148,9 +147,5 @@ export const config = {
     '/api/resenas/:path*',
     '/api/chat/:path*',
     '/api/stats/:path*',
-    '/login',
-    '/registro',
-    '/forgot-password',
-    '/reset-password',
   ],
 };
