@@ -4,16 +4,32 @@ import { z } from 'zod';
 import { db } from '@/lib/db/client';
 import { capturarErrorApi } from '@/lib/monitoring/sentry';
 import { getAuthUser } from '@/lib/auth/get-auth-user';
+import { rateLimits } from '@/lib/rate-limit';
 
 const CambiarPasswordSchema = z.object({
   passwordActual: z.string().min(1),
-  passwordNueva:  z.string().min(8, 'La nueva contraseña debe tener al menos 8 caracteres').max(128),
+  passwordNueva:  z
+    .string()
+    .min(8, 'La nueva contraseña debe tener al menos 8 caracteres')
+    .max(128)
+    .regex(/[A-Z]/, 'Debe tener al menos una mayúscula')
+    .regex(/[a-z]/, 'Debe tener al menos una minúscula')
+    .regex(/[0-9]/, 'Debe tener al menos un número')
+    .regex(/[^A-Za-z0-9]/, 'Debe tener al menos un carácter especial'),
 }).strict();
 
 export async function POST(req: NextRequest) {
   try {
     const user = await getAuthUser(req);
     if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
+
+    const { allowed } = await rateLimits.cambiarPassword(user.id);
+    if (!allowed) {
+      return Response.json(
+        { error: 'Demasiados intentos de cambio de contraseña. Intenta más tarde.' },
+        { status: 429 },
+      );
+    }
 
     let body: unknown;
     try { body = await req.json(); }

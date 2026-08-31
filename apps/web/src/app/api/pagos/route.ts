@@ -1,9 +1,9 @@
 import { NextRequest } from 'next/server';
 import { z } from 'zod';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 import { db } from '@/lib/db/client';
 import { generarFirmaIntegridad } from '@/lib/pagos/wompi';
+import { rateLimits } from '@/lib/rate-limit';
 
 const PRECIOS_MENSUAL: Record<string, number> = {
   BASICO: 14900,
@@ -23,20 +23,30 @@ const SuscripcionSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado. Inicie sesión.' }, { status: 401 });
   }
 
+  const { allowed } = await rateLimits.pagos(user.id);
+  if (!allowed) {
+    return Response.json(
+      { error: 'Demasiados intentos de pago. Intenta más tarde.' },
+      { status: 429 },
+    );
+  }
+
   try {
-    const body = await req.json();
+    const body = await req.json().catch(() => null);
+    if (!body) return Response.json({ error: 'Body inválido' }, { status: 400 });
+
     const resultado = SuscripcionSchema.safeParse(body);
     if (!resultado.success) {
       return Response.json({ error: 'Datos inválidos' }, { status: 400 });
     }
 
     const { plan, metodoPago, ciclo } = resultado.data;
-    const { id: usuarioId, email: emailUsuario, name: nombreUsuario } = session.user;
+    const { id: usuarioId, email: emailUsuario, nombre: nombreUsuario } = user;
 
     if (ciclo === 'ANUAL' && !PRECIOS_ANUAL[plan]) {
       return Response.json({ error: 'Este plan no tiene modalidad anual' }, { status: 400 });
@@ -77,14 +87,14 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getAuthUser(req);
+  if (!user) {
     return Response.json({ error: 'No autorizado. Inicie sesión.' }, { status: 401 });
   }
 
   try {
     await db.usuario.update({
-      where: { id: session.user.id },
+      where: { id: user.id },
       data: {
         planActual: 'GRATIS',
         suscripcionVence: undefined,

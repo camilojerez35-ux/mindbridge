@@ -84,5 +84,18 @@ export async function GET(req: NextRequest) {
     take: 20,
   });
 
-  return Response.json({ resenas });
+  const resenasAnonimizadas = resenas.map(r => {
+    const nombre = r.cita?.usuario?.nombre;
+    const inicial = r.cita?.usuario?.apellido ? ` ${r.cita.usuario.apellido.charAt(0)}.` : '';
+    const autor = nombre ? `${nombre}${inicial}` : 'Paciente verificado';
+    return {
+      id: r.id,
+      calificacion: r.calificacion,
+      comentario: r.comentario,
+      createdAt: r.createdAt,
+      autor,
+    };
+  });
+
+  return Response.json({ resenas: resenasAnonimizadas });
 }

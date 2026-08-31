@@ -13,8 +13,7 @@
  * 6. Invalida la sesión actual
  */
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 import { db, registrarAuditLog } from '@/lib/db/client';
 import { z } from 'zod';
 
@@ -25,8 +24,8 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  const user = await getAuthUser(req);
+  if (!user?.id) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });
   }
 
@@ -38,7 +37,7 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: parsed.error.issues[0].message }, { status: 400 });
   }
 
-  const usuarioId = session.user.id;
+  const usuarioId = user.id;
   const ahora = new Date();
 
   try {

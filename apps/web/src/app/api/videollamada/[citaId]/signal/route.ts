@@ -5,8 +5,7 @@
  */
 
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/auth-options';
+import { getAuthUser } from '@/lib/auth/get-auth-user';
 import { db } from '@/lib/db/client';
 import { z } from 'zod';
 
@@ -15,15 +14,15 @@ const SignalSchema = z.object({
   payload: z.record(z.string(), z.unknown()),
 });
 
-async function getRol(session: { user: { id: string; rol?: string } }, citaId: string) {
+async function getRol(userId: string, citaId: string) {
   const cita = await db.cita.findUnique({
     where: { id: citaId },
     select: { usuarioId: true, psicologoId: true,
               psicologo: { select: { usuarioId: true } } },
   });
   if (!cita) return null;
-  if (cita.usuarioId === session.user.id) return 'usuario';
-  if (cita.psicologo.usuarioId === session.user.id) return 'psicologo';
+  if (cita.usuarioId === userId) return 'usuario';
+  if (cita.psicologo.usuarioId === userId) return 'psicologo';
   return null;
 }
 
@@ -31,10 +30,10 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { citaId: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getAuthUser(req);
+  if (!user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
-  const rol = await getRol(session as any, params.citaId);
+  const rol = await getRol(user.id, params.citaId);
   if (!rol) return Response.json({ error: 'No tienes acceso a esta cita' }, { status: 403 });
 
   const rolRemoto = rol === 'usuario' ? 'psicologo' : 'usuario';
@@ -60,10 +59,10 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { citaId: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getAuthUser(req);
+  if (!user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
-  const rol = await getRol(session as any, params.citaId);
+  const rol = await getRol(user.id, params.citaId);
   if (!rol) return Response.json({ error: 'No tienes acceso a esta cita' }, { status: 403 });
 
   const body = await req.json().catch(() => null);
@@ -92,10 +91,10 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { citaId: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getAuthUser(req);
+  if (!user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
-  const rol = await getRol(session as any, params.citaId);
+  const rol = await getRol(user.id, params.citaId);
   if (!rol) return Response.json({ error: 'No tienes acceso a esta cita' }, { status: 403 });
 
   await db.senalRTC.deleteMany({ where: { citaId: params.citaId } });

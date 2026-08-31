@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { enviarEmail, escapeHtml } from '@/lib/email/confirmaciones';
 import { getAuthUser } from '@/lib/auth/get-auth-user';
 import { capturarEvento } from '@/lib/analytics/posthog';
+import { rateLimits } from '@/lib/rate-limit';
 
 const TZ = 'America/Bogota';
 const fmtCita = (iso: string) =>
@@ -86,6 +87,14 @@ export async function POST(req: NextRequest) {
   }
 
   const usuarioId = user.id;
+
+  const { allowed } = await rateLimits.citas(usuarioId);
+  if (!allowed) {
+    return Response.json(
+      { error: 'Demasiadas citas agendadas recientemente. Intenta más tarde.' },
+      { status: 429 },
+    );
+  }
 
   try {
     const body = await req.json().catch(() => null);

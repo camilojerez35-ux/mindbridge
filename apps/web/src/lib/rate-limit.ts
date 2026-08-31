@@ -176,4 +176,18 @@ export const rateLimits = {
       limit: 60,
       windowSec: 60,
     }),
+
+  resetPassword: (ip: string) =>
+    checkRateLimit({
+      key: `rl:reset-pw:${ip}`,
+      limit: 5,
+      windowSec: 3_600, // 5 intentos por IP por hora
+    }),
+
+  cambiarPassword: (userId: string) =>
+    checkRateLimit({
+      key: `rl:change-pw:${userId}`,
+      limit: 5,
+      windowSec: 3_600, // 5 cambios por usuario por hora
+    }),
 } as const;
