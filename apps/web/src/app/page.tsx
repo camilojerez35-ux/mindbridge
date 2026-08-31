@@ -2,11 +2,13 @@ import type { Metadata } from 'next';
 import React from 'react';
 import Link from 'next/link';
 import LandingNav from '@/components/landing/LandingNav';
+import ChequeoEmocionalInteractivo from '@/components/landing/ChequeoEmocionalInteractivo';
+import StickyMobileCta from '@/components/landing/StickyMobileCta';
 
 export const metadata: Metadata = {
   title: 'MenteBridge Colombia — Salud Mental con IA y Psicólogos Certificados',
   description: 'Acompañamiento emocional con IA clínica y psicólogos verificados por COLPSIC. Chat 24/7, videocitas, diario emocional. Cumple Ley 1581/2012.',
-  keywords: 'salud mental colombia, psicólogo online colombia, terapia online, ansiedad, depresión, bienestar emocional, IA salud mental',
+  keywords: 'salud mental colombia, psicólogo online colombia, terapia online, ansiedad, depresión, bienestar emocional, IA salud mental, colpsic',
   openGraph: {
     title: 'MenteBridge Colombia — Salud Mental con IA',
     description: 'Acompañamiento emocional con IA y psicólogos certificados. Disponible 24/7 en Colombia.',
@@ -27,66 +29,66 @@ export const metadata: Metadata = {
 const beneficios = [
   {
     icon: '🤖',
-    titulo: 'Apoyo cuando más lo necesitas',
-    desc: 'Chat con IA clínica disponible las 24 horas. Sin lista de espera, sin juicios. Técnicas de TCC, ACT y mindfulness aplicadas a tu situación.',
+    titulo: 'Apoyo cuando más lo necesitas (24/7)',
+    desc: 'Un chat clínico disponible a cualquier hora, incluso a las 2:00 AM. Sin lista de espera, sin juicios. Técnicas de TCC, ACT y mindfulness aplicadas a tu situación.',
     color: 'from-teal-500/10 to-teal-600/5',
     border: 'border-teal-500/15',
-    tag: '24/7',
+    tag: '24/7 Sin Esperas',
   },
   {
     icon: '📔',
     titulo: 'Entiende tus patrones emocionales',
-    desc: 'Registra cómo te sientes cada día y la IA identifica qué situaciones, horarios o personas afectan tu ánimo. Información que cambia cómo te ves.',
+    desc: 'Registra cómo te sientes cada día y la IA identifica qué situaciones, horarios o personas afectan tu ánimo. Claridad que transforma tu día a día.',
     color: 'from-indigo-500/10 to-indigo-600/5',
     border: 'border-indigo-500/15',
-    tag: 'Diario IA',
+    tag: 'Diario Inteligente',
   },
   {
     icon: '👨‍⚕️',
-    titulo: 'Psicólogos verificados cuando los necesites',
-    desc: 'Agenda videocitas con profesionales certificados por COLPSIC. Ve el perfil, las especialidades y reserva en minutos — sin papeleo.',
+    titulo: 'Psicólogos verificados (Pago por sesión)',
+    desc: 'Agenda videoconsultas individuales con profesionales colegiados por COLPSIC cuando lo necesites. Recibe 20% de descuento en tu primera consulta.',
     color: 'from-rose-500/10 to-rose-600/5',
     border: 'border-rose-500/15',
-    tag: 'COLPSIC',
+    tag: '20% OFF 1ra Cita',
   },
   {
     icon: '🧘',
-    titulo: 'Herramientas para crisis y ansiedad',
-    desc: 'Ejercicios guiados de respiración 4-7-8, grounding 5-4-3-2-1 y mindfulness para calmar la mente en tiempo real. Siempre disponibles.',
+    titulo: 'Herramientas inmediatas para la ansiedad',
+    desc: 'Ejercicios guiados de respiración 4-7-8, grounding 5-4-3-2-1 y mindfulness para calmar tu mente en momentos de pánico o sobrecarga.',
     color: 'from-amber-500/10 to-amber-600/5',
     border: 'border-amber-500/15',
-    tag: 'Ejercicios',
+    tag: 'Alivio Inmediato',
   },
   {
     icon: '📈',
     titulo: 'Ve tu progreso semana a semana',
-    desc: 'Gráficas claras de tu evolución emocional, rachas de días activos y reportes que puedes compartir con tu psicólogo.',
+    desc: 'Gráficas de evolución emocional, rachas de bienestar y resúmenes clínicos que puedes llevar a tu terapeuta.',
     color: 'from-purple-500/10 to-purple-600/5',
     border: 'border-purple-500/15',
-    tag: 'Progreso',
+    tag: 'Seguimiento',
   },
   {
     icon: '🔒',
-    titulo: 'Tus datos son solo tuyos, siempre',
-    desc: 'Cifrado AES-256 en todas tus conversaciones. Cumplimos Ley 1581/2012 y Resolución 2654/2019. Ni nuestro equipo puede leer tus chats.',
+    titulo: '100% Anónimo y Confidencial',
+    desc: 'Cifrado militar AES-256 en todas tus conversaciones. Cumplimos Ley 1581/2012 y Res. 2654/2019. Ni nuestro equipo puede leer tus chats.',
     color: 'from-emerald-500/10 to-emerald-600/5',
     border: 'border-emerald-500/15',
-    tag: 'AES-256',
+    tag: 'AES-256 Cifrado',
   },
 ];
 
 const dolorPuntos = [
-  { emoji: '😰', texto: '¿La ansiedad controla tu día y no sabes cómo parar?' },
-  { emoji: '💭', texto: '¿Tienes pensamientos que no puedes silenciar?' },
-  { emoji: '😔', texto: '¿Necesitas hablar, pero sientes que no tienes a quién?' },
-  { emoji: '💸', texto: '¿Quieres ir al psicólogo pero el costo o la lista de espera te detiene?' },
+  { emoji: '😰', texto: '¿La ansiedad o la rumiación mental no te dejan concentrarte ni descansar?' },
+  { emoji: '😔', texto: '¿Te sientes abrumado/a pero te da vergüenza o miedo hablarlo por temor al juicio?' },
+  { emoji: '💸', texto: '¿Quieres ir a terapia pero el costo de $100.000+ por sesión no te alcanza cada semana?' },
+  { emoji: '⏳', texto: '¿Tu EPS tarda meses en darte una cita con psicología cuando necesitas ayuda hoy?' },
 ];
 
 const pasos = [
   {
     num: '01',
-    titulo: 'Crea tu cuenta en 2 minutos',
-    desc: 'Solo tu correo. Sin tarjeta de crédito. Gratis desde el primer momento.',
+    titulo: 'Crea tu cuenta en 1 minuto',
+    desc: 'Solo con tu correo electrónico. Sin tarjeta de crédito y 100% gratis.',
     detalle: 'Registro seguro con verificación de email y consentimiento informado según Ley 1581/2012.',
     color: 'text-teal-400',
     ring: 'ring-teal-500/30',
@@ -100,9 +102,9 @@ const pasos = [
   },
   {
     num: '02',
-    titulo: 'Cuéntale cómo te sientes',
-    desc: 'La IA escucha, aplica técnicas basadas en evidencia y te da herramientas reales para ese momento.',
-    detalle: 'Terapia Cognitivo-Conductual (TCC), ACT, mindfulness y más — todo adaptado a lo que describes.',
+    titulo: 'Desahógate y encuentra calma',
+    desc: 'La IA escucha con empatía clínica y te brinda técnicas de TCC y respiración en el momento exacto.',
+    detalle: 'Acompañamiento basado en evidencia (TCC, ACT, Mindfulness) adaptado a lo que vives.',
     color: 'text-emerald-400',
     ring: 'ring-emerald-500/30',
     bg: 'bg-emerald-500/8',
@@ -117,8 +119,8 @@ const pasos = [
   {
     num: '03',
     titulo: 'Agenda con un psicólogo cuando quieras',
-    desc: 'Cuando necesites más, conecta con un profesional certificado por COLPSIC en minutos.',
-    detalle: 'Videocita desde tu celular o computador. El historial de la IA ayuda al psicólogo a entenderte mejor desde el primer día.',
+    desc: 'Paga únicamente por la sesión que tomes, con 20% de descuento de bienvenida en tu primera cita.',
+    detalle: 'Videoconsulta confidencial WebRTC. El profesional recibe tu contexto para no empezar desde cero.',
     color: 'text-indigo-400',
     ring: 'ring-indigo-500/30',
     bg: 'bg-indigo-500/8',
@@ -133,15 +135,15 @@ const pasos = [
 ];
 
 const estadisticas = [
-  { num: '+2.000', label: 'Colombianos activos', sub: 'y creciendo cada semana' },
-  { num: '98%', label: 'Satisfacción', sub: 'en plataforma' },
+  { num: '+2.000', label: 'Colombianos activos', sub: 'encontrando calma cada semana' },
+  { num: '98%', label: 'Satisfacción', sub: 'en el acompañamiento' },
   { num: '+15', label: 'Psicólogos COLPSIC', sub: 'verificados y activos' },
-  { num: '24/7', label: 'Disponibilidad', sub: 'de la IA clínica' },
+  { num: '24/7', label: 'Disponibilidad', sub: 'de tu asistente clínico' },
 ];
 
 const testimonios = [
   {
-    texto: '"Bajé mis ataques de ansiedad de 5 a 1 por semana en 3 semanas. Por fin tengo herramientas reales, no solo consejos genéricos."',
+    texto: '"Poder hablar a las 11 de la noche cuando me entra el ataque de pánico y recibir un ejercicio que me baja la taquicardia no tiene precio. Me cambió la vida."',
     autor: 'María C.',
     profesion: 'Nutricionista',
     ciudad: 'Bogotá',
@@ -150,7 +152,7 @@ const testimonios = [
     estrellas: 5,
   },
   {
-    texto: '"Como hombre siempre me costó buscar ayuda. Con MenteBridge pude hablar sin sentir juicio. Cambió cómo veo mi salud mental."',
+    texto: '"Como hombre siempre me costó buscar ayuda o admitir que estaba agotado. Con MenteBridge pude desahogarme sin juicio y luego agendar con la psicóloga para mi primera cita."',
     autor: 'Santiago R.',
     profesion: 'Ingeniero de sistemas',
     ciudad: 'Medellín',
@@ -159,7 +161,7 @@ const testimonios = [
     estrellas: 5,
   },
   {
-    texto: '"El diario me mostró que mi mal humor siempre era los domingos. Ahora lo anticipo. Nunca lo hubiera notado sin los datos de la IA."',
+    texto: '"El diario me mostró que mi mal humor siempre era los domingos por la tarde. Ahora lo anticipo. Nunca lo hubiera notado sin los datos de la IA."',
     autor: 'Laura M.',
     profesion: 'Estudiante universitaria',
     ciudad: 'Cali',
@@ -174,110 +176,147 @@ const planes = [
     nombre: 'Gratis',
     precio: '0',
     paraQuien: 'Para explorar sin compromiso',
-    desc: 'Ideal si quieres conocer la plataforma y empezar tu camino de bienestar.',
+    desc: 'Ideal para probar el chat y empezar a entender tus emociones.',
     destacado: false,
     cta: 'Empezar gratis',
     href: '/registro',
     features: [
       '5 chats con IA clínica/mes',
-      '1 test PHQ-9',
+      '1 test PHQ-9 de depresión',
       'Diario emocional básico',
       'Cifrado AES-256 de tus datos',
+      '20% dto en tu 1ra cita con psicólogo',
     ],
     noFeatures: [
       'Chat IA ilimitado',
-      'Videocitas con psicólogos',
-      'Reportes emocionales avanzados',
+      'Resúmenes semanales profundos',
+      'Ejercicios guiados avanzados',
     ],
   },
   {
     nombre: 'Básico',
     precio: '14.900',
-    paraQuien: 'Para empezar a construir el hábito',
-    desc: 'Chat IA sin límite y diario completo, al precio de entrada más bajo.',
+    paraQuien: 'Para construir un hábito diario',
+    desc: 'Chat IA ilimitado y diario completo al precio más accesible.',
     destacado: false,
     cta: 'Comenzar con Básico',
     href: '/registro',
     features: [
       'IA clínica sin límite de mensajes',
       'Diario emocional completo',
-      'Todos los tests psicológicos',
+      'Todos los tests psicológicos (PHQ-9, GAD-7, DASS)',
       'Cifrado AES-256 de tus datos',
+      '20% dto en tu 1ra cita con psicólogo',
     ],
-    noFeatures: ['Resumen IA semanal', 'Videocitas con psicólogos incluidas'],
+    noFeatures: ['Resumen IA semanal', 'Ejercicios personalizados'],
   },
   {
     nombre: 'Plus',
     precio: '25.900',
-    paraQuien: 'Para quien quiere resultados reales',
-    desc: 'El plan más completo de IA. Agenda videocitas con psicólogos por aparte cuando las necesites.',
+    paraQuien: 'Para resultados reales y profundos',
+    desc: 'El plan más completo con resúmenes de evolución y ejercicios personalizados.',
     destacado: true,
     cta: 'Comenzar con Plus',
     href: '/registro',
     features: [
       'Todo lo del plan Básico',
-      'Resumen IA semanal',
-      'Ejercicios personalizados',
-      'Prioridad en respuestas',
+      'Resumen IA semanal con insights',
+      'Ejercicios personalizados de TCC/Mindfulness',
+      'Prioridad en respuestas de IA',
       'Reportes emocionales avanzados',
+      '20% dto en tu 1ra cita con psicólogo',
     ],
-    noFeatures: ['Videocitas con psicólogos incluidas'],
+    noFeatures: [],
   },
   {
     nombre: 'Familia',
     precio: '44.900',
     paraQuien: 'Para cuidar a toda tu familia',
-    desc: 'Un plan, hasta 5 perfiles. Bienestar familiar sin complicaciones.',
+    desc: 'Un solo plan con hasta 5 perfiles independientes y privados.',
     destacado: false,
     cta: 'Plan Familia',
     href: '/registro',
     features: [
       'Todo lo del plan Plus',
-      'Hasta 5 perfiles familiares',
+      'Hasta 5 perfiles individuales',
       'IA clínica sin límite para todos',
       'Panel familiar de bienestar',
-      'Reportes comparativos familiares',
+      'Privacidad total entre perfiles',
+      '20% dto en 1ra cita para cada miembro',
     ],
-    noFeatures: ['Videocitas con psicólogos incluidas'],
+    noFeatures: [],
+  },
+];
+
+const tablaComparativa = [
+  {
+    caracteristica: 'Disponibilidad de atención',
+    tradicional: 'Cita previa (esperas de 1 a 3 semanas)',
+    extranjeras: '24/7 (en inglés o neutro internacional)',
+    mentebridge: '24/7 al instante (incluso a las 2 AM) 🇨🇴',
+  },
+  {
+    caracteristica: 'Costo mensual estimado',
+    tradicional: '$360.000 - $600.000 COP (4 sesiones)',
+    extranjeras: '$60.000 - $280.000 COP (en dólares)',
+    mentebridge: 'Desde $14.900 COP / mes (o Gratis)',
+  },
+  {
+    caracteristica: 'Citas con Psicólogo',
+    tradicional: 'Cobro fijo por consulta presencial',
+    extranjeras: 'Psicólogo asignado aleatorio en EE.UU.',
+    mentebridge: 'Pago por sesión + 20% OFF de bienvenida',
+  },
+  {
+    caracteristica: 'Métodos de pago aceptados',
+    tradicional: 'Efectivo o transferencia bancaria',
+    extranjeras: 'Solo tarjeta de crédito en USD',
+    mentebridge: 'Nequi, PSE, Tarjetas y Daviplata (Wompi)',
+  },
+  {
+    caracteristica: 'Privacidad y confidencialidad',
+    tradicional: 'Historia clínica en consultorio',
+    extranjeras: 'Regulaciones extranjeras (HIPAA/GDPR)',
+    mentebridge: 'Cifrado AES-256 + Ley 1581/2012 Colombia',
   },
 ];
 
 const faqs: { q: string; a: React.ReactNode }[] = [
   {
+    q: '¿Cómo funcionan las citas con psicólogos y el descuento de bienvenida?',
+    a: 'Las videoconsultas con psicólogos se pagan por sesión individual (generalmente entre $80.000 y $120.000 COP según el especialista). No están atadas a la suscripción para que solo pagues cuando decidas consultar. Como usuario de MenteBridge, recibes un 20% de descuento de bienvenida en tu primera cita.',
+  },
+  {
     q: '¿La IA reemplaza a un psicólogo?',
-    a: 'No. La IA es una herramienta de acompañamiento emocional basada en evidencia (TCC, ACT, mindfulness), no un sustituto de la atención clínica. Cuando detecta señales que requieren atención profesional, te conecta directamente con un psicólogo verificado.',
+    a: 'No. La IA es una herramienta de acompañamiento emocional basada en evidencia (TCC, ACT, mindfulness), no un sustituto de la atención clínica. Cuando detecta señales que requieren atención profesional, te conecta directamente con un psicólogo verificado por COLPSIC.',
   },
   {
-    q: '¿Es completamente confidencial?',
-    a: 'Sí. Tus conversaciones se cifran con AES-256 y nunca se comparten con terceros. Cumplimos la Ley 1581/2012 de protección de datos y la Resolución 2654/2019 del Ministerio de Salud. Ni nuestro equipo puede leer tus chats.',
+    q: '¿Es completamente confidencial? ¿Alguien lee mis chats?',
+    a: 'Es 100% confidencial. Tus conversaciones se cifran con tecnología militar AES-256 y nunca se comparten con terceros ni con empleadores. Cumplimos la Ley 1581/2012 de protección de datos personales y la Resolución 2654/2019 de Telesalud. Ni nuestro propio equipo técnico puede leer tus conversaciones.',
   },
   {
-    q: '¿Puedo cancelar cuando quiera?',
-    a: 'Siempre. Cancela desde Configuración → Suscripción en tu dashboard. Sin permanencia mínima ni penalizaciones. Conservas acceso al plan pagado hasta el final del período facturado.',
+    q: '¿Puedo cancelar mi suscripción cuando quiera?',
+    a: 'Sí, en cualquier momento con un solo clic desde tu perfil. Sin cláusulas de permanencia, sin penalizaciones y sin letras pequeñas.',
   },
   {
-    q: '¿Los psicólogos están certificados?',
-    a: 'Todos están verificados por COLPSIC (Colegio Colombiano de Psicólogos) y tienen tarjeta profesional vigente. Revisamos sus credenciales antes de que puedan atender en la plataforma.',
+    q: '¿Los psicólogos están certificados en Colombia?',
+    a: 'Sí. Todos los psicólogos de nuestra red cuentan con tarjeta profesional vigente y verificación ante COLPSIC (Colegio Colombiano de Psicólogos).',
   },
   {
-    q: '¿Qué pasa si estoy en crisis?',
-    a: <>Si el sistema detecta señales de crisis, activa un protocolo inmediato: ejercicios de estabilización, contacto urgente con un psicólogo y acceso directo a las líneas de emergencia — <a href="tel:106" className="text-teal-400 font-bold hover:underline">106</a> (Línea de la Vida, gratuita 24h) y <a href="tel:123" className="text-red-400 font-bold hover:underline">123</a> (emergencias). Tu seguridad es la prioridad absoluta.</>,
-  },
-  {
-    q: '¿Puedo usarlo si ya tengo psicólogo?',
-    a: 'Por supuesto. Muchos usuarios usan la IA y el diario como complemento entre sesiones, para procesar lo del día a día y llegar mejor preparados a sus citas con su terapeuta.',
+    q: '¿Qué pasa si estoy en crisis o emergencia?',
+    a: <>Si el sistema detecta señales de riesgo crítico, activa un protocolo inmediato: ejercicios de contención, enlace urgente y acceso directo a las líneas nacionales de emergencia — <a href="tel:106" className="text-teal-400 font-bold hover:underline">Línea 106</a> (gratuita 24h) y <a href="tel:123" className="text-red-400 font-bold hover:underline">123</a>. Tu seguridad es la prioridad absoluta.</>,
   },
   {
     q: '¿Qué métodos de pago aceptan?',
-    a: 'Procesamos pagos con Wompi — tarjetas débito/crédito Visa, Mastercard, PSE y Nequi. Todo 100% colombiano.',
+    a: 'Procesamos los pagos mediante Wompi (Bancolombia) — aceptamos Nequi, PSE, tarjetas débito y crédito Visa y Mastercard.',
   },
 ];
 
 const confianzaBadges = [
-  { icon: '🏛️', titulo: 'COLPSIC', desc: 'Psicólogos verificados por el Colegio Colombiano de Psicólogos' },
-  { icon: '⚖️', titulo: 'Ley 1581/2012', desc: 'Cumplimiento total en protección de datos personales y de salud' },
-  { icon: '🔐', titulo: 'AES-256', desc: 'Cifrado militar en todas tus conversaciones y datos' },
-  { icon: '🏥', titulo: 'Res. 2654/2019', desc: 'Conformidad con el Ministerio de Salud de Colombia' },
+  { icon: '🏛️', titulo: 'COLPSIC', desc: 'Psicólogos con tarjeta profesional verificada' },
+  { icon: '⚖️', titulo: 'Ley 1581/2012', desc: 'Protección estricta de datos personales y salud' },
+  { icon: '🔐', titulo: 'Cifrado AES-256', desc: 'Tus conversaciones están blindadas y privadas' },
+  { icon: '🇨🇴', titulo: 'Res. 2654/2019', desc: 'Cumplimiento normativo de Telesalud en Colombia' },
 ];
 
 /* ─────────────── HELPERS ─────────────── */
@@ -325,33 +364,33 @@ export default function Home() {
             {/* Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-teal-500/25 bg-teal-500/5 mb-7">
               <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse" />
-              <span className="text-xs text-teal-400 font-semibold">Plataforma de Salud Mental · Colombia 🇨🇴</span>
+              <span className="text-xs text-teal-400 font-semibold">Salud Mental Privada · Colombia 🇨🇴</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-5 leading-[1.05] tracking-tight">
-              Tu bienestar mental,{' '}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mb-5 leading-[1.1] tracking-tight">
+              Un espacio seguro para desahogarte, entender lo que sientes y{' '}
               <span className="bg-gradient-to-r from-teal-400 via-emerald-400 to-teal-300 bg-clip-text text-transparent">
-                inteligente
+                recuperar la calma
               </span>
             </h1>
 
-            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-9 leading-relaxed">
-              Acompañamiento emocional con IA clínica y psicólogos certificados,
-              disponible 24/7. Confidencial, accesible y diseñado para Colombia.
+            <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto mb-9 leading-relaxed">
+              Acompañamiento emocional con IA clínica basada en TCC y psicólogos colegiados por COLPSIC.
+              Disponible 24/7, 100% privado y al alcance de tu bolsillo.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
               <Link
                 href="/registro"
-                className="px-7 py-3.5 bg-teal-500 hover:bg-teal-400 text-white font-bold rounded-xl transition-all text-base shadow-lg shadow-teal-500/20 hover:shadow-teal-500/35 hover:scale-[1.02] active:scale-[0.98]"
+                className="px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98]"
               >
-                Empezar gratis — sin tarjeta
+                Empezar gratis — sin tarjeta de crédito →
               </Link>
               <Link
-                href="/login"
-                className="px-7 py-3.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold rounded-xl transition-all text-base"
+                href="/psicologos"
+                className="px-7 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold rounded-xl transition-all text-base flex items-center justify-center gap-2"
               >
-                Ya tengo cuenta →
+                Ver Psicólogos (20% OFF 1ra cita)
               </Link>
             </div>
 
@@ -367,146 +406,203 @@ export default function Home() {
                   <div className="flex items-center gap-0.5">
                     {[1,2,3,4,5].map(i => <StarIcon key={i} />)}
                   </div>
-                  <p className="text-xs text-gray-400"><span className="text-white font-semibold">+2.000</span> colombianos</p>
+                  <p className="text-xs text-gray-400"><span className="text-white font-semibold">+2.000</span> colombianos activos</p>
                 </div>
               </div>
               <div className="hidden sm:block w-px h-7 bg-white/10" />
-              <p className="text-xs text-gray-500">
-                🔒 Ley 1581/2012 · AES-256 · COLPSIC
+              <p className="text-xs text-gray-400">
+                🔒 Cifrado militar AES-256 · 100% Anónimo
               </p>
               <div className="hidden sm:block w-px h-7 bg-white/10" />
-              <p className="text-xs text-gray-500">
-                ⚡ Listo en <span className="text-gray-300 font-medium">menos de 2 minutos</span>
+              <p className="text-xs text-gray-400">
+                ⚡ Listo en <span className="text-teal-400 font-semibold">menos de 1 minuto</span>
               </p>
             </div>
           </div>
 
-          {/* Mock chat visual */}
-          <div className="mt-14 max-w-lg mx-auto">
-            <div className="bg-[#0d1a12] border border-white/8 rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
-              {/* Chat header */}
-              <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/5 bg-[#0a1510]">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-sm">🤖</div>
-                <div>
-                  <p className="text-xs font-semibold text-white">IA Clínica · MenteBridge</p>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 bg-teal-400 rounded-full" />
-                    <span className="text-[10px] text-teal-400">En línea</span>
-                  </div>
-                </div>
-              </div>
-              {/* Messages */}
-              <div className="p-4 space-y-3.5">
-                {/* User */}
-                <div className="flex justify-end">
-                  <div className="bg-teal-500/15 border border-teal-500/20 rounded-2xl rounded-tr-sm px-3.5 py-2.5 max-w-[75%]">
-                    <p className="text-xs text-gray-300 leading-relaxed">Hoy me sentí muy ansioso en el trabajo, no pude concentrarme en nada.</p>
-                  </div>
-                </div>
-                {/* AI */}
-                <div className="flex justify-start gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-xs flex-shrink-0 mt-1">🤖</div>
-                  <div className="bg-white/4 border border-white/8 rounded-2xl rounded-tl-sm px-3.5 py-2.5 max-w-[78%]">
-                    <p className="text-xs text-gray-300 leading-relaxed">Entiendo. La ansiedad en el trabajo puede ser muy agotadora. ¿Notaste si algo específico la disparó, o fue una sensación constante desde que llegaste?</p>
-                  </div>
-                </div>
-                {/* User */}
-                <div className="flex justify-end">
-                  <div className="bg-teal-500/15 border border-teal-500/20 rounded-2xl rounded-tr-sm px-3.5 py-2.5 max-w-[70%]">
-                    <p className="text-xs text-gray-300">Creo que fue desde la reunión del lunes...</p>
-                  </div>
-                </div>
-                {/* Typing indicator */}
-                <div className="flex justify-start gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-xs flex-shrink-0">🤖</div>
-                  <div className="bg-white/4 border border-white/8 rounded-2xl rounded-tl-sm px-4 py-3">
-                    <div className="flex gap-1.5 items-center h-3">
-                      {[0,1,2].map(i => (
-                        <div key={i} className="w-1.5 h-1.5 bg-teal-400 rounded-full opacity-60" style={{ animationDelay: `${i * 0.2}s` }} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p className="text-center text-xs text-gray-600 mt-3">Ejemplo real de conversación con la IA</p>
+          {/* ── WIDGET INTERACTIVO DE CHEQUEO EMOCIONAL ── */}
+          <div className="mt-14 max-w-3xl mx-auto">
+            <ChequeoEmocionalInteractivo />
           </div>
         </div>
       </section>
 
       {/* ── DOLOR PUNTOS ── */}
-      <section className="py-14 px-5 bg-[#0a120a]">
+      <section className="py-16 px-5 bg-[#0a120a] border-y border-white/5">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-black text-white">
+            <span className="text-xs text-teal-400 font-bold uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">
+              No tienes que pasar por esto solo/a
+            </span>
+            <h2 className="text-2xl md:text-3xl font-black text-white mt-3">
               ¿Te identificas con alguna de estas situaciones?
             </h2>
-            <p className="text-sm text-gray-500 mt-2">MenteBridge fue creado exactamente para esto</p>
+            <p className="text-sm text-gray-400 mt-2">MenteBridge fue diseñado para darte alivio inmediato en tu momento de mayor necesidad</p>
           </div>
-          <div className="grid sm:grid-cols-2 gap-3">
+          <div className="grid sm:grid-cols-2 gap-3.5">
             {dolorPuntos.map((d) => (
-              <div key={d.texto} className="flex items-start gap-3.5 p-4 bg-white/3 border border-white/6 rounded-xl hover:border-teal-500/20 transition-colors">
-                <span className="text-2xl flex-shrink-0">{d.emoji}</span>
-                <p className="text-sm text-gray-300 leading-relaxed">{d.texto}</p>
+              <div key={d.texto} className="flex items-start gap-3.5 p-4.5 bg-white/3 border border-white/6 rounded-2xl hover:border-teal-500/30 transition-all">
+                <span className="text-2xl flex-shrink-0 mt-0.5">{d.emoji}</span>
+                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{d.texto}</p>
               </div>
             ))}
           </div>
-          <p className="text-center text-sm text-teal-400 mt-8 font-medium">
-            Si dijiste que sí a alguna → <Link href="/registro" className="underline underline-offset-2 hover:text-teal-300">MenteBridge es para ti</Link>
-          </p>
+        </div>
+      </section>
+
+      {/* ── DISIPADORES DE MIEDO Y GARANTÍAS DE CONFIANZA ── */}
+      <section className="py-16 px-5">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-5">
+            <div className="p-6 bg-gradient-to-b from-teal-950/40 to-transparent border border-teal-500/30 rounded-2xl">
+              <span className="text-3xl mb-3 block">🔒</span>
+              <h3 className="text-base font-bold text-white mb-2">100% Anónimo y Privado</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Tus conversaciones están protegidas con cifrado militar AES-256. Ni nuestro equipo de desarrollo ni terceros pueden leer lo que escribes.
+              </p>
+            </div>
+            <div className="p-6 bg-gradient-to-b from-emerald-950/40 to-transparent border border-emerald-500/30 rounded-2xl">
+              <span className="text-3xl mb-3 block">💳</span>
+              <h3 className="text-base font-bold text-white mb-2">Cero Riesgo: Empieza Gratis</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                No te pediremos tarjeta de crédito para registrarte ni para usar el plan gratuito. Si decides suscribirte, cancelas cuando quieras en 1 clic.
+              </p>
+            </div>
+            <div className="p-6 bg-gradient-to-b from-indigo-950/40 to-transparent border border-indigo-500/30 rounded-2xl">
+              <span className="text-3xl mb-3 block">🇨🇴</span>
+              <h3 className="text-base font-bold text-white mb-2">Respaldo COLPSIC Colombia</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Toda la metodología se basa en protocolos clínicos validados (TCC y ACT) y nuestra red de psicólogos cuenta con tarjeta profesional activa.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── BENEFICIOS ── */}
-      <section className="py-20 px-5">
+      <section className="py-20 px-5 bg-[#0a120a]">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Qué obtienes</p>
+          <div className="text-center mb-14">
+            <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Qué hace MenteBridge por ti</p>
             <h2 className="text-3xl md:text-4xl font-black text-white">
-              Todo lo que necesitas en un solo lugar
+              Herramientas clínicas reales en la palma de tu mano
             </h2>
-            <p className="text-sm text-gray-500 mt-3 max-w-lg mx-auto">
-              Sin múltiples apps. Sin lista de espera. Sin sentirte juzgado.
+            <p className="text-gray-400 mt-3 text-sm max-w-xl mx-auto">
+              Diseñado junto a psicólogos clínicos para darte apoyo constante entre sesiones.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {beneficios.map((b) => (
               <div
                 key={b.titulo}
-                className={`bg-gradient-to-br ${b.color} border ${b.border} rounded-2xl p-6 hover:scale-[1.02] transition-all duration-200 group`}
+                className={`p-6 rounded-2xl bg-gradient-to-br ${b.color} border ${b.border} flex flex-col justify-between hover:scale-[1.01] transition-transform`}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <span className="text-3xl">{b.icon}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 bg-white/5 px-2 py-1 rounded-md">{b.tag}</span>
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-3xl">{b.icon}</span>
+                    <span className="text-[11px] font-bold text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2.5 py-0.5 rounded-full">
+                      {b.tag}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-2">{b.titulo}</h3>
+                  <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">{b.desc}</p>
                 </div>
-                <h3 className="text-sm font-bold text-white mb-2 leading-snug">{b.titulo}</h3>
-                <p className="text-xs text-gray-400 leading-relaxed">{b.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECCIÓN DESTACADA: CITAS CON PSICÓLOGOS + DESCUENTO ── */}
+      <section className="py-20 px-5">
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-gradient-to-r from-teal-950/60 via-[#0d1f17] to-emerald-950/60 border border-teal-500/30 rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold mb-4">
+                🎁 Bono de Bienvenida
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-black text-white mb-4 leading-tight">
+                Teleconsultas con Psicólogos COLPSIC:<br />
+                <span className="text-teal-400">Paga solo por sesión individual</span>
+              </h2>
+              <p className="text-sm text-gray-300 leading-relaxed mb-6">
+                En MenteBridge no te obligamos a pagar planes costosos de terapia que no sabes si vas a usar.
+                Las videoconsultas se pagan de forma independiente cuando tú lo decidas, y para que des el primer paso sin miedo, te damos un{' '}
+                <strong className="text-white font-bold underline decoration-teal-400">20% de descuento en tu primera cita</strong> con cualquier profesional de la red.
+              </p>
+              <div className="flex flex-wrap gap-4 items-center">
+                <Link
+                  href="/psicologos"
+                  className="px-7 py-3.5 bg-teal-500 hover:bg-teal-400 text-white font-bold rounded-xl transition-all text-sm shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
+                >
+                  Explorar Psicólogos Verificados →
+                </Link>
+                <span className="text-xs text-gray-400">
+                  Tarifas transparentes desde $64.000 COP con descuento aplicado
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TABLA COMPARATIVA ── */}
+      <section className="py-16 px-5 bg-[#0a120a]">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-xs text-teal-400 font-bold uppercase tracking-widest bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">
+              Comparativa transparente
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mt-3">
+              ¿Por qué MenteBridge es diferente?
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-400 mt-2">
+              Compara tu bienestar con las alternativas tradicionales en Colombia
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-gray-400">
+                  <th className="py-4 px-4">Criterio</th>
+                  <th className="py-4 px-4 text-gray-500">Terapia Privada Tradicional</th>
+                  <th className="py-4 px-4 text-gray-500">Apps Extranjeras en USD</th>
+                  <th className="py-4 px-4 text-teal-400 font-bold bg-teal-500/10 rounded-t-xl">MenteBridge Colombia 🇨🇴</th>
+                </tr>
+              </thead>
+              <tbody className="text-xs sm:text-sm divide-y divide-white/5">
+                {tablaComparativa.map((fila, idx) => (
+                  <tr key={idx} className="hover:bg-white/2 transition-colors">
+                    <td className="py-4 px-4 font-semibold text-white">{fila.caracteristica}</td>
+                    <td className="py-4 px-4 text-gray-400">{fila.tradicional}</td>
+                    <td className="py-4 px-4 text-gray-400">{fila.extranjeras}</td>
+                    <td className="py-4 px-4 font-bold text-teal-300 bg-teal-500/5">{fila.mentebridge}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
 
       {/* ── CÓMO FUNCIONA ── */}
-      <section id="como-funciona" className="py-24 px-5 bg-[#0a120a]">
+      <section className="py-20 px-5">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Proceso</p>
-            <h2 className="text-3xl md:text-4xl font-black text-white">
-              Empieza en 3 pasos simples
-            </h2>
-            <p className="text-sm text-gray-500 mt-3">Desde cero hasta tu primera sesión en menos de 5 minutos</p>
+          <div className="text-center mb-14">
+            <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Paso a paso</p>
+            <h2 className="text-3xl font-black text-white">¿Cómo funciona MenteBridge?</h2>
+            <p className="text-gray-400 mt-3 text-sm">Empieza en minutos, a tu propio ritmo.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {pasos.map((p, i) => (
               <div key={p.num} className="relative">
-                {/* Conector */}
                 {i < pasos.length - 1 && (
                   <div className="hidden md:block absolute top-8 left-[calc(100%-1rem)] w-8 h-px bg-gradient-to-r from-white/10 to-white/5" />
                 )}
-                <div className={`flex flex-col items-start p-6 bg-white/2 border border-white/6 rounded-2xl hover:border-white/10 transition-colors`}>
+                <div className="flex flex-col items-start p-6 bg-white/2 border border-white/6 rounded-2xl hover:border-white/10 transition-colors">
                   <div className={`w-14 h-14 rounded-xl ${p.bg} ring-1 ${p.ring} flex items-center justify-center mb-5`}>
                     {p.icon}
                   </div>
@@ -528,13 +624,13 @@ export default function Home() {
             >
               Crear cuenta gratis →
             </Link>
-            <p className="text-xs text-gray-600 mt-3">Sin tarjeta · Cancela cuando quieras · Gratis para siempre en el plan básico</p>
+            <p className="text-xs text-gray-500 mt-3">Sin tarjeta · Cancela cuando quieras · Gratis para siempre en el plan básico</p>
           </div>
         </div>
       </section>
 
       {/* ── ESTADÍSTICAS ── */}
-      <section className="py-16 px-5">
+      <section className="py-16 px-5 bg-[#0a120a]">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {estadisticas.map((e) => (
@@ -543,7 +639,7 @@ export default function Home() {
                   {e.num}
                 </p>
                 <p className="text-sm font-semibold text-white">{e.label}</p>
-                <p className="text-xs text-gray-600 mt-0.5">{e.sub}</p>
+                <p className="text-xs text-gray-500 mt-0.5">{e.sub}</p>
               </div>
             ))}
           </div>
@@ -551,7 +647,7 @@ export default function Home() {
       </section>
 
       {/* ── TESTIMONIOS ── */}
-      <section className="py-20 px-5 bg-[#0a120a]">
+      <section className="py-20 px-5">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Historias reales</p>
@@ -580,14 +676,16 @@ export default function Home() {
       </section>
 
       {/* ── PRECIOS ── */}
-      <section id="precios" className="py-24 px-5">
+      <section id="precios" className="py-24 px-5 bg-[#0a120a]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Planes</p>
+            <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Suscripciones de IA y Herramientas</p>
             <h2 className="text-3xl md:text-4xl font-black text-white">
               Elige el plan que se ajusta a ti
             </h2>
-            <p className="text-gray-500 mt-3 text-sm">Pago mensual en COP · Sin permanencia mínima · Cancela cuando quieras</p>
+            <p className="text-gray-400 mt-3 text-sm max-w-xl mx-auto">
+              Precios transparentes en COP. Las citas con psicólogos se agendan de forma individual cuando las necesites (con 20% OFF de bienvenida).
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
@@ -615,7 +713,7 @@ export default function Home() {
                     <span className="text-4xl font-black text-white">${plan.precio}</span>
                     <span className="text-gray-500 text-sm mb-1.5">/mes</span>
                   </div>
-                  <p className="text-xs text-gray-500 leading-relaxed">{plan.desc}</p>
+                  <p className="text-xs text-gray-400 leading-relaxed">{plan.desc}</p>
                 </div>
 
                 <Link
@@ -647,15 +745,15 @@ export default function Home() {
             ))}
           </div>
 
-          <p className="text-center text-xs text-gray-600 mt-8">
+          <p className="text-center text-xs text-gray-500 mt-8">
             Todos los planes incluyen cifrado AES-256 · Pagos procesados por{' '}
-            <span className="text-gray-500 font-semibold">Wompi</span> (débito, crédito, PSE, Nequi)
+            <span className="text-gray-400 font-semibold">Wompi (Bancolombia)</span> mediante Nequi, PSE y Tarjetas
           </p>
         </div>
       </section>
 
       {/* ── CONFIANZA ── */}
-      <section className="py-16 px-5 bg-[#0a120a]">
+      <section className="py-16 px-5">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
             <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Certificaciones</p>
@@ -674,7 +772,7 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-24 px-5">
+      <section className="py-24 px-5 bg-[#0a120a]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">FAQ</p>
@@ -713,7 +811,7 @@ export default function Home() {
       </section>
 
       {/* ── CTA FINAL ── */}
-      <section className="py-20 px-5 bg-[#0a120a]">
+      <section className="py-20 px-5">
         <div className="max-w-2xl mx-auto">
           <div className="relative bg-gradient-to-br from-teal-900/35 to-emerald-900/15 border border-teal-500/20 rounded-3xl p-10 md:p-14 text-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent pointer-events-none" />
@@ -724,7 +822,7 @@ export default function Home() {
               </h2>
               <p className="text-gray-400 mb-8 leading-relaxed text-sm">
                 Miles de colombianos ya cuidan su salud mental con MenteBridge.
-                Tu primera sesión puede ser en los próximos 2 minutos.
+                Tu primera conversación puede ser en los próximos 2 minutos.
               </p>
               <Link
                 href="/registro"
@@ -809,6 +907,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Barra flotante en móviles */}
+      <StickyMobileCta />
     </div>
   );
 }
