@@ -32,7 +32,7 @@ const beneficios = [
     titulo: 'Apoyo cuando más lo necesitas (24/7)',
     desc: 'Un chat clínico disponible a cualquier hora, incluso a las 2:00 AM. Sin lista de espera, sin juicios. Técnicas de TCC, ACT y mindfulness aplicadas a tu situación.',
     color: 'from-teal-500/10 to-teal-600/5',
-    border: 'border-teal-500/15',
+    border: 'border-teal-500/20',
     tag: '24/7 Sin Esperas',
   },
   {
@@ -40,7 +40,7 @@ const beneficios = [
     titulo: 'Entiende tus patrones emocionales',
     desc: 'Registra cómo te sientes cada día y la IA identifica qué situaciones, horarios o personas afectan tu ánimo. Claridad que transforma tu día a día.',
     color: 'from-indigo-500/10 to-indigo-600/5',
-    border: 'border-indigo-500/15',
+    border: 'border-indigo-500/20',
     tag: 'Diario Inteligente',
   },
   {
@@ -48,7 +48,7 @@ const beneficios = [
     titulo: 'Psicólogos verificados (Pago por sesión)',
     desc: 'Agenda videoconsultas individuales con profesionales colegiados por COLPSIC cuando lo necesites. Recibe 20% de descuento en tu primera consulta.',
     color: 'from-rose-500/10 to-rose-600/5',
-    border: 'border-rose-500/15',
+    border: 'border-rose-500/20',
     tag: '20% OFF 1ra Cita',
   },
   {
@@ -56,7 +56,7 @@ const beneficios = [
     titulo: 'Herramientas inmediatas para la ansiedad',
     desc: 'Ejercicios guiados de respiración 4-7-8, grounding 5-4-3-2-1 y mindfulness para calmar tu mente en momentos de pánico o sobrecarga.',
     color: 'from-amber-500/10 to-amber-600/5',
-    border: 'border-amber-500/15',
+    border: 'border-amber-500/20',
     tag: 'Alivio Inmediato',
   },
   {
@@ -64,7 +64,7 @@ const beneficios = [
     titulo: 'Ve tu progreso semana a semana',
     desc: 'Gráficas de evolución emocional, rachas de bienestar y resúmenes clínicos que puedes llevar a tu terapeuta.',
     color: 'from-purple-500/10 to-purple-600/5',
-    border: 'border-purple-500/15',
+    border: 'border-purple-500/20',
     tag: 'Seguimiento',
   },
   {
@@ -72,7 +72,7 @@ const beneficios = [
     titulo: '100% Anónimo y Confidencial',
     desc: 'Cifrado militar AES-256 en todas tus conversaciones. Cumplimos Ley 1581/2012 y Res. 2654/2019. Ni nuestro equipo puede leer tus chats.',
     color: 'from-emerald-500/10 to-emerald-600/5',
-    border: 'border-emerald-500/15',
+    border: 'border-emerald-500/20',
     tag: 'AES-256 Cifrado',
   },
 ];
@@ -92,7 +92,7 @@ const pasos = [
     detalle: 'Registro seguro con verificación de email y consentimiento informado según Ley 1581/2012.',
     color: 'text-teal-400',
     ring: 'ring-teal-500/30',
-    bg: 'bg-teal-500/8',
+    bg: 'bg-teal-500/10',
     icon: (
       <svg className="w-8 h-8 text-teal-400" viewBox="0 0 32 32" fill="none">
         <circle cx="16" cy="11" r="5" stroke="currentColor" strokeWidth="2"/>
@@ -107,7 +107,7 @@ const pasos = [
     detalle: 'Acompañamiento basado en evidencia (TCC, ACT, Mindfulness) adaptado a lo que vives.',
     color: 'text-emerald-400',
     ring: 'ring-emerald-500/30',
-    bg: 'bg-emerald-500/8',
+    bg: 'bg-emerald-500/10',
     icon: (
       <svg className="w-8 h-8 text-emerald-400" viewBox="0 0 32 32" fill="none">
         <path d="M28 16c0 6.6-5.4 12-12 12S4 22.6 4 16 9.4 4 16 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -123,7 +123,7 @@ const pasos = [
     detalle: 'Videoconsulta confidencial WebRTC. El profesional recibe tu contexto para no empezar desde cero.',
     color: 'text-indigo-400',
     ring: 'ring-indigo-500/30',
-    bg: 'bg-indigo-500/8',
+    bg: 'bg-indigo-500/10',
     icon: (
       <svg className="w-8 h-8 text-indigo-400" viewBox="0 0 32 32" fill="none">
         <rect x="4" y="6" width="24" height="22" rx="3" stroke="currentColor" strokeWidth="2"/>
@@ -323,7 +323,7 @@ const confianzaBadges = [
 
 function StarIcon() {
   return (
-    <svg className="w-3.5 h-3.5 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
+    <svg className="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
     </svg>
   );
@@ -339,7 +339,7 @@ function CheckIcon() {
 
 function XIcon() {
   return (
-    <svg className="w-4 h-4 text-gray-700 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
+    <svg className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
       <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
@@ -349,22 +349,22 @@ function XIcon() {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#080f0a] text-white">
+    <div className="min-h-screen bg-[#080f0a] text-white selection:bg-teal-500/30 selection:text-teal-200">
 
       <LandingNav />
 
       {/* ── HERO ── */}
       <section className="pt-28 pb-16 px-5 md:pt-36 md:pb-24 relative overflow-hidden">
-        {/* Glow de fondo */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-teal-500 rounded-full opacity-[0.035] blur-[140px] pointer-events-none" />
-        <div className="absolute top-20 right-10 w-[300px] h-[300px] bg-emerald-500 rounded-full opacity-[0.025] blur-[100px] pointer-events-none" />
+        {/* Glows de fondo */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-teal-500 rounded-full opacity-[0.04] blur-[140px] pointer-events-none" />
+        <div className="absolute top-20 right-10 w-[300px] h-[300px] bg-emerald-500 rounded-full opacity-[0.03] blur-[100px] pointer-events-none" />
 
         <div className="relative max-w-5xl mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             {/* Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-teal-500/25 bg-teal-500/5 mb-7">
-              <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse" />
-              <span className="text-xs text-teal-400 font-semibold">Salud Mental Privada · Colombia 🇨🇴</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-teal-500/30 bg-teal-500/10 mb-7 shadow-sm">
+              <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse" />
+              <span className="text-xs text-teal-300 font-semibold tracking-wide">Salud Mental Privada y Accesible · Colombia 🇨🇴</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mb-5 leading-[1.1] tracking-tight">
@@ -379,7 +379,7 @@ export default function Home() {
               Disponible 24/7, 100% privado y al alcance de tu bolsillo.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
+            <div className="flex flex-col sm:flex-row gap-3.5 justify-center mb-10">
               <Link
                 href="/registro"
                 className="px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98]"
@@ -388,7 +388,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/psicologos"
-                className="px-7 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold rounded-xl transition-all text-base flex items-center justify-center gap-2"
+                className="px-7 py-4 bg-white/5 hover:bg-white/10 border border-white/12 hover:border-teal-500/30 text-white font-semibold rounded-xl transition-all text-base flex items-center justify-center gap-2 hover:scale-[1.01]"
               >
                 Ver Psicólogos (20% OFF 1ra cita)
               </Link>
@@ -399,23 +399,23 @@ export default function Home() {
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
                   {['from-teal-500 to-emerald-500','from-indigo-500 to-purple-500','from-rose-500 to-pink-500','from-amber-500 to-orange-500'].map((g, i) => (
-                    <div key={i} className={`w-8 h-8 rounded-full bg-gradient-to-br ${g} border-2 border-[#080f0a]`} />
+                    <div key={i} className={`w-8 h-8 rounded-full bg-gradient-to-br ${g} border-2 border-[#080f0a] shadow-sm`} />
                   ))}
                 </div>
                 <div className="text-left">
                   <div className="flex items-center gap-0.5">
                     {[1,2,3,4,5].map(i => <StarIcon key={i} />)}
                   </div>
-                  <p className="text-xs text-gray-400"><span className="text-white font-semibold">+2.000</span> colombianos activos</p>
+                  <p className="text-xs text-gray-300"><span className="text-white font-bold">+2.000</span> personas activas</p>
                 </div>
               </div>
               <div className="hidden sm:block w-px h-7 bg-white/10" />
-              <p className="text-xs text-gray-400">
-                🔒 Cifrado militar AES-256 · 100% Anónimo
+              <p className="text-xs text-gray-300 flex items-center gap-1.5">
+                <span>🔒 Cifrado militar AES-256</span> · <span>100% Anónimo</span>
               </p>
               <div className="hidden sm:block w-px h-7 bg-white/10" />
-              <p className="text-xs text-gray-400">
-                ⚡ Listo en <span className="text-teal-400 font-semibold">menos de 1 minuto</span>
+              <p className="text-xs text-gray-300">
+                ⚡ Listo en <span className="text-teal-400 font-bold">menos de 1 minuto</span>
               </p>
             </div>
           </div>
@@ -441,7 +441,7 @@ export default function Home() {
           </div>
           <div className="grid sm:grid-cols-2 gap-3.5">
             {dolorPuntos.map((d) => (
-              <div key={d.texto} className="flex items-start gap-3.5 p-4.5 bg-white/3 border border-white/6 rounded-2xl hover:border-teal-500/30 transition-all">
+              <div key={d.texto} className="flex items-start gap-3.5 p-4.5 bg-white/3 border border-white/8 rounded-2xl hover:border-teal-500/30 hover:bg-white/5 transition-all">
                 <span className="text-2xl flex-shrink-0 mt-0.5">{d.emoji}</span>
                 <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{d.texto}</p>
               </div>
@@ -454,24 +454,24 @@ export default function Home() {
       <section className="py-16 px-5">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-3 gap-5">
-            <div className="p-6 bg-gradient-to-b from-teal-950/40 to-transparent border border-teal-500/30 rounded-2xl">
+            <div className="p-6 bg-gradient-to-b from-teal-950/40 to-transparent border border-teal-500/30 rounded-2xl hover:border-teal-500/50 transition-all">
               <span className="text-3xl mb-3 block">🔒</span>
               <h3 className="text-base font-bold text-white mb-2">100% Anónimo y Privado</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
+              <p className="text-xs text-gray-300 leading-relaxed">
                 Tus conversaciones están protegidas con cifrado militar AES-256. Ni nuestro equipo de desarrollo ni terceros pueden leer lo que escribes.
               </p>
             </div>
-            <div className="p-6 bg-gradient-to-b from-emerald-950/40 to-transparent border border-emerald-500/30 rounded-2xl">
+            <div className="p-6 bg-gradient-to-b from-emerald-950/40 to-transparent border border-emerald-500/30 rounded-2xl hover:border-emerald-500/50 transition-all">
               <span className="text-3xl mb-3 block">💳</span>
               <h3 className="text-base font-bold text-white mb-2">Cero Riesgo: Empieza Gratis</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
+              <p className="text-xs text-gray-300 leading-relaxed">
                 No te pediremos tarjeta de crédito para registrarte ni para usar el plan gratuito. Si decides suscribirte, cancelas cuando quieras en 1 clic.
               </p>
             </div>
-            <div className="p-6 bg-gradient-to-b from-indigo-950/40 to-transparent border border-indigo-500/30 rounded-2xl">
+            <div className="p-6 bg-gradient-to-b from-indigo-950/40 to-transparent border border-indigo-500/30 rounded-2xl hover:border-indigo-500/50 transition-all">
               <span className="text-3xl mb-3 block">🇨🇴</span>
               <h3 className="text-base font-bold text-white mb-2">Respaldo COLPSIC Colombia</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
+              <p className="text-xs text-gray-300 leading-relaxed">
                 Toda la metodología se basa en protocolos clínicos validados (TCC y ACT) y nuestra red de psicólogos cuenta con tarjeta profesional activa.
               </p>
             </div>
@@ -480,7 +480,7 @@ export default function Home() {
       </section>
 
       {/* ── BENEFICIOS ── */}
-      <section className="py-20 px-5 bg-[#0a120a]">
+      <section id="beneficios" className="py-20 px-5 bg-[#0a120a]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Qué hace MenteBridge por ti</p>
@@ -501,12 +501,12 @@ export default function Home() {
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-3xl">{b.icon}</span>
-                    <span className="text-[11px] font-bold text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2.5 py-0.5 rounded-full">
+                    <span className="text-[11px] font-bold text-teal-300 bg-teal-500/15 border border-teal-500/30 px-2.5 py-0.5 rounded-full">
                       {b.tag}
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-white mb-2">{b.titulo}</h3>
-                  <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">{b.desc}</p>
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">{b.desc}</p>
                 </div>
               </div>
             ))}
@@ -515,11 +515,11 @@ export default function Home() {
       </section>
 
       {/* ── SECCIÓN DESTACADA: CITAS CON PSICÓLOGOS + DESCUENTO ── */}
-      <section className="py-20 px-5">
+      <section id="psicologos" className="py-20 px-5">
         <div className="max-w-5xl mx-auto">
           <div className="bg-gradient-to-r from-teal-950/60 via-[#0d1f17] to-emerald-950/60 border border-teal-500/30 rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold mb-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold mb-4">
                 🎁 Bono de Bienvenida
               </div>
               <h2 className="text-2xl sm:text-4xl font-black text-white mb-4 leading-tight">
@@ -534,11 +534,11 @@ export default function Home() {
               <div className="flex flex-wrap gap-4 items-center">
                 <Link
                   href="/psicologos"
-                  className="px-7 py-3.5 bg-teal-500 hover:bg-teal-400 text-white font-bold rounded-xl transition-all text-sm shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
+                  className="px-7 py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-sm shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
                 >
                   Explorar Psicólogos Verificados →
                 </Link>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-gray-400 font-medium">
                   Tarifas transparentes desde $64.000 COP con descuento aplicado
                 </span>
               </div>
@@ -567,17 +567,17 @@ export default function Home() {
               <thead>
                 <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-gray-400">
                   <th className="py-4 px-4">Criterio</th>
-                  <th className="py-4 px-4 text-gray-500">Terapia Privada Tradicional</th>
-                  <th className="py-4 px-4 text-gray-500">Apps Extranjeras en USD</th>
-                  <th className="py-4 px-4 text-teal-400 font-bold bg-teal-500/10 rounded-t-xl">MenteBridge Colombia 🇨🇴</th>
+                  <th className="py-4 px-4 text-gray-400">Terapia Privada Tradicional</th>
+                  <th className="py-4 px-4 text-gray-400">Apps Extranjeras en USD</th>
+                  <th className="py-4 px-4 text-teal-300 font-bold bg-teal-500/10 rounded-t-xl">MenteBridge Colombia 🇨🇴</th>
                 </tr>
               </thead>
               <tbody className="text-xs sm:text-sm divide-y divide-white/5">
                 {tablaComparativa.map((fila, idx) => (
                   <tr key={idx} className="hover:bg-white/2 transition-colors">
                     <td className="py-4 px-4 font-semibold text-white">{fila.caracteristica}</td>
-                    <td className="py-4 px-4 text-gray-400">{fila.tradicional}</td>
-                    <td className="py-4 px-4 text-gray-400">{fila.extranjeras}</td>
+                    <td className="py-4 px-4 text-gray-300">{fila.tradicional}</td>
+                    <td className="py-4 px-4 text-gray-300">{fila.extranjeras}</td>
                     <td className="py-4 px-4 font-bold text-teal-300 bg-teal-500/5">{fila.mentebridge}</td>
                   </tr>
                 ))}
@@ -588,7 +588,7 @@ export default function Home() {
       </section>
 
       {/* ── CÓMO FUNCIONA ── */}
-      <section className="py-20 px-5">
+      <section id="como-funciona" className="py-20 px-5">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Paso a paso</p>
@@ -599,10 +599,11 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {pasos.map((p, i) => (
               <div key={p.num} className="relative">
+                {/* Conector */}
                 {i < pasos.length - 1 && (
-                  <div className="hidden md:block absolute top-8 left-[calc(100%-1rem)] w-8 h-px bg-gradient-to-r from-white/10 to-white/5" />
+                  <div className="hidden md:block absolute top-8 left-[calc(100%-1rem)] w-8 h-px bg-gradient-to-r from-white/15 to-white/5" />
                 )}
-                <div className="flex flex-col items-start p-6 bg-white/2 border border-white/6 rounded-2xl hover:border-white/10 transition-colors">
+                <div className="flex flex-col items-start p-6 bg-white/3 border border-white/8 rounded-2xl hover:border-teal-500/25 transition-colors">
                   <div className={`w-14 h-14 rounded-xl ${p.bg} ring-1 ${p.ring} flex items-center justify-center mb-5`}>
                     {p.icon}
                   </div>
@@ -610,8 +611,8 @@ export default function Home() {
                     <span className={`text-xs font-black ${p.color} tracking-wider`}>{p.num}</span>
                   </div>
                   <h3 className="text-base font-bold text-white mb-2 leading-snug">{p.titulo}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-3">{p.desc}</p>
-                  <p className="text-xs text-gray-600 leading-relaxed">{p.detalle}</p>
+                  <p className="text-sm text-gray-300 leading-relaxed mb-3">{p.desc}</p>
+                  <p className="text-xs text-gray-400 leading-relaxed">{p.detalle}</p>
                 </div>
               </div>
             ))}
@@ -620,11 +621,11 @@ export default function Home() {
           <div className="mt-12 text-center">
             <Link
               href="/registro"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-teal-500 hover:bg-teal-400 text-white font-bold rounded-xl transition-all text-base shadow-lg shadow-teal-500/20 hover:shadow-teal-500/30 hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
             >
               Crear cuenta gratis →
             </Link>
-            <p className="text-xs text-gray-500 mt-3">Sin tarjeta · Cancela cuando quieras · Gratis para siempre en el plan básico</p>
+            <p className="text-xs text-gray-400 mt-3">Sin tarjeta · Cancela cuando quieras · Gratis para siempre en el plan básico</p>
           </div>
         </div>
       </section>
@@ -634,12 +635,12 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {estadisticas.map((e) => (
-              <div key={e.label} className="text-center p-5 bg-white/2 border border-white/6 rounded-2xl">
+              <div key={e.label} className="text-center p-5 bg-white/3 border border-white/8 rounded-2xl">
                 <p className="text-3xl md:text-4xl font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent mb-1">
                   {e.num}
                 </p>
                 <p className="text-sm font-semibold text-white">{e.label}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{e.sub}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{e.sub}</p>
               </div>
             ))}
           </div>
@@ -655,18 +656,18 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             {testimonios.map((t) => (
-              <div key={t.autor} className="bg-[#0d1a12] border border-white/6 rounded-2xl p-6 flex flex-col gap-4 hover:border-white/10 transition-colors">
+              <div key={t.autor} className="bg-[#0d1a12] border border-white/8 rounded-2xl p-6 flex flex-col gap-4 hover:border-teal-500/20 transition-colors">
                 <div className="flex gap-0.5">
                   {Array.from({ length: t.estrellas }).map((_, i) => <StarIcon key={i} />)}
                 </div>
                 <p className="text-sm text-gray-300 leading-relaxed flex-1 italic">{t.texto}</p>
                 <div className="flex items-center gap-3 pt-2 border-t border-white/5">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center flex-shrink-0`}>
+                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center flex-shrink-0 ring-1 ring-white/10`}>
                     <span className="text-xs font-bold text-white">{t.iniciales}</span>
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">{t.autor}</p>
-                    <p className="text-xs text-gray-500">{t.profesion} · {t.ciudad}</p>
+                    <p className="text-xs text-gray-400">{t.profesion} · {t.ciudad}</p>
                   </div>
                 </div>
               </div>
@@ -695,7 +696,7 @@ export default function Home() {
                 className={`relative rounded-2xl p-7 flex flex-col gap-5 ${
                   plan.destacado
                     ? 'bg-gradient-to-b from-teal-900/40 to-emerald-900/20 border border-teal-500/40 ring-1 ring-teal-500/20'
-                    : 'bg-[#0d1a12] border border-white/8 hover:border-white/12 transition-colors'
+                    : 'bg-[#0d1a12] border border-white/8 hover:border-white/15 transition-colors'
                 }`}
               >
                 {plan.destacado && (
@@ -707,21 +708,21 @@ export default function Home() {
                 )}
 
                 <div>
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-0.5">{plan.paraQuien}</p>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">{plan.paraQuien}</p>
                   <p className="text-lg font-black text-white mb-1">{plan.nombre}</p>
                   <div className="flex items-end gap-1 mb-2">
                     <span className="text-4xl font-black text-white">${plan.precio}</span>
-                    <span className="text-gray-500 text-sm mb-1.5">/mes</span>
+                    <span className="text-gray-400 text-sm mb-1.5">/mes</span>
                   </div>
-                  <p className="text-xs text-gray-400 leading-relaxed">{plan.desc}</p>
+                  <p className="text-xs text-gray-300 leading-relaxed">{plan.desc}</p>
                 </div>
 
                 <Link
                   href={plan.href}
                   className={`w-full py-3 rounded-xl font-semibold text-sm text-center transition-all ${
                     plan.destacado
-                      ? 'bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white shadow-lg shadow-teal-500/20'
-                      : 'bg-white/6 hover:bg-white/10 border border-white/10 text-white'
+                      ? 'bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white shadow-lg shadow-teal-500/20 hover:scale-[1.01]'
+                      : 'bg-white/6 hover:bg-white/12 border border-white/12 text-white hover:scale-[1.01]'
                   }`}
                 >
                   {plan.cta}
@@ -729,13 +730,13 @@ export default function Home() {
 
                 <ul className="space-y-2.5">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-xs text-gray-300">
+                    <li key={f} className="flex items-start gap-2.5 text-xs text-gray-200">
                       <CheckIcon />
                       {f}
                     </li>
                   ))}
                   {plan.noFeatures.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-xs text-gray-600">
+                    <li key={f} className="flex items-start gap-2.5 text-xs text-gray-500">
                       <XIcon />
                       {f}
                     </li>
@@ -745,9 +746,9 @@ export default function Home() {
             ))}
           </div>
 
-          <p className="text-center text-xs text-gray-500 mt-8">
+          <p className="text-center text-xs text-gray-400 mt-8">
             Todos los planes incluyen cifrado AES-256 · Pagos procesados por{' '}
-            <span className="text-gray-400 font-semibold">Wompi (Bancolombia)</span> mediante Nequi, PSE y Tarjetas
+            <span className="text-teal-400 font-semibold">Wompi (Bancolombia)</span> mediante Nequi, PSE y Tarjetas
           </p>
         </div>
       </section>
@@ -761,10 +762,10 @@ export default function Home() {
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
             {confianzaBadges.map((b) => (
-              <div key={b.titulo} className="flex flex-col items-center text-center p-5 bg-white/2 border border-white/6 rounded-2xl hover:border-teal-500/20 transition-colors">
+              <div key={b.titulo} className="flex flex-col items-center text-center p-5 bg-white/3 border border-white/8 rounded-2xl hover:border-teal-500/30 transition-colors">
                 <span className="text-3xl mb-3">{b.icon}</span>
                 <p className="text-sm font-bold text-white mb-1.5">{b.titulo}</p>
-                <p className="text-xs text-gray-500 leading-relaxed">{b.desc}</p>
+                <p className="text-xs text-gray-400 leading-relaxed">{b.desc}</p>
               </div>
             ))}
           </div>
@@ -772,7 +773,7 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-24 px-5 bg-[#0a120a]">
+      <section id="faq" className="py-24 px-5 bg-[#0a120a]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">FAQ</p>
@@ -783,27 +784,27 @@ export default function Home() {
             {faqs.map((faq) => (
               <details
                 key={faq.q}
-                className="group bg-[#0d1a12] border border-white/8 rounded-2xl overflow-hidden hover:border-white/12 transition-colors"
+                className="group bg-[#0d1a12] border border-white/8 rounded-2xl overflow-hidden hover:border-teal-500/25 transition-colors"
               >
                 <summary className="flex items-center justify-between gap-4 px-5 py-4.5 cursor-pointer list-none select-none" style={{ paddingTop: '1.125rem', paddingBottom: '1.125rem' }}>
                   <span className="text-sm font-semibold text-white">{faq.q}</span>
                   <svg
-                    className="w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-200 group-open:rotate-45"
+                    className="w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-200 group-open:rotate-45"
                     viewBox="0 0 20 20" fill="none"
                   >
                     <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </summary>
                 <div className="px-5 pb-5">
-                  <p className="text-sm text-gray-400 leading-relaxed">{faq.a}</p>
+                  <p className="text-sm text-gray-300 leading-relaxed">{faq.a}</p>
                 </div>
               </details>
             ))}
           </div>
 
-          <p className="text-center text-sm text-gray-500 mt-10">
-            ¿Otra pregunta?{' '}
-            <a href="mailto:soporte@mentebridge.com" className="text-teal-400 hover:underline hover:text-teal-300 transition-colors">
+          <p className="text-center text-sm text-gray-400 mt-10">
+            ¿Tienes otra pregunta? Escríbenos a{' '}
+            <a href="mailto:soporte@mentebridge.com" className="text-teal-400 hover:underline hover:text-teal-300 font-semibold transition-colors">
               soporte@mentebridge.com
             </a>
           </p>
@@ -813,25 +814,25 @@ export default function Home() {
       {/* ── CTA FINAL ── */}
       <section className="py-20 px-5">
         <div className="max-w-2xl mx-auto">
-          <div className="relative bg-gradient-to-br from-teal-900/35 to-emerald-900/15 border border-teal-500/20 rounded-3xl p-10 md:p-14 text-center overflow-hidden">
+          <div className="relative bg-gradient-to-br from-teal-900/40 via-[#0a1a12] to-emerald-900/20 border border-teal-500/30 rounded-3xl p-10 md:p-14 text-center overflow-hidden shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent pointer-events-none" />
             <div className="relative">
-              <p className="text-xs text-teal-400 font-bold uppercase tracking-widest mb-3">Sin excusas · Sin lista de espera</p>
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-                Empieza hoy.<br />Es gratis.
+              <p className="text-xs text-teal-300 font-bold uppercase tracking-widest mb-3">Sin excusas · Sin lista de espera</p>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-3 leading-tight">
+                Empieza hoy.<br />Es completamente gratis.
               </h2>
-              <p className="text-gray-400 mb-8 leading-relaxed text-sm">
+              <p className="text-gray-300 mb-8 leading-relaxed text-sm">
                 Miles de colombianos ya cuidan su salud mental con MenteBridge.
                 Tu primera conversación puede ser en los próximos 2 minutos.
               </p>
               <Link
                 href="/registro"
-                className="inline-flex px-9 py-4 bg-teal-500 hover:bg-teal-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02]"
+                className="inline-flex px-9 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02]"
               >
                 Crear cuenta gratis →
               </Link>
-              <p className="text-xs text-gray-600 mt-4">Sin tarjeta de crédito · Cancela cuando quieras</p>
-              <div className="mt-6 pt-5 border-t border-white/5 flex items-center justify-center gap-5 text-xs text-gray-600">
+              <p className="text-xs text-gray-400 mt-4">Sin tarjeta de crédito · Cancela cuando quieras</p>
+              <div className="mt-6 pt-5 border-t border-white/8 flex flex-wrap items-center justify-center gap-5 text-xs text-gray-400">
                 <span>🔒 AES-256</span>
                 <span>📋 Ley 1581</span>
                 <span>🏛️ COLPSIC</span>
@@ -843,7 +844,7 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="py-12 px-5 border-t border-white/5">
+      <footer className="py-12 px-5 border-t border-white/8 bg-[#060c08]">
         <div className="max-w-6xl mx-auto">
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
             {/* Brand */}
@@ -851,15 +852,15 @@ export default function Home() {
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-lg font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">MenteBridge</span>
               </div>
-              <p className="text-xs text-gray-500 leading-relaxed">
-                Plataforma de salud mental con IA y psicólogos certificados. Hecha en Colombia, para Colombia.
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Plataforma de salud mental con IA clínica y psicólogos certificados. Hecha en Colombia, para Colombia.
               </p>
-              <p className="text-xs text-gray-600 mt-3">🇨🇴 Bogotá, Colombia</p>
+              <p className="text-xs text-gray-400 mt-3">🇨🇴 Bogotá, Colombia</p>
             </div>
 
             {/* Producto */}
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Producto</p>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-3">Producto</p>
               <nav className="space-y-2">
                 {[
                   { href: '/dashboard/chat', label: 'Chat con IA' },
@@ -868,41 +869,41 @@ export default function Home() {
                   { href: '#precios', label: 'Precios' },
                   { href: '/aprender', label: 'Aprender' },
                 ].map(l => (
-                  <Link key={l.label} href={l.href} className="block text-xs text-gray-500 hover:text-gray-300 transition-colors">{l.label}</Link>
+                  <Link key={l.label} href={l.href} className="block text-xs text-gray-400 hover:text-teal-300 transition-colors">{l.label}</Link>
                 ))}
               </nav>
             </div>
 
             {/* Legal */}
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Legal</p>
+              <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mb-3">Legal</p>
               <nav className="space-y-2">
                 {[
                   { href: '/terminos-uso', label: 'Términos de uso' },
                   { href: '/politica-privacidad', label: 'Política de privacidad' },
                   { href: '/tratamiento-datos', label: 'Tratamiento de datos' },
                 ].map(l => (
-                  <Link key={l.label} href={l.href} className="block text-xs text-gray-500 hover:text-gray-300 transition-colors">{l.label}</Link>
+                  <Link key={l.label} href={l.href} className="block text-xs text-gray-400 hover:text-teal-300 transition-colors">{l.label}</Link>
                 ))}
               </nav>
             </div>
 
             {/* Crisis */}
             <div>
-              <p className="text-xs font-bold text-red-500/70 uppercase tracking-widest mb-3">🆘 Líneas de crisis</p>
+              <p className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-3">🆘 Líneas de crisis 24h</p>
               <nav className="space-y-2">
-                <a href="tel:106" className="block text-xs text-teal-400 hover:text-teal-300 font-semibold transition-colors">Línea 106 — Salud Mental</a>
-                <a href="tel:123" className="block text-xs text-red-400 hover:text-red-300 font-semibold transition-colors">123 — Emergencias</a>
-                <a href="tel:8001225555" className="block text-xs text-gray-400 hover:text-gray-300 transition-colors">800-122-5555 — Salud Mental</a>
-                <a href="tel:132" className="block text-xs text-gray-400 hover:text-gray-300 transition-colors">132 — Cruz Roja</a>
+                <a href="tel:106" className="block text-xs text-teal-300 hover:text-teal-200 font-semibold transition-colors">Línea 106 — Salud Mental (Gratis)</a>
+                <a href="tel:123" className="block text-xs text-rose-400 hover:text-rose-300 font-semibold transition-colors">123 — Emergencias</a>
+                <a href="tel:8001225555" className="block text-xs text-gray-400 hover:text-gray-200 transition-colors">800-122-5555 — Salud Mental</a>
+                <a href="tel:132" className="block text-xs text-gray-400 hover:text-gray-200 transition-colors">132 — Cruz Roja</a>
               </nav>
             </div>
           </div>
 
           <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-gray-600">© 2026 MenteBridge Colombia. Todos los derechos reservados.</p>
-            <div className="flex gap-4 text-xs text-gray-600">
-              <a href="mailto:soporte@mentebridge.com" className="hover:text-gray-400 transition-colors">soporte@mentebridge.com</a>
+            <p className="text-xs text-gray-400">© 2026 MenteBridge Colombia. Todos los derechos reservados.</p>
+            <div className="flex gap-4 text-xs text-gray-400">
+              <a href="mailto:soporte@mentebridge.com" className="hover:text-teal-300 transition-colors">soporte@mentebridge.com</a>
             </div>
           </div>
         </div>
