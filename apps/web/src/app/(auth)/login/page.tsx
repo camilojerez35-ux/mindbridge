@@ -23,10 +23,16 @@ function LoginForm() {
 
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
 
-  // Mostrar mensaje de registro exitoso
+  // Mostrar mensaje de registro exitoso o errores de OAuth
   useEffect(() => {
     if (searchParams.get('registered')) {
       setError('Cuenta creada. Revisa tu correo para verificarla antes de iniciar sesión.');
+    }
+    const err = searchParams.get('error');
+    if (err === 'OAuthSignin' || err === 'OAuthCallback') {
+      setError('No se pudo conectar con Google. Por favor intenta de nuevo o inicia sesión con tu correo y contraseña.');
+    } else if (err === 'OAuthAccountNotLinked') {
+      setError('Este correo electrónico ya está registrado con otro método de acceso.');
     }
   }, [searchParams]);
 
