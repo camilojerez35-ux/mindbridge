@@ -8,10 +8,8 @@ const PatchSesionSchema = z.object({
 });
 
 // GET /api/chat/sesiones/[id] — Carga mensajes de una sesión
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });
@@ -54,10 +52,8 @@ export async function GET(
 }
 
 // PATCH /api/chat/sesiones/[id] — Actualiza el título de la sesión
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });

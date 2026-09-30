@@ -26,10 +26,8 @@ async function getRol(userId: string, citaId: string) {
   return null;
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { citaId: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ citaId: string }> }) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
@@ -55,10 +53,8 @@ export async function GET(
   return Response.json({ senales });
 }
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { citaId: string } }
-) {
+export async function POST(req: NextRequest, props: { params: Promise<{ citaId: string }> }) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
@@ -87,10 +83,8 @@ export async function POST(
   return Response.json({ ok: true });
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { citaId: string } }
-) {
+export async function DELETE(req: NextRequest, props: { params: Promise<{ citaId: string }> }) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
 

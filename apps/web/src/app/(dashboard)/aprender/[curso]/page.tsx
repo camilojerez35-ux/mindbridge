@@ -11,7 +11,8 @@ const TIPO_CONFIG = {
   practica: { label: 'Práctica', Icon: MessageCircle,  color: 'text-amber-400'  },
 } as const;
 
-export default async function CursoPage({ params }: { params: { curso: string } }) {
+export default async function CursoPage(props: { params: Promise<{ curso: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect('/auth/login');
 

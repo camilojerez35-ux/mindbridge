@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { RATE_LIMITING, PUBLIC_PATHS, ROLE_CONFIG } from '@/lib/auth/config';
+import { getClientIp } from '@/lib/http/client-ip';
 
 // Fallback in-memory para desarrollo / single-instance
 const _memCounts = new Map<string, { count: number; resetAt: number }>();
@@ -47,7 +48,7 @@ async function checkRateLimit(ip: string, windowMs: number, maxRequests: number)
 }
 
 export async function middleware(request: NextRequest) {
-  const ip = request.ip ?? request.headers.get('x-forwarded-for') ?? 'local';
+  const ip = getClientIp(request.headers, 'local');
   const { pathname } = request.nextUrl;
 
   // 1. Rate limiting en APIs de autenticación y mutaciones sensibles (nunca en navegación de páginas GET)

@@ -5,6 +5,7 @@ import { db } from '@/lib/db/client';
 import { verificarTokenReset } from '@/lib/email/tokens';
 import { capturarErrorApi } from '@/lib/monitoring/sentry';
 import { rateLimits } from '@/lib/rate-limit';
+import { getClientIp } from '@/lib/http/client-ip';
 
 const Schema = z.object({
   email:    z.string().email(),
@@ -21,7 +22,7 @@ const Schema = z.object({
 }).strict();
 
 export async function POST(req: NextRequest) {
-  const ip = req.ip ?? req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown';
+  const ip = getClientIp(req.headers);
   const { allowed } = await rateLimits.resetPassword(ip);
   if (!allowed) {
     return Response.json(

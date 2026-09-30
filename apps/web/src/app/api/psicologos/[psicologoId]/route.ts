@@ -23,10 +23,8 @@ function getFechasHabiles(dias = 14): Date[] {
   return fechas;
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { psicologoId: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ psicologoId: string }> }) {
+  const params = await props.params;
   try {
     const user = await getAuthUser(req);
     if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });

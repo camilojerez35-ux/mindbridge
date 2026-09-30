@@ -19,10 +19,8 @@ async function getPsicologoId(usuarioId: string) {
   return p?.id ?? null;
 }
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
   if (session.user.rol !== 'PSICOLOGO') return Response.json({ error: 'Solo psicólogos' }, { status: 403 });
@@ -41,10 +39,8 @@ export async function GET(
   return Response.json({ notasClinicas: cita.notasClinicas ?? '' });
 }
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
   if (session.user.rol !== 'PSICOLOGO') return Response.json({ error: 'Solo psicólogos' }, { status: 403 });

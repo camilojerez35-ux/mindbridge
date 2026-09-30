@@ -8,10 +8,8 @@
 import { NextRequest } from 'next/server';
 import { db } from '@/lib/db/client';
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { token: string } },
-) {
+export async function GET(_req: NextRequest, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const { token } = params;
 
   if (!token || token.length !== 64) {

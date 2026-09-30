@@ -22,10 +22,8 @@ const Schema = z.object({
   accion: z.enum(['CONFIRMAR', 'CANCELAR']),
 });
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });

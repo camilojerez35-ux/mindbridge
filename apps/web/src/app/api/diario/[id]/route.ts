@@ -8,11 +8,12 @@ import { db } from '@/lib/db/client';
 import { encryption } from '@/lib/encryption';
 import { getAuthUser } from '@/lib/auth/get-auth-user';
 
-type Params = { params: { id: string } };
+type Params = { params: Promise<{ id: string }> };
 
 // ── GET ───────────────────────────────────────────────────────
 
-export async function GET(req: NextRequest, { params }: Params) {
+export async function GET(req: NextRequest, props: Params) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
@@ -34,7 +35,8 @@ export async function GET(req: NextRequest, { params }: Params) {
 
 // ── PATCH ─────────────────────────────────────────────────────
 
-export async function PATCH(req: NextRequest, { params }: Params) {
+export async function PATCH(req: NextRequest, props: Params) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 
@@ -64,7 +66,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
 // ── DELETE ────────────────────────────────────────────────────
 
-export async function DELETE(req: NextRequest, { params }: Params) {
+export async function DELETE(req: NextRequest, props: Params) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 

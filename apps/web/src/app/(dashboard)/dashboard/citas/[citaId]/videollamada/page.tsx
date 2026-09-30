@@ -5,10 +5,11 @@ import { db } from '@/lib/db/client';
 import SalaVideollamada from '../../videollamada/SalaVideollamada';
 
 interface Props {
-  params: { citaId: string };
+  params: Promise<{ citaId: string }>;
 }
 
-export default async function VideollamadaPage({ params }: Props) {
+export default async function VideollamadaPage(props: Props) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect('/login');
 

@@ -19,10 +19,8 @@ const ConfirmarSchema = z.object({
 
 const TZ = 'America/Bogota';
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { citaId: string } },
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ citaId: string }> }) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 

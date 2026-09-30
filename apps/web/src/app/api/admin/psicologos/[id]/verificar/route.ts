@@ -21,10 +21,8 @@ const VerificarSchema = z.object({
   notas:                z.string().max(500).optional(),
 });
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return Response.json({ error: 'No autorizado' }, { status: 401 });
@@ -149,10 +147,8 @@ export async function PATCH(
 }
 
 // GET — Estado de verificación de un psicólogo
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
   if (session.user.rol !== 'ADMIN' && session.user.rol !== 'SUPERADMIN') {

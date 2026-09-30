@@ -14,10 +14,8 @@ import { db } from '@/lib/db/client';
 import { crearSala } from '@/lib/videollamada/daily';
 import { capturarErrorApi } from '@/lib/monitoring/sentry';
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { citaId: string } },
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ citaId: string }> }) {
+  const params = await props.params;
   const user = await getAuthUser(req);
   if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 });
 

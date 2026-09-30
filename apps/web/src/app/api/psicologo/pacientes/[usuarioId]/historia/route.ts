@@ -3,10 +3,8 @@ import { db } from '@/lib/db/client';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth-options';
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { usuarioId: string } }
-) {
+export async function GET(_req: NextRequest, props: { params: Promise<{ usuarioId: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return Response.json({ error: 'No autorizado' }, { status: 401 });
   if (session.user.rol !== 'PSICOLOGO') return Response.json({ error: 'Solo psicólogos' }, { status: 403 });
