@@ -15,7 +15,7 @@ export default function DashboardLoading() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '12px' }}>
         {[...Array(4)].map((_, i) => (
           <div key={i} style={{
-            background: '#0d1a12',
+            background: 'var(--surface)',
             border: '1px solid #1a2e1f',
             borderRadius: '14px',
             height: '80px',
@@ -29,7 +29,7 @@ export default function DashboardLoading() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px' }}>
         {[...Array(6)].map((_, i) => (
           <div key={i} style={{
-            background: '#0d1a12',
+            background: 'var(--surface)',
             border: '1px solid #1a2e1f',
             borderRadius: '16px',
             height: '84px',

@@ -95,7 +95,7 @@ export function LineasCrisis({ compacto = false }: { compacto?: boolean }) {
               style={{ display: 'block', background: 'rgba(255,255,255,0.03)', border: `1px solid ${esLocal ? 'rgba(248,113,113,0.4)' : 'rgba(255,255,255,0.08)'}`, borderRadius: '10px', padding: '10px 12px', textDecoration: 'none' }}
             >
               <span style={{ display: 'block', fontSize: '17px', fontWeight: '900', color: LINEA_COLORES[i % LINEA_COLORES.length] }}>{formatear(l.numero)}</span>
-              <span style={{ display: 'block', fontSize: '11px', color: '#8aab96', lineHeight: 1.4 }}>
+              <span style={{ display: 'block', fontSize: '11px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
                 {esLocal ? `📍 ${regional.nombre}` : l.nombre} · {l.disponibilidad}
               </span>
             </a>

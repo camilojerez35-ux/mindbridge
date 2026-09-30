@@ -62,7 +62,7 @@ export default function ConsentimientoGooglePage() {
 
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <Link href="/" style={{ fontSize: '26px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MenteBridge</Link>
-          <p style={{ fontSize: '12px', color: '#7a9e87', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
+          <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
         </div>
 
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid #1a2e1f', borderRadius: '18px', padding: '36px' }}>
@@ -73,14 +73,14 @@ export default function ConsentimientoGooglePage() {
             <h1 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '8px' }}>
               Un paso más antes de continuar
             </h1>
-            <p style={{ fontSize: '13px', color: '#8aab96', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
               MenteBridge trata datos sensibles de salud mental. La ley colombiana exige tu consentimiento explícito antes de comenzar.
             </p>
           </div>
 
           {/* Info legal */}
           <div style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: '10px', padding: '14px 16px', marginBottom: '24px' }}>
-            <p style={{ fontSize: '11px', color: '#7a9e87', lineHeight: 1.7 }}>
+            <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', lineHeight: 1.7 }}>
               Al usar MenteBridge accedes a apoyo emocional mediante Inteligencia Artificial. Tus conversaciones pueden contener información de salud protegida por la <strong style={{ color: '#2dd4bf' }}>Ley 1581/2012</strong> y la <strong style={{ color: '#2dd4bf' }}>Resolución 2654/2019</strong>.
             </p>
           </div>
@@ -94,7 +94,7 @@ export default function ConsentimientoGooglePage() {
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
 
             <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', fontSize: '13px', color: '#8aab96', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 Fecha de nacimiento <span style={{ color: '#f87171' }}>*</span>
               </label>
               <input
@@ -107,7 +107,7 @@ export default function ConsentimientoGooglePage() {
               {errors.fechaNacimiento && (
                 <p style={{ fontSize: '11px', color: '#f87171', marginTop: '4px' }}>{errors.fechaNacimiento}</p>
               )}
-              <p style={{ fontSize: '11px', color: '#7a9e87', marginTop: '4px' }}>
+              <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '4px' }}>
                 MenteBridge está disponible solo para mayores de 18 años.
               </p>
             </div>
@@ -120,7 +120,7 @@ export default function ConsentimientoGooglePage() {
                 error={errors.privacidad}
                 required
               >
-                Acepto la <Link href="/politica-privacidad" target="_blank" style={{ color: '#2dd4bf' }}>Política de Privacidad</Link> y autorizo el tratamiento de mis datos personales y de salud según la <strong style={{ color: '#8aab96' }}>Ley 1581/2012</strong>
+                Acepto la <Link href="/politica-privacidad" target="_blank" style={{ color: '#2dd4bf' }}>Política de Privacidad</Link> y autorizo el tratamiento de mis datos personales y de salud según la <strong style={{ color: 'var(--ink-muted)' }}>Ley 1581/2012</strong>
               </ConsentCheck>
 
               <ConsentCheck
@@ -129,14 +129,14 @@ export default function ConsentimientoGooglePage() {
                 error={errors.ia}
                 required
               >
-                Autorizo el uso de Inteligencia Artificial para brindarme apoyo emocional. Entiendo que <strong style={{ color: '#8aab96' }}>no sustituye atención profesional</strong> y que mis conversaciones son confidenciales (<strong style={{ color: '#8aab96' }}>Resolución 2654/2019</strong>)
+                Autorizo el uso de Inteligencia Artificial para brindarme apoyo emocional. Entiendo que <strong style={{ color: 'var(--ink-muted)' }}>no sustituye atención profesional</strong> y que mis conversaciones son confidenciales (<strong style={{ color: 'var(--ink-muted)' }}>Resolución 2654/2019</strong>)
               </ConsentCheck>
 
               <ConsentCheck
                 checked={checks.marketing}
                 onChange={() => toggle('marketing')}
               >
-                Acepto recibir contenido educativo sobre salud mental por email <span style={{ color: '#7a9e87' }}>(opcional)</span>
+                Acepto recibir contenido educativo sobre salud mental por email <span style={{ color: 'var(--ink-subtle)' }}>(opcional)</span>
               </ConsentCheck>
 
             </div>
@@ -144,12 +144,12 @@ export default function ConsentimientoGooglePage() {
             <button
               type="submit"
               disabled={loading}
-              style={{ background: checks.privacidad && checks.ia ? '#1a6b4a' : '#1a2e1f', color: 'white', padding: '14px', borderRadius: '10px', fontWeight: '700', fontSize: '15px', border: 'none', cursor: loading ? 'wait' : 'pointer', transition: 'background .2s', width: '100%' }}
+              style={{ background: checks.privacidad && checks.ia ? '#1a6b4a' : 'var(--surface-card)', color: 'white', padding: '14px', borderRadius: '10px', fontWeight: '700', fontSize: '15px', border: 'none', cursor: loading ? 'wait' : 'pointer', transition: 'background .2s', width: '100%' }}
             >
               {loading ? 'Guardando...' : 'Aceptar y continuar →'}
             </button>
 
-            <p style={{ textAlign: 'center', fontSize: '11px', color: '#7a9e87', marginTop: '16px', lineHeight: 1.6 }}>
+            <p style={{ textAlign: 'center', fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '16px', lineHeight: 1.6 }}>
               Puedes retirar tu consentimiento en cualquier momento desde Configuración → Privacidad.<br />
               Crisis:{' '}
               <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
@@ -182,7 +182,7 @@ function ConsentCheck({
           onChange={onChange}
           style={{ marginTop: '3px', accentColor: '#2dd4bf', width: '16px', height: '16px', flexShrink: 0 }}
         />
-        <span style={{ fontSize: '13px', color: '#8aab96', lineHeight: 1.6 }}>
+        <span style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
           {children}
           {required && <span style={{ color: '#f87171' }}> *</span>}
         </span>

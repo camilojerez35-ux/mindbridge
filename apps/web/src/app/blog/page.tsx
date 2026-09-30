@@ -28,15 +28,15 @@ function Tarjeta({ a }: { a: Articulo }) {
           <span style={{ background: tipo.bg, color: tipo.color, fontSize: '10px', fontWeight: '800', padding: '4px 10px', borderRadius: '20px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
             {a.tipo} · {a.categoria}
           </span>
-          <span style={{ fontSize: '11px', color: '#7a9e87', whiteSpace: 'nowrap' }}>⏱ {a.lectura}</span>
+          <span style={{ fontSize: '11px', color: 'var(--ink-subtle)', whiteSpace: 'nowrap' }}>⏱ {a.lectura}</span>
         </div>
         <div style={{ fontSize: '28px' }} aria-hidden>{a.emoji}</div>
         <h3 style={{ fontSize: '17px', fontWeight: '800', lineHeight: 1.35, letterSpacing: '-0.01em', color: 'white' }}>{a.titulo}</h3>
-        <p style={{ fontSize: '13px', color: '#8aab96', lineHeight: 1.7, flex: 1, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
+        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.7, flex: 1, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
           {a.respuestaCorta}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-          <span style={{ fontSize: '11px', color: '#7a9e87' }}>{a.fuentes.length} fuentes citadas</span>
+          <span style={{ fontSize: '11px', color: 'var(--ink-subtle)' }}>{a.fuentes.length} fuentes citadas</span>
           <span style={{ color: tipo.color, fontSize: '13px', fontWeight: '700' }}>Leer →</span>
         </div>
       </article>
@@ -63,7 +63,7 @@ export default function BlogPage({ searchParams }: { searchParams: { tipo?: stri
             <span style={{ color: TIPO_INFO['Cuánto'].color }}>cuánto</span>:<br />
             respuestas claras sobre salud mental
           </h1>
-          <p style={{ color: '#8aab96', fontSize: '16px', maxWidth: '600px', lineHeight: 1.7 }}>
+          <p style={{ color: 'var(--ink-muted)', fontSize: '16px', maxWidth: '600px', lineHeight: 1.7 }}>
             Cada artículo responde una pregunta concreta y cita sus fuentes: OMS, guías clínicas,
             estudios revisados por pares y normativa colombiana.
           </p>
@@ -83,7 +83,7 @@ export default function BlogPage({ searchParams }: { searchParams: { tipo?: stri
               style={{
                 background: f.activo ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
                 border: `1px solid ${f.activo ? f.color : 'rgba(255,255,255,0.08)'}`,
-                color: f.activo ? f.color : '#8aab96',
+                color: f.activo ? f.color : 'var(--ink-muted)',
                 fontSize: '13px', fontWeight: '700', padding: '8px 16px', borderRadius: '20px', textDecoration: 'none',
               }}
             >
@@ -100,9 +100,9 @@ export default function BlogPage({ searchParams }: { searchParams: { tipo?: stri
             <section key={t} style={{ marginBottom: '56px' }}>
               <div style={{ marginBottom: '18px' }}>
                 <h2 id={`grupo-${TIPO_INFO[t].param}`} style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.01em', color: TIPO_INFO[t].color }}>
-                  ¿{t}…? <span style={{ fontSize: '14px', fontWeight: '600', color: '#8aab96' }}>{lista.length} artículos</span>
+                  ¿{t}…? <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--ink-muted)' }}>{lista.length} artículos</span>
                 </h2>
-                <p style={{ fontSize: '14px', color: '#8aab96' }}>{TIPO_INFO[t].descripcion}</p>
+                <p style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>{TIPO_INFO[t].descripcion}</p>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(228px, 100%), 1fr))', gap: '16px' }}>
                 {lista.map(a => <Tarjeta key={a.slug} a={a} />)}

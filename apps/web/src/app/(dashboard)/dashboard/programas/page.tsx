@@ -46,7 +46,7 @@ const PROGRAMAS = [
   },
   {
     id:'p4', titulo:'Duelo y Pérdida', duracion:'5 semanas', sesiones:14, icono:'🕊️',
-    color:'#2d0a3d', border:'#a855f7',
+    color:'#2d0a3d', border:'#c084fc',
     descripcion:'Acompaña tu proceso de duelo con herramientas clínicas basadas en el modelo de las etapas del duelo y la terapia integrativa.',
     semanas:[
       { n:1, titulo:'Las fases del duelo', temas:['Modelo de Kübler-Ross','Duelo complicado','Validar tus emociones'] },
@@ -74,19 +74,19 @@ export default function ProgramasPage() {
       <div style={{ fontSize: '56px' }}>🔒</div>
       <div>
         <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '8px' }}>Programas guiados — Plan Plus</h2>
-        <p style={{ fontSize: '14px', color: '#7a9e87', lineHeight: 1.7, maxWidth: '400px' }}>
+        <p style={{ fontSize: '14px', color: 'var(--ink-subtle)', lineHeight: 1.7, maxWidth: '400px' }}>
           Los programas estructurados de 3-5 semanas están disponibles a partir del plan Plus. Incluyen TCC, manejo de ansiedad, sueño, autoestima y más.
         </p>
       </div>
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <Link href="/dashboard/perfil?tab=plan" style={{ background: '#2dd4bf', color: '#0d1a12', padding: '12px 28px', borderRadius: '10px', fontWeight: '800', fontSize: '14px', textDecoration: 'none' }}>
+        <Link href="/dashboard/perfil?tab=plan" style={{ background: '#2dd4bf', color: 'var(--on-accent)', padding: '12px 28px', borderRadius: '10px', fontWeight: '800', fontSize: '14px', textDecoration: 'none' }}>
           Ver planes →
         </Link>
-        <Link href="/dashboard" style={{ background: 'transparent', color: '#7a9e87', padding: '12px 24px', borderRadius: '10px', fontWeight: '600', fontSize: '14px', textDecoration: 'none', border: '1px solid #2a3d2e' }}>
+        <Link href="/dashboard" style={{ background: 'transparent', color: 'var(--ink-subtle)', padding: '12px 24px', borderRadius: '10px', fontWeight: '600', fontSize: '14px', textDecoration: 'none', border: '1px solid #2a3d2e' }}>
           Volver al inicio
         </Link>
       </div>
-      <p style={{ fontSize: '12px', color: '#7a9e87' }}>Plan Plus desde <strong style={{ color: '#2dd4bf' }}>$25.000 COP/mes</strong> · Cancela cuando quieras</p>
+      <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>Plan Plus desde <strong style={{ color: '#2dd4bf' }}>$25.000 COP/mes</strong> · Cancela cuando quieras</p>
     </div>
   );
 
@@ -106,7 +106,7 @@ export default function ProgramasPage() {
       {/* Header */}
       <div>
         <h1 style={{ fontSize:'24px', fontWeight:'900', color:'white' }}>📚 Programas Guiados</h1>
-        <p style={{ fontSize:'13px', color:'#7a9e87', marginTop:'4px' }}>Programas estructurados de 3-5 semanas basados en evidencia clínica</p>
+        <p style={{ fontSize:'13px', color:'var(--ink-subtle)', marginTop:'4px' }}>Programas estructurados de 3-5 semanas basados en evidencia clínica</p>
       </div>
 
       {/* Grid de programas */}
@@ -135,7 +135,7 @@ export default function ProgramasPage() {
                   </div>
                 </div>
               )}
-              <button style={{ marginTop:'16px', width:'100%', background:p.border, color:'#0d1a12', padding:'11px', borderRadius:'8px', border:'none', fontWeight:'800', cursor:'pointer', fontSize:'13px', fontFamily:'inherit' }}>
+              <button style={{ marginTop:'16px', width:'100%', background:p.border, color:'var(--on-accent)', padding:'11px', borderRadius:'8px', border:'none', fontWeight:'800', cursor:'pointer', fontSize:'13px', fontFamily:'inherit' }}>
                 {p.inscrito ? 'Continuar programa →' : 'Ver programa →'}
               </button>
             </div>
@@ -147,7 +147,7 @@ export default function ProgramasPage() {
       {programaActivo && (
         <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
           {/* Nav */}
-          <button onClick={()=>setProgramaActivo(null)} style={{ background:'none', border:'none', color:'#7a9e87', cursor:'pointer', fontSize:'14px', fontFamily:'inherit', alignSelf:'flex-start', display:'flex', alignItems:'center', gap:'6px' }}>
+          <button onClick={()=>setProgramaActivo(null)} style={{ background:'none', border:'none', color:'var(--ink-subtle)', cursor:'pointer', fontSize:'14px', fontFamily:'inherit', alignSelf:'flex-start', display:'flex', alignItems:'center', gap:'6px' }}>
             ← Todos los programas
           </button>
 
@@ -174,7 +174,7 @@ export default function ProgramasPage() {
               )}
             </div>
             {!programaActivo.inscrito ? (
-              <button onClick={()=>inscribirse(programaActivo.id)} style={{ background:programaActivo.border, color:'#0d1a12', padding:'12px 24px', borderRadius:'10px', border:'none', fontWeight:'800', cursor:'pointer', fontFamily:'inherit', fontSize:'14px', flexShrink:0 }}>
+              <button onClick={()=>inscribirse(programaActivo.id)} style={{ background:programaActivo.border, color:'var(--on-accent)', padding:'12px 24px', borderRadius:'10px', border:'none', fontWeight:'800', cursor:'pointer', fontFamily:'inherit', fontSize:'14px', flexShrink:0 }}>
                 Iniciar programa
               </button>
             ) : (
@@ -188,16 +188,16 @@ export default function ProgramasPage() {
               const completada = idx * (100 / programaActivo.semanas.length) < programaActivo.progreso;
               const activa = idx === semanaActiva;
               return (
-                <div key={idx} style={{ background:'#0d1a12', border:`1px solid ${activa?programaActivo.border:'#1a2e1f'}`, borderRadius:'12px', overflow:'hidden', cursor:'pointer' }} onClick={()=>setSemanaActiva(activa?-1:idx)}>
+                <div key={idx} style={{ background:'var(--surface)', border:`1px solid ${activa?programaActivo.border:'#1a2e1f'}`, borderRadius:'12px', overflow:'hidden', cursor:'pointer' }} onClick={()=>setSemanaActiva(activa?-1:idx)}>
                   <div style={{ padding:'16px 20px', display:'flex', alignItems:'center', gap:'14px' }}>
-                    <div style={{ width:'36px', height:'36px', borderRadius:'50%', background:completada?programaActivo.color:'#1a2e1f', border:`2px solid ${completada?programaActivo.border:'#2a3d2e'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                      <span style={{ fontSize:'14px', fontWeight:'900', color:completada?programaActivo.border:'#7a9e87' }}>{completada?'✓':idx+1}</span>
+                    <div style={{ width:'36px', height:'36px', borderRadius:'50%', background:completada?programaActivo.color:'var(--surface-card)', border:`2px solid ${completada?programaActivo.border:'#2a3d2e'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                      <span style={{ fontSize:'14px', fontWeight:'900', color:completada?programaActivo.border:'var(--ink-subtle)' }}>{completada?'✓':idx+1}</span>
                     </div>
                     <div style={{ flex:1 }}>
                       <p style={{ fontWeight:'700', color:'white', fontSize:'14px' }}>Semana {semana.n}: {semana.titulo}</p>
-                      <p style={{ fontSize:'12px', color:'#7a9e87', marginTop:'2px' }}>{semana.temas.length} temas · {Math.ceil(semana.temas.length * 15)} min aprox.</p>
+                      <p style={{ fontSize:'12px', color:'var(--ink-subtle)', marginTop:'2px' }}>{semana.temas.length} temas · {Math.ceil(semana.temas.length * 15)} min aprox.</p>
                     </div>
-                    <span style={{ color:'#7a9e87', transition:'transform .2s', transform:activa?'rotate(180deg)':'none' }}>▾</span>
+                    <span style={{ color:'var(--ink-subtle)', transition:'transform .2s', transform:activa?'rotate(180deg)':'none' }}>▾</span>
                   </div>
                   {activa && (
                     <div style={{ padding:'0 20px 18px', borderTop:'1px solid #1a2e1f' }}>
@@ -208,10 +208,10 @@ export default function ProgramasPage() {
                             onClick={()=>abrirTema(programaActivo, semana, tema)}
                             style={{ display:'flex', gap:'10px', alignItems:'center', padding:'10px 14px', background:'#141f17', borderRadius:'8px', cursor:'pointer' }}
                           >
-                            <div style={{ width:'24px', height:'24px', borderRadius:'50%', background:completada?programaActivo.border:'#1a2e1f', border:`1px solid ${completada?programaActivo.border:'#2a3d2e'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'11px', color:'white' }}>
+                            <div style={{ width:'24px', height:'24px', borderRadius:'50%', background:completada?programaActivo.border:'var(--surface-card)', border:`1px solid ${completada?programaActivo.border:'#2a3d2e'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'11px', color:'white' }}>
                               {completada?'✓':ti+1}
                             </div>
-                            <span style={{ fontSize:'13px', color:'#8aab96', flex:1 }}>{tema}</span>
+                            <span style={{ fontSize:'13px', color:'var(--ink-muted)', flex:1 }}>{tema}</span>
                             <span style={{ background:`${programaActivo.border}22`, color:programaActivo.border, fontSize:'11px', padding:'2px 8px', borderRadius:'10px', fontWeight:'700', flexShrink:0 }}>
                               Trabajar con IA →
                             </span>

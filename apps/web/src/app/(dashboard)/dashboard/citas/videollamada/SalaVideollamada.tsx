@@ -266,16 +266,16 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MenteBridge</span>
             <h2 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: '12px 0 4px' }}>Sala de espera</h2>
-            <p style={{ color: '#7a9e87', fontSize: 14 }}>Hola, <strong style={{ color: '#8aab96' }}>{nombreUsuario}</strong></p>
+            <p style={{ color: 'var(--ink-subtle)', fontSize: 14 }}>Hola, <strong style={{ color: 'var(--ink-muted)' }}>{nombreUsuario}</strong></p>
           </div>
 
           {/* Preview de cámara */}
-          <div style={{ width: '100%', aspectRatio: '16/9', background: '#1a2e1f', borderRadius: 16, overflow: 'hidden', position: 'relative', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '100%', aspectRatio: '16/9', background: 'var(--surface-card)', borderRadius: 16, overflow: 'hidden', position: 'relative', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <video ref={lobbyVideoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', display: permisoConcedido ? 'block' : 'none' }} />
             {!permisoConcedido && (
               <div style={{ textAlign: 'center', padding: 24 }}>
                 <div style={{ fontSize: 48, marginBottom: 12 }}>📷</div>
-                <p style={{ color: '#7a9e87', fontSize: 14, margin: 0 }}>
+                <p style={{ color: 'var(--ink-subtle)', fontSize: 14, margin: 0 }}>
                   {lobbyError ? '' : 'Tu cámara aparecerá aquí'}
                 </p>
               </div>
@@ -297,7 +297,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
           {lobbyError === 'PERMISO_DENEGADO' && (
             <div style={{ background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.25)', borderRadius: 10, padding: '14px 18px', marginBottom: 16 }}>
               <p style={{ color: '#fbbf24', fontWeight: 700, fontSize: 13, margin: '0 0 8px' }}>🔒 Permiso bloqueado</p>
-              <ol style={{ color: '#8aab96', fontSize: 13, lineHeight: 1.9, paddingLeft: 18, margin: 0 }}>
+              <ol style={{ color: 'var(--ink-muted)', fontSize: 13, lineHeight: 1.9, paddingLeft: 18, margin: 0 }}>
                 <li>Haz clic en el ícono <strong style={{ color: 'white' }}>🔒</strong> o <strong style={{ color: 'white' }}>📷</strong> en la barra de dirección</li>
                 <li>Cambia <strong style={{ color: 'white' }}>Cámara</strong> y <strong style={{ color: 'white' }}>Micrófono</strong> a <strong style={{ color: '#2dd4bf' }}>Permitir</strong></li>
                 <li>Haz clic en <strong style={{ color: '#2dd4bf' }}>"Probar cámara"</strong> de nuevo</li>
@@ -316,11 +316,11 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
               </button>
             )}
             {permisoConcedido && (
-              <button onClick={pedirPermiso} style={{ background: 'transparent', border: '1px solid #2a3d2e', color: '#7a9e87', padding: '10px', borderRadius: 10, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+              <button onClick={pedirPermiso} style={{ background: 'transparent', border: '1px solid #2a3d2e', color: 'var(--ink-subtle)', padding: '10px', borderRadius: 10, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
                 Cambiar dispositivos
               </button>
             )}
-            <a href="/dashboard/citas" style={{ textAlign: 'center', color: '#7a9e87', fontSize: 13, textDecoration: 'none', padding: '8px 0' }}>
+            <a href="/dashboard/citas" style={{ textAlign: 'center', color: 'var(--ink-subtle)', fontSize: 13, textDecoration: 'none', padding: '8px 0' }}>
               Cancelar y volver a mis citas
             </a>
           </div>
@@ -335,8 +335,8 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
       <div style={{ textAlign: 'center', maxWidth: 400, padding: 40 }}>
         <div style={{ fontSize: 56, marginBottom: 16 }}>✅</div>
         <h2 style={{ color: 'white', fontSize: 24, fontWeight: 900, marginBottom: 8 }}>Sesión finalizada</h2>
-        <p style={{ color: '#7a9e87', marginBottom: 8 }}>Duración: {fmt(duracion)}</p>
-        <p style={{ color: '#8aab96', fontSize: 14, marginBottom: 28, lineHeight: 1.6 }}>
+        <p style={{ color: 'var(--ink-subtle)', marginBottom: 8 }}>Duración: {fmt(duracion)}</p>
+        <p style={{ color: 'var(--ink-muted)', fontSize: 14, marginBottom: 28, lineHeight: 1.6 }}>
           ¡Buen trabajo! Recuerda que puedes hablar con la IA entre sesiones para mantener tu progreso.
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
@@ -366,9 +366,9 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
               <p style={{ color: '#fbbf24', fontSize: 14, marginBottom: 20, lineHeight: 1.7, textAlign: 'center' }}>
                 El navegador bloqueó el acceso a tu cámara y micrófono.<br />Sigue estos pasos:
               </p>
-              <div style={{ background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: 12, padding: '16px 20px', marginBottom: 20 }}>
+              <div style={{ background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: 12, padding: '16px 20px', marginBottom: 20 }}>
                 {(isChrome || isEdge) && (
-                  <ol style={{ color: '#8aab96', fontSize: 13, lineHeight: 2, paddingLeft: 20, margin: 0 }}>
+                  <ol style={{ color: 'var(--ink-muted)', fontSize: 13, lineHeight: 2, paddingLeft: 20, margin: 0 }}>
                     <li>Haz clic en el ícono de candado <strong style={{ color: 'white' }}>🔒</strong> en la barra de dirección</li>
                     <li>Selecciona <strong style={{ color: 'white' }}>Permisos del sitio</strong></li>
                     <li>Cambia <strong style={{ color: 'white' }}>Cámara</strong> y <strong style={{ color: 'white' }}>Micrófono</strong> a <strong style={{ color: '#2dd4bf' }}>Permitir</strong></li>
@@ -376,7 +376,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
                   </ol>
                 )}
                 {isFirefox && (
-                  <ol style={{ color: '#8aab96', fontSize: 13, lineHeight: 2, paddingLeft: 20, margin: 0 }}>
+                  <ol style={{ color: 'var(--ink-muted)', fontSize: 13, lineHeight: 2, paddingLeft: 20, margin: 0 }}>
                     <li>Haz clic en el ícono de escudo en la barra de dirección</li>
                     <li>Selecciona <strong style={{ color: 'white' }}>Permisos</strong></li>
                     <li>Habilita <strong style={{ color: 'white' }}>Cámara</strong> y <strong style={{ color: 'white' }}>Micrófono</strong></li>
@@ -384,7 +384,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
                   </ol>
                 )}
                 {!isChrome && !isEdge && !isFirefox && (
-                  <p style={{ color: '#8aab96', fontSize: 13, margin: 0 }}>
+                  <p style={{ color: 'var(--ink-muted)', fontSize: 13, margin: 0 }}>
                     Busca el ícono de candado en la barra de dirección, habilita cámara y micrófono, y recarga.
                   </p>
                 )}
@@ -410,10 +410,10 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
 
   // ── Sala principal ────────────────────────────────────────────
   return (
-    <div style={{ minHeight: '100vh', background: '#0a1510', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--surface-alt)', display: 'flex', flexDirection: 'column' }}>
 
       {/* Top bar */}
-      <div style={{ height: 56, background: '#0d1a12', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', flexShrink: 0 }}>
+      <div style={{ height: 56, background: 'var(--surface)', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MenteBridge</span>
           <span style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.2)', color: '#2dd4bf', fontSize: 12, padding: '3px 10px', borderRadius: 10 }}>
@@ -422,22 +422,22 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
             {estado === 'activo'     && `En sesión · ${fmt(duracion)}`}
           </span>
         </div>
-        <span style={{ fontSize: 13, color: '#7a9e87' }}>{nombreUsuario}</span>
+        <span style={{ fontSize: 13, color: 'var(--ink-subtle)' }}>{nombreUsuario}</span>
       </div>
 
       {/* Contenido: video + chat */}
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
         {/* Área video */}
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a1510', position: 'relative', padding: 24, minWidth: 0 }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-alt)', position: 'relative', padding: 24, minWidth: 0 }}>
 
           {/* Video remoto */}
-          <div style={{ width: '100%', maxWidth: chatAbierto ? 700 : 800, aspectRatio: '16/9', background: '#1a2e1f', borderRadius: 16, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'max-width 0.3s' }}>
+          <div style={{ width: '100%', maxWidth: chatAbierto ? 700 : 800, aspectRatio: '16/9', background: 'var(--surface-card)', borderRadius: 16, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'max-width 0.3s' }}>
             <video ref={remoteVideoRef} autoPlay playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: estado === 'activo' ? 'block' : 'none' }} />
             {estado !== 'activo' && (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ width: 60, height: 60, border: '3px solid #2dd4bf', borderTop: '3px solid transparent', borderRadius: '50%', margin: '0 auto 16px', animation: 'spin 1s linear infinite' }} />
-                <p style={{ color: '#8aab96' }}>
+                <p style={{ color: 'var(--ink-muted)' }}>
                   {estado === 'esperando' ? (esIniciador ? 'Esperando al psicólogo...' : 'Procesando conexión...') : 'Conectando...'}
                 </p>
               </div>
@@ -455,27 +455,27 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
 
         {/* Panel de chat */}
         {chatAbierto && (
-          <div style={{ width: 300, background: '#0d1a12', borderLeft: '1px solid #1a2e1f', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+          <div style={{ width: 300, background: 'var(--surface)', borderLeft: '1px solid #1a2e1f', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
 
             {/* Header chat */}
             <div style={{ padding: '14px 16px', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ color: 'white', fontWeight: 700, fontSize: 14 }}>💬 Chat de sesión</span>
-              <button onClick={() => setChatAbierto(false)} style={{ background: 'none', border: 'none', color: '#7a9e87', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>×</button>
+              <button onClick={() => setChatAbierto(false)} style={{ background: 'none', border: 'none', color: 'var(--ink-subtle)', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>×</button>
             </div>
 
             {/* Mensajes */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
               {mensajes.length === 0 && (
-                <p style={{ color: '#7a9e87', fontSize: 13, textAlign: 'center', marginTop: 24 }}>
+                <p style={{ color: 'var(--ink-subtle)', fontSize: 13, textAlign: 'center', marginTop: 24 }}>
                   El chat es privado y solo visible durante la sesión.
                 </p>
               )}
               {mensajes.map(m => (
                 <div key={m.id} style={{ display: 'flex', flexDirection: 'column', alignItems: m.propio ? 'flex-end' : 'flex-start' }}>
-                  <div style={{ maxWidth: '85%', background: m.propio ? '#1a6b4a' : '#1a2e1f', border: `1px solid ${m.propio ? '#2a8a5a' : '#2a3d2e'}`, borderRadius: m.propio ? '12px 12px 4px 12px' : '12px 12px 12px 4px', padding: '8px 12px' }}>
+                  <div style={{ maxWidth: '85%', background: m.propio ? '#1a6b4a' : 'var(--surface-card)', border: `1px solid ${m.propio ? '#2a8a5a' : '#2a3d2e'}`, borderRadius: m.propio ? '12px 12px 4px 12px' : '12px 12px 12px 4px', padding: '8px 12px' }}>
                     <p style={{ margin: 0, color: 'white', fontSize: 13, lineHeight: 1.5, wordBreak: 'break-word' }}>{m.texto}</p>
                   </div>
-                  <span style={{ color: '#7a9e87', fontSize: 11, marginTop: 2 }}>{fmtHora(m.ts)}</span>
+                  <span style={{ color: 'var(--ink-subtle)', fontSize: 11, marginTop: 2 }}>{fmtHora(m.ts)}</span>
                 </div>
               ))}
               <div ref={chatEndRef} />
@@ -488,7 +488,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
                 onChange={e => setInputChat(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarMensaje(); } }}
                 placeholder="Escribe un mensaje..."
-                style={{ flex: 1, background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: 8, padding: '8px 12px', color: 'white', fontSize: 13, fontFamily: 'inherit', outline: 'none' }}
+                style={{ flex: 1, background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: 8, padding: '8px 12px', color: 'white', fontSize: 13, fontFamily: 'inherit', outline: 'none' }}
               />
               <button
                 onClick={enviarMensaje}
@@ -503,11 +503,11 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
       </div>
 
       {/* Controles */}
-      <div style={{ height: 72, background: '#0d1a12', borderTop: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexShrink: 0 }}>
-        <button onClick={toggleAudio} title={audioActivo ? 'Silenciar' : 'Activar micrófono'} style={{ width: 48, height: 48, borderRadius: '50%', background: audioActivo ? '#1a2e1f' : '#b82020', border: `1px solid ${audioActivo ? '#2a3d2e' : '#b82020'}`, cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ height: 72, background: 'var(--surface)', borderTop: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexShrink: 0 }}>
+        <button onClick={toggleAudio} title={audioActivo ? 'Silenciar' : 'Activar micrófono'} style={{ width: 48, height: 48, borderRadius: '50%', background: audioActivo ? 'var(--surface-card)' : '#b82020', border: `1px solid ${audioActivo ? '#2a3d2e' : '#b82020'}`, cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {audioActivo ? '🎤' : '🔇'}
         </button>
-        <button onClick={toggleVideo} title={videoActivo ? 'Apagar cámara' : 'Encender cámara'} style={{ width: 48, height: 48, borderRadius: '50%', background: videoActivo ? '#1a2e1f' : '#b82020', border: `1px solid ${videoActivo ? '#2a3d2e' : '#b82020'}`, cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button onClick={toggleVideo} title={videoActivo ? 'Apagar cámara' : 'Encender cámara'} style={{ width: 48, height: 48, borderRadius: '50%', background: videoActivo ? 'var(--surface-card)' : '#b82020', border: `1px solid ${videoActivo ? '#2a3d2e' : '#b82020'}`, cursor: 'pointer', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {videoActivo ? '📹' : '🚫'}
         </button>
 

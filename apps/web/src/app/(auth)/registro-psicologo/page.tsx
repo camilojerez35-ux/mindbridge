@@ -90,7 +90,7 @@ export default function RegistroPsicologoPage() {
           <h1 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '12px' }}>
             Solicitud enviada
           </h1>
-          <p style={{ fontSize: '14px', color: '#7a9e87', lineHeight: 1.6, marginBottom: '24px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink-subtle)', lineHeight: 1.6, marginBottom: '24px' }}>
             Revisaremos tu información y tarjeta COLPSIC en los próximos <strong style={{ color: 'white' }}>2–3 días hábiles</strong>.
             Te notificaremos por email cuando tu perfil esté aprobado y puedas comenzar a recibir citas.
           </p>
@@ -114,7 +114,7 @@ export default function RegistroPsicologoPage() {
           <h1 style={{ fontSize: '20px', fontWeight: '800', color: 'white', marginTop: '16px', marginBottom: '6px' }}>
             Únete como psicólogo
           </h1>
-          <p style={{ fontSize: '13px', color: '#7a9e87' }}>
+          <p style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>
             Revisaremos tu tarjeta COLPSIC antes de activar tu perfil.{' '}
             <Link href="/login" style={{ color: '#2dd4bf', textDecoration: 'none' }}>¿Ya tienes cuenta?</Link>
           </p>
@@ -123,7 +123,7 @@ export default function RegistroPsicologoPage() {
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
           {/* Datos personales */}
-          <section style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <section style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <h2 style={{ fontSize: '13px', fontWeight: '700', color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
               Datos personales
             </h2>
@@ -156,7 +156,7 @@ export default function RegistroPsicologoPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(p => !p)}
-                  style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#7a9e87', cursor: 'pointer', fontSize: '13px' }}
+                  style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--ink-subtle)', cursor: 'pointer', fontSize: '13px' }}
                 >
                   {showPassword ? 'Ocultar' : 'Ver'}
                 </button>
@@ -165,12 +165,12 @@ export default function RegistroPsicologoPage() {
           </section>
 
           {/* Verificación COLPSIC */}
-          <section style={{ background: '#0d1a12', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <section style={{ background: 'var(--surface)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
               <h2 style={{ fontSize: '13px', fontWeight: '700', color: '#fbbf24', textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
                 Verificación COLPSIC
               </h2>
-              <p style={{ fontSize: '12px', color: '#7a9e87', marginTop: '4px' }}>
+              <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginTop: '4px' }}>
                 Tu tarjeta será verificada manualmente antes de activar tu perfil. Resolución 2654/2019.
               </p>
             </div>
@@ -187,7 +187,7 @@ export default function RegistroPsicologoPage() {
           </section>
 
           {/* Perfil profesional */}
-          <section style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <section style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <h2 style={{ fontSize: '13px', fontWeight: '700', color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
               Perfil profesional
             </h2>
@@ -248,7 +248,7 @@ export default function RegistroPsicologoPage() {
               onChange={set('aceptaPoliticaPrivacidad')}
               style={{ marginTop: '2px', accentColor: '#2dd4bf', flexShrink: 0 }}
             />
-            <span style={{ fontSize: '12px', color: '#7a9e87', lineHeight: 1.5 }}>
+            <span style={{ fontSize: '12px', color: 'var(--ink-subtle)', lineHeight: 1.5 }}>
               Acepto la{' '}
               <Link href="/politica-privacidad" target="_blank" style={{ color: '#2dd4bf', textDecoration: 'none' }}>
                 Política de Privacidad
@@ -283,7 +283,7 @@ export default function RegistroPsicologoPage() {
             {loading ? 'Enviando solicitud...' : 'Enviar solicitud de verificación'}
           </button>
 
-          <p style={{ textAlign: 'center', fontSize: '12px', color: '#7a9e87' }}>
+          <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-subtle)' }}>
             ¿Eres paciente?{' '}
             <Link href="/registro" style={{ color: '#2dd4bf', textDecoration: 'none' }}>
               Regístrate aquí

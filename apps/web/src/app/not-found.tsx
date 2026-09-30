@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a1510' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-alt)' }}>
       <div style={{ textAlign: 'center', padding: '40px 24px', maxWidth: '480px' }}>
 
           <div style={{ fontSize: '72px', marginBottom: '8px' }}>🌿</div>
@@ -13,7 +13,7 @@ export default function NotFound() {
             Esta página no existe
           </h2>
 
-          <p style={{ fontSize: '14px', color: '#7a9e87', lineHeight: 1.7, margin: '0 0 32px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink-subtle)', lineHeight: 1.7, margin: '0 0 32px' }}>
             La ruta que buscas no está disponible. Puede que haya sido movida o que el enlace esté incorrecto.
           </p>
 
@@ -26,13 +26,13 @@ export default function NotFound() {
             </Link>
             <Link
               href="/"
-              style={{ display: 'inline-block', background: 'transparent', color: '#7a9e87', textDecoration: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: '600', fontSize: '14px', border: '1px solid #2a3d2e' }}
+              style={{ display: 'inline-block', background: 'transparent', color: 'var(--ink-subtle)', textDecoration: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: '600', fontSize: '14px', border: '1px solid #2a3d2e' }}
             >
               Inicio
             </Link>
           </div>
 
-          <p style={{ fontSize: '11px', color: '#7a9e87', marginTop: '40px' }}>
+          <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '40px' }}>
             Crisis:{' '}
             <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>Línea 106</a>
             {' · '}

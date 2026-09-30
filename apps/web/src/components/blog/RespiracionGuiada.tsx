@@ -54,7 +54,7 @@ export function RespiracionGuiada() {
       <p style={{ fontSize: '11px', fontWeight: '800', color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '4px' }}>
         Practícalo ahora
       </p>
-      <p style={{ fontSize: '13px', color: '#8aab96', marginBottom: '20px' }}>
+      <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '20px' }}>
         Inhala por la nariz {INHALA_S} segundos · exhala suave por la boca {EXHALA_S} segundos
       </p>
 
@@ -79,7 +79,7 @@ export function RespiracionGuiada() {
       <p aria-live="polite" style={{ fontSize: '28px', fontWeight: '900', color: '#e5f0ea', minHeight: '38px', margin: '8px 0 4px' }}>
         {activo ? restante : ''}
       </p>
-      <p style={{ fontSize: '12px', color: '#7a9e87', minHeight: '18px', marginBottom: '16px' }}>
+      <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', minHeight: '18px', marginBottom: '16px' }}>
         {activo && ciclos > 0 ? `${ciclos} ${ciclos === 1 ? 'ciclo' : 'ciclos'} · con 10 ciclos son unos 2 minutos` : ''}
       </p>
 
@@ -90,7 +90,7 @@ export function RespiracionGuiada() {
       >
         {activo ? 'Detener' : 'Empezar'}
       </button>
-      <p style={{ fontSize: '11px', color: '#7a9e87', marginTop: '14px', lineHeight: 1.6 }}>
+      <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '14px', lineHeight: 1.6 }}>
         Si te mareas, vuelve a respirar a tu ritmo normal. No retengas el aire.
       </p>
     </div>

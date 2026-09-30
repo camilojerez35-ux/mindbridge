@@ -45,7 +45,7 @@ export function BlogShell({ children }: { children: ReactNode }) {
 
       <footer className="px-4 py-8 sm:px-8 lg:px-12" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="mx-auto flex max-w-[1100px] flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p style={{ fontSize: '12px', color: '#8aab96', lineHeight: 1.7 }}>
+          <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.7 }}>
             © 2026 MenteBridge Colombia · Contenido informativo, no reemplaza la atención profesional.
           </p>
           <nav aria-label="Pie de página" className="flex flex-wrap gap-x-4 gap-y-2">

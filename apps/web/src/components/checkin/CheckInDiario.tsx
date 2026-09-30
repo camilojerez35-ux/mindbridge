@@ -63,7 +63,7 @@ export default function CheckInDiario() {
       style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}
       onClick={e => { if (e.target === e.currentTarget) omitir(); }}
     >
-      <div style={{ background: '#0d1a12', border: '1px solid #1a6b4a', borderRadius: '24px', padding: '36px', width: '100%', maxWidth: '400px', boxShadow: '0 25px 60px rgba(0,0,0,0.6)' }}>
+      <div style={{ background: 'var(--surface)', border: '1px solid #1a6b4a', borderRadius: '24px', padding: '36px', width: '100%', maxWidth: '400px', boxShadow: '0 25px 60px rgba(0,0,0,0.6)' }}>
 
         {!guardado ? (
           <>
@@ -71,13 +71,13 @@ export default function CheckInDiario() {
             <div style={{ textAlign: 'center', marginBottom: '28px' }}>
               <div style={{ fontSize: '48px', marginBottom: '12px', lineHeight: 1 }}>{animoEmoji(valor)}</div>
               <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>¿Cómo estás hoy?</h2>
-              <p style={{ fontSize: '13px', color: '#7a9e87' }}>Check-in diario · 30 segundos</p>
+              <p style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>Check-in diario · 30 segundos</p>
             </div>
 
             {/* Valor */}
             <div style={{ textAlign: 'center', marginBottom: '8px' }}>
               <span style={{ fontSize: '32px', fontWeight: '900', color: animoColor(valor) }}>{valor}</span>
-              <span style={{ fontSize: '16px', color: '#7a9e87' }}>/10</span>
+              <span style={{ fontSize: '16px', color: 'var(--ink-subtle)' }}>/10</span>
               <span style={{ fontSize: '14px', color: animoColor(valor), marginLeft: '10px', fontWeight: '600' }}>{animoLabel(valor)}</span>
             </div>
 
@@ -90,13 +90,13 @@ export default function CheckInDiario() {
 
             {/* Emociones */}
             <div style={{ marginBottom: '28px' }}>
-              <p style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '600', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>¿Alguna emoción predominante?</p>
+              <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', fontWeight: '600', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>¿Alguna emoción predominante?</p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {EMOCIONES.map(e => (
                   <button
                     key={e}
                     onClick={() => setEmocion(prev => prev === e ? '' : e)}
-                    style={{ padding: '6px 13px', borderRadius: '16px', border: `1px solid ${emocion === e ? '#2dd4bf' : '#2a3d2e'}`, background: emocion === e ? 'rgba(45,212,191,0.15)' : 'transparent', color: emocion === e ? '#2dd4bf' : '#7a9e87', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', transition: 'all .15s' }}
+                    style={{ padding: '6px 13px', borderRadius: '16px', border: `1px solid ${emocion === e ? '#2dd4bf' : '#2a3d2e'}`, background: emocion === e ? 'rgba(45,212,191,0.15)' : 'transparent', color: emocion === e ? '#2dd4bf' : 'var(--ink-subtle)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', transition: 'all .15s' }}
                   >
                     {e}
                   </button>
@@ -124,13 +124,13 @@ export default function CheckInDiario() {
               </button>
               <button
                 onClick={omitir}
-                style={{ padding: '13px 16px', background: 'transparent', color: '#7a9e87', borderRadius: '10px', border: '1px solid #1a2e1f', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
+                style={{ padding: '13px 16px', background: 'transparent', color: 'var(--ink-subtle)', borderRadius: '10px', border: '1px solid #1a2e1f', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
               >
                 Omitir
               </button>
             </div>
 
-            <p style={{ textAlign: 'center', fontSize: '11px', color: '#7a9e87', marginTop: '16px' }}>
+            <p style={{ textAlign: 'center', fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '16px' }}>
               🔒 Dato privado · Solo una vez al día
             </p>
           </>
@@ -139,7 +139,7 @@ export default function CheckInDiario() {
           <div style={{ textAlign: 'center', padding: '20px 0' }}>
             <div style={{ fontSize: '56px', marginBottom: '16px' }}>✅</div>
             <h3 style={{ fontSize: '20px', fontWeight: '800', color: 'white', marginBottom: '8px' }}>¡Registrado!</h3>
-            <p style={{ fontSize: '14px', color: '#7a9e87', lineHeight: 1.5 }}>
+            <p style={{ fontSize: '14px', color: 'var(--ink-subtle)', lineHeight: 1.5 }}>
               {valor <= 3
                 ? 'Te llevo al chat para que no estés solo/a...'
                 : 'Tu ánimo de hoy quedó guardado. ¡Sigue adelante! 💚'}

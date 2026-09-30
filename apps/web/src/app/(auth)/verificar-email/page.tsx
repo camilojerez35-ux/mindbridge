@@ -20,7 +20,7 @@ export default function VerificarEmailPage() {
           <h1 style={{ fontSize: '22px', fontWeight: '800', color: 'white', marginBottom: '10px' }}>
             {yaVerificado ? '¡Ya estás verificado!' : '¡Email verificado!'}
           </h1>
-          <p style={{ color: '#8aab96', fontSize: '14px', lineHeight: 1.6, marginBottom: '28px' }}>
+          <p style={{ color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1.6, marginBottom: '28px' }}>
             {yaVerificado
               ? 'Tu cuenta ya estaba activa. Puedes iniciar sesión.'
               : 'Tu cuenta está activa. Ya puedes iniciar sesión y comenzar tu camino de bienestar.'}
@@ -50,11 +50,11 @@ export default function VerificarEmailPage() {
         <h1 style={{ fontSize: '22px', fontWeight: '800', color: 'white', marginBottom: '10px' }}>
           Revisa tu email
         </h1>
-        <p style={{ color: '#8aab96', fontSize: '14px', lineHeight: 1.6, marginBottom: '28px' }}>
+        <p style={{ color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1.6, marginBottom: '28px' }}>
           Te enviamos un enlace de verificación. Haz clic en él para activar tu cuenta.<br />
           El enlace es válido por <strong style={{ color: 'white' }}>24 horas</strong>.
         </p>
-        <p style={{ color: '#7a9e87', fontSize: '12px' }}>
+        <p style={{ color: 'var(--ink-subtle)', fontSize: '12px' }}>
           ¿No lo recibiste? Revisa tu carpeta de spam o{' '}
           <ReenviarLink />
         </p>
@@ -70,17 +70,17 @@ function EnlaceInvalido({ esExpirado, mensaje }: { esExpirado: boolean; mensaje:
       <h1 style={{ fontSize: '22px', fontWeight: '800', color: 'white', marginBottom: '10px' }}>
         {esExpirado ? 'Enlace expirado' : 'Enlace inválido'}
       </h1>
-      <p style={{ color: '#8aab96', fontSize: '14px', lineHeight: 1.6, marginBottom: '8px' }}>
+      <p style={{ color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1.6, marginBottom: '8px' }}>
         {mensaje}
       </p>
       {esExpirado && (
-        <p style={{ color: '#7a9e87', fontSize: '13px', marginBottom: '28px' }}>
+        <p style={{ color: 'var(--ink-subtle)', fontSize: '13px', marginBottom: '28px' }}>
           Solicita un nuevo enlace de verificación:
         </p>
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '24px' }}>
         <ReenviarLink style={btnStyle} />
-        <Link href="/registro" style={{ ...btnStyle, background: '#1a2e1f', color: '#8aab96' }}>
+        <Link href="/registro" style={{ ...btnStyle, background: 'var(--surface-card)', color: 'var(--ink-muted)' }}>
           Crear cuenta nueva
         </Link>
       </div>
@@ -152,12 +152,12 @@ function Layout({ children }: { children: React.ReactNode }) {
       <div style={{ width: '100%', maxWidth: '440px' }}>
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <Link href="/" style={{ fontSize: '26px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MenteBridge</Link>
-          <p style={{ fontSize: '12px', color: '#7a9e87', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
+          <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
         </div>
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid #1a2e1f', borderRadius: '18px', padding: '40px 36px' }}>
           {children}
         </div>
-        <p style={{ textAlign: 'center', fontSize: '11px', color: '#7a9e87', marginTop: '20px' }}>
+        <p style={{ textAlign: 'center', fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '20px' }}>
           Crisis:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>Línea 106</a>
           {' · '}

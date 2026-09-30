@@ -7,7 +7,7 @@ const EJERCICIOS = [
   { id:'r2', cat:'Respiración', icon:'⬛', titulo:'Respiración cuadrada', duracion:5, nivel:'Principiante', desc:'4 segundos en cada fase. Excelente para calmar la mente rápidamente.', pasos:['Exhala todo el aire primero','Inhala durante 4 segundos','Sostén durante 4 segundos','Exhala durante 4 segundos','Sostén vacío durante 4 segundos','Repite 5 veces'], color:'#1a3d6b', borderColor:'#818cf8' },
   { id:'g1', cat:'Grounding', icon:'🌱', titulo:'Técnica 5-4-3-2-1', duracion:5, nivel:'Principiante', desc:'Ancla tu mente al presente usando los 5 sentidos. Ideal para ataques de pánico.', pasos:['Nombra 5 cosas que puedes VER ahora mismo','Nombra 4 cosas que puedes TOCAR','Nombra 3 cosas que puedes ESCUCHAR','Nombra 2 cosas que puedes OLER','Nombra 1 cosa que puedes SABOREAR','Respira profundo y nota cómo te sientes'], color:'#3d2d0a', borderColor:'#fbbf24' },
   { id:'g2', cat:'Grounding', icon:'🦶', titulo:'Grounding corporal', duracion:3, nivel:'Principiante', desc:'Reconecta con tu cuerpo para salir de pensamientos rumiativos.', pasos:['Siente el peso de tus pies en el suelo','Presiona suavemente el suelo con los pies','Siente la presión de la silla en tu cuerpo','Nota la temperatura del aire en tu piel','Aprieta y relaja las manos 3 veces','Abre los ojos y mira a tu alrededor'], color:'#1a2e1f', borderColor:'#2d9e6f' },
-  { id:'m1', cat:'Mindfulness', icon:'🧘', titulo:'Escaneo corporal', duracion:10, nivel:'Intermedio', desc:'Recorre tu cuerpo con atención plena para liberar tensiones acumuladas.', pasos:['Acuéstate o siéntate cómodamente','Cierra los ojos y respira profundo 3 veces','Lleva tu atención a los pies — ¿qué sientes?','Sube lentamente a las piernas y rodillas','Continúa por el abdomen y el pecho','Termina en la cabeza y cara, relajando cada músculo'], color:'#2d0a3d', borderColor:'#a855f7' },
+  { id:'m1', cat:'Mindfulness', icon:'🧘', titulo:'Escaneo corporal', duracion:10, nivel:'Intermedio', desc:'Recorre tu cuerpo con atención plena para liberar tensiones acumuladas.', pasos:['Acuéstate o siéntate cómodamente','Cierra los ojos y respira profundo 3 veces','Lleva tu atención a los pies — ¿qué sientes?','Sube lentamente a las piernas y rodillas','Continúa por el abdomen y el pecho','Termina en la cabeza y cara, relajando cada músculo'], color:'#2d0a3d', borderColor:'#c084fc' },
   { id:'m2', cat:'Mindfulness', icon:'🍃', titulo:'Defusión cognitiva', duracion:5, nivel:'Intermedio', desc:'Toma distancia de pensamientos intrusivos. Técnica ACT muy efectiva.', pasos:['Identifica un pensamiento que te molesta','En lugar de "Soy un fracaso" di: "Noto que tengo el pensamiento de que soy un fracaso"','Imagina ese pensamiento como una hoja en un río','Observa cómo fluye sin aferrarte a él','Repite con otros pensamientos intrusivos','Nota cómo el pensamiento pierde intensidad'], color:'#0a2e2d', borderColor:'#06b6d4' },
   { id:'t1', cat:'TCC', icon:'🧠', titulo:'Registro ABC', duracion:8, nivel:'Intermedio', desc:'Identifica la conexión entre situación, pensamiento y emoción.', pasos:['A — Situación: ¿Qué pasó exactamente?','B — Pensamiento: ¿Qué pensaste automáticamente?','C — Emoción: ¿Qué sentiste y con qué intensidad (1-10)?','Evalúa: ¿Tienes evidencia a favor y en contra?','Genera un pensamiento alternativo más equilibrado','¿Cómo te sientes ahora? ¿Cambió la intensidad?'], color:'#1a1a3d', borderColor:'#818cf8' },
   { id:'r3', cat:'Relajación', icon:'💆', titulo:'Relajación muscular', duracion:10, nivel:'Principiante', desc:'Técnica de Jacobson: tensiona y relaja grupos musculares para liberar estrés.', pasos:['Siéntate cómodamente y respira profundo','Aprieta los puños 5 segundos — suéltalo todo','Encoge los hombros hasta las orejas 5 segundos — suéltalo','Arruga la cara fuertemente 5 segundos — relaja','Tensa el abdomen 5 segundos — suéltalo','Nota la diferencia entre tensión y relajación'], color:'#2d1a0a', borderColor:'#f59e0b' },
@@ -103,7 +103,7 @@ export default function EjerciciosPage() {
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>🧘 Ejercicios Guiados</h1>
-        <p style={{ fontSize: '13px', color: '#7a9e87', marginTop: '4px' }}>Respiración, grounding, mindfulness y técnicas TCC basadas en evidencia</p>
+        <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', marginTop: '4px' }}>Respiración, grounding, mindfulness y técnicas TCC basadas en evidencia</p>
       </div>
 
       {/* Stats de práctica */}
@@ -114,11 +114,11 @@ export default function EjerciciosPage() {
             { label: 'Minutos practicados', val: totalMinutos, icon: '⏱', color: '#fbbf24' },
             { label: 'Más practicado', val: masUsado ? masUsado.icon + ' ' + masUsado.titulo.split(' ')[0] : '—', icon: '🏆', color: '#a78bfa' },
           ].map((s, i) => (
-            <div key={i} style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '12px', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div key={i} style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '12px', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontSize: '22px' }}>{s.icon}</span>
               <div>
                 <div style={{ fontSize: '20px', fontWeight: '900', color: s.color, lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: '11px', color: '#7a9e87', marginTop: '2px' }}>{s.label}</div>
+                <div style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '2px' }}>{s.label}</div>
               </div>
             </div>
           ))}
@@ -128,7 +128,7 @@ export default function EjerciciosPage() {
       {/* Filtros */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         {CATS.map(c => (
-          <button key={c} onClick={() => setCat(c)} style={{ padding: '8px 16px', borderRadius: '20px', border: `1px solid ${cat === c ? '#2dd4bf' : '#2a3d2e'}`, background: cat === c ? 'rgba(45,212,191,0.12)' : 'transparent', color: cat === c ? '#2dd4bf' : '#7a9e87', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: cat === c ? '700' : '400' }}>
+          <button key={c} onClick={() => setCat(c)} style={{ padding: '8px 16px', borderRadius: '20px', border: `1px solid ${cat === c ? '#2dd4bf' : '#2a3d2e'}`, background: cat === c ? 'rgba(45,212,191,0.12)' : 'transparent', color: cat === c ? '#2dd4bf' : 'var(--ink-subtle)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: cat === c ? '700' : '400' }}>
             {c}
           </button>
         ))}
@@ -161,7 +161,7 @@ export default function EjerciciosPage() {
                 <h3 style={{ fontSize: '17px', fontWeight: '800', color: 'white', marginBottom: '6px' }}>{ej.titulo}</h3>
                 <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>{ej.desc}</p>
               </div>
-              <button onClick={() => iniciar(ej)} style={{ background: ej.borderColor, color: '#0d1a12', padding: '11px', borderRadius: '8px', border: 'none', fontWeight: '800', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', marginTop: 'auto' }}>
+              <button onClick={() => iniciar(ej)} style={{ background: ej.borderColor, color: 'var(--on-accent)', padding: '11px', borderRadius: '8px', border: 'none', fontWeight: '800', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', marginTop: 'auto' }}>
                 {vecesHecho > 0 ? '▶ Practicar de nuevo' : '▶ Iniciar ejercicio'}
               </button>
             </div>
@@ -172,7 +172,7 @@ export default function EjerciciosPage() {
       {/* ── MODAL EJERCICIO ── */}
       {activo && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999, padding: '20px' }}>
-          <div style={{ background: '#0d1a12', border: `2px solid ${activo.borderColor}`, borderRadius: '24px', width: '100%', maxWidth: '500px', overflow: 'hidden' }}>
+          <div style={{ background: 'var(--surface)', border: `2px solid ${activo.borderColor}`, borderRadius: '24px', width: '100%', maxWidth: '500px', overflow: 'hidden' }}>
 
             {/* Header modal */}
             <div style={{ background: activo.color, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -187,12 +187,12 @@ export default function EjerciciosPage() {
               <div style={{ padding: '28px' }}>
                 {/* Timer y progreso */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-                  <span style={{ fontSize: '13px', color: '#7a9e87' }}>Paso {paso + 1} de {activo.pasos.length}</span>
+                  <span style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>Paso {paso + 1} de {activo.pasos.length}</span>
                   <span style={{ fontSize: '20px', fontWeight: '900', color: activo.borderColor, fontFamily: 'monospace' }}>{fmt(segundos)}</span>
                 </div>
 
                 {/* Barra progreso */}
-                <div style={{ height: '4px', background: '#1a2e1f', borderRadius: '2px', marginBottom: '24px' }}>
+                <div style={{ height: '4px', background: 'var(--surface-card)', borderRadius: '2px', marginBottom: '24px' }}>
                   <div style={{ height: '100%', width: `${((paso + 1) / activo.pasos.length) * 100}%`, background: activo.borderColor, borderRadius: '2px', transition: 'width .3s' }} />
                 </div>
 
@@ -205,19 +205,19 @@ export default function EjerciciosPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '24px' }}>
                   {activo.pasos.map((p, i) => (
                     <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center', opacity: i > paso ? 0.3 : 1 }}>
-                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: i < paso ? activo.borderColor : i === paso ? activo.borderColor + '44' : '#1a2e1f', border: `1px solid ${activo.borderColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '700', color: 'white', flexShrink: 0 }}>
+                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: i < paso ? activo.borderColor : i === paso ? activo.borderColor + '44' : 'var(--surface-card)', border: `1px solid ${activo.borderColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '700', color: 'white', flexShrink: 0 }}>
                         {i < paso ? '✓' : i + 1}
                       </div>
-                      <p style={{ fontSize: '12px', color: i <= paso ? '#8aab96' : '#7a9e87', lineHeight: 1.4 }}>{p}</p>
+                      <p style={{ fontSize: '12px', color: i <= paso ? 'var(--ink-muted)' : 'var(--ink-subtle)', lineHeight: 1.4 }}>{p}</p>
                     </div>
                   ))}
                 </div>
 
                 <div style={{ display: 'flex', gap: '10px' }}>
-                  <button onClick={() => setCorriendo(p => !p)} style={{ flex: 1, background: '#1a2e1f', border: '1px solid #2a3d2e', color: 'white', padding: '12px', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: '600', fontSize: '14px' }}>
+                  <button onClick={() => setCorriendo(p => !p)} style={{ flex: 1, background: 'var(--surface-card)', border: '1px solid #2a3d2e', color: 'white', padding: '12px', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: '600', fontSize: '14px' }}>
                     {corriendo ? '⏸ Pausar' : '▶ Reanudar'}
                   </button>
-                  <button onClick={siguiente} style={{ flex: 2, background: activo.borderColor, color: '#0d1a12', padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: '800', fontSize: '14px' }}>
+                  <button onClick={siguiente} style={{ flex: 2, background: activo.borderColor, color: 'var(--on-accent)', padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: '800', fontSize: '14px' }}>
                     {paso === activo.pasos.length - 1 ? '✅ Completar' : 'Siguiente paso →'}
                   </button>
                 </div>
@@ -226,20 +226,20 @@ export default function EjerciciosPage() {
               <div style={{ padding: '40px', textAlign: 'center' }}>
                 <div style={{ fontSize: '56px', marginBottom: '16px' }}>🎉</div>
                 <h3 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '8px' }}>¡Excelente trabajo!</h3>
-                <p style={{ color: '#8aab96', marginBottom: '4px' }}>Completaste "{activo.titulo}"</p>
-                <p style={{ fontSize: '13px', color: '#7a9e87', marginBottom: '4px' }}>Tiempo: {fmt(segundos)}</p>
+                <p style={{ color: 'var(--ink-muted)', marginBottom: '4px' }}>Completaste "{activo.titulo}"</p>
+                <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', marginBottom: '4px' }}>Tiempo: {fmt(segundos)}</p>
                 {conteo[activo.id] && (
                   <p style={{ fontSize: '13px', color: activo.borderColor, fontWeight: '700', marginBottom: '20px' }}>
                     🏅 Has hecho este ejercicio {conteo[activo.id]} {conteo[activo.id] === 1 ? 'vez' : 'veces'}
                   </p>
                 )}
                 {guardandoCompletado && (
-                  <p style={{ fontSize: '12px', color: '#7a9e87', marginBottom: '16px' }}>Guardando progreso...</p>
+                  <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginBottom: '16px' }}>Guardando progreso...</p>
                 )}
-                <p style={{ fontSize: '14px', color: '#8aab96', lineHeight: 1.6, marginBottom: '28px' }}>
+                <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6, marginBottom: '28px' }}>
                   La consistencia es clave. Practica este ejercicio regularmente para mejores resultados.
                 </p>
-                <button onClick={cerrar} style={{ background: activo.borderColor, color: '#0d1a12', padding: '13px 32px', borderRadius: '8px', border: 'none', fontWeight: '800', cursor: 'pointer', fontFamily: 'inherit', fontSize: '15px' }}>
+                <button onClick={cerrar} style={{ background: activo.borderColor, color: 'var(--on-accent)', padding: '13px 32px', borderRadius: '8px', border: 'none', fontWeight: '800', cursor: 'pointer', fontFamily: 'inherit', fontSize: '15px' }}>
                   Ver más ejercicios
                 </button>
               </div>

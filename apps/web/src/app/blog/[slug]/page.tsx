@@ -92,8 +92,8 @@ export default function ArticuloPage({ params }: { params: { slug: string } }) {
 
       <article style={{ maxWidth: '760px', margin: '0 auto', padding: '40px clamp(16px, 5vw, 32px) 80px' }}>
         {/* Migas */}
-        <nav aria-label="Ruta" style={{ fontSize: '12px', color: '#7a9e87', marginBottom: '24px' }}>
-          <Link href="/blog" style={{ color: '#7a9e87', textDecoration: 'none' }}>Blog</Link>
+        <nav aria-label="Ruta" style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginBottom: '24px' }}>
+          <Link href="/blog" style={{ color: 'var(--ink-subtle)', textDecoration: 'none' }}>Blog</Link>
           {' / '}
           <Link href={`/blog?tipo=${tipo.param}`} style={{ color: tipo.color, textDecoration: 'none' }}>{a.tipo}</Link>
         </nav>
@@ -103,14 +103,14 @@ export default function ArticuloPage({ params }: { params: { slug: string } }) {
           <span style={{ background: tipo.bg, color: tipo.color, fontSize: '11px', fontWeight: '800', padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
             {a.tipo}
           </span>
-          <span style={{ fontSize: '12px', color: '#8aab96' }}>{a.categoria}</span>
-          <span style={{ fontSize: '12px', color: '#7a9e87' }}>· ⏱ {a.lectura} de lectura</span>
+          <span style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>{a.categoria}</span>
+          <span style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>· ⏱ {a.lectura} de lectura</span>
         </div>
 
         <h1 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: '900', lineHeight: 1.15, letterSpacing: '-0.02em', marginBottom: '16px' }}>
           {a.titulo}
         </h1>
-        <p style={{ fontSize: '12px', color: '#7a9e87', marginBottom: '28px' }}>
+        <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginBottom: '28px' }}>
           Equipo editorial MenteBridge · Actualizado el {formatearFecha(a.actualizado)}
           {a.revisadoPor && <> · Revisión clínica: {a.revisadoPor.nombre} (T.P. {a.revisadoPor.tarjetaProfesional})</>}
         </p>
@@ -127,15 +127,15 @@ export default function ArticuloPage({ params }: { params: { slug: string } }) {
 
         {/* Índice */}
         <nav aria-label="En este artículo" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px', padding: '16px 20px', marginBottom: '40px' }}>
-          <p style={{ fontSize: '11px', fontWeight: '800', color: '#8aab96', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '10px' }}>En este artículo</p>
-          <ol style={{ paddingLeft: '18px', display: 'flex', flexDirection: 'column', gap: '6px', color: '#8aab96' }}>
+          <p style={{ fontSize: '11px', fontWeight: '800', color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '10px' }}>En este artículo</p>
+          <ol style={{ paddingLeft: '18px', display: 'flex', flexDirection: 'column', gap: '6px', color: 'var(--ink-muted)' }}>
             {secciones.map(s => (
               <li key={s.ancla} style={{ fontSize: '14px', lineHeight: 1.5 }}>
-                <a href={`#${s.ancla}`} className="hover:underline" style={{ color: '#c9dccf', textDecoration: 'none' }}>{s.titulo}</a>
+                <a href={`#${s.ancla}`} className="hover:underline" style={{ color: 'var(--ink-soft)', textDecoration: 'none' }}>{s.titulo}</a>
               </li>
             ))}
-            <li style={{ fontSize: '14px' }}><a href="#preguntas" className="hover:underline" style={{ color: '#c9dccf', textDecoration: 'none' }}>Preguntas frecuentes</a></li>
-            <li style={{ fontSize: '14px' }}><a href="#fuentes" className="hover:underline" style={{ color: '#c9dccf', textDecoration: 'none' }}>Fuentes</a></li>
+            <li style={{ fontSize: '14px' }}><a href="#preguntas" className="hover:underline" style={{ color: 'var(--ink-soft)', textDecoration: 'none' }}>Preguntas frecuentes</a></li>
+            <li style={{ fontSize: '14px' }}><a href="#fuentes" className="hover:underline" style={{ color: 'var(--ink-soft)', textDecoration: 'none' }}>Fuentes</a></li>
           </ol>
         </nav>
 
@@ -161,7 +161,7 @@ export default function ArticuloPage({ params }: { params: { slug: string } }) {
                 {s.pasos.map((paso, i) => (
                   <li key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '14px 16px' }}>
                     <span style={{ width: '26px', height: '26px', borderRadius: '50%', background: tipo.bg, border: `1px solid ${tipo.color}55`, color: tipo.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '800', flexShrink: 0 }}>{i + 1}</span>
-                    <span style={{ fontSize: '15px', lineHeight: 1.7, color: '#c9dccf' }}>{paso}</span>
+                    <span style={{ fontSize: '15px', lineHeight: 1.7, color: 'var(--ink-soft)' }}>{paso}</span>
                   </li>
                 ))}
               </ol>
@@ -189,13 +189,13 @@ export default function ArticuloPage({ params }: { params: { slug: string } }) {
           <h2 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '12px' }}>Fuentes</h2>
           <ol style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {a.fuentes.map(f => (
-              <li key={f.url} style={{ fontSize: '13px', lineHeight: 1.6, color: '#8aab96' }}>
+              <li key={f.url} style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--ink-muted)' }}>
                 {f.entidad} ({f.anio}).{' '}
                 <a href={f.url} target="_blank" rel="noopener noreferrer" style={{ color: '#2dd4bf', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{f.titulo}<span className="sr-only"> (se abre en otra pestaña)</span></a>
               </li>
             ))}
           </ol>
-          <p style={{ fontSize: '12px', color: '#7a9e87', lineHeight: 1.7, marginTop: '16px' }}>
+          <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', lineHeight: 1.7, marginTop: '16px' }}>
             Este contenido es informativo y no reemplaza la evaluación de un profesional de la salud.
             Si encuentras un error, escríbenos a{' '}
             <a href="mailto:soporte@mentebridge.com" style={{ color: '#2dd4bf', textDecoration: 'underline', textUnderlineOffset: '3px' }}>soporte@mentebridge.com</a>
@@ -211,7 +211,7 @@ export default function ArticuloPage({ params }: { params: { slug: string } }) {
         {/* CTA */}
         <div style={{ background: 'rgba(26,107,74,0.08)', border: '1px solid rgba(45,212,191,0.12)', borderRadius: '20px', padding: '28px', textAlign: 'center', marginBottom: '48px' }}>
           <h2 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '8px' }}>¿Quieres hablar con alguien?</h2>
-          <p style={{ color: '#8aab96', fontSize: '14px', lineHeight: 1.7, marginBottom: '18px' }}>
+          <p style={{ color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1.7, marginBottom: '18px' }}>
             En MenteBridge puedes empezar con acompañamiento 24/7 y agendar con psicólogos con tarjeta profesional.
           </p>
           <Link href="/registro" style={{ display: 'inline-block', background: 'linear-gradient(135deg,#1a6b4a,#0d5438)', color: 'white', padding: '12px 28px', borderRadius: '10px', textDecoration: 'none', fontWeight: '700', fontSize: '14px' }}>

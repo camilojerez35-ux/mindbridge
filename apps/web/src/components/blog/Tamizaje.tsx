@@ -41,7 +41,7 @@ export function Tamizaje({ id }: { id: TamizajeId }) {
         <p style={{ fontSize: '15px', color: '#e5f0ea', lineHeight: 1.6, marginBottom: '6px' }}>
           {t.items.length} preguntas sobre {t.mide} en las últimas 2 semanas. Toma unos 2 minutos.
         </p>
-        <p style={{ fontSize: '12px', color: '#8aab96', lineHeight: 1.6, marginBottom: '16px' }}>
+        <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.6, marginBottom: '16px' }}>
           🔒 Anónima: tus respuestas no se guardan ni se envían. Es una herramienta de cribado, no un diagnóstico.
         </p>
         <button type="button" onClick={() => setAbierto(true)} style={{ background: 'rgba(129,140,248,0.15)', color: '#c7d2fe', border: '1px solid rgba(129,140,248,0.4)', padding: '10px 22px', borderRadius: '10px', fontWeight: '700', fontSize: '14px', cursor: 'pointer' }}>
@@ -62,14 +62,14 @@ export function Tamizaje({ id }: { id: TamizajeId }) {
         {t.items.map((item, i) => (
           <li key={i}>
             <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
-              <legend style={{ fontSize: '14px', color: '#c9dccf', lineHeight: 1.5, marginBottom: '8px' }}>
+              <legend style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '8px' }}>
                 <strong style={{ color: '#818cf8' }}>{i + 1}.</strong> {item}
               </legend>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '6px' }}>
                 {t.opciones.map((op, valor) => {
                   const marcado = respuestas[i] === valor;
                   return (
-                    <label key={op} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', background: marcado ? 'rgba(129,140,248,0.18)' : 'rgba(255,255,255,0.03)', border: `1px solid ${marcado ? 'rgba(129,140,248,0.55)' : 'rgba(255,255,255,0.08)'}`, borderRadius: '10px', padding: '8px 10px', fontSize: '12px', color: marcado ? 'white' : '#8aab96' }}>
+                    <label key={op} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', background: marcado ? 'rgba(129,140,248,0.18)' : 'rgba(255,255,255,0.03)', border: `1px solid ${marcado ? 'rgba(129,140,248,0.55)' : 'rgba(255,255,255,0.08)'}`, borderRadius: '10px', padding: '8px 10px', fontSize: '12px', color: marcado ? 'white' : 'var(--ink-muted)' }}>
                       <input type="radio" name={`${t.id}-${i}`} checked={marcado} onChange={() => responder(i, valor)} style={{ accentColor: '#818cf8' }} />
                       {op}
                     </label>
@@ -96,23 +96,23 @@ export function Tamizaje({ id }: { id: TamizajeId }) {
           type="button"
           disabled={!completas}
           onClick={() => setVerResultado(true)}
-          style={{ marginTop: '20px', background: completas ? 'linear-gradient(135deg,#4f46e5,#3730a3)' : 'rgba(255,255,255,0.05)', color: completas ? 'white' : '#7a9e87', border: 'none', padding: '11px 24px', borderRadius: '10px', fontWeight: '700', fontSize: '14px', cursor: completas ? 'pointer' : 'not-allowed' }}
+          style={{ marginTop: '20px', background: completas ? 'linear-gradient(135deg,#4f46e5,#3730a3)' : 'rgba(255,255,255,0.05)', color: completas ? 'white' : 'var(--ink-subtle)', border: 'none', padding: '11px 24px', borderRadius: '10px', fontWeight: '700', fontSize: '14px', cursor: completas ? 'pointer' : 'not-allowed' }}
         >
           {completas ? 'Ver resultado' : `Responde todas las preguntas (${respuestas.filter(r => r !== null).length}/${t.items.length})`}
         </button>
       ) : (
         <div aria-live="polite" style={{ marginTop: '20px', background: 'rgba(0,0,0,0.2)', border: `1px solid ${banda.color}55`, borderRadius: '14px', padding: '18px' }}>
-          <p style={{ fontSize: '13px', color: '#8aab96' }}>Tu puntaje</p>
+          <p style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Tu puntaje</p>
           <p style={{ fontSize: '30px', fontWeight: '900', color: banda.color, lineHeight: 1.2 }}>
-            {puntaje} <span style={{ fontSize: '15px', color: '#7a9e87' }}>de {maximo}</span>
+            {puntaje} <span style={{ fontSize: '15px', color: 'var(--ink-subtle)' }}>de {maximo}</span>
           </p>
           <p style={{ fontSize: '16px', fontWeight: '800', color: 'white', margin: '4px 0 8px' }}>{banda.nivel}</p>
-          <p style={{ fontSize: '14px', color: '#c9dccf', lineHeight: 1.7, marginBottom: '12px' }}>{banda.mensaje}</p>
-          <p style={{ fontSize: '12px', color: '#8aab96', lineHeight: 1.7, marginBottom: '12px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '12px' }}>{banda.mensaje}</p>
+          <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.7, marginBottom: '12px' }}>
             <strong>Importante:</strong> este resultado es un tamizaje, no un diagnóstico. Solo un profesional de salud mental puede evaluar tu situación completa.
             {' '}{t.notaValidacion}
           </p>
-          <p style={{ fontSize: '11px', color: '#7a9e87', lineHeight: 1.7, marginBottom: '14px' }}>
+          <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', lineHeight: 1.7, marginBottom: '14px' }}>
             Fuentes:{' '}
             {t.fuentes.map((f, i) => (
               <span key={f.url}>{i > 0 && ' · '}<a href={f.url} target="_blank" rel="noopener noreferrer" style={{ color: '#2dd4bf' }}>{f.titulo}</a></span>
@@ -122,7 +122,7 @@ export function Tamizaje({ id }: { id: TamizajeId }) {
             <Link href="/blog/como-pedir-cita-con-psicologo-por-eps-en-colombia" style={{ background: 'linear-gradient(135deg,#1a6b4a,#0d5438)', color: 'white', padding: '10px 18px', borderRadius: '10px', textDecoration: 'none', fontWeight: '700', fontSize: '13px' }}>
               Cómo pedir cita →
             </Link>
-            <button type="button" onClick={reiniciar} style={{ background: 'transparent', color: '#8aab96', border: '1px solid rgba(255,255,255,0.12)', padding: '10px 18px', borderRadius: '10px', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}>
+            <button type="button" onClick={reiniciar} style={{ background: 'transparent', color: 'var(--ink-muted)', border: '1px solid rgba(255,255,255,0.12)', padding: '10px 18px', borderRadius: '10px', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}>
               Borrar respuestas
             </button>
           </div>

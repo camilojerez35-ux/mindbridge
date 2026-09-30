@@ -27,7 +27,7 @@ export function Compartir({ titulo, ruta }: { titulo: string; ruta: string }) {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
-      <span style={{ fontSize: '12px', color: '#8aab96' }}>¿Le puede servir a alguien?</span>
+      <span style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>¿Le puede servir a alguien?</span>
       <a
         href={`https://wa.me/?text=${encodeURIComponent(titulo + ' — MenteBridge')}%20${encodeURIComponent('https://mentebridge.com' + ruta)}`}
         target="_blank"
@@ -36,7 +36,7 @@ export function Compartir({ titulo, ruta }: { titulo: string; ruta: string }) {
       >
         WhatsApp
       </a>
-      <button type="button" onClick={compartir} style={{ ...boton, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', color: '#c9dccf' }}>
+      <button type="button" onClick={compartir} style={{ ...boton, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', color: 'var(--ink-soft)' }}>
         {copiado ? '¡Enlace copiado!' : 'Copiar enlace'}
       </button>
     </div>

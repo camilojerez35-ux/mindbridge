@@ -339,7 +339,7 @@ export default function ProgresoPage() {
             {/* Labels — solo mostrar algunos en vista de 30 días */}
             <div className="flex gap-1">
               {datosGrafica.map((d, i) => (
-                <div key={i} className="flex-1 text-center" style={{ fontSize: '9px', color: d.valor ? '#c9dccf' : '#7a9e87' }}>
+                <div key={i} className="flex-1 text-center" style={{ fontSize: '9px', color: d.valor ? 'var(--ink-soft)' : 'var(--ink-subtle)' }}>
                   {rangoVista === 7 ? d.dia : (i % 5 === 0 ? d.dia : '')}
                 </div>
               ))}
