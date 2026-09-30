@@ -26,8 +26,8 @@ export default function AvisoIAPage() {
         <h2 className="font-bold text-base text-white mb-2">¿Qué IA usamos?</h2>
         <p>
           MenteBridge utiliza <strong className="text-white">Claude</strong>, un modelo de lenguaje desarrollado por Anthropic, Inc. (EE.UU.).
-          Este modelo ha sido configurado con protocolos clínicos validados por psicólogos colombianos
-          especializados en salud mental.
+          Lo configuramos con instrucciones basadas en técnicas con evidencia (terapia cognitivo-conductual,
+          ACT, mindfulness) y con un protocolo de detección de crisis que remite a la Línea 106 y al 123.
         </p>
       </section>
 

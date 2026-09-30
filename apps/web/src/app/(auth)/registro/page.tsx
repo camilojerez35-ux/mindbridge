@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { useProveedoresActivos } from '@/lib/auth/use-proveedores';
 import { Brain, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface ValidationState {
@@ -38,6 +39,7 @@ function maxFechaNacimiento(): string {
 export default function RegistroPage() {
   const router = useRouter();
   const [form, setForm] = useState<ValidationState>(initialState);
+  const proveedores = useProveedoresActivos();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -505,6 +507,8 @@ export default function RegistroPage() {
           </Link>
         </p>
 
+        {proveedores?.has('google') && (
+          <>
         {/* OAuth buttons */}
         <div className="mt-6">
           <div className="relative">
@@ -532,6 +536,8 @@ export default function RegistroPage() {
             </button>
           </div>
         </div>
+          </>
+        )}
 
         {/* Privacy notice */}
         <p className="text-xs text-ink-subtle text-center mt-6 leading-relaxed">

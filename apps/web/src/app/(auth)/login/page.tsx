@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { useProveedoresActivos } from '@/lib/auth/use-proveedores';
 import { Brain, Eye, EyeOff, AlertCircle } from 'lucide-react';
 
 function LoginForm() {
@@ -22,6 +23,7 @@ function LoginForm() {
   const [lockoutUntil, setLockoutUntil] = useState<number | null>(null);
 
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
+  const proveedores = useProveedoresActivos();
 
   // Mostrar mensaje de registro exitoso o errores de OAuth
   useEffect(() => {
@@ -215,7 +217,7 @@ function LoginForm() {
             </button>
         </form>
 
-        {process.env.NODE_ENV !== 'production' && (
+        {proveedores?.has('dev-bypass') && (
           <button
             type="button"
             onClick={async () => {
@@ -239,6 +241,7 @@ function LoginForm() {
           <Link href="/registro" className="text-teal-400 hover:underline font-medium">Regístrate gratis</Link>
         </p>
 
+        {proveedores?.has('google') && (
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -264,6 +267,7 @@ function LoginForm() {
             </button>
           </div>
         </div>
+        )}
 
         <p className="text-xs text-ink-subtle text-center mt-6 leading-relaxed">
           Al iniciar sesión, aceptas nuestros{' '}

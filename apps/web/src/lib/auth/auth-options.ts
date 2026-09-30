@@ -120,9 +120,11 @@ export const authOptions: AuthOptions = {
       },
     }),
 
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    // Google solo se registra si hay credenciales: sin ellas el botón no aparece
+    // (antes fallaba con "client_id is required").
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? [GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
           prompt: 'consent',
@@ -130,7 +132,7 @@ export const authOptions: AuthOptions = {
           response_type: 'code',
         },
       },
-    }),
+    })] : []),
   ],
 
   session: {
