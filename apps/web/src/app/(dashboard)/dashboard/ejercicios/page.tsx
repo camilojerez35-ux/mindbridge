@@ -9,7 +9,7 @@ const EJERCICIOS = [
   { id:'g2', cat:'Grounding', icon:'🦶', titulo:'Grounding corporal', duracion:3, nivel:'Principiante', desc:'Reconecta con tu cuerpo para salir de pensamientos rumiativos.', pasos:['Siente el peso de tus pies en el suelo','Presiona suavemente el suelo con los pies','Siente la presión de la silla en tu cuerpo','Nota la temperatura del aire en tu piel','Aprieta y relaja las manos 3 veces','Abre los ojos y mira a tu alrededor'], color:'#1a2e1f', borderColor:'#2d9e6f' },
   { id:'m1', cat:'Mindfulness', icon:'🧘', titulo:'Escaneo corporal', duracion:10, nivel:'Intermedio', desc:'Recorre tu cuerpo con atención plena para liberar tensiones acumuladas.', pasos:['Acuéstate o siéntate cómodamente','Cierra los ojos y respira profundo 3 veces','Lleva tu atención a los pies — ¿qué sientes?','Sube lentamente a las piernas y rodillas','Continúa por el abdomen y el pecho','Termina en la cabeza y cara, relajando cada músculo'], color:'#2d0a3d', borderColor:'#a855f7' },
   { id:'m2', cat:'Mindfulness', icon:'🍃', titulo:'Defusión cognitiva', duracion:5, nivel:'Intermedio', desc:'Toma distancia de pensamientos intrusivos. Técnica ACT muy efectiva.', pasos:['Identifica un pensamiento que te molesta','En lugar de "Soy un fracaso" di: "Noto que tengo el pensamiento de que soy un fracaso"','Imagina ese pensamiento como una hoja en un río','Observa cómo fluye sin aferrarte a él','Repite con otros pensamientos intrusivos','Nota cómo el pensamiento pierde intensidad'], color:'#0a2e2d', borderColor:'#06b6d4' },
-  { id:'t1', cat:'TCC', icon:'🧠', titulo:'Registro ABC', duracion:8, nivel:'Intermedio', desc:'Identifica la conexión entre situación, pensamiento y emoción.', pasos:['A — Situación: ¿Qué pasó exactamente?','B — Pensamiento: ¿Qué pensaste automáticamente?','C — Emoción: ¿Qué sentiste y con qué intensidad (1-10)?','Evalúa: ¿Tienes evidencia a favor y en contra?','Genera un pensamiento alternativo más equilibrado','¿Cómo te sientes ahora? ¿Cambió la intensidad?'], color:'#1a1a3d', borderColor:'#6366f1' },
+  { id:'t1', cat:'TCC', icon:'🧠', titulo:'Registro ABC', duracion:8, nivel:'Intermedio', desc:'Identifica la conexión entre situación, pensamiento y emoción.', pasos:['A — Situación: ¿Qué pasó exactamente?','B — Pensamiento: ¿Qué pensaste automáticamente?','C — Emoción: ¿Qué sentiste y con qué intensidad (1-10)?','Evalúa: ¿Tienes evidencia a favor y en contra?','Genera un pensamiento alternativo más equilibrado','¿Cómo te sientes ahora? ¿Cambió la intensidad?'], color:'#1a1a3d', borderColor:'#818cf8' },
   { id:'r3', cat:'Relajación', icon:'💆', titulo:'Relajación muscular', duracion:10, nivel:'Principiante', desc:'Técnica de Jacobson: tensiona y relaja grupos musculares para liberar estrés.', pasos:['Siéntate cómodamente y respira profundo','Aprieta los puños 5 segundos — suéltalo todo','Encoge los hombros hasta las orejas 5 segundos — suéltalo','Arruga la cara fuertemente 5 segundos — relaja','Tensa el abdomen 5 segundos — suéltalo','Nota la diferencia entre tensión y relajación'], color:'#2d1a0a', borderColor:'#f59e0b' },
 ];
 
@@ -139,7 +139,7 @@ export default function EjerciciosPage() {
         {filtrados.map(ej => {
           const vecesHecho = conteo[ej.id] ?? 0;
           return (
-            <div key={ej.id} style={{ background: ej.color, border: `1px solid ${ej.borderColor}`, borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative' }}>
+            <div key={ej.id} style={{ background: `${ej.color}66`, border: `1px solid ${ej.borderColor}`, borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative' }}>
 
               {/* Badge de veces completado */}
               {vecesHecho > 0 && (
@@ -152,14 +152,14 @@ export default function EjerciciosPage() {
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: '32px' }}>{ej.icon}</span>
                 <div style={{ display: 'flex', gap: '6px', marginRight: vecesHecho > 0 ? '44px' : '0' }}>
-                  <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.1)', padding: '3px 8px', borderRadius: '10px', color: 'rgba(255,255,255,0.7)' }}>{ej.nivel}</span>
-                  <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.1)', padding: '3px 8px', borderRadius: '10px', color: 'rgba(255,255,255,0.7)' }}>⏱ {ej.duracion} min</span>
+                  <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.1)', padding: '3px 8px', borderRadius: '10px', color: '#ffffff' }}>{ej.nivel}</span>
+                  <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.1)', padding: '3px 8px', borderRadius: '10px', color: '#ffffff' }}>⏱ {ej.duracion} min</span>
                 </div>
               </div>
               <div>
                 <p style={{ fontSize: '11px', color: ej.borderColor, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>{ej.cat}</p>
                 <h3 style={{ fontSize: '17px', fontWeight: '800', color: 'white', marginBottom: '6px' }}>{ej.titulo}</h3>
-                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>{ej.desc}</p>
+                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>{ej.desc}</p>
               </div>
               <button onClick={() => iniciar(ej)} style={{ background: ej.borderColor, color: '#0d1a12', padding: '11px', borderRadius: '8px', border: 'none', fontWeight: '800', fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', marginTop: 'auto' }}>
                 {vecesHecho > 0 ? '▶ Practicar de nuevo' : '▶ Iniciar ejercicio'}

@@ -134,6 +134,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
+            aria-label="Cerrar menú"
             className="md:hidden p-1.5 text-ink-subtle hover:text-gray-300 hover:bg-white/5 rounded-lg transition-all"
           >
             <X className="w-4 h-4" />
@@ -186,8 +187,8 @@ export default function DashboardClient({ children, userName, userPlan, userInit
               {[{ href: '/dashboard/admin', icon: ShieldCheck, label: 'Panel Admin' }].map(({ href, icon: Icon, label }) => {
                 const active = pathname.startsWith(href);
                 return (
-                  <Link key={href} href={href} onClick={() => setSidebarOpen(false)} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${active ? 'bg-red-500/10 text-red-300 font-semibold' : 'text-red-400/70 hover:text-red-300 hover:bg-red-500/5'}`}>
-                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-red-400' : 'text-red-400/80 group-hover:text-red-300'}`} />
+                  <Link key={href} href={href} onClick={() => setSidebarOpen(false)} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${active ? 'bg-red-500/10 text-red-300 font-semibold' : 'text-red-400 hover:text-red-300 hover:bg-red-500/5'}`}>
+                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-red-400' : 'text-red-400 group-hover:text-red-300'}`} />
                     {label}
                     {active && <ChevronRight className="w-3 h-3 ml-auto text-red-400 opacity-60" />}
                   </Link>
@@ -226,7 +227,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
       </aside>
 
       {/* ── MAIN ── */}
-      <div className="md:ml-56 flex-1 flex flex-col min-h-screen">
+      <div className="md:ml-56 flex-1 min-w-0 flex flex-col min-h-screen">
 
         {/* Top bar */}
         <header className="h-14 bg-[#0d1a12]/80 backdrop-blur border-b border-white/5 flex items-center justify-between px-4 md:px-6 sticky top-0 z-40">
@@ -255,7 +256,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
           </div>
 
           <div className="flex items-center gap-2 md:gap-3">
-            <button className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-subtle hover:text-gray-300 hover:bg-white/5 transition-all">
+            <button aria-label="Notificaciones" className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-subtle hover:text-gray-300 hover:bg-white/5 transition-all">
               <Bell className="w-4 h-4" />
             </button>
 

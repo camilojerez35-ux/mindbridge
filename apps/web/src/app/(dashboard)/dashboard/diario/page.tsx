@@ -112,7 +112,7 @@ export default function DiarioPage() {
           {/* Ánimo */}
           <div>
             <label style={{ fontSize: '13px', color: '#8aab96', fontWeight: '600', display: 'block', marginBottom: '10px' }}>¿Cómo está tu ánimo hoy? {animoEmoji(form.animo)} {form.animo}/10</label>
-            <input type="range" min={1} max={10} value={form.animo} onChange={e => setForm(p => ({ ...p, animo: +e.target.value }))} style={{ width: '100%', accentColor: animoColor(form.animo) }} />
+            <input type="range" min={1} max={10} value={form.animo} aria-label="Ánimo de 1 a 10" onChange={e => setForm(p => ({ ...p, animo: +e.target.value }))} style={{ width: '100%', accentColor: animoColor(form.animo) }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#7a9e87', marginTop: '4px' }}>
               <span>😢 Muy mal</span><span>😄 Excelente</span>
             </div>

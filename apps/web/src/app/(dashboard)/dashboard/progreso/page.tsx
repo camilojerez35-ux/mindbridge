@@ -616,6 +616,7 @@ export default function ProgresoPage() {
 
             <input
               type="range" min={1} max={10} value={animoHoy}
+              aria-label="Tu ánimo de hoy de 1 a 10"
               onChange={e => setAnimoHoy(+e.target.value)}
               className="w-full mb-5"
               style={{ accentColor: animoColor(animoHoy) }}

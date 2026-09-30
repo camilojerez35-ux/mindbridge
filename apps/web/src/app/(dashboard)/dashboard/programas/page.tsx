@@ -63,6 +63,10 @@ const PROGRAMAS = [
 export default function ProgramasPage() {
   const router = useRouter();
   const { data: session } = useSession();
+  // Los hooks van antes de cualquier return condicional (reglas de hooks de React)
+  const [programaActivo, setProgramaActivo] = useState<typeof PROGRAMAS[0]|null>(null);
+  const [semanaActiva, setSemanaActiva] = useState(0);
+  const [programas, setProgramas] = useState(PROGRAMAS);
   const esPlanGratis = !session || session.user.plan === 'GRATIS';
 
   if (esPlanGratis) return (
@@ -85,9 +89,6 @@ export default function ProgramasPage() {
       <p style={{ fontSize: '12px', color: '#7a9e87' }}>Plan Plus desde <strong style={{ color: '#2dd4bf' }}>$25.000 COP/mes</strong> · Cancela cuando quieras</p>
     </div>
   );
-  const [programaActivo, setProgramaActivo] = useState<typeof PROGRAMAS[0]|null>(null);
-  const [semanaActiva, setSemanaActiva] = useState(0);
-  const [programas, setProgramas] = useState(PROGRAMAS);
 
   const inscribirse = (id: string) => {
     setProgramas(prev => prev.map(p => p.id === id ? { ...p, inscrito: true } : p));
@@ -112,13 +113,13 @@ export default function ProgramasPage() {
       {!programaActivo && (
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:'16px' }}>
           {programas.map(p=>(
-            <div key={p.id} style={{ background:p.color, border:`1px solid ${p.border}`, borderRadius:'16px', padding:'24px', cursor:'pointer' }} onClick={()=>{ setProgramaActivo(p); setSemanaActiva(0); }}>
+            <div key={p.id} style={{ background:`${p.color}66`, border:`1px solid ${p.border}`, borderRadius:'16px', padding:'24px', cursor:'pointer' }} onClick={()=>{ setProgramaActivo(p); setSemanaActiva(0); }}>
               <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'12px' }}>
                 <span style={{ fontSize:'32px' }}>{p.icono}</span>
                 {p.inscrito && <span style={{ background:'rgba(45,212,191,0.2)', color:'#2dd4bf', fontSize:'10px', fontWeight:'800', padding:'3px 8px', borderRadius:'10px' }}>EN CURSO</span>}
               </div>
               <h3 style={{ fontSize:'17px', fontWeight:'800', color:'white', marginBottom:'6px' }}>{p.titulo}</h3>
-              <p style={{ fontSize:'13px', color:'rgba(255,255,255,0.6)', marginBottom:'12px', lineHeight:1.5 }}>{p.descripcion}</p>
+              <p style={{ fontSize:'13px', color:'rgba(255,255,255,0.85)', marginBottom:'12px', lineHeight:1.5 }}>{p.descripcion}</p>
               <div style={{ display:'flex', gap:'12px', marginBottom:'14px' }}>
                 <span style={{ fontSize:'12px', color:p.border }}>⏱ {p.duracion}</span>
                 <span style={{ fontSize:'12px', color:p.border }}>📝 {p.sesiones} sesiones</span>
@@ -126,7 +127,7 @@ export default function ProgramasPage() {
               {p.inscrito && p.progreso > 0 && (
                 <div>
                   <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'4px' }}>
-                    <span style={{ fontSize:'11px', color:'rgba(255,255,255,0.6)' }}>Progreso</span>
+                    <span style={{ fontSize:'11px', color:'rgba(255,255,255,0.85)' }}>Progreso</span>
                     <span style={{ fontSize:'11px', color:p.border, fontWeight:'700' }}>{p.progreso}%</span>
                   </div>
                   <div style={{ height:'4px', background:'rgba(255,255,255,0.1)', borderRadius:'2px' }}>
@@ -151,7 +152,7 @@ export default function ProgramasPage() {
           </button>
 
           {/* Header programa */}
-          <div style={{ background:programaActivo.color, border:`1px solid ${programaActivo.border}`, borderRadius:'16px', padding:'24px', display:'flex', gap:'16px', alignItems:'flex-start', flexWrap:'wrap' }}>
+          <div style={{ background:`${programaActivo.color}66`, border:`1px solid ${programaActivo.border}`, borderRadius:'16px', padding:'24px', display:'flex', gap:'16px', alignItems:'flex-start', flexWrap:'wrap' }}>
             <span style={{ fontSize:'40px' }}>{programaActivo.icono}</span>
             <div style={{ flex:1 }}>
               <h2 style={{ fontSize:'22px', fontWeight:'900', color:'white', marginBottom:'6px' }}>{programaActivo.titulo}</h2>
@@ -163,7 +164,7 @@ export default function ProgramasPage() {
               {programaActivo.progreso > 0 && (
                 <div style={{ marginTop:'14px' }}>
                   <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'5px' }}>
-                    <span style={{ fontSize:'12px', color:'rgba(255,255,255,0.6)' }}>Tu progreso</span>
+                    <span style={{ fontSize:'12px', color:'rgba(255,255,255,0.85)' }}>Tu progreso</span>
                     <span style={{ fontSize:'12px', color:programaActivo.border, fontWeight:'700' }}>{programaActivo.progreso}%</span>
                   </div>
                   <div style={{ height:'6px', background:'rgba(255,255,255,0.1)', borderRadius:'3px' }}>

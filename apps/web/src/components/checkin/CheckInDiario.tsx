@@ -83,6 +83,7 @@ export default function CheckInDiario() {
 
             <input
               type="range" min={1} max={10} value={valor}
+              aria-label="Tu ánimo de 1 a 10"
               onChange={e => setValor(+e.target.value)}
               style={{ width: '100%', accentColor: animoColor(valor), marginBottom: '24px', height: '6px', cursor: 'pointer' }}
             />

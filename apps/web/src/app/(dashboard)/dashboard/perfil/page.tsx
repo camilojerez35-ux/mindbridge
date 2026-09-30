@@ -154,13 +154,13 @@ export default function PerfilPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             {[['nombre','Nombre','Juan'],['apellido','Apellido','García'],['telefono','Teléfono (opcional)','+57 300 000 0000'],['ciudad','Ciudad','Bogotá']].map(([k,l,ph])=>(
               <div key={k}>
-                <label style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '600', display: 'block', marginBottom: '5px' }}>{l}</label>
-                <input value={(form as any)[k]} onChange={e => setForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
+                <label htmlFor={`perfil-${k}`} style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '600', display: 'block', marginBottom: '5px' }}>{l}</label>
+                <input id={`perfil-${k}`} value={(form as any)[k]} onChange={e => setForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
               </div>
             ))}
             <div style={{ gridColumn: '1/-1' }}>
-              <label style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '600', display: 'block', marginBottom: '5px' }}>Email</label>
-              <input value={form.email} disabled style={{ width: '100%', background: '#0a1510', border: '1px solid #1a2e1f', borderRadius: '8px', padding: '10px 12px', color: '#7a9e87', fontSize: '13px', fontFamily: 'inherit' }} />
+              <label htmlFor="perfil-email" style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '600', display: 'block', marginBottom: '5px' }}>Email</label>
+              <input id="perfil-email" value={form.email} disabled style={{ width: '100%', background: '#0a1510', border: '1px solid #1a2e1f', borderRadius: '8px', padding: '10px 12px', color: '#7a9e87', fontSize: '13px', fontFamily: 'inherit' }} />
               <p style={{ fontSize: '11px', color: '#7a9e87', marginTop: '3px' }}>El email no se puede cambiar</p>
             </div>
           </div>

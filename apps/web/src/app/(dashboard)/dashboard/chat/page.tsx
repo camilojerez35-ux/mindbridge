@@ -356,7 +356,7 @@ export default function ChatPage() {
         </div>
 
         {/* Mensajes */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div role="log" aria-live="polite" aria-label="Conversación con el asistente" tabIndex={0} style={{ flex: 1, overflowY: 'auto', padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {cargandoSesion ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', gap: '12px' }}>
               <div style={{ width: '24px', height: '24px', border: '2px solid rgba(45,212,191,0.2)', borderTopColor: '#2dd4bf', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />

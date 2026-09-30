@@ -348,6 +348,7 @@ export default function CitasPage() {
               style={{ flex: 1, minWidth: '200px', background: '#0d1a12', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px 16px', color: 'white', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }}
             />
             <select
+              aria-label="Filtrar por ciudad"
               value={filtroCiudad}
               onChange={e => setFiltroCiudad(e.target.value)}
               style={{ background: '#0d1a12', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px 14px', color: filtroCiudad ? 'white' : '#7a9e87', fontSize: '14px', outline: 'none', fontFamily: 'inherit', cursor: 'pointer' }}

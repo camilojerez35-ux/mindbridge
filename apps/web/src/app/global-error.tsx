@@ -27,7 +27,7 @@ export default function GlobalError({
           <div className="space-y-3">
             <button
               onClick={reset}
-              className="w-full bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors"
+              className="w-full bg-teal-700 text-white py-2 px-4 rounded-lg hover:bg-teal-800 transition-colors"
             >
               Intentar de nuevo
             </button>
