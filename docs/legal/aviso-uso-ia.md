@@ -60,8 +60,7 @@ de palabras clave y contexto. Cuando detecta una posible crisis:
 - Sugerencia de recursos según el caso
 
 **Recursos de emergencia siempre disponibles en la app:**
-- 📞 **106** — Línea de Salud Mental (Bogotá, gratuita, 24h)
-- 📞 **800-1222-5555** — Línea Nacional de Salud Mental
+- 📞 **106** — Línea de Salud Mental (nacional, gratuita, 24h, desde cualquier celular)
 - 📞 **123** — Emergencias Colombia
 
 ---

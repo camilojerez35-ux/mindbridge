@@ -69,11 +69,11 @@ const beneficios = [
   },
   {
     icon: '🔒',
-    titulo: '100% Anónimo y Confidencial',
-    desc: 'Cifrado militar AES-256 en todas tus conversaciones. Cumplimos Ley 1581/2012 y Res. 2654/2019. Ni nuestro equipo puede leer tus chats.',
+    titulo: 'Privado y Confidencial',
+    desc: 'Tu diario y tus datos de salud se guardan cifrados (AES-256-GCM) y la conexión viaja cifrada. Cumplimos la Ley 1581/2012 y la Res. 2654/2019.',
     color: 'from-emerald-500/10 to-emerald-600/5',
     border: 'border-emerald-500/20',
-    tag: 'AES-256 Cifrado',
+    tag: 'Datos cifrados',
   },
 ];
 
@@ -135,40 +135,10 @@ const pasos = [
 ];
 
 const estadisticas = [
-  { num: '+2.000', label: 'Colombianos activos', sub: 'encontrando calma cada semana' },
-  { num: '98%', label: 'Satisfacción', sub: 'en el acompañamiento' },
-  { num: '+15', label: 'Psicólogos COLPSIC', sub: 'verificados y activos' },
-  { num: '24/7', label: 'Disponibilidad', sub: 'de tu asistente clínico' },
-];
-
-const testimonios = [
-  {
-    texto: '"Poder hablar a las 11 de la noche cuando me entra el ataque de pánico y recibir un ejercicio que me baja la taquicardia no tiene precio. Me cambió la vida."',
-    autor: 'María C.',
-    profesion: 'Nutricionista',
-    ciudad: 'Bogotá',
-    iniciales: 'MC',
-    color: 'from-teal-500 to-emerald-500',
-    estrellas: 5,
-  },
-  {
-    texto: '"Como hombre siempre me costó buscar ayuda o admitir que estaba agotado. Con MenteBridge pude desahogarme sin juicio y luego agendar con la psicóloga para mi primera cita."',
-    autor: 'Santiago R.',
-    profesion: 'Ingeniero de sistemas',
-    ciudad: 'Medellín',
-    iniciales: 'SR',
-    color: 'from-indigo-500 to-purple-500',
-    estrellas: 5,
-  },
-  {
-    texto: '"El diario me mostró que mi mal humor siempre era los domingos por la tarde. Ahora lo anticipo. Nunca lo hubiera notado sin los datos de la IA."',
-    autor: 'Laura M.',
-    profesion: 'Estudiante universitaria',
-    ciudad: 'Cali',
-    iniciales: 'LM',
-    color: 'from-rose-500 to-pink-500',
-    estrellas: 5,
-  },
+  { num: '24/7', label: 'Disponibilidad', sub: 'de tu asistente de bienestar' },
+  { num: '106', label: 'Línea de crisis', sub: 'integrada en cada pantalla' },
+  { num: 'PHQ-9 · GAD-7', label: 'Tamizajes', sub: 'validados en Colombia' },
+  { num: '0 $', label: 'Para empezar', sub: 'sin tarjeta de crédito' },
 ];
 
 const planes = [
@@ -184,7 +154,7 @@ const planes = [
       '5 chats con IA clínica/mes',
       '1 test PHQ-9 de depresión',
       'Diario emocional básico',
-      'Cifrado AES-256 de tus datos',
+      'Diario y datos de salud cifrados',
       '20% dto en tu 1ra cita con psicólogo',
     ],
     noFeatures: [
@@ -205,7 +175,7 @@ const planes = [
       'IA clínica sin límite de mensajes',
       'Diario emocional completo',
       'Todos los tests psicológicos (PHQ-9, GAD-7, DASS)',
-      'Cifrado AES-256 de tus datos',
+      'Diario y datos de salud cifrados',
       '20% dto en tu 1ra cita con psicólogo',
     ],
     noFeatures: ['Resumen IA semanal', 'Ejercicios personalizados'],
@@ -277,7 +247,7 @@ const tablaComparativa = [
     caracteristica: 'Privacidad y confidencialidad',
     tradicional: 'Historia clínica en consultorio',
     extranjeras: 'Regulaciones extranjeras (HIPAA/GDPR)',
-    mentebridge: 'Cifrado AES-256 + Ley 1581/2012 Colombia',
+    mentebridge: 'Datos de salud cifrados + Ley 1581/2012 Colombia',
   },
 ];
 
@@ -292,7 +262,7 @@ const faqs: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: '¿Es completamente confidencial? ¿Alguien lee mis chats?',
-    a: 'Es 100% confidencial. Tus conversaciones se cifran con tecnología militar AES-256 y nunca se comparten con terceros ni con empleadores. Cumplimos la Ley 1581/2012 de protección de datos personales y la Resolución 2654/2019 de Telesalud. Ni nuestro propio equipo técnico puede leer tus conversaciones.',
+    a: 'Sí, es confidencial. Tu diario, tus notas clínicas y tus datos de salud se guardan cifrados (AES-256-GCM), la conexión viaja cifrada y nunca compartimos tu información con tu empleador. Para responderte, el chat de IA procesa tus mensajes con Claude (Anthropic), como explicamos en el Aviso sobre uso de IA. Cumplimos la Ley 1581/2012 de protección de datos personales y la Resolución 2654/2019 de Telesalud.',
   },
   {
     q: '¿Puedo cancelar mi suscripción cuando quiera?',
@@ -315,19 +285,11 @@ const faqs: { q: string; a: React.ReactNode }[] = [
 const confianzaBadges = [
   { icon: '🏛️', titulo: 'COLPSIC', desc: 'Psicólogos con tarjeta profesional verificada' },
   { icon: '⚖️', titulo: 'Ley 1581/2012', desc: 'Protección estricta de datos personales y salud' },
-  { icon: '🔐', titulo: 'Cifrado AES-256', desc: 'Tus conversaciones están blindadas y privadas' },
+  { icon: '🔐', titulo: 'Datos cifrados', desc: 'Diario y datos de salud cifrados con AES-256-GCM' },
   { icon: '🇨🇴', titulo: 'Res. 2654/2019', desc: 'Cumplimiento normativo de Telesalud en Colombia' },
 ];
 
 /* ─────────────── HELPERS ─────────────── */
-
-function StarIcon() {
-  return (
-    <svg className="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
-      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-    </svg>
-  );
-}
 
 function CheckIcon() {
   return (
@@ -339,7 +301,7 @@ function CheckIcon() {
 
 function XIcon() {
   return (
-    <svg className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
+    <svg className="w-4 h-4 text-ink-subtle flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
       <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
@@ -382,7 +344,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-3.5 justify-center mb-10">
               <Link
                 href="/registro"
-                className="px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98]"
+                className="px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98]"
               >
                 Empezar gratis — sin tarjeta de crédito →
               </Link>
@@ -394,24 +356,12 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Social proof strip */}
+            {/* Garantías verificables (sin cifras de usuarios ni reseñas hasta tenerlas reales) */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-6">
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  {['from-teal-500 to-emerald-500','from-indigo-500 to-purple-500','from-rose-500 to-pink-500','from-amber-500 to-orange-500'].map((g, i) => (
-                    <div key={i} className={`w-8 h-8 rounded-full bg-gradient-to-br ${g} border-2 border-[#080f0a] shadow-sm`} />
-                  ))}
-                </div>
-                <div className="text-left">
-                  <div className="flex items-center gap-0.5">
-                    {[1,2,3,4,5].map(i => <StarIcon key={i} />)}
-                  </div>
-                  <p className="text-xs text-gray-300"><span className="text-white font-bold">+2.000</span> personas activas</p>
-                </div>
-              </div>
+              <p className="text-xs text-gray-300"><span className="text-white font-bold">Empieza gratis</span> · sin tarjeta</p>
               <div className="hidden sm:block w-px h-7 bg-white/10" />
               <p className="text-xs text-gray-300 flex items-center gap-1.5">
-                <span>🔒 Cifrado militar AES-256</span> · <span>100% Anónimo</span>
+                <span>🔒 Datos de salud cifrados</span> · <span>Confidencial</span>
               </p>
               <div className="hidden sm:block w-px h-7 bg-white/10" />
               <p className="text-xs text-gray-300">
@@ -456,9 +406,9 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-5">
             <div className="p-6 bg-gradient-to-b from-teal-950/40 to-transparent border border-teal-500/30 rounded-2xl hover:border-teal-500/50 transition-all">
               <span className="text-3xl mb-3 block">🔒</span>
-              <h3 className="text-base font-bold text-white mb-2">100% Anónimo y Privado</h3>
+              <h3 className="text-base font-bold text-white mb-2">Privado y Confidencial</h3>
               <p className="text-xs text-gray-300 leading-relaxed">
-                Tus conversaciones están protegidas con cifrado militar AES-256. Ni nuestro equipo de desarrollo ni terceros pueden leer lo que escribes.
+                Tu diario y tus datos de salud se guardan cifrados (AES-256-GCM). No compartimos tu información con tu empleador y tú decides sobre tus datos según la Ley 1581/2012.
               </p>
             </div>
             <div className="p-6 bg-gradient-to-b from-emerald-950/40 to-transparent border border-emerald-500/30 rounded-2xl hover:border-emerald-500/50 transition-all">
@@ -534,7 +484,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-4 items-center">
                 <Link
                   href="/psicologos"
-                  className="px-7 py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-sm shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
+                  className="px-7 py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-sm shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
                 >
                   Explorar Psicólogos Verificados →
                 </Link>
@@ -562,7 +512,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400" tabIndex={0} role="region" aria-label="Tabla comparativa (desliza para ver más)">
             <table className="w-full text-left border-collapse min-w-[600px]">
               <thead>
                 <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-gray-400">
@@ -621,7 +571,7 @@ export default function Home() {
           <div className="mt-12 text-center">
             <Link
               href="/registro"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-base shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
             >
               Crear cuenta gratis →
             </Link>
@@ -641,35 +591,6 @@ export default function Home() {
                 </p>
                 <p className="text-sm font-semibold text-white">{e.label}</p>
                 <p className="text-xs text-gray-400 mt-0.5">{e.sub}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIOS ── */}
-      <section className="py-20 px-5">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-xs text-teal-500 font-bold uppercase tracking-widest mb-3">Historias reales</p>
-            <h2 className="text-3xl font-black text-white">Lo que dicen nuestros usuarios</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {testimonios.map((t) => (
-              <div key={t.autor} className="bg-[#0d1a12] border border-white/8 rounded-2xl p-6 flex flex-col gap-4 hover:border-teal-500/20 transition-colors">
-                <div className="flex gap-0.5">
-                  {Array.from({ length: t.estrellas }).map((_, i) => <StarIcon key={i} />)}
-                </div>
-                <p className="text-sm text-gray-300 leading-relaxed flex-1 italic">{t.texto}</p>
-                <div className="flex items-center gap-3 pt-2 border-t border-white/5">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center flex-shrink-0 ring-1 ring-white/10`}>
-                    <span className="text-xs font-bold text-white">{t.iniciales}</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">{t.autor}</p>
-                    <p className="text-xs text-gray-400">{t.profesion} · {t.ciudad}</p>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
@@ -701,7 +622,7 @@ export default function Home() {
               >
                 {plan.destacado && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg shadow-teal-500/30">
+                    <span className="bg-gradient-to-r from-teal-500 to-emerald-500 text-on-accent text-xs font-bold px-4 py-1 rounded-full shadow-lg shadow-teal-500/30">
                       ★ Más popular
                     </span>
                   </div>
@@ -721,7 +642,7 @@ export default function Home() {
                   href={plan.href}
                   className={`w-full py-3 rounded-xl font-semibold text-sm text-center transition-all ${
                     plan.destacado
-                      ? 'bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white shadow-lg shadow-teal-500/20 hover:scale-[1.01]'
+                      ? 'bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent shadow-lg shadow-teal-500/20 hover:scale-[1.01]'
                       : 'bg-white/6 hover:bg-white/12 border border-white/12 text-white hover:scale-[1.01]'
                   }`}
                 >
@@ -736,7 +657,7 @@ export default function Home() {
                     </li>
                   ))}
                   {plan.noFeatures.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-xs text-gray-500">
+                    <li key={f} className="flex items-start gap-2.5 text-xs text-ink-subtle">
                       <XIcon />
                       {f}
                     </li>
@@ -747,7 +668,7 @@ export default function Home() {
           </div>
 
           <p className="text-center text-xs text-gray-400 mt-8">
-            Todos los planes incluyen cifrado AES-256 · Pagos procesados por{' '}
+            Todos los planes guardan cifrados tu diario y tus datos de salud · Pagos procesados por{' '}
             <span className="text-teal-400 font-semibold">Wompi (Bancolombia)</span> mediante Nequi, PSE y Tarjetas
           </p>
         </div>
@@ -827,13 +748,13 @@ export default function Home() {
               </p>
               <Link
                 href="/registro"
-                className="inline-flex px-9 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02]"
+                className="inline-flex px-9 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02]"
               >
                 Crear cuenta gratis →
               </Link>
               <p className="text-xs text-gray-400 mt-4">Sin tarjeta de crédito · Cancela cuando quieras</p>
               <div className="mt-6 pt-5 border-t border-white/8 flex flex-wrap items-center justify-center gap-5 text-xs text-gray-400">
-                <span>🔒 AES-256</span>
+                <span>🔒 Datos cifrados</span>
                 <span>📋 Ley 1581</span>
                 <span>🏛️ COLPSIC</span>
                 <span>🇨🇴 Colombia</span>
@@ -868,6 +789,7 @@ export default function Home() {
                   { href: '/psicologos', label: 'Psicólogos' },
                   { href: '#precios', label: 'Precios' },
                   { href: '/aprender', label: 'Aprender' },
+                  { href: '/blog', label: 'Blog de salud mental' },
                 ].map(l => (
                   <Link key={l.label} href={l.href} className="block text-xs text-gray-400 hover:text-teal-300 transition-colors">{l.label}</Link>
                 ))}
@@ -892,9 +814,8 @@ export default function Home() {
             <div>
               <p className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-3">🆘 Líneas de crisis 24h</p>
               <nav className="space-y-2">
-                <a href="tel:106" className="block text-xs text-teal-300 hover:text-teal-200 font-semibold transition-colors">Línea 106 — Salud Mental (Gratis)</a>
+                <a href="tel:106" className="block text-xs text-teal-300 hover:text-teal-200 font-semibold transition-colors">Línea 106 — Salud Mental (gratis, todo el país)</a>
                 <a href="tel:123" className="block text-xs text-rose-400 hover:text-rose-300 font-semibold transition-colors">123 — Emergencias</a>
-                <a href="tel:8001225555" className="block text-xs text-gray-400 hover:text-gray-200 transition-colors">800-122-5555 — Salud Mental</a>
                 <a href="tel:132" className="block text-xs text-gray-400 hover:text-gray-200 transition-colors">132 — Cruz Roja</a>
               </nav>
             </div>

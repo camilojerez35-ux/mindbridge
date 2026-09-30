@@ -10,12 +10,12 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
           </svg>
           Volver a MenteBridge
         </Link>
-        <span className="text-xs text-gray-600">🔒 Ley 1581/2012</span>
+        <span className="text-xs text-ink-subtle">🔒 Ley 1581/2012</span>
       </header>
 
       {children}
 
-      <footer className="border-t border-white/5 px-5 py-6 text-xs text-gray-600 text-center max-w-4xl mx-auto">
+      <footer className="border-t border-white/5 px-5 py-6 text-xs text-ink-subtle text-center max-w-4xl mx-auto">
         <div className="flex items-center justify-center gap-5 flex-wrap">
           <Link href="/politica-privacidad" className="hover:text-gray-400 transition-colors">Política de Privacidad</Link>
           <Link href="/terminos-uso" className="hover:text-gray-400 transition-colors">Términos de Uso</Link>

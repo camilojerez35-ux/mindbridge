@@ -100,7 +100,7 @@ export default function BannersAdherencia() {
           </Link>
           <button
             onClick={() => setDescartados(s => new Set([...s, banner.id]))}
-            className="flex-shrink-0 p-1 text-gray-700 hover:text-gray-500 transition-colors"
+            className="flex-shrink-0 p-1 text-ink-subtle hover:text-ink-subtle transition-colors"
           >
             <X className="w-3.5 h-3.5" />
           </button>

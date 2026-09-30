@@ -147,7 +147,7 @@ async function escalarIncidente(
             </div>
             <ul>
               <li>Emergencias: <strong>123</strong></li>
-              <li>Línea Salud Mental: <strong>106</strong> / <strong>800-112-5555</strong></li>
+              <li>Línea Salud Mental: <strong>106</strong> (nacional, gratuita, 24/7)</li>
             </ul>
           </div>
         </div>

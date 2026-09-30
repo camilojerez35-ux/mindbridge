@@ -121,7 +121,7 @@ function PracticaChat({
             key={i}
             className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
               m.rol === 'user'
-                ? 'self-end bg-teal-600 text-white rounded-tr-sm'
+                ? 'self-end bg-teal-700 text-white rounded-tr-sm'
                 : 'self-start bg-white/5 text-gray-300 rounded-tl-sm'
             }`}
           >
@@ -149,12 +149,12 @@ function PracticaChat({
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && enviar()}
           placeholder="Escribe tu respuesta..."
           disabled={cargando}
-          className="flex-1 bg-white/3 border border-white/8 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-gray-700 outline-none focus:border-teal-500/30 transition-colors disabled:opacity-50"
+          className="flex-1 bg-white/3 border border-white/8 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-ink-subtle outline-none focus:border-teal-500/30 transition-colors disabled:opacity-50"
         />
         <button
           onClick={enviar}
           disabled={cargando || !input.trim()}
-          className="px-4 py-2.5 bg-teal-600 hover:bg-teal-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl transition-colors"
+          className="px-4 py-2.5 bg-teal-700 hover:bg-teal-800 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl transition-colors"
         >
           <Send className="w-4 h-4" />
         </button>
@@ -164,7 +164,7 @@ function PracticaChat({
       <button
         onClick={onCompletar}
         disabled={!puedeCompletar || marcando || completado}
-        className="w-full flex items-center justify-center gap-2 py-3 bg-teal-600 hover:bg-teal-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-colors"
+        className="w-full flex items-center justify-center gap-2 py-3 bg-teal-700 hover:bg-teal-800 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-colors"
       >
         {marcando && <Loader2 className="w-4 h-4 animate-spin" />}
         {completado
@@ -191,7 +191,7 @@ export default function ItemPage() {
   if (!result) {
     return (
       <div className="text-center py-20">
-        <p className="text-gray-500 mb-4">Lección no encontrada.</p>
+        <p className="text-ink-subtle mb-4">Lección no encontrada.</p>
         <Link href="/aprender" className="text-teal-400 hover:text-teal-300 text-sm font-semibold">← Aprender</Link>
       </div>
     );
@@ -222,11 +222,11 @@ export default function ItemPage() {
   }
 
   const navAnterior = anterior ? (
-    <Link href={`/aprender/${cursoId}/${anterior.id}`} className="flex items-center gap-1 px-4 py-2.5 bg-white/5 border border-white/8 text-gray-500 text-sm rounded-xl hover:bg-white/8 transition-all">
+    <Link href={`/aprender/${cursoId}/${anterior.id}`} className="flex items-center gap-1 px-4 py-2.5 bg-white/5 border border-white/8 text-ink-subtle text-sm rounded-xl hover:bg-white/8 transition-all">
       <ChevronLeft className="w-4 h-4" />Anterior
     </Link>
   ) : (
-    <Link href={`/aprender/${cursoId}`} className="flex items-center gap-1 px-4 py-2.5 bg-white/5 border border-white/8 text-gray-500 text-sm rounded-xl hover:bg-white/8 transition-all">
+    <Link href={`/aprender/${cursoId}`} className="flex items-center gap-1 px-4 py-2.5 bg-white/5 border border-white/8 text-ink-subtle text-sm rounded-xl hover:bg-white/8 transition-all">
       <ChevronLeft className="w-4 h-4" />Volver
     </Link>
   );
@@ -239,9 +239,9 @@ export default function ItemPage() {
 
     return (
       <div className="max-w-xl space-y-4 pb-8">
-        <div className="flex items-center gap-2 text-xs text-gray-600">
+        <div className="flex items-center gap-2 text-xs text-ink-subtle">
           <Link href={`/aprender/${cursoId}`} className="hover:text-gray-400 transition-colors">{curso.titulo}</Link>
-          <span>/</span><span className="text-gray-500">{item.titulo}</span>
+          <span>/</span><span className="text-ink-subtle">{item.titulo}</span>
         </div>
 
         <div className="bg-[#0d1117] border border-white/5 rounded-2xl p-5">
@@ -285,7 +285,7 @@ export default function ItemPage() {
           {quizEnviado && (
             <div className={`mt-5 p-3 rounded-xl ${correctas === quiz.length ? 'bg-teal-500/10 border border-teal-500/20' : 'bg-amber-500/10 border border-amber-500/20'}`}>
               <p className="text-sm font-bold text-white">{correctas}/{quiz.length} correctas</p>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs text-ink-subtle mt-0.5">
                 {correctas === quiz.length ? '¡Perfecto! Ya puedes continuar.' : 'Revisa las respuestas correctas y continúa.'}
               </p>
             </div>
@@ -296,12 +296,12 @@ export default function ItemPage() {
           {navAnterior}
           {!quizEnviado ? (
             <button onClick={() => setQuizEnviado(true)} disabled={!todasRespondidas}
-              className="flex-1 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-50 text-white text-sm font-bold rounded-xl transition-all">
+              className="flex-1 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-50 text-on-accent text-sm font-bold rounded-xl transition-all">
               Verificar respuestas
             </button>
           ) : (
             <button onClick={marcarCompletado} disabled={marcando || completado}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-70 text-white text-sm font-bold rounded-xl transition-all">
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-70 text-on-accent text-sm font-bold rounded-xl transition-all">
               {marcando ? <Loader2 className="w-4 h-4 animate-spin" /> : completado ? <CheckCircle2 className="w-4 h-4" /> : null}
               {completado ? '¡Completado!' : siguiente ? 'Continuar' : 'Finalizar curso'}
             </button>
@@ -315,9 +315,9 @@ export default function ItemPage() {
   if (item.tipo === 'practica' && item.promptPractica) {
     return (
       <div className="max-w-xl space-y-4 pb-8">
-        <div className="flex items-center gap-2 text-xs text-gray-600">
+        <div className="flex items-center gap-2 text-xs text-ink-subtle">
           <Link href={`/aprender/${cursoId}`} className="hover:text-gray-400 transition-colors">{curso.titulo}</Link>
-          <span>/</span><span className="text-gray-500">{item.titulo}</span>
+          <span>/</span><span className="text-ink-subtle">{item.titulo}</span>
         </div>
 
         <div className="bg-[#0d1117] border border-white/5 rounded-2xl p-5">
@@ -338,19 +338,19 @@ export default function ItemPage() {
   // ── Lección de texto ──────────────────────────────────────────────────────
   return (
     <div className="max-w-xl space-y-4 pb-8">
-      <div className="flex items-center gap-2 text-xs text-gray-600">
+      <div className="flex items-center gap-2 text-xs text-ink-subtle">
         <Link href="/aprender" className="hover:text-gray-400 transition-colors">Aprender</Link>
         <span>/</span>
         <Link href={`/aprender/${cursoId}`} className="hover:text-gray-400 transition-colors">{curso.titulo}</Link>
         <span>/</span>
-        <span className="text-gray-500">{item.titulo}</span>
+        <span className="text-ink-subtle">{item.titulo}</span>
       </div>
 
       <div className="bg-[#0d1117] border border-white/5 rounded-2xl p-6 space-y-1">
         <div className="flex items-center gap-2 mb-4">
           <div className="text-2xl">{curso.icono}</div>
           <div>
-            <p className="text-[10px] text-gray-700 uppercase tracking-wider">Lección {index + 1}</p>
+            <p className="text-[10px] text-ink-subtle uppercase tracking-wider">Lección {index + 1}</p>
             <h1 className="text-base font-black text-white">{item.titulo}</h1>
           </div>
         </div>
@@ -362,7 +362,7 @@ export default function ItemPage() {
         <button
           onClick={marcarCompletado}
           disabled={marcando || completado}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-70 text-white text-sm font-bold rounded-xl transition-all"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 disabled:opacity-70 text-on-accent text-sm font-bold rounded-xl transition-all"
         >
           {marcando ? <Loader2 className="w-4 h-4 animate-spin" /> : completado ? <CheckCircle2 className="w-4 h-4" /> : null}
           {completado ? '¡Completado!' : siguiente ? 'Marcar y continuar' : 'Finalizar curso'}

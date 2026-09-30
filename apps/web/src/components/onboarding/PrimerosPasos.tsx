@@ -57,7 +57,7 @@ export default function PrimerosPasos({ completadosDB = [] }: Props) {
 
   return (
     <div style={{
-      background: '#0d1a12',
+      background: 'var(--surface)',
       border: '1px solid rgba(45,212,191,0.2)',
       borderRadius: '16px',
       padding: '22px 24px',
@@ -80,7 +80,7 @@ export default function PrimerosPasos({ completadosDB = [] }: Props) {
               {completados.length}/{PASOS.length} completos
             </span>
           </div>
-          <div style={{ height: '4px', background: '#1a2e1f', borderRadius: '2px', overflow: 'hidden', width: '200px' }}>
+          <div style={{ height: '4px', background: 'var(--surface-card)', borderRadius: '2px', overflow: 'hidden', width: '200px' }}>
             <div style={{
               height: '100%', width: `${porcentaje}%`,
               background: 'linear-gradient(to right, #1a6b4a, #2dd4bf)',
@@ -91,7 +91,7 @@ export default function PrimerosPasos({ completadosDB = [] }: Props) {
         <button
           onClick={cerrar}
           aria-label="Cerrar primeros pasos"
-          style={{ background: 'none', border: 'none', color: '#3d5c48', cursor: 'pointer', fontSize: '16px', padding: '2px', lineHeight: 1, flexShrink: 0 }}
+          style={{ background: 'none', border: 'none', color: 'var(--ink-subtle)', cursor: 'pointer', fontSize: '16px', padding: '2px', lineHeight: 1, flexShrink: 0 }}
         >
           ✕
         </button>
@@ -124,7 +124,7 @@ export default function PrimerosPasos({ completadosDB = [] }: Props) {
                   flexShrink: 0, fontSize: '12px', transition: 'all .2s',
                 }}
               >
-                {hecho && <span style={{ color: '#0d1a12', fontWeight: '900' }}>✓</span>}
+                {hecho && <span style={{ color: 'var(--on-accent)', fontWeight: '900' }}>✓</span>}
               </button>
 
               <span style={{ fontSize: '18px', flexShrink: 0 }}>{paso.icon}</span>
@@ -132,13 +132,13 @@ export default function PrimerosPasos({ completadosDB = [] }: Props) {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{
                   fontSize: '13px', fontWeight: '600',
-                  color: hecho ? '#5a8a6a' : 'white',
+                  color: hecho ? 'var(--ink-subtle)' : 'white',
                   textDecoration: hecho ? 'line-through' : 'none',
                   marginBottom: '2px',
                 }}>
                   {paso.label}
                 </p>
-                {!hecho && <p style={{ fontSize: '11px', color: '#3d5c48' }}>{paso.desc}</p>}
+                {!hecho && <p style={{ fontSize: '11px', color: 'var(--ink-subtle)' }}>{paso.desc}</p>}
               </div>
 
               {!hecho && (

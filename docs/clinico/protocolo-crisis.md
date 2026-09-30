@@ -168,12 +168,12 @@ El psicólogo debe:
 | Línea | Número | Disponibilidad | Cobertura |
 |-------|--------|---------------|-----------|
 | Línea Salud Mental Bogotá | 106 | 24h, gratuita | Bogotá D.C. |
-| Línea Nacional Salud Mental | 800-112-5555 | Horario extendido | Nacional |
+| Línea 106 — Salud Mental (MinSalud) | 106 | 24/7 | Nacional (en algunas ciudades la atiende la secretaría local) |
 | Línea 192 SISBEN | 192 | Horario hábil | Nacional |
 | Emergencias | 123 | 24h | Nacional |
 | Cruz Roja | 132 | 24h | Nacional |
 
-**Nota:** La línea 106 es específica de Bogotá. Usuarios en otras ciudades deben usar la Línea Nacional (800-112-5555) o contactar a la Secretaría de Salud local.
+**Nota (actualizada 2026-09-30):** Desde noviembre de 2022 la Línea 106 es nacional (MinSalud): funciona desde cualquier celular o fijo del país; donde existe línea 106 territorial la atiende la secretaría de salud local. El número 800-112-5555 / 800-1222-5555 que figuraba antes no tiene respaldo en fuentes oficiales y fue retirado. Fuente: https://www.minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx
 
 ### Líneas departamentales adicionales
 - **Medellín:** Línea 106 Antioquia / 604 444 8080

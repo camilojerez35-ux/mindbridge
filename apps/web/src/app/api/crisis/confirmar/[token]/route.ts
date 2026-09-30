@@ -79,7 +79,7 @@ function htmlResponse(mensaje: string, exito: boolean) {
     <p>${mensaje}</p>
     ${exito ? `<div class="emergencia">
       <strong>Recuerde:</strong> si el usuario está en peligro inmediato, llame al <strong>123</strong>.<br>
-      Línea Salud Mental: <strong>106</strong> (Bogotá) / <strong>800-112-5555</strong> (Nacional)
+      Línea Salud Mental: <strong>106</strong> (nacional, gratuita, 24/7)
     </div>` : ''}
   </div>
 </body>

@@ -189,7 +189,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
               En línea
             </span>
           </div>
-          <p className="text-xs text-gray-600">Apoyo emocional basado en TCC · ACT · Mindfulness</p>
+          <p className="text-xs text-ink-subtle">Apoyo emocional basado en TCC · ACT · Mindfulness</p>
         </div>
         <div className="flex items-center gap-1.5 px-2.5 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full">
           <Sparkles className="w-3 h-3 text-teal-400" />
@@ -210,7 +210,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
       {/* Aviso legal */}
       <div className="px-4 py-2 bg-amber-950/30 border-b border-amber-900/20 flex items-center gap-2">
         <AlertTriangle className="w-3 h-3 text-amber-500 flex-shrink-0" />
-        <p className="text-[11px] text-amber-600">
+        <p className="text-[11px] text-amber-400">
           IA de apoyo emocional — no sustituye atención profesional.
           <strong className="text-amber-400 ml-1">Crisis: 106 · 123</strong>
         </p>
@@ -224,8 +224,8 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
           {msg.rol === 'assistant' && msg.contenido !== '' && contadorIA(index) % 10 === 0 && contadorIA(index) > 0 && (
             <div className="flex justify-center mb-3">
               <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-950/20 border border-amber-900/20 rounded-full">
-                <AlertTriangle className="w-3 h-3 text-amber-600 flex-shrink-0" />
-                <span className="text-[10px] text-amber-600/80">
+                <AlertTriangle className="w-3 h-3 text-amber-400 flex-shrink-0" />
+                <span className="text-[10px] text-amber-400">
                   Recuerda: soy IA de apoyo, no un profesional de salud mental · Crisis: 106 · 123
                 </span>
               </div>
@@ -241,7 +241,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
                 : 'bg-white/10'
             }`}>
               {msg.rol === 'assistant'
-                ? <Bot className="w-4 h-4 text-white" />
+                ? <Bot className="w-4 h-4 text-on-accent" />
                 : <User className="w-4 h-4 text-gray-300" />
               }
             </div>
@@ -250,7 +250,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
             <div className={`max-w-[78%] flex flex-col gap-1 ${msg.rol === 'user' ? 'items-end' : 'items-start'}`}>
               <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
                 msg.rol === 'user'
-                  ? 'bg-teal-600 text-white rounded-tr-sm'
+                  ? 'bg-teal-700 text-white rounded-tr-sm'
                   : msg.esCrisis
                   ? 'bg-red-950/50 border border-red-800/30 text-gray-200 rounded-tl-sm'
                   : 'bg-[#0d1a12] border border-white/5 text-gray-300 rounded-tl-sm'
@@ -265,12 +265,12 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
                   <MarkdownSimple texto={msg.contenido} />
                 )}
               </div>
-              <span className="text-[10px] text-gray-700 px-1">
+              <span className="text-[10px] text-ink-subtle px-1">
                 {msg.timestamp.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}
               </span>
               {/* Mini-disclaimer por mensaje IA — refuerzo continuo Res. 2654/2019 */}
               {msg.rol === 'assistant' && msg.contenido !== '' && !msg.esCrisis && (
-                <span className="text-[9px] text-gray-700 px-1 leading-tight">
+                <span className="text-[9px] text-ink-subtle px-1 leading-tight">
                   IA · No reemplaza terapia · Crisis: 106
                 </span>
               )}
@@ -302,7 +302,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
         <div className="mx-4 mb-2 px-3 py-2 bg-red-950/50 border border-red-800/30 rounded-lg flex items-center gap-2">
           <AlertTriangle className="w-3.5 h-3.5 text-red-400" />
           <span className="text-xs text-red-400 flex-1">{error}</span>
-          <button onClick={() => setError(null)} className="text-red-600 hover:text-red-400 text-xs">✕</button>
+          <button onClick={() => setError(null)} className="text-red-400 hover:text-red-300 text-xs">✕</button>
         </div>
       )}
 
@@ -318,7 +318,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
             rows={1}
             disabled={cargando}
             aria-label="Mensaje para el asistente de MenteBridge"
-            className="flex-1 bg-transparent resize-none outline-none text-sm text-gray-200 placeholder-gray-600 py-0.5 max-h-[120px]"
+            className="flex-1 bg-transparent resize-none outline-none text-sm text-gray-200 placeholder-ink-subtle py-0.5 max-h-[120px]"
           />
           <button
             onClick={toggleMic}
@@ -348,7 +348,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
             }
           </button>
         </div>
-        <p className="text-center text-[11px] text-gray-700 mt-2">
+        <p className="text-center text-[11px] text-ink-subtle mt-2">
           Enter para enviar · Shift+Enter para nueva línea
         </p>
         {cargando && <p role="status" aria-live="polite" className="sr-only">El asistente está respondiendo…</p>}
@@ -378,7 +378,7 @@ export default function ChatIA({ sesionId, practica, contextoPractica }: ChatIAP
                   <div>
                     <p className="font-bold text-red-300 text-sm">{r.numero}</p>
                     <p className="text-xs text-gray-400">{r.nombre}</p>
-                    {r.disponibilidad && <p className="text-[10px] text-gray-600">{r.disponibilidad}</p>}
+                    {r.disponibilidad && <p className="text-[10px] text-ink-subtle">{r.disponibilidad}</p>}
                   </div>
                 </a>
               ))}
@@ -404,7 +404,7 @@ function MarkdownSimple({ texto }: { texto: string }) {
     <span>
       {partes.map((p, i) => {
         if (p.startsWith('**') && p.endsWith('**')) return <strong key={i} className="text-white">{p.slice(2, -2)}</strong>;
-        if (p.startsWith('_') && p.endsWith('_')) return <em key={i} className="text-xs text-gray-500">{p.slice(1, -1)}</em>;
+        if (p.startsWith('_') && p.endsWith('_')) return <em key={i} className="text-xs text-ink-subtle">{p.slice(1, -1)}</em>;
         if (p === '\n') return <br key={i} />;
         return <span key={i}>{p}</span>;
       })}

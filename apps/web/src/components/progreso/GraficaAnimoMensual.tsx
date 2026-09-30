@@ -22,8 +22,8 @@ export default function GraficaAnimoMensual() {
   }, []);
 
   if (cargando) return (
-    <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: '13px', color: '#3d5c48' }}>Cargando gráfica...</span>
+    <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>Cargando gráfica...</span>
     </div>
   );
 
@@ -44,11 +44,11 @@ export default function GraficaAnimoMensual() {
     : null;
 
   return (
-    <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h2 style={{ fontSize: '15px', fontWeight: '700', color: 'white', marginBottom: '2px' }}>Tu ánimo — últimas 4 semanas</h2>
-          <p style={{ fontSize: '12px', color: '#3d5c48' }}>
+          <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>
             {conDatos.length > 0
               ? `${conDatos.length} de 28 días registrados${promedioGeneral ? ` · promedio ${promedioGeneral}/10` : ''}`
               : 'Aún no hay registros en este período'}
@@ -76,13 +76,13 @@ export default function GraficaAnimoMensual() {
                   }}
                 />
               ) : (
-                <div style={{ width: '100%', height: '3px', background: '#1a2e1f', borderRadius: '2px' }} />
+                <div style={{ width: '100%', height: '3px', background: 'var(--surface-card)', borderRadius: '2px' }} />
               )}
             </div>
           ))}
         </div>
       ) : (
-        <p style={{ fontSize: '12px', color: '#3d5c48', textAlign: 'center', padding: '20px 0' }}>
+        <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', textAlign: 'center', padding: '20px 0' }}>
           Registra tu ánimo cada día para ver tu evolución del último mes.
         </p>
       )}

@@ -56,7 +56,7 @@ export default function WidgetTareas({ tareas: tareasIniciales }: { tareas: Tare
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-sm font-bold text-white">Tareas de tu psicólogo</h2>
-          <p className="text-xs text-gray-600 mt-0.5">{tareas.length} pendiente{tareas.length !== 1 ? 's' : ''}</p>
+          <p className="text-xs text-ink-subtle mt-0.5">{tareas.length} pendiente{tareas.length !== 1 ? 's' : ''}</p>
         </div>
       </div>
 
@@ -81,12 +81,12 @@ export default function WidgetTareas({ tareas: tareasIniciales }: { tareas: Tare
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white font-semibold leading-snug">{tarea.titulo}</p>
                 {tarea.descripcion && (
-                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{tarea.descripcion}</p>
+                  <p className="text-xs text-ink-subtle mt-0.5 line-clamp-2">{tarea.descripcion}</p>
                 )}
                 <div className="flex items-center gap-3 mt-1.5 flex-wrap">
-                  <span className="text-[11px] text-gray-700">Por {psicoNombre || 'tu psicólogo'}</span>
+                  <span className="text-[11px] text-ink-subtle">Por {psicoNombre || 'tu psicólogo'}</span>
                   {vence && (
-                    <span className={`flex items-center gap-1 text-[11px] ${vencida ? 'text-red-400' : 'text-gray-600'}`}>
+                    <span className={`flex items-center gap-1 text-[11px] ${vencida ? 'text-red-400' : 'text-ink-subtle'}`}>
                       <Clock className="w-3 h-3" />
                       {vencida ? 'Venció el ' : 'Vence el '}
                       {vence.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
@@ -99,7 +99,7 @@ export default function WidgetTareas({ tareas: tareasIniciales }: { tareas: Tare
                 onClick={() => marcarCompletada(tarea.id)}
                 disabled={completando === tarea.id}
                 title="Marcar como completada"
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 hover:text-teal-400 hover:bg-teal-500/10 transition-all flex-shrink-0 disabled:opacity-50"
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-ink-subtle hover:text-teal-400 hover:bg-teal-500/10 transition-all flex-shrink-0 disabled:opacity-50"
               >
                 <CheckCircle2 className="w-4.5 h-4.5" />
               </button>

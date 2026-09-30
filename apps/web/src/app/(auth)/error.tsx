@@ -13,7 +13,7 @@ export default function AuthError({ error, reset }: { error: Error & { digest?: 
         <h1 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '10px' }}>
           Algo salió mal
         </h1>
-        <p style={{ fontSize: '14px', color: '#5a8a6a', lineHeight: 1.7, marginBottom: '28px' }}>
+        <p style={{ fontSize: '14px', color: 'var(--ink-subtle)', lineHeight: 1.7, marginBottom: '28px' }}>
           Ocurrió un error inesperado. Por favor intenta de nuevo o vuelve al inicio.
         </p>
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -23,15 +23,13 @@ export default function AuthError({ error, reset }: { error: Error & { digest?: 
           >
             Intentar de nuevo
           </button>
-          <Link href="/login" style={{ background: 'rgba(255,255,255,0.05)', color: '#8aab96', border: '1px solid rgba(255,255,255,0.1)', padding: '11px 24px', borderRadius: '10px', fontWeight: '600', fontSize: '14px', textDecoration: 'none', display: 'inline-block' }}>
+          <Link href="/login" style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--ink-muted)', border: '1px solid rgba(255,255,255,0.1)', padding: '11px 24px', borderRadius: '10px', fontWeight: '600', fontSize: '14px', textDecoration: 'none', display: 'inline-block' }}>
             Ir al login
           </Link>
         </div>
-        <p style={{ marginTop: '32px', fontSize: '11px', color: '#2a3d2e' }}>
+        <p style={{ marginTop: '32px', fontSize: '11px', color: 'var(--ink-subtle)' }}>
           Crisis:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
-          {' · '}
-          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
           {' · '}
           <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
         </p>

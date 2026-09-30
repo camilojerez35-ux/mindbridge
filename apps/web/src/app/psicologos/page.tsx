@@ -34,8 +34,8 @@ export default async function PsicologosPage() {
 
       {/* ── NAVBAR ── */}
       <nav style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '18px 48px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
+        padding: '16px clamp(16px, 5vw, 48px)',
         borderBottom: '1px solid rgba(45,212,191,0.08)',
         position: 'sticky', top: 0, zIndex: 100,
         background: 'rgba(8,15,11,0.85)',
@@ -45,17 +45,17 @@ export default async function PsicologosPage() {
           <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: 'linear-gradient(135deg,#1a6b4a,#0d4a32)', border: '1px solid rgba(45,212,191,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>💚</div>
           <span style={{ fontSize: '19px', fontWeight: '900', color: '#2dd4bf', letterSpacing: '-0.02em' }}>MenteBridge</span>
         </Link>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <Link href="/login" style={{ color: '#5a8a6a', textDecoration: 'none', fontSize: '14px', fontWeight: '500', padding: '8px 16px', borderRadius: '8px' }}>Iniciar sesión</Link>
-          <Link href="/registro" style={{ background: 'linear-gradient(135deg,#1a6b4a,#0d5438)', color: 'white', padding: '10px 22px', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '700', boxShadow: '0 2px 12px rgba(26,107,74,0.4)' }}>
-            Comenzar gratis
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <Link href="/login" className="hidden sm:inline" style={{ color: 'var(--ink-subtle)', textDecoration: 'none', fontSize: '14px', fontWeight: '500', padding: '8px 16px', borderRadius: '8px' }}>Iniciar sesión</Link>
+          <Link href="/registro" style={{ background: 'linear-gradient(135deg,#1a6b4a,#0d5438)', color: 'white', padding: '10px 18px', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '700', whiteSpace: 'nowrap', boxShadow: '0 2px 12px rgba(26,107,74,0.4)' }}>
+            Empezar gratis
           </Link>
         </div>
       </nav>
 
       {/* ── HERO ── */}
       <section style={{ position: 'relative', padding: '72px 48px 56px', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)', width: '700px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(45,212,191,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)', width: 'min(700px, 100%)', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(45,212,191,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.2)', borderRadius: '20px', padding: '7px 18px', fontSize: '11px', color: '#2dd4bf', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '20px' }}>
             🩺 Psicólogos verificados
@@ -63,7 +63,7 @@ export default async function PsicologosPage() {
           <h1 style={{ fontSize: 'clamp(32px,5vw,52px)', fontWeight: '900', letterSpacing: '-0.02em', marginBottom: '14px', lineHeight: 1.1 }}>
             Profesionales reales,<br /><span style={{ background: 'linear-gradient(90deg,#2dd4bf,#4ade80)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>verificados COLPSIC</span>
           </h1>
-          <p style={{ color: '#5a8a6a', fontSize: '16px', maxWidth: '520px', lineHeight: 1.7 }}>
+          <p style={{ color: 'var(--ink-subtle)', fontSize: '16px', maxWidth: '520px', lineHeight: 1.7 }}>
             Cada psicólogo en MenteBridge tiene su tarjeta profesional verificada. Elige por especialidad, modalidad o ciudad y agenda tu primera cita.
           </p>
         </div>
@@ -72,7 +72,7 @@ export default async function PsicologosPage() {
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 48px 80px' }}>
 
         {psicologos.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 20px', color: '#5a8a6a' }}>
+          <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--ink-subtle)' }}>
             <p style={{ fontSize: '15px' }}>Estamos verificando nuevos psicólogos. Vuelve pronto.</p>
           </div>
         ) : (
@@ -102,19 +102,19 @@ export default async function PsicologosPage() {
                   </div>
                   <div>
                     <p style={{ fontSize: '15px', fontWeight: '800', color: 'white' }}>{p.nombreCompleto}</p>
-                    <p style={{ fontSize: '12px', color: '#3d5c48' }}>{p.anosExperiencia} años de experiencia</p>
+                    <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>{p.anosExperiencia} años de experiencia</p>
                   </div>
                 </div>
 
                 {p.bio && (
-                  <p style={{ fontSize: '13px', color: '#5a8a6a', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
+                  <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
                     {p.bio}
                   </p>
                 )}
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                   {p.especialidades.slice(0, 3).map(e => (
-                    <span key={e} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '4px 10px', fontSize: '11px', color: '#8aab96' }}>
+                    <span key={e} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '4px 10px', fontSize: '11px', color: 'var(--ink-muted)' }}>
                       {e}
                     </span>
                   ))}
@@ -125,12 +125,12 @@ export default async function PsicologosPage() {
                     <p style={{ fontSize: '13px', fontWeight: '700', color: '#2dd4bf' }}>
                       {p.calificacionPromedio ? `★ ${p.calificacionPromedio.toFixed(1)}` : 'Nuevo en la plataforma'}
                     </p>
-                    <p style={{ fontSize: '11px', color: '#3d5c48' }}>
+                    <p style={{ fontSize: '11px', color: 'var(--ink-subtle)' }}>
                       {p.modalidad.map(m => m === 'VIDEOLLAMADA' ? 'Virtual' : m === 'TELEFONICA' ? 'Telefónica' : m).join(' · ') || 'Modalidad flexible'}
                     </p>
                   </div>
                   <p style={{ fontSize: '13px', fontWeight: '700', color: 'white' }}>
-                    ${p.tarifaCOP.toLocaleString('es-CO')} <span style={{ fontSize: '10px', color: '#3d5c48', fontWeight: '500' }}>/ sesión</span>
+                    ${p.tarifaCOP.toLocaleString('es-CO')} <span style={{ fontSize: '10px', color: 'var(--ink-subtle)', fontWeight: '500' }}>/ sesión</span>
                   </p>
                 </div>
 
@@ -153,7 +153,7 @@ export default async function PsicologosPage() {
         <div style={{ marginTop: '64px', background: 'rgba(26,107,74,0.08)', backdropFilter: 'blur(12px)', border: '1px solid rgba(45,212,191,0.12)', borderRadius: '20px', padding: '40px', textAlign: 'center' }}>
           <div style={{ fontSize: '32px', marginBottom: '12px' }}>💚</div>
           <h3 style={{ fontSize: '22px', fontWeight: '900', marginBottom: '10px', letterSpacing: '-0.01em' }}>¿No sabes por dónde empezar?</h3>
-          <p style={{ color: '#5a8a6a', fontSize: '14px', marginBottom: '24px', maxWidth: '420px', margin: '0 auto 24px', lineHeight: 1.7 }}>
+          <p style={{ color: 'var(--ink-subtle)', fontSize: '14px', marginBottom: '24px', maxWidth: '420px', margin: '0 auto 24px', lineHeight: 1.7 }}>
             Crea tu cuenta gratis y nuestra IA clínica te acompaña 24/7 mientras encuentras al psicólogo ideal.
           </p>
           <Link href="/registro" style={{ background: 'linear-gradient(135deg,#1a6b4a,#0d5438)', color: 'white', padding: '13px 32px', borderRadius: '10px', textDecoration: 'none', fontWeight: '700', fontSize: '14px', boxShadow: '0 2px 12px rgba(26,107,74,0.4)' }}>
@@ -164,15 +164,13 @@ export default async function PsicologosPage() {
 
       {/* Footer mínimo */}
       <footer style={{ padding: '24px 48px', borderTop: '1px solid rgba(255,255,255,0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-        <p style={{ fontSize: '12px', color: '#2a3d2e' }}>
+        <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>
           © 2026 MenteBridge Colombia · Crisis:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
           {' · '}
-          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
-          {' · '}
           <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
         </p>
-        <Link href="/" style={{ fontSize: '12px', color: '#3d5c48', textDecoration: 'none' }}>← Volver al inicio</Link>
+        <Link href="/" style={{ fontSize: '12px', color: 'var(--ink-subtle)', textDecoration: 'none' }}>← Volver al inicio</Link>
       </footer>
     </div>
   );

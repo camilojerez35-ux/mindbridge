@@ -252,13 +252,13 @@ export default function ChatPage() {
             <span style={{ fontSize: '16px' }}>✦</span> Nueva sesión
           </button>
 
-          <p style={{ fontSize: '10px', color: '#3d5c48', textTransform: 'uppercase', letterSpacing: '0.12em', padding: '6px 4px 2px' }}>
+          <p style={{ fontSize: '10px', color: 'var(--ink-subtle)', textTransform: 'uppercase', letterSpacing: '0.12em', padding: '6px 4px 2px' }}>
             Historial
           </p>
 
           <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {sesiones.length === 0 && (
-              <p style={{ fontSize: '12px', color: '#2a3d2e', textAlign: 'center', padding: '20px 8px', lineHeight: 1.5 }}>
+              <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', textAlign: 'center', padding: '20px 8px', lineHeight: 1.5 }}>
                 Tus conversaciones<br />aparecerán aquí
               </p>
             )}
@@ -285,10 +285,10 @@ export default function ChatPage() {
                   {activa && (
                     <span style={{ position: 'absolute', left: 0, top: '6px', bottom: '6px', width: '3px', borderRadius: '0 3px 3px 0', background: '#2dd4bf' }} />
                   )}
-                  <p style={{ fontSize: '12.5px', color: activa ? 'white' : '#8aab96', fontWeight: activa ? '600' : '400', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: '12.5px', color: activa ? 'white' : 'var(--ink-muted)', fontWeight: activa ? '600' : '400', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {s.titulo}
                   </p>
-                  <p style={{ fontSize: '10px', color: '#3d5c48' }}>
+                  <p style={{ fontSize: '10px', color: 'var(--ink-subtle)' }}>
                     {new Date(s.fecha).toLocaleDateString('es-CO')} · {s.mensajes} msgs
                   </p>
                 </button>
@@ -323,7 +323,7 @@ export default function ChatPage() {
         }}>
           <button
             onClick={() => setSidebarAbierto(p => !p)}
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: '#5a8a6a', cursor: 'pointer', fontSize: '14px', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all .15s' }}
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'var(--ink-subtle)', cursor: 'pointer', fontSize: '14px', borderRadius: '8px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all .15s' }}
             title={sidebarAbierto ? 'Ocultar historial' : 'Ver historial'}
           >
             ☰
@@ -347,22 +347,20 @@ export default function ChatPage() {
         {/* Aviso IA */}
         <div style={{ padding: '8px 20px', background: 'rgba(184,92,0,0.06)', borderBottom: '1px solid rgba(184,92,0,0.1)', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '12px', flexShrink: 0 }}>⚠️</span>
-          <p style={{ fontSize: '11px', color: '#a16207', lineHeight: 1.4 }}>
+          <p style={{ fontSize: '11px', color: '#fbbf24', lineHeight: 1.4 }}>
             IA de bienestar — No sustituye atención profesional · Crisis:{' '}
             <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
-            {' · '}
-            <a href="tel:8001225555" style={{ color: '#d97706', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
             {' · '}
             <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
           </p>
         </div>
 
         {/* Mensajes */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div role="log" aria-live="polite" aria-label="Conversación con el asistente" tabIndex={0} style={{ flex: 1, overflowY: 'auto', padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {cargandoSesion ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', gap: '12px' }}>
               <div style={{ width: '24px', height: '24px', border: '2px solid rgba(45,212,191,0.2)', borderTopColor: '#2dd4bf', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
-              <p style={{ color: '#3d5c48', fontSize: '14px' }}>Cargando sesión...</p>
+              <p style={{ color: 'var(--ink-subtle)', fontSize: '14px' }}>Cargando sesión...</p>
             </div>
           ) : (
             mensajes.map(msg => (
@@ -401,7 +399,7 @@ export default function ChatPage() {
                   }}>
                     <MdSimple texto={msg.contenido} />
                   </div>
-                  <span style={{ fontSize: '10px', color: '#2a3d2e', padding: '0 4px' }}>
+                  <span style={{ fontSize: '10px', color: 'var(--ink-subtle)', padding: '0 4px' }}>
                     {msg.timestamp.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
@@ -479,7 +477,7 @@ export default function ChatPage() {
               <span style={{ fontSize: '16px', filter: input.trim() && !cargando ? 'none' : 'opacity(0.3)' }}>➤</span>
             </button>
           </div>
-          <p style={{ textAlign: 'center', fontSize: '10px', color: '#1e3228', marginTop: '7px', letterSpacing: '0.03em' }}>
+          <p style={{ textAlign: 'center', fontSize: '10px', color: 'var(--ink-subtle)', marginTop: '7px', letterSpacing: '0.03em' }}>
             Enter para enviar · Shift+Enter para nueva línea
           </p>
         </div>
@@ -512,8 +510,7 @@ export default function ChatPage() {
             </div>
             <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {[
-                { num: '106', nom: 'Línea de Salud Mental Bogotá', desc: '24 horas · Gratuita', color: '#2dd4bf' },
-                { num: '800-112-5555', nom: 'Línea Nacional de Salud Mental', desc: 'Gratuita', color: '#818cf8' },
+                { num: '106', nom: 'Línea 106 — Salud Mental (nacional)', desc: '24 horas · Gratuita · Desde cualquier celular', color: '#2dd4bf' },
                 { num: '123', nom: 'Emergencias Colombia', desc: '24 horas · Para riesgo inmediato', color: '#f87171' },
               ].map(({ num, nom, desc, color }) => (
                 <a
@@ -532,14 +529,14 @@ export default function ChatPage() {
                   <div style={{ flex: 1 }}>
                     <p style={{ fontWeight: '900', color, fontSize: '20px', lineHeight: 1, marginBottom: '3px' }}>{num}</p>
                     <p style={{ fontSize: '13px', color: 'white', fontWeight: '600', marginBottom: '2px' }}>{nom}</p>
-                    <p style={{ fontSize: '11px', color: '#5a8a6a' }}>{desc}</p>
+                    <p style={{ fontSize: '11px', color: 'var(--ink-subtle)' }}>{desc}</p>
                   </div>
                   <span style={{ color, fontSize: '18px', opacity: 0.7 }}>›</span>
                 </a>
               ))}
               <button
                 onClick={() => setModalCrisis(false)}
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '12px', color: '#8aab96', fontSize: '14px', cursor: 'pointer', fontFamily: 'inherit', marginTop: '4px', transition: 'all .15s' }}
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '12px', color: 'var(--ink-muted)', fontSize: '14px', cursor: 'pointer', fontFamily: 'inherit', marginTop: '4px', transition: 'all .15s' }}
               >
                 Volver al chat
               </button>

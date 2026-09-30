@@ -2,18 +2,18 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a1510' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-alt)' }}>
       <div style={{ textAlign: 'center', padding: '40px 24px', maxWidth: '480px' }}>
 
           <div style={{ fontSize: '72px', marginBottom: '8px' }}>🌿</div>
 
-          <h1 style={{ fontSize: '80px', fontWeight: '900', color: '#1a6b4a', lineHeight: 1, margin: '0 0 4px' }}>404</h1>
+          <h1 style={{ fontSize: '80px', fontWeight: '900', color: '#2d9e6f', lineHeight: 1, margin: '0 0 4px' }}>404</h1>
 
           <h2 style={{ fontSize: '22px', fontWeight: '800', color: 'white', margin: '0 0 12px' }}>
             Esta página no existe
           </h2>
 
-          <p style={{ fontSize: '14px', color: '#5a8a6a', lineHeight: 1.7, margin: '0 0 32px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink-subtle)', lineHeight: 1.7, margin: '0 0 32px' }}>
             La ruta que buscas no está disponible. Puede que haya sido movida o que el enlace esté incorrecto.
           </p>
 
@@ -26,13 +26,13 @@ export default function NotFound() {
             </Link>
             <Link
               href="/"
-              style={{ display: 'inline-block', background: 'transparent', color: '#5a8a6a', textDecoration: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: '600', fontSize: '14px', border: '1px solid #2a3d2e' }}
+              style={{ display: 'inline-block', background: 'transparent', color: 'var(--ink-subtle)', textDecoration: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: '600', fontSize: '14px', border: '1px solid #2a3d2e' }}
             >
               Inicio
             </Link>
           </div>
 
-          <p style={{ fontSize: '11px', color: '#2a3d2e', marginTop: '40px' }}>
+          <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '40px' }}>
             Crisis:{' '}
             <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>Línea 106</a>
             {' · '}

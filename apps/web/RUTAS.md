@@ -140,8 +140,7 @@ El sistema detecta localmente (sin llamar a Claude) las siguientes frases:
 - "no puedo más", "soy una carga", "todos estarían mejor sin mí", "quiero desaparecer"
 
 **Recursos de crisis Colombia:**
-- Línea 106 — Bogotá (24h, gratuita)
-- 800-1222-5555 — Nacional
+- Línea 106 — Salud mental, nacional (24h, gratuita)
 - 123 — Emergencias
 
 ---

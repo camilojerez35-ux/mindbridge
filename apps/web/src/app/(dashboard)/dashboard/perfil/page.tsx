@@ -121,7 +121,7 @@ export default function PerfilPage() {
     }
   };
 
-  if (cargando) return <p style={{ color: '#5a8a6a', padding: '24px' }}>Cargando perfil...</p>;
+  if (cargando) return <p style={{ color: 'var(--ink-subtle)', padding: '24px' }}>Cargando perfil...</p>;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '700px' }}>
@@ -133,7 +133,7 @@ export default function PerfilPage() {
         </div>
         <div>
           <h1 style={{ fontSize: '22px', fontWeight: '900', color: 'white' }}>{form.nombre} {form.apellido}</h1>
-          <p style={{ fontSize: '13px', color: '#5a8a6a' }}>
+          <p style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>
             {form.email} · Plan {planActual}
             {suscripcionVence && <span style={{ color: '#fbbf24' }}> · vence {new Date(suscripcionVence).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}</span>}
           </p>
@@ -141,27 +141,27 @@ export default function PerfilPage() {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', background: '#0d1a12', padding: '4px', borderRadius: '10px', border: '1px solid #1a2e1f' }}>
+      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', background: 'var(--surface)', padding: '4px', borderRadius: '10px', border: '1px solid #1a2e1f' }}>
         {[['perfil','👤 Mi Perfil'],['plan','💎 Plan'],['seguridad','🔒 Seguridad'],['consentimientos','📋 Privacidad']].map(([v,l])=>(
-          <button key={v} onClick={() => setTab(v as any)} style={{ flex: 1, padding: '9px 12px', borderRadius: '7px', border: 'none', background: tab===v?'#1a6b4a':'transparent', color: tab===v?'white':'#5a8a6a', cursor: 'pointer', fontSize: '12px', fontWeight: tab===v?'700':'400', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{l}</button>
+          <button key={v} onClick={() => setTab(v as any)} style={{ flex: 1, padding: '9px 12px', borderRadius: '7px', border: 'none', background: tab===v?'#1a6b4a':'transparent', color: tab===v?'white':'var(--ink-subtle)', cursor: 'pointer', fontSize: '12px', fontWeight: tab===v?'700':'400', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{l}</button>
         ))}
       </div>
 
       {/* ── PERFIL ── */}
       {tab === 'perfil' && (
-        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <h2 style={{ fontSize: '16px', fontWeight: '700', color: 'white' }}>Datos personales</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
             {[['nombre','Nombre','Juan'],['apellido','Apellido','García'],['telefono','Teléfono (opcional)','+57 300 000 0000'],['ciudad','Ciudad','Bogotá']].map(([k,l,ph])=>(
               <div key={k}>
-                <label style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '600', display: 'block', marginBottom: '5px' }}>{l}</label>
-                <input value={(form as any)[k]} onChange={e => setForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
+                <label htmlFor={`perfil-${k}`} style={{ fontSize: '12px', color: 'var(--ink-subtle)', fontWeight: '600', display: 'block', marginBottom: '5px' }}>{l}</label>
+                <input id={`perfil-${k}`} value={(form as any)[k]} onChange={e => setForm(p=>({...p,[k]:e.target.value}))} placeholder={ph} style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
               </div>
             ))}
             <div style={{ gridColumn: '1/-1' }}>
-              <label style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '600', display: 'block', marginBottom: '5px' }}>Email</label>
-              <input value={form.email} disabled style={{ width: '100%', background: '#0a1510', border: '1px solid #1a2e1f', borderRadius: '8px', padding: '10px 12px', color: '#3d5c48', fontSize: '13px', fontFamily: 'inherit' }} />
-              <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '3px' }}>El email no se puede cambiar</p>
+              <label htmlFor="perfil-email" style={{ fontSize: '12px', color: 'var(--ink-subtle)', fontWeight: '600', display: 'block', marginBottom: '5px' }}>Email</label>
+              <input id="perfil-email" value={form.email} disabled style={{ width: '100%', background: 'var(--surface-alt)', border: '1px solid #1a2e1f', borderRadius: '8px', padding: '10px 12px', color: 'var(--ink-subtle)', fontSize: '13px', fontFamily: 'inherit' }} />
+              <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '3px' }}>El email no se puede cambiar</p>
             </div>
           </div>
           <button onClick={guardar} style={{ background: '#1a6b4a', color: 'white', padding: '11px 24px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit', alignSelf: 'flex-start' }}>
@@ -176,7 +176,7 @@ export default function PerfilPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {PLANES.map(plan => (
             <div key={plan.id} style={{ background: plan.color, border: `2px solid ${planActual===plan.id ? plan.border : '#1a2e1f'}`, borderRadius: '14px', padding: '20px', position: 'relative', overflow: 'hidden' }}>
-              {plan.highlight && <div style={{ position: 'absolute', top: '12px', right: '-20px', background: '#2dd4bf', color: '#0d1a12', fontSize: '9px', fontWeight: '800', padding: '3px 28px', transform: 'rotate(35deg)', letterSpacing: '0.1em' }}>POPULAR</div>}
+              {plan.highlight && <div style={{ position: 'absolute', top: '12px', right: '-20px', background: '#2dd4bf', color: 'var(--on-accent)', fontSize: '9px', fontWeight: '800', padding: '3px 28px', transform: 'rotate(35deg)', letterSpacing: '0.1em' }}>POPULAR</div>}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
@@ -195,7 +195,7 @@ export default function PerfilPage() {
                 {planActual !== plan.id && (
                   <button
                     onClick={() => setPlanModal(plan.id as PlanId)}
-                    style={{ background: plan.border, color: '#0d1a12', padding: '10px 20px', borderRadius: '8px', border: 'none', fontWeight: '800', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', flexShrink: 0 }}
+                    style={{ background: plan.border, color: 'var(--on-accent)', padding: '10px 20px', borderRadius: '8px', border: 'none', fontWeight: '800', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', flexShrink: 0 }}
                   >
                     {plan.id === 'GRATIS' ? 'Bajar al plan Gratis' : `Cambiar a ${plan.nombre}`}
                   </button>
@@ -208,15 +208,15 @@ export default function PerfilPage() {
 
       {/* ── SEGURIDAD ── */}
       {tab === 'seguridad' && (
-        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <h2 style={{ fontSize: '16px', fontWeight: '700', color: 'white' }}>Seguridad de la cuenta</h2>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <label style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '600' }}>Contraseña actual</label>
+            <label style={{ fontSize: '12px', color: 'var(--ink-subtle)', fontWeight: '600' }}>Contraseña actual</label>
             <input type="password" value={pwForm.actual} onChange={e => setPwForm(p => ({ ...p, actual: e.target.value }))} placeholder="••••••••" style={{ background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
-            <label style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '600' }}>Nueva contraseña</label>
+            <label style={{ fontSize: '12px', color: 'var(--ink-subtle)', fontWeight: '600' }}>Nueva contraseña</label>
             <input type="password" value={pwForm.nueva} onChange={e => setPwForm(p => ({ ...p, nueva: e.target.value }))} placeholder="Mínimo 8 caracteres" style={{ background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
-            <label style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '600' }}>Confirmar nueva contraseña</label>
+            <label style={{ fontSize: '12px', color: 'var(--ink-subtle)', fontWeight: '600' }}>Confirmar nueva contraseña</label>
             <input type="password" value={pwForm.confirmar} onChange={e => setPwForm(p => ({ ...p, confirmar: e.target.value }))} placeholder="Repite la contraseña" style={{ background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
             {pwError && <p style={{ fontSize: '13px', color: '#f87171' }}>⚠️ {pwError}</p>}
             <button onClick={cambiarPassword} disabled={pwGuardando || !pwForm.actual || !pwForm.nueva || !pwForm.confirmar} style={{ background: pwGuardado ? '#1a4a35' : '#1a6b4a', color: 'white', padding: '11px 24px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', alignSelf: 'flex-start', opacity: (!pwForm.actual || !pwForm.nueva || !pwForm.confirmar) ? 0.5 : 1 }}>
@@ -231,9 +231,9 @@ export default function PerfilPage() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px', background: '#141f17', borderRadius: '10px', border: '1px solid #2a3d2e' }}>
               <div>
                 <p style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Activar 2FA por email</p>
-                <p style={{ fontSize: '12px', color: '#5a8a6a', marginTop: '2px' }}>Recibirás un código cada vez que inicies sesión</p>
+                <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginTop: '2px' }}>Recibirás un código cada vez que inicies sesión</p>
               </div>
-              <button style={{ background: '#1a2e1f', border: '1px solid #2a3d2e', color: '#5a8a6a', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', fontFamily: 'inherit' }}>Activar</button>
+              <button style={{ background: 'var(--surface-card)', border: '1px solid #2a3d2e', color: 'var(--ink-subtle)', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', fontWeight: '600', fontFamily: 'inherit' }}>Activar</button>
             </div>
           </div>
 
@@ -271,16 +271,16 @@ export default function PerfilPage() {
             >
               {eliminandoCuenta ? 'Eliminando...' : 'Eliminar mi cuenta'}
             </button>
-            <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '6px' }}>Esta acción es irreversible. Todos tus datos serán eliminados permanentemente (Ley 1581/2012 — Habeas Data).</p>
+            <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '6px' }}>Esta acción es irreversible. Todos tus datos serán eliminados permanentemente (Ley 1581/2012 — Habeas Data).</p>
           </div>
         </div>
       )}
 
       {/* ── CONSENTIMIENTOS ── */}
       {tab === 'consentimientos' && (
-        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <h2 style={{ fontSize: '16px', fontWeight: '700', color: 'white' }}>Privacidad y consentimientos</h2>
-          <p style={{ fontSize: '13px', color: '#5a8a6a', lineHeight: 1.6 }}>Tienes control total sobre tus datos. Cumplimos con la Ley 1581 de 2012 (Habeas Data) y la Resolución 2654/2019.</p>
+          <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', lineHeight: 1.6 }}>Tienes control total sobre tus datos. Cumplimos con la Ley 1581 de 2012 (Habeas Data) y la Resolución 2654/2019.</p>
 
           {[
             { titulo:'Política de privacidad', desc:'Tratamiento de datos personales sensibles de salud', fecha:'15 May 2026', obligatorio:true },
@@ -293,8 +293,8 @@ export default function PerfilPage() {
                   <p style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>{c.titulo}</p>
                   {c.obligatorio && <span style={{ fontSize: '10px', background: 'rgba(184,32,32,0.15)', color: '#f87171', padding: '2px 6px', borderRadius: '6px', fontWeight: '700' }}>Requerido</span>}
                 </div>
-                <p style={{ fontSize: '12px', color: '#5a8a6a' }}>{c.desc}</p>
-                <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '4px' }}>Aceptado el {c.fecha}</p>
+                <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>{c.desc}</p>
+                <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '4px' }}>Aceptado el {c.fecha}</p>
               </div>
               {!c.obligatorio && (
                 <button style={{ background: 'rgba(184,32,32,0.1)', border: '1px solid rgba(184,32,32,0.2)', color: '#f87171', padding: '7px 14px', borderRadius: '7px', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', flexShrink: 0 }}>Revocar</button>
@@ -317,13 +317,13 @@ export default function PerfilPage() {
                 a.click();
                 URL.revokeObjectURL(url);
               }}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', textAlign: 'left' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-muted)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', textAlign: 'left' }}
             >
               <span style={{ fontSize: '16px' }}>📥</span> Descargar mis datos
             </button>
             <button
               onClick={() => setTab('perfil')}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', textAlign: 'left' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-muted)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', textAlign: 'left' }}
             >
               <span style={{ fontSize: '16px' }}>✏️</span> Actualizar mis datos
             </button>
@@ -335,12 +335,12 @@ export default function PerfilPage() {
             </button>
             <a
               href="mailto:privacidad@mentebridge.com?subject=Solicitud%20Habeas%20Data"
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', textDecoration: 'none' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-muted)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', textDecoration: 'none' }}
             >
               <span style={{ fontSize: '16px' }}>📬</span> Contactar privacidad
             </a>
           </div>
-          <p style={{ fontSize: '12px', color: '#3d5c48' }}>Tiempo de respuesta: 10-15 días hábiles · privacidad@mentebridge.com</p>
+          <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>Tiempo de respuesta: 10-15 días hábiles · privacidad@mentebridge.com</p>
         </div>
       )}
 
@@ -369,14 +369,14 @@ function ModalUpgrade({ plan, exito, cargando, onConfirmar, onCerrar }: {
       onClick={onCerrar}
     >
       <div
-        style={{ background: '#0d1a12', border: `1px solid ${plan.border}`, borderRadius: '20px', padding: '32px', width: '100%', maxWidth: '420px' }}
+        style={{ background: 'var(--surface)', border: `1px solid ${plan.border}`, borderRadius: '20px', padding: '32px', width: '100%', maxWidth: '420px' }}
         onClick={e => e.stopPropagation()}
       >
         {exito ? (
           <div style={{ textAlign: 'center', padding: '16px 0' }}>
             <div style={{ fontSize: '52px', marginBottom: '12px' }}>✅</div>
             <h3 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>¡Plan actualizado!</h3>
-            <p style={{ fontSize: '14px', color: '#8aab96' }}>Ahora estás en el plan {plan.nombre}.</p>
+            <p style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>Ahora estás en el plan {plan.nombre}.</p>
           </div>
         ) : (
           <>
@@ -388,7 +388,7 @@ function ModalUpgrade({ plan, exito, cargando, onConfirmar, onCerrar }: {
 
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
               {plan.items.map((item, i) => (
-                <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', color: '#8aab96' }}>
+                <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--ink-muted)' }}>
                   <span style={{ color: plan.border, flexShrink: 0 }}>✓</span> {item}
                 </li>
               ))}
@@ -396,8 +396,8 @@ function ModalUpgrade({ plan, exito, cargando, onConfirmar, onCerrar }: {
 
             {plan.id !== 'GRATIS' && (
               <div style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: '10px', padding: '12px 14px', marginBottom: '20px' }}>
-                <p style={{ fontSize: '12px', color: '#5a8a6a', lineHeight: 1.5 }}>
-                  💳 El cobro se procesará a través de <strong style={{ color: '#8aab96' }}>Wompi</strong> de forma segura. Puedes cancelar en cualquier momento.
+                <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', lineHeight: 1.5 }}>
+                  💳 El cobro se procesará a través de <strong style={{ color: 'var(--ink-muted)' }}>Wompi</strong> de forma segura. Puedes cancelar en cualquier momento.
                 </p>
               </div>
             )}
@@ -405,14 +405,14 @@ function ModalUpgrade({ plan, exito, cargando, onConfirmar, onCerrar }: {
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={onCerrar}
-                style={{ flex: 1, padding: '12px', background: 'transparent', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#5a8a6a', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
+                style={{ flex: 1, padding: '12px', background: 'transparent', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-subtle)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
               >
                 Cancelar
               </button>
               <button
                 onClick={onConfirmar}
                 disabled={cargando}
-                style={{ flex: 2, padding: '12px', background: plan.border, border: 'none', borderRadius: '8px', color: '#0d1a12', fontWeight: '800', cursor: cargando ? 'wait' : 'pointer', fontSize: '14px', fontFamily: 'inherit', opacity: cargando ? 0.7 : 1 }}
+                style={{ flex: 2, padding: '12px', background: plan.border, border: 'none', borderRadius: '8px', color: 'var(--on-accent)', fontWeight: '800', cursor: cargando ? 'wait' : 'pointer', fontSize: '14px', fontFamily: 'inherit', opacity: cargando ? 0.7 : 1 }}
               >
                 {cargando ? 'Procesando...' : plan.id === 'GRATIS' ? 'Bajar al plan Gratis' : `Activar plan ${plan.nombre}`}
               </button>

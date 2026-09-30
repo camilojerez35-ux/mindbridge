@@ -31,10 +31,10 @@ export default async function CursoPage(props: { params: Promise<{ curso: string
     <div className="max-w-xl space-y-5">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2">
-        <Link href="/aprender" className="p-1.5 rounded-lg hover:bg-white/5 text-gray-600 hover:text-gray-400 transition-all">
+        <Link href="/aprender" className="p-1.5 rounded-lg hover:bg-white/5 text-ink-subtle hover:text-gray-400 transition-all">
           <ChevronLeft className="w-4 h-4" />
         </Link>
-        <span className="text-xs text-gray-600">Aprender</span>
+        <span className="text-xs text-ink-subtle">Aprender</span>
       </div>
 
       {/* Hero */}
@@ -43,8 +43,8 @@ export default async function CursoPage(props: { params: Promise<{ curso: string
           <div className="text-4xl">{curso.icono}</div>
           <div className="flex-1">
             <h1 className="text-lg font-black text-white mb-1">{curso.titulo}</h1>
-            <p className="text-sm text-gray-500 leading-relaxed mb-3">{curso.descripcion}</p>
-            <div className="flex items-center gap-3 text-xs text-gray-600">
+            <p className="text-sm text-ink-subtle leading-relaxed mb-3">{curso.descripcion}</p>
+            <div className="flex items-center gap-3 text-xs text-ink-subtle">
               <span>{total} pasos</span>
               <span>{completados.size}/{total} completados</span>
             </div>
@@ -73,8 +73,8 @@ export default async function CursoPage(props: { params: Promise<{ curso: string
             }`}>
               <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
                 hecho      ? 'bg-teal-500/20 text-teal-400' :
-                bloqueado  ? 'bg-white/3 text-gray-700' :
-                             'bg-white/5 text-gray-600'
+                bloqueado  ? 'bg-white/3 text-ink-subtle' :
+                             'bg-white/5 text-ink-subtle'
               }`}>
                 {hecho      ? <CheckCircle2 className="w-3.5 h-3.5" /> :
                  bloqueado  ? <Lock className="w-3 h-3" /> :
@@ -82,7 +82,7 @@ export default async function CursoPage(props: { params: Promise<{ curso: string
                 }
               </div>
               <div className="flex-1 min-w-0">
-                <p className={`text-sm font-medium ${hecho ? 'text-gray-500' : bloqueado ? 'text-gray-700' : 'text-gray-300'}`}>
+                <p className={`text-sm font-medium ${hecho ? 'text-ink-subtle' : bloqueado ? 'text-ink-subtle' : 'text-gray-300'}`}>
                   {item.titulo}
                 </p>
                 <div className="flex items-center gap-1 mt-0.5">
@@ -93,7 +93,7 @@ export default async function CursoPage(props: { params: Promise<{ curso: string
                 </div>
               </div>
               {!bloqueado && (
-                <ChevronRight className="w-3.5 h-3.5 text-gray-700 group-hover:text-gray-500 transition-colors flex-shrink-0" />
+                <ChevronRight className="w-3.5 h-3.5 text-ink-subtle group-hover:text-ink-subtle transition-colors flex-shrink-0" />
               )}
             </div>
           );

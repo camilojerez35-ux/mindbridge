@@ -116,19 +116,19 @@ export default async function DashboardPage() {
 
         <div className="relative flex flex-wrap items-start justify-between gap-6">
           <div className="flex-1 min-w-64">
-            <p className="text-xs text-teal-600 font-medium mb-2 flex items-center gap-1.5">
+            <p className="text-xs text-teal-400 font-medium mb-2 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse inline-block" />
               {saludo}
             </p>
             <h1 className="text-3xl font-black text-white mb-2 leading-tight">
               {primerNombre ? `Hola, ${primerNombre} 💚` : '¿Cómo estás hoy? 💚'}
             </h1>
-            <p className="text-sm text-gray-500 max-w-md leading-relaxed">
+            <p className="text-sm text-ink-subtle max-w-md leading-relaxed">
               Este es tu espacio seguro. Aquí puedes hablar con la IA, escribir en tu diario o conectar con un psicólogo.
             </p>
             <Link
               href="/dashboard/chat"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-teal-500 hover:bg-teal-400 text-white text-sm font-semibold rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-teal-500 hover:bg-teal-400 text-on-accent text-sm font-semibold rounded-lg transition-colors"
             >
               <MessageCircle className="w-4 h-4" />
               Iniciar conversación
@@ -137,7 +137,7 @@ export default async function DashboardPage() {
 
           {/* Check-in rápido */}
           <div className="bg-black/20 rounded-xl p-4 border border-white/5 min-w-48">
-            <p className="text-[11px] text-gray-500 font-semibold uppercase tracking-wider mb-3">¿Cómo estás ahora?</p>
+            <p className="text-[11px] text-ink-subtle font-semibold uppercase tracking-wider mb-3">¿Cómo estás ahora?</p>
             <div className="grid grid-cols-2 gap-2">
               {ANIMOS.map(({ emoji, label, valor }) => (
                 <Link
@@ -163,7 +163,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className={`text-2xl font-black ${color} leading-none`}>{value}</p>
-              <p className="text-xs text-gray-600 mt-0.5">{label}</p>
+              <p className="text-xs text-ink-subtle mt-0.5">{label}</p>
             </div>
           </div>
         ))}
@@ -182,7 +182,7 @@ export default async function DashboardPage() {
 
       {/* ── ACCESOS RÁPIDOS ── */}
       <div>
-        <h2 className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-3">Acceso rápido</h2>
+        <h2 className="text-xs font-bold text-ink-subtle uppercase tracking-wider mb-3">Acceso rápido</h2>
         <div className="grid grid-cols-3 gap-3">
           {accesos.map(({ href, Icon, color, border, iconColor, title, desc }) => (
             <Link
@@ -195,9 +195,9 @@ export default async function DashboardPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-white">{title}</p>
-                <p className="text-xs text-gray-500 truncate">{desc}</p>
+                <p className="text-xs text-ink-subtle truncate">{desc}</p>
               </div>
-              <ChevronRightIcon className="w-4 h-4 text-gray-600 group-hover:text-gray-400 flex-shrink-0 transition-colors" />
+              <ChevronRightIcon className="w-4 h-4 text-ink-subtle group-hover:text-gray-400 flex-shrink-0 transition-colors" />
             </Link>
           ))}
         </div>
@@ -223,9 +223,9 @@ export default async function DashboardPage() {
       {/* ── AVISO LEGAL ── */}
       <div className="bg-red-950/20 border border-red-900/20 rounded-xl px-4 py-3 flex items-center gap-3">
         <span className="text-sm flex-shrink-0">⚠️</span>
-        <p className="text-xs text-red-900/80 leading-relaxed text-red-400/60">
+        <p className="text-xs leading-relaxed text-red-300/80">
           MenteBridge es una herramienta de bienestar emocional, no sustituye la atención profesional.
-          Crisis: <strong className="text-red-400">106 · 800-112-5555 · 123</strong>
+          Crisis: <strong className="text-red-300">106 (salud mental, 24/7) · 123 (emergencias)</strong>
         </p>
       </div>
     </div>

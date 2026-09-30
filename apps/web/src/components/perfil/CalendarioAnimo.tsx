@@ -82,8 +82,8 @@ export default function CalendarioAnimo() {
             onClick={() => setDiasVista(v)}
             className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all border ${
               diasVista === v
-                ? 'bg-teal-600 border-teal-600 text-white'
-                : 'bg-white/3 border-white/8 text-gray-500 hover:text-gray-300 hover:bg-white/5'
+                ? 'bg-teal-700 border-teal-600 text-white'
+                : 'bg-white/3 border-white/8 text-ink-subtle hover:text-gray-300 hover:bg-white/5'
             }`}
           >
             {v === 7 ? '7 días' : v === 30 ? '30 días' : 'Todo'}
@@ -94,10 +94,10 @@ export default function CalendarioAnimo() {
       {/* Summary card */}
       <div className="bg-[#0d1117] border border-white/5 rounded-2xl px-5 py-4 flex items-center justify-between">
         <div>
-          <p className="text-[10px] text-gray-600 uppercase tracking-widest">Promedio del período</p>
+          <p className="text-[10px] text-ink-subtle uppercase tracking-widest">Promedio del período</p>
           <p className="text-3xl font-black text-white mt-1">
             {promedio}
-            <span className="text-base text-gray-600 font-normal">/10</span>
+            <span className="text-base text-ink-subtle font-normal">/10</span>
           </p>
         </div>
         <div className="flex items-end gap-1">
@@ -120,14 +120,14 @@ export default function CalendarioAnimo() {
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => cambiarMes(-1)}
-            className="p-1.5 rounded-lg text-gray-600 hover:text-gray-300 hover:bg-white/5 transition-all"
+            className="p-1.5 rounded-lg text-ink-subtle hover:text-gray-300 hover:bg-white/5 transition-all"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <span className="text-sm font-bold text-white">{NOMBRES_MES[mes]} {anio}</span>
           <button
             onClick={() => cambiarMes(1)}
-            className="p-1.5 rounded-lg text-gray-600 hover:text-gray-300 hover:bg-white/5 transition-all"
+            className="p-1.5 rounded-lg text-ink-subtle hover:text-gray-300 hover:bg-white/5 transition-all"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -136,7 +136,7 @@ export default function CalendarioAnimo() {
         {/* Day labels */}
         <div className="grid grid-cols-7 gap-1 mb-1">
           {DIAS_SEMANA.map(d => (
-            <div key={d} className="text-center text-[10px] text-gray-700 font-bold py-1">{d}</div>
+            <div key={d} className="text-center text-[10px] text-ink-subtle font-bold py-1">{d}</div>
           ))}
         </div>
 
@@ -162,7 +162,7 @@ export default function CalendarioAnimo() {
                     ? 'border-teal-500/50 text-teal-500 bg-transparent'
                     : esFuturo
                     ? 'border-white/3 text-gray-800 cursor-default'
-                    : 'border-white/5 text-gray-600 hover:bg-white/5 hover:text-gray-400'
+                    : 'border-white/5 text-ink-subtle hover:bg-white/5 hover:text-gray-400'
                 }`}
               >
                 {dia}
@@ -183,12 +183,12 @@ export default function CalendarioAnimo() {
               </h3>
               <button
                 onClick={() => setDiaSeleccionado(null)}
-                className="p-1 text-gray-600 hover:text-gray-400 transition-colors"
+                className="p-1 text-ink-subtle hover:text-gray-400 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-xs text-gray-600 mb-4">1 = muy mal · 10 = excelente</p>
+            <p className="text-xs text-ink-subtle mb-4">1 = muy mal · 10 = excelente</p>
             <div className="grid grid-cols-5 gap-2">
               {Array.from({ length: 10 }, (_, i) => i + 1).map(v => {
                 const { bg, text, border } = colorClasses(v);

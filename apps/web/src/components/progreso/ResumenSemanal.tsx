@@ -34,7 +34,7 @@ export default function ResumenSemanal() {
     return (
       <div className="bg-[#0d1a12] border border-white/5 rounded-xl p-4 flex items-center gap-3">
         <Loader2 className="w-4 h-4 text-teal-400 animate-spin" />
-        <span className="text-sm text-gray-600">Generando resumen de tu semana...</span>
+        <span className="text-sm text-ink-subtle">Generando resumen de tu semana...</span>
       </div>
     );
   }
@@ -53,15 +53,15 @@ export default function ResumenSemanal() {
           </div>
           <div className="text-left">
             <p className="text-sm font-bold text-white">Resumen de tu semana</p>
-            <p className="text-xs text-gray-600 mt-0.5">
+            <p className="text-xs text-ink-subtle mt-0.5">
               {resumen.totalEntradas} entrada{resumen.totalEntradas !== 1 ? 's' : ''} · {resumen.totalEjercicios} ejercicio{resumen.totalEjercicios !== 1 ? 's' : ''} · {resumen.totalSesiones} sesión{resumen.totalSesiones !== 1 ? 'es' : ''}
               {resumen.animoPromedio !== null && ` · ánimo promedio ${resumen.animoPromedio}/10`}
             </p>
           </div>
         </div>
         {expandido
-          ? <ChevronUp className="w-4 h-4 text-gray-600" />
-          : <ChevronDown className="w-4 h-4 text-gray-600" />
+          ? <ChevronUp className="w-4 h-4 text-ink-subtle" />
+          : <ChevronDown className="w-4 h-4 text-ink-subtle" />
         }
       </button>
 

@@ -106,7 +106,7 @@ Verificar vigencia mensualmente. Última verificación: Mayo 2026.
 | Línea | Número | Estado |
 |-------|--------|--------|
 | Línea 106 Bogotá | 106 | ✅ Activa |
-| Línea Nacional | 800-1222-5555 | ✅ Activa |
+| Línea Nacional (800-1222-5555) | — | ❌ Desactivada 2026-09-30: sin respaldo en fuentes oficiales; la línea nacional es la 106 |
 | Emergencias | 123 | ✅ Activa |
 
 ---

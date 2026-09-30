@@ -331,7 +331,7 @@ export default function CitasPage() {
         </h1>
         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
           {([['buscar','🔍 Buscar psicólogos'], ['miscitas','📅 Mis citas']] as const).map(([v, l]) => (
-            <button key={v} onClick={() => setVista(v)} style={{ padding: '9px 18px', borderRadius: '8px', border: 'none', background: vista === v ? '#1a6b4a' : '#1a2e1f', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: '600', fontFamily: 'inherit' }}>{l}</button>
+            <button key={v} onClick={() => setVista(v)} style={{ padding: '9px 18px', borderRadius: '8px', border: 'none', background: vista === v ? '#1a6b4a' : 'var(--surface-card)', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: '600', fontFamily: 'inherit' }}>{l}</button>
           ))}
         </div>
       </div>
@@ -345,12 +345,13 @@ export default function CitasPage() {
               value={filtro}
               onChange={e => setFiltro(e.target.value)}
               placeholder="🔍 Buscar por nombre, especialidad o ciudad..."
-              style={{ flex: 1, minWidth: '200px', background: '#0d1a12', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px 16px', color: 'white', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }}
+              style={{ flex: 1, minWidth: '200px', background: 'var(--surface)', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px 16px', color: 'white', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }}
             />
             <select
+              aria-label="Filtrar por ciudad"
               value={filtroCiudad}
               onChange={e => setFiltroCiudad(e.target.value)}
-              style={{ background: '#0d1a12', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px 14px', color: filtroCiudad ? 'white' : '#5a8a6a', fontSize: '14px', outline: 'none', fontFamily: 'inherit', cursor: 'pointer' }}
+              style={{ background: 'var(--surface)', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px 14px', color: filtroCiudad ? 'white' : 'var(--ink-subtle)', fontSize: '14px', outline: 'none', fontFamily: 'inherit', cursor: 'pointer' }}
             >
               <option value="">Todas las ciudades</option>
               {['Bogotá','Medellín','Cali','Barranquilla','Bucaramanga'].map(c => (
@@ -363,7 +364,7 @@ export default function CitasPage() {
           {cargandoPs && (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '16px' }}>
               {[1,2,3].map(i => (
-                <div key={i} style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', height: '220px', opacity: 0.5, animation: 'pulse 1.5s infinite' }} />
+                <div key={i} style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', height: '220px', opacity: 0.5, animation: 'pulse 1.5s infinite' }} />
               ))}
             </div>
           )}
@@ -396,7 +397,7 @@ export default function CitasPage() {
           {/* Grilla de psicólogos */}
           {!cargandoPs && !errorCarga && filtrados.length > 0 && (
             <>
-              <p style={{ fontSize: '13px', color: '#5a8a6a' }}>
+              <p style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>
                 {filtrados.length} psicólogo{filtrados.length !== 1 ? 's' : ''} verificado{filtrados.length !== 1 ? 's' : ''} ante COLPSIC
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '16px' }}>
@@ -408,7 +409,7 @@ export default function CitasPage() {
                   const ciudad = ps.ciudades[0] ?? '';
 
                   return (
-                    <div key={ps.id} style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', overflow: 'hidden' }}>
+                    <div key={ps.id} style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', overflow: 'hidden' }}>
                       <div style={{ background: color, padding: '20px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
                         {/* Avatar */}
                         <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: '900', color: 'white', flexShrink: 0, overflow: 'hidden' }}>
@@ -451,23 +452,23 @@ export default function CitasPage() {
                       </div>
 
                       <div style={{ padding: '16px 20px' }}>
-                        <p style={{ fontSize: '13px', color: '#5a8a6a', lineHeight: 1.5, marginBottom: '14px' }}>
+                        <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', lineHeight: 1.5, marginBottom: '14px' }}>
                           {ps.bio.slice(0, 120)}{ps.bio.length > 120 ? '…' : ''}
                         </p>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
                           <div>
                             <p style={{ fontSize: '18px', fontWeight: '900', color: '#2dd4bf' }}>${fmt(ps.tarifaCOP)}</p>
-                            <p style={{ fontSize: '11px', color: '#3d5c48' }}>COP por sesión</p>
+                            <p style={{ fontSize: '11px', color: 'var(--ink-subtle)' }}>COP por sesión</p>
                           </div>
                           <div style={{ display: 'flex', gap: '8px' }}>
                             <button
                               onClick={() => { setPsicologo(ps); setVista('perfil'); }}
-                              style={{ padding: '9px 14px', background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}
+                              style={{ padding: '9px 14px', background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-muted)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}
                             >Ver perfil</button>
                             <button
                               onClick={() => { setPsicologo(ps); setVista('agendar'); setCitaCreada(null); setError(''); }}
                               disabled={!disponible}
-                              style={{ padding: '9px 14px', background: disponible ? '#1a6b4a' : '#1a2e1f', border: 'none', borderRadius: '8px', color: disponible ? 'white' : '#3d5c48', cursor: disponible ? 'pointer' : 'not-allowed', fontSize: '12px', fontWeight: '700', fontFamily: 'inherit' }}
+                              style={{ padding: '9px 14px', background: disponible ? '#1a6b4a' : 'var(--surface-card)', border: 'none', borderRadius: '8px', color: disponible ? 'white' : 'var(--ink-subtle)', cursor: disponible ? 'pointer' : 'not-allowed', fontSize: '12px', fontWeight: '700', fontFamily: 'inherit' }}
                             >
                               {disponible ? 'Agendar cita' : 'Sin disponibilidad'}
                             </button>
@@ -486,7 +487,7 @@ export default function CitasPage() {
       {/* ── MIS CITAS ── */}
       {vista === 'miscitas' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {cargandoCitas && <p style={{ color: '#5a8a6a', fontSize: '14px' }}>Cargando citas...</p>}
+          {cargandoCitas && <p style={{ color: 'var(--ink-subtle)', fontSize: '14px' }}>Cargando citas...</p>}
           {!cargandoCitas && citas.length === 0 && (
             <EmptyState
               icon="📅"
@@ -500,16 +501,16 @@ export default function CitasPage() {
             const estadoColor = ESTADO_COLOR[c.estado] ?? '#8aab96';
             const fechaFmt = new Date(c.fechaHora).toLocaleString('es-CO', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
             return (
-              <div key={c.id} style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <div key={c.id} style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: '700', color: 'white', fontSize: '15px', marginBottom: '4px' }}>{c.psicologo.nombreCompleto}</p>
-                  <p style={{ fontSize: '13px', color: '#5a8a6a' }}>📅 {fechaFmt}</p>
+                  <p style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>📅 {fechaFmt}</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <span style={{ background: `${estadoColor}22`, color: estadoColor, border: `1px solid ${estadoColor}44`, borderRadius: '20px', padding: '4px 12px', fontSize: '12px', fontWeight: '700' }}>
                     {c.estado.replace(/_/g, ' ')}
                   </span>
-                  <p style={{ fontSize: '13px', color: '#3d5c48', marginTop: '4px' }}>${fmt(c.montoCOP)} COP</p>
+                  <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', marginTop: '4px' }}>${fmt(c.montoCOP)} COP</p>
                 </div>
                 {c.estado === 'CONFIRMADA' && (
                   <a href={`/dashboard/citas/${c.id}/videollamada`} style={{ background: '#1a6b4a', color: 'white', padding: '9px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '13px' }}>📹 Iniciar sesión</a>
@@ -520,7 +521,7 @@ export default function CitasPage() {
                       {'⭐'.repeat(c.resena.calificacion)} Ver reseña
                     </button>
                   ) : (
-                    <button onClick={() => abrirModalResena(c)} style={{ background: '#1a2e1f', color: '#fbbf24', padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(251,191,36,0.2)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>
+                    <button onClick={() => abrirModalResena(c)} style={{ background: 'var(--surface-card)', color: '#fbbf24', padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(251,191,36,0.2)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>
                       ⭐ Dejar reseña
                     </button>
                   )
@@ -539,7 +540,7 @@ export default function CitasPage() {
 
       {/* ── PERFIL PSICÓLOGO ── */}
       {vista === 'perfil' && psicologo && (
-        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', overflow: 'hidden' }}>
           <div style={{ background: colorCard(psicologo.id), padding: '28px', display: 'flex', gap: '20px', alignItems: 'center' }}>
             <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', fontWeight: '900', color: 'white', flexShrink: 0, overflow: 'hidden' }}>
               {psicologo.fotoUrl
@@ -579,12 +580,12 @@ export default function CitasPage() {
                       {vencida ? 'Tarjeta profesional vencida' : 'Verificado ante COLPSIC'}
                     </p>
                     {psicologo.tarjetaProfesionalId && (
-                      <p style={{ fontSize: '12px', color: '#8aab96', marginBottom: '2px' }}>
+                      <p style={{ fontSize: '12px', color: 'var(--ink-muted)', marginBottom: '2px' }}>
                         Tarjeta profesional N.° <strong style={{ color: 'white' }}>{psicologo.tarjetaProfesionalId}</strong>
                       </p>
                     )}
                     {psicologo.tarjetaVencimiento && (
-                      <p style={{ fontSize: '11px', color: vencida ? '#f87171' : proxima ? '#fbbf24' : '#5a8a6a' }}>
+                      <p style={{ fontSize: '11px', color: vencida ? '#f87171' : proxima ? '#fbbf24' : 'var(--ink-subtle)' }}>
                         {vencida
                           ? `Venció hace ${Math.abs(dias!)} días — en revisión por MenteBridge`
                           : proxima
@@ -599,17 +600,17 @@ export default function CitasPage() {
             })()}
 
             <div>
-              <h3 style={{ fontSize: '14px', color: '#5a8a6a', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Sobre mí</h3>
+              <h3 style={{ fontSize: '14px', color: 'var(--ink-subtle)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Sobre mí</h3>
               <p style={{ fontSize: '14px', color: '#a0b4a8', lineHeight: 1.7 }}>{psicologo.bio}</p>
             </div>
             {psicologo.formacion && (
               <div>
-                <h3 style={{ fontSize: '14px', color: '#5a8a6a', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Formación</h3>
+                <h3 style={{ fontSize: '14px', color: 'var(--ink-subtle)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Formación</h3>
                 <p style={{ fontSize: '14px', color: '#a0b4a8', lineHeight: 1.7 }}>{psicologo.formacion}</p>
               </div>
             )}
             <div>
-              <h3 style={{ fontSize: '14px', color: '#5a8a6a', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '10px' }}>Especialidades</h3>
+              <h3 style={{ fontSize: '14px', color: 'var(--ink-subtle)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '10px' }}>Especialidades</h3>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {psicologo.especialidades.map(e => (
                   <span key={e} style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.2)', color: '#2dd4bf', padding: '5px 12px', borderRadius: '20px', fontSize: '13px' }}>{e}</span>
@@ -618,7 +619,7 @@ export default function CitasPage() {
             </div>
             {psicologo.enfoqueTerapeutico.length > 0 && (
               <div>
-                <h3 style={{ fontSize: '14px', color: '#5a8a6a', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '10px' }}>Enfoque terapéutico</h3>
+                <h3 style={{ fontSize: '14px', color: 'var(--ink-subtle)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '10px' }}>Enfoque terapéutico</h3>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   {psicologo.enfoqueTerapeutico.map(e => (
                     <span key={e} style={{ background: 'rgba(129,140,248,0.1)', border: '1px solid rgba(129,140,248,0.2)', color: '#818cf8', padding: '5px 12px', borderRadius: '20px', fontSize: '13px' }}>{e}</span>
@@ -630,11 +631,11 @@ export default function CitasPage() {
               <button
                 onClick={() => { setVista('agendar'); setCitaCreada(null); setError(''); }}
                 disabled={!tieneDisponibilidad(psicologo.disponibilidad)}
-                style={{ flex: 1, background: tieneDisponibilidad(psicologo.disponibilidad) ? '#1a6b4a' : '#1a2e1f', color: 'white', padding: '13px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: tieneDisponibilidad(psicologo.disponibilidad) ? 'pointer' : 'not-allowed', fontFamily: 'inherit', fontSize: '14px', opacity: tieneDisponibilidad(psicologo.disponibilidad) ? 1 : 0.5 }}
+                style={{ flex: 1, background: tieneDisponibilidad(psicologo.disponibilidad) ? '#1a6b4a' : 'var(--surface-card)', color: 'white', padding: '13px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: tieneDisponibilidad(psicologo.disponibilidad) ? 'pointer' : 'not-allowed', fontFamily: 'inherit', fontSize: '14px', opacity: tieneDisponibilidad(psicologo.disponibilidad) ? 1 : 0.5 }}
               >
                 {tieneDisponibilidad(psicologo.disponibilidad) ? `Agendar cita — $${fmt(psicologo.tarifaCOP)} COP` : 'Sin disponibilidad'}
               </button>
-              <button onClick={() => setVista('buscar')} style={{ padding: '13px 20px', background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#5a8a6a', cursor: 'pointer', fontFamily: 'inherit' }}>← Volver</button>
+              <button onClick={() => setVista('buscar')} style={{ padding: '13px 20px', background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-subtle)', cursor: 'pointer', fontFamily: 'inherit' }}>← Volver</button>
             </div>
           </div>
         </div>
@@ -642,7 +643,7 @@ export default function CitasPage() {
 
       {/* ── AGENDAR ── */}
       {vista === 'agendar' && psicologo && (
-        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '28px', maxWidth: '560px' }}>
+        <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '28px', maxWidth: '560px' }}>
 
           {citaCreada ? (
             <div style={{ padding: '4px 0' }}>
@@ -652,20 +653,20 @@ export default function CitasPage() {
                 <h3 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>
                   ¡Cita registrada!
                 </h3>
-                <p style={{ color: '#8aab96', fontSize: '14px', marginBottom: '4px' }}>{citaCreada.psicologo}</p>
-                <p style={{ fontSize: '12px', color: '#5a8a6a', fontFamily: 'monospace' }}>Ref: {citaCreada.referencia}</p>
+                <p style={{ color: 'var(--ink-muted)', fontSize: '14px', marginBottom: '4px' }}>{citaCreada.psicologo}</p>
+                <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', fontFamily: 'monospace' }}>Ref: {citaCreada.referencia}</p>
               </div>
 
               {/* Resumen de pago */}
               <div style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: '10px', padding: '14px 16px', marginBottom: '20px' }}>
-                <p style={{ fontSize: '13px', color: '#8aab96', marginBottom: '8px', fontWeight: '600' }}>Resumen del pago</p>
+                <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '8px', fontWeight: '600' }}>Resumen del pago</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', color: 'white' }}>
                   <span>Sesión de psicología (45 min)</span>
                   <span style={{ fontWeight: '700', color: '#2dd4bf' }}>
                     ${new Intl.NumberFormat('es-CO').format(citaCreada.montoCOP)} COP
                   </span>
                 </div>
-                <p style={{ fontSize: '12px', color: '#5a8a6a', marginTop: '6px' }}>
+                <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', marginTop: '6px' }}>
                   Método: {metodoPago} · Pago seguro vía Wompi
                 </p>
               </div>
@@ -673,7 +674,7 @@ export default function CitasPage() {
               {/* Widget de Wompi o fallback sin clave */}
               {citaCreada.datosWidget.publicKey ? (
                 <>
-                  <p style={{ fontSize: '13px', color: '#5a8a6a', textAlign: 'center', marginBottom: '12px' }}>
+                  <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', textAlign: 'center', marginBottom: '12px' }}>
                     Completa el pago para confirmar tu cita. Serás redirigido a Wompi.
                   </p>
                   <div ref={wompiFormRef} />
@@ -692,13 +693,13 @@ export default function CitasPage() {
               <div style={{ display: 'flex', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => { setVista('miscitas'); setCitaCreada(null); }}
-                  style={{ flex: 1, padding: '11px', background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px' }}
+                  style={{ flex: 1, padding: '11px', background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px' }}
                 >
                   Ver mis citas
                 </button>
                 <button
                   onClick={() => { setCitaCreada(null); setHorario(''); setDia(''); setMetodoPago(''); }}
-                  style={{ flex: 1, padding: '11px', background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px' }}
+                  style={{ flex: 1, padding: '11px', background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-muted)', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px' }}
                 >
                   Agendar otra cita
                 </button>
@@ -715,37 +716,37 @@ export default function CitasPage() {
                 </div>
                 <div>
                   <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'white' }}>Agendar con {psicologo.nombreCompleto}</h2>
-                  <p style={{ fontSize: '13px', color: '#5a8a6a' }}>Sesión de 45 min · ${fmt(psicologo.tarifaCOP)} COP</p>
+                  <p style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>Sesión de 45 min · ${fmt(psicologo.tarifaCOP)} COP</p>
                 </div>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
                 {/* Día */}
                 <div>
-                  <label style={{ fontSize: '13px', color: '#8aab96', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Selecciona el día</label>
+                  <label style={{ fontSize: '13px', color: 'var(--ink-muted)', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Selecciona el día</label>
                   <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                     {diasSemana.map(d => (
-                      <button key={d.value} onClick={() => setDia(d.value)} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${dia === d.value ? '#2dd4bf' : '#2a3d2e'}`, background: dia === d.value ? 'rgba(45,212,191,0.15)' : 'transparent', color: dia === d.value ? '#2dd4bf' : '#5a8a6a', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', fontWeight: dia === d.value ? '700' : '400' }}>{d.label}</button>
+                      <button key={d.value} onClick={() => setDia(d.value)} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${dia === d.value ? '#2dd4bf' : '#2a3d2e'}`, background: dia === d.value ? 'rgba(45,212,191,0.15)' : 'transparent', color: dia === d.value ? '#2dd4bf' : 'var(--ink-subtle)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', fontWeight: dia === d.value ? '700' : '400' }}>{d.label}</button>
                     ))}
                   </div>
                 </div>
 
                 {/* Hora */}
                 <div>
-                  <label style={{ fontSize: '13px', color: '#8aab96', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Selecciona la hora</label>
+                  <label style={{ fontSize: '13px', color: 'var(--ink-muted)', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Selecciona la hora</label>
                   <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                     {HORARIOS.map(h => (
-                      <button key={h} onClick={() => setHorario(h)} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${horario === h ? '#2dd4bf' : '#2a3d2e'}`, background: horario === h ? 'rgba(45,212,191,0.15)' : 'transparent', color: horario === h ? '#2dd4bf' : '#5a8a6a', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', fontWeight: horario === h ? '700' : '400' }}>{h}</button>
+                      <button key={h} onClick={() => setHorario(h)} style={{ padding: '8px 14px', borderRadius: '8px', border: `1px solid ${horario === h ? '#2dd4bf' : '#2a3d2e'}`, background: horario === h ? 'rgba(45,212,191,0.15)' : 'transparent', color: horario === h ? '#2dd4bf' : 'var(--ink-subtle)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit', fontWeight: horario === h ? '700' : '400' }}>{h}</button>
                     ))}
                   </div>
                 </div>
 
                 {/* Método de pago */}
                 <div>
-                  <label style={{ fontSize: '13px', color: '#8aab96', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Método de pago</label>
+                  <label style={{ fontSize: '13px', color: 'var(--ink-muted)', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Método de pago</label>
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                     {['PSE','NEQUI','DAVIPLATA','TARJETA'].map(m => (
-                      <button key={m} onClick={() => setMetodoPago(m)} style={{ padding: '9px 16px', borderRadius: '8px', border: `1px solid ${metodoPago === m ? '#2dd4bf' : '#2a3d2e'}`, background: metodoPago === m ? 'rgba(45,212,191,0.15)' : 'transparent', color: metodoPago === m ? '#2dd4bf' : '#5a8a6a', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: metodoPago === m ? '700' : '400' }}>{m}</button>
+                      <button key={m} onClick={() => setMetodoPago(m)} style={{ padding: '9px 16px', borderRadius: '8px', border: `1px solid ${metodoPago === m ? '#2dd4bf' : '#2a3d2e'}`, background: metodoPago === m ? 'rgba(45,212,191,0.15)' : 'transparent', color: metodoPago === m ? '#2dd4bf' : 'var(--ink-subtle)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: metodoPago === m ? '700' : '400' }}>{m}</button>
                     ))}
                   </div>
                 </div>
@@ -753,7 +754,7 @@ export default function CitasPage() {
                 {/* Resumen */}
                 {dia && horario && metodoPago && (
                   <div style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: '10px', padding: '16px' }}>
-                    <p style={{ fontSize: '13px', color: '#8aab96', marginBottom: '6px' }}>Resumen de la cita:</p>
+                    <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '6px' }}>Resumen de la cita:</p>
                     <p style={{ fontSize: '14px', color: 'white' }}>📅 {dia} a las {horario}</p>
                     <p style={{ fontSize: '14px', color: 'white' }}>👨‍⚕️ {psicologo.nombreCompleto}</p>
                     <p style={{ fontSize: '14px', color: 'white' }}>💳 {metodoPago} · ${fmt(psicologo.tarifaCOP)} COP</p>
@@ -770,11 +771,11 @@ export default function CitasPage() {
                   <button
                     onClick={confirmarCita}
                     disabled={!horario || !dia || !metodoPago || cargando}
-                    style={{ flex: 1, background: horario && dia && metodoPago ? '#1a6b4a' : '#1a2e1f', color: 'white', padding: '13px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', opacity: (!horario || !dia || !metodoPago) ? 0.5 : 1 }}
+                    style={{ flex: 1, background: horario && dia && metodoPago ? '#1a6b4a' : 'var(--surface-card)', color: 'white', padding: '13px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', fontSize: '14px', opacity: (!horario || !dia || !metodoPago) ? 0.5 : 1 }}
                   >
                     {cargando ? 'Registrando cita...' : 'Registrar cita y pagar'}
                   </button>
-                  <button onClick={() => setVista('buscar')} style={{ padding: '13px 20px', background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#5a8a6a', cursor: 'pointer', fontFamily: 'inherit' }}>Cancelar</button>
+                  <button onClick={() => setVista('buscar')} style={{ padding: '13px 20px', background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-subtle)', cursor: 'pointer', fontFamily: 'inherit' }}>Cancelar</button>
                 </div>
               </div>
             </>
@@ -786,12 +787,12 @@ export default function CitasPage() {
     {modalResena && (
       <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
         onClick={e => { if (e.target === e.currentTarget) setModalResena(null); }}>
-        <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '20px', padding: '32px', maxWidth: '440px', width: '100%' }}>
+        <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '20px', padding: '32px', maxWidth: '440px', width: '100%' }}>
           <h3 style={{ color: 'white', fontWeight: '800', fontSize: '18px', marginBottom: '4px' }}>
             {modalResena.resena ? 'Tu reseña' : '¿Cómo fue tu sesión?'}
           </h3>
-          <p style={{ color: '#5a8a6a', fontSize: '13px', marginBottom: '24px' }}>
-            con <strong style={{ color: '#8aab96' }}>{modalResena.psicologo.nombreCompleto}</strong>
+          <p style={{ color: 'var(--ink-subtle)', fontSize: '13px', marginBottom: '24px' }}>
+            con <strong style={{ color: 'var(--ink-muted)' }}>{modalResena.psicologo.nombreCompleto}</strong>
           </p>
 
           {/* Estrellas */}
@@ -808,7 +809,7 @@ export default function CitasPage() {
               </button>
             ))}
           </div>
-          <p style={{ color: '#5a8a6a', fontSize: '13px', marginBottom: '16px', minHeight: '18px' }}>
+          <p style={{ color: 'var(--ink-subtle)', fontSize: '13px', marginBottom: '16px', minHeight: '18px' }}>
             {(estrellasHover || estrellas) === 1 && 'Muy mala experiencia'}
             {(estrellasHover || estrellas) === 2 && 'Podría mejorar'}
             {(estrellasHover || estrellas) === 3 && 'Regular'}
@@ -823,9 +824,9 @@ export default function CitasPage() {
             readOnly={!!modalResena.resena}
             placeholder="Comparte tu experiencia (opcional)..."
             rows={4}
-            style={{ width: '100%', background: '#0a1510', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px', color: 'white', fontSize: '13px', fontFamily: 'inherit', resize: 'vertical', lineHeight: 1.6, boxSizing: 'border-box', opacity: modalResena.resena ? 0.7 : 1 }}
+            style={{ width: '100%', background: 'var(--surface-alt)', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '12px', color: 'white', fontSize: '13px', fontFamily: 'inherit', resize: 'vertical', lineHeight: 1.6, boxSizing: 'border-box', opacity: modalResena.resena ? 0.7 : 1 }}
           />
-          <p style={{ color: '#3d5c48', fontSize: '11px', textAlign: 'right', marginTop: '4px' }}>{comentario.length}/1000</p>
+          <p style={{ color: 'var(--ink-subtle)', fontSize: '11px', textAlign: 'right', marginTop: '4px' }}>{comentario.length}/1000</p>
 
           {errorResena && <p style={{ color: '#f87171', fontSize: '13px', marginBottom: '12px' }}>{errorResena}</p>}
 
@@ -834,14 +835,14 @@ export default function CitasPage() {
               <button
                 onClick={enviarResena}
                 disabled={enviandoResena || estrellas === 0}
-                style={{ flex: 1, background: estrellas > 0 ? '#0d9488' : '#1a2e1f', color: 'white', padding: '12px', borderRadius: '10px', border: 'none', fontWeight: '700', fontSize: '14px', cursor: estrellas > 0 ? 'pointer' : 'not-allowed', fontFamily: 'inherit', opacity: enviandoResena ? 0.7 : 1 }}
+                style={{ flex: 1, background: estrellas > 0 ? '#0d9488' : 'var(--surface-card)', color: 'white', padding: '12px', borderRadius: '10px', border: 'none', fontWeight: '700', fontSize: '14px', cursor: estrellas > 0 ? 'pointer' : 'not-allowed', fontFamily: 'inherit', opacity: enviandoResena ? 0.7 : 1 }}
               >
                 {enviandoResena ? 'Enviando...' : 'Enviar reseña'}
               </button>
             )}
             <button
               onClick={() => setModalResena(null)}
-              style={{ flex: modalResena.resena ? 1 : 0, padding: '12px 20px', background: '#1a2e1f', border: '1px solid #2a3d2e', borderRadius: '10px', color: '#5a8a6a', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ flex: modalResena.resena ? 1 : 0, padding: '12px 20px', background: 'var(--surface-card)', border: '1px solid #2a3d2e', borderRadius: '10px', color: 'var(--ink-subtle)', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               {modalResena.resena ? 'Cerrar' : 'Cancelar'}
             </button>

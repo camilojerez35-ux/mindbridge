@@ -101,7 +101,7 @@
 | Detección de horario fuera de oficina (Colombia UTC-5) | ✅ | Implementado 2026-07-01 |
 | Enlace de confirmación de recepción en email | ✅ | Implementado 2026-07-01 |
 | Escalación automática si no hay confirmación en 15 min | ✅ | Cron `/api/cron/crisis-escalacion` |
-| Botón SOS con líneas de emergencia (123, 106, 800-112-5555) | ✅ | `PanicButton.tsx` |
+| Botón SOS con líneas de emergencia (123, 106 y línea local por ciudad) | ✅ | `PanicButton.tsx` |
 | Audit log de cada incidente de crisis | ✅ | `registrarAuditLog` |
 | Cifrado del fragmento antes de persistir | ✅ | AES-256-GCM |
 | **Protocolo de guardia documentado** | ⚠️ PENDIENTE | Ver sección 6.1 |

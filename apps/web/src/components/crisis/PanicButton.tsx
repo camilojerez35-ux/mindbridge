@@ -88,9 +88,9 @@ export default function PanicButton() {
       urgencia: 'primary' as const,
     },
     {
-      numero: '8001225555',
-      nombre: 'Línea Nacional Salud Mental',
-      desc: 'Gratuita · Horario extendido',
+      numero: '106',
+      nombre: 'Línea 106 — Salud Mental (nacional, MinSalud)',
+      desc: 'Gratuita · 24 horas · Desde cualquier celular o fijo',
       color: '#818cf8',
       urgencia: 'secondary' as const,
     },
@@ -161,7 +161,7 @@ export default function PanicButton() {
           }}
         >
           <div style={{
-            background: '#0d1a12',
+            background: 'var(--surface)',
             border: '1px solid rgba(248,113,113,0.3)',
             borderRadius: '20px',
             padding: '32px',
@@ -185,7 +185,7 @@ export default function PanicButton() {
                 ref={cerrarBtnRef}
                 onClick={cerrar}
                 aria-label="Cerrar recursos de crisis"
-                style={{ background: 'none', border: 'none', color: '#5a8a6a', fontSize: '20px', cursor: 'pointer', padding: '4px', lineHeight: 1, flexShrink: 0 }}
+                style={{ background: 'none', border: 'none', color: 'var(--ink-subtle)', fontSize: '20px', cursor: 'pointer', padding: '4px', lineHeight: 1, flexShrink: 0 }}
               >
                 ✕
               </button>
@@ -195,7 +195,7 @@ export default function PanicButton() {
             <div style={{ marginBottom: '16px' }}>
               <label
                 htmlFor="crisis-ciudad"
-                style={{ display: 'block', fontSize: '12px', color: '#8aab96', marginBottom: '6px', fontWeight: '600' }}
+                style={{ display: 'block', fontSize: '12px', color: 'var(--ink-muted)', marginBottom: '6px', fontWeight: '600' }}
               >
                 ¿En qué ciudad estás?
               </label>
@@ -205,7 +205,7 @@ export default function PanicButton() {
                 onChange={e => setCiudad(e.target.value)}
                 style={{
                   width: '100%', padding: '10px 12px',
-                  background: '#0a1510', color: 'white',
+                  background: 'var(--surface-alt)', color: 'white',
                   border: '1px solid rgba(45,212,191,0.2)', borderRadius: '8px',
                   fontSize: '14px', fontFamily: 'inherit', cursor: 'pointer',
                 }}
@@ -247,7 +247,7 @@ export default function PanicButton() {
                       {numero.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3').replace(/^(\d{3})$/, '$1')}
                     </p>
                     <p style={{ fontSize: '13px', color: 'white', fontWeight: '600', marginBottom: '2px' }}>{nombre}</p>
-                    <p style={{ fontSize: '11px', color: '#5a8a6a' }}>{desc}</p>
+                    <p style={{ fontSize: '11px', color: 'var(--ink-subtle)' }}>{desc}</p>
                   </div>
                   <span style={{ color, fontSize: '16px' }} aria-hidden="true">›</span>
                 </a>
@@ -258,7 +258,7 @@ export default function PanicButton() {
             <div style={{ marginBottom: '20px' }}>
               <label
                 htmlFor="crisis-contacto"
-                style={{ display: 'block', fontSize: '12px', color: '#8aab96', marginBottom: '6px', fontWeight: '600' }}
+                style={{ display: 'block', fontSize: '12px', color: 'var(--ink-muted)', marginBottom: '6px', fontWeight: '600' }}
               >
                 Contacto de emergencia personal (opcional)
               </label>
@@ -271,12 +271,12 @@ export default function PanicButton() {
                 aria-describedby="crisis-contacto-hint"
                 style={{
                   width: '100%', padding: '10px 12px',
-                  background: '#0a1510', color: 'white',
+                  background: 'var(--surface-alt)', color: 'white',
                   border: '1px solid rgba(45,212,191,0.2)', borderRadius: '8px',
                   fontSize: '14px', fontFamily: 'inherit', boxSizing: 'border-box',
                 }}
               />
-              <p id="crisis-contacto-hint" style={{ fontSize: '11px', color: '#5a8a6a', marginTop: '4px' }}>
+              <p id="crisis-contacto-hint" style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '4px' }}>
                 Solo visible para ti. No se guarda en el servidor.
               </p>
               {contactoEmergencia && (
@@ -315,7 +315,7 @@ export default function PanicButton() {
               onClick={cerrar}
               style={{
                 width: '100%', padding: '12px',
-                background: '#1a2e1f', color: '#8aab96',
+                background: 'var(--surface-card)', color: 'var(--ink-muted)',
                 border: '1px solid #2a3d2e', borderRadius: '10px',
                 cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit',
               }}

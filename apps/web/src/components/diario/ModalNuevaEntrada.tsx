@@ -81,7 +81,7 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
                 </div>
                 <h2 className="text-base font-black text-white">Reflexión guiada</h2>
               </div>
-              <button onClick={onCerrar} className="p-1.5 rounded-lg text-gray-600 hover:text-gray-400 hover:bg-white/5 transition-all flex-shrink-0">
+              <button onClick={onCerrar} className="p-1.5 rounded-lg text-ink-subtle hover:text-gray-400 hover:bg-white/5 transition-all flex-shrink-0">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -97,7 +97,7 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
               ))}
             </div>
 
-            <p className="text-xs text-gray-600 uppercase tracking-widest">
+            <p className="text-xs text-ink-subtle uppercase tracking-widest">
               Pregunta {preguntaActual + 1} de {preguntasHoy.length}
             </p>
 
@@ -115,20 +115,20 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
                 placeholder="Escribe lo que te venga a la mente..."
                 rows={4}
                 autoFocus
-                className="w-full bg-transparent text-sm text-gray-300 placeholder:text-gray-700 outline-none resize-none leading-relaxed"
+                className="w-full bg-transparent text-sm text-gray-300 placeholder:text-ink-subtle outline-none resize-none leading-relaxed"
               />
             </div>
 
             <div className="flex gap-3">
               <button
                 onClick={() => { setPaso('tags'); }}
-                className="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-400 transition-colors"
+                className="px-4 py-2.5 text-sm text-ink-subtle hover:text-gray-400 transition-colors"
               >
                 Saltar reflexión
               </button>
               <button
                 onClick={avanzarReflexion}
-                className="flex-1 py-3 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl transition-colors text-sm"
+                className="flex-1 py-3 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl transition-colors text-sm"
               >
                 {preguntaActual < preguntasHoy.length - 1 ? 'Siguiente pregunta →' : 'Continuar al diario →'}
               </button>
@@ -140,19 +140,19 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
           <>
             <div className="flex items-start justify-between gap-3">
               <h2 className="text-lg font-black text-white leading-snug">Tu espacio seguro para reflexionar</h2>
-              <button onClick={onCerrar} className="p-1.5 rounded-lg text-gray-600 hover:text-gray-400 hover:bg-white/5 transition-all flex-shrink-0">
+              <button onClick={onCerrar} className="p-1.5 rounded-lg text-ink-subtle hover:text-gray-400 hover:bg-white/5 transition-all flex-shrink-0">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-sm text-gray-500 leading-relaxed -mt-2">
+            <p className="text-sm text-ink-subtle leading-relaxed -mt-2">
               Antes de escribir, cuéntanos un poco sobre cómo te sientes hoy.
             </p>
 
             {/* Sentimientos */}
             <div>
-              <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">
-                Sentimientos <span className="normal-case font-normal text-gray-700">(máx 5)</span>
+              <p className="text-xs font-bold text-ink-subtle uppercase tracking-widest mb-3">
+                Sentimientos <span className="normal-case font-normal text-ink-subtle">(máx 5)</span>
               </p>
               <div className="flex flex-wrap gap-2">
                 {TAGS_SENTIMIENTOS.map(tag => {
@@ -164,7 +164,7 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
                       className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm border transition-all ${
                         sel
                           ? 'bg-teal-500/15 border-teal-500/50 text-teal-300'
-                          : 'bg-white/3 border-white/8 text-gray-500 hover:bg-white/6 hover:text-gray-300'
+                          : 'bg-white/3 border-white/8 text-ink-subtle hover:bg-white/6 hover:text-gray-300'
                       }`}
                     >
                       <span>{tag.emoji}</span>{tag.texto}
@@ -176,8 +176,8 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
 
             {/* Influido por */}
             <div>
-              <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">
-                Influido por <span className="normal-case font-normal text-gray-700">(máx 5)</span>
+              <p className="text-xs font-bold text-ink-subtle uppercase tracking-widest mb-3">
+                Influido por <span className="normal-case font-normal text-ink-subtle">(máx 5)</span>
               </p>
               <div className="flex flex-wrap gap-2">
                 {TAGS_INFLUIDO_POR.map(tag => {
@@ -189,7 +189,7 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
                       className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm border transition-all ${
                         sel
                           ? 'bg-indigo-500/15 border-indigo-500/50 text-indigo-300'
-                          : 'bg-white/3 border-white/8 text-gray-500 hover:bg-white/6 hover:text-gray-300'
+                          : 'bg-white/3 border-white/8 text-ink-subtle hover:bg-white/6 hover:text-gray-300'
                       }`}
                     >
                       <span>{tag.emoji}</span>{tag.texto}
@@ -202,14 +202,14 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
             <div className="flex gap-3">
               <button
                 onClick={() => setPaso('reflexion')}
-                className="px-4 py-3 text-sm text-gray-600 hover:text-gray-400 transition-colors flex items-center gap-1.5"
+                className="px-4 py-3 text-sm text-ink-subtle hover:text-gray-400 transition-colors flex items-center gap-1.5"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />Volver
               </button>
               <button
                 onClick={() => setPaso('escribir')}
                 disabled={sentimientosSel.length === 0}
-                className="flex-1 py-3.5 bg-teal-600 hover:bg-teal-500 disabled:bg-white/5 disabled:text-gray-600 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors"
+                className="flex-1 py-3.5 bg-teal-700 hover:bg-teal-800 disabled:bg-white/5 disabled:text-ink-subtle disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors"
               >
                 Continuar
               </button>
@@ -220,11 +220,11 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setPaso('tags')}
-                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                className="flex items-center gap-1.5 text-sm text-ink-subtle hover:text-gray-300 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />Atrás
               </button>
-              <button onClick={onCerrar} className="p-1.5 rounded-lg text-gray-600 hover:text-gray-400 hover:bg-white/5 transition-all">
+              <button onClick={onCerrar} className="p-1.5 rounded-lg text-ink-subtle hover:text-gray-400 hover:bg-white/5 transition-all">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -253,7 +253,7 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
               value={titulo}
               onChange={e => setTitulo(e.target.value)}
               placeholder="Título de tu entrada..."
-              className="w-full bg-white/3 border border-white/8 rounded-xl px-4 py-3 text-sm font-bold text-white placeholder:text-gray-700 outline-none focus:border-teal-500/40 transition-colors"
+              className="w-full bg-white/3 border border-white/8 rounded-xl px-4 py-3 text-sm font-bold text-white placeholder:text-ink-subtle outline-none focus:border-teal-500/40 transition-colors"
             />
 
             <textarea
@@ -262,13 +262,13 @@ export default function ModalNuevaEntrada({ onCerrar, onGuardado }: Props) {
               placeholder="Escribe libremente sobre tu día, tus pensamientos o lo que quieras explorar..."
               rows={8}
               autoFocus
-              className="w-full bg-white/3 border border-white/8 rounded-xl px-4 py-3 text-sm text-gray-300 placeholder:text-gray-700 outline-none focus:border-teal-500/40 resize-none leading-relaxed transition-colors"
+              className="w-full bg-white/3 border border-white/8 rounded-xl px-4 py-3 text-sm text-gray-300 placeholder:text-ink-subtle outline-none focus:border-teal-500/40 resize-none leading-relaxed transition-colors"
             />
 
             <button
               onClick={guardar}
               disabled={!contenido.trim() || guardando}
-              className="w-full flex items-center justify-center gap-2 py-3.5 bg-teal-600 hover:bg-teal-500 disabled:bg-white/5 disabled:text-gray-600 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors"
+              className="w-full flex items-center justify-center gap-2 py-3.5 bg-teal-700 hover:bg-teal-800 disabled:bg-white/5 disabled:text-ink-subtle disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors"
             >
               {guardando && <Loader2 className="w-4 h-4 animate-spin" />}
               {guardando ? 'Guardando...' : 'Guardar entrada'}

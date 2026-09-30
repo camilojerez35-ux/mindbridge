@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { useProveedoresActivos } from '@/lib/auth/use-proveedores';
 import { Brain, Eye, EyeOff, AlertCircle } from 'lucide-react';
 
 function LoginForm() {
@@ -22,6 +23,7 @@ function LoginForm() {
   const [lockoutUntil, setLockoutUntil] = useState<number | null>(null);
 
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
+  const proveedores = useProveedoresActivos();
 
   // Mostrar mensaje de registro exitoso o errores de OAuth
   useEffect(() => {
@@ -149,7 +151,7 @@ function LoginForm() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 onBlur={() => setTouched(t => ({ ...t, email: true }))}
-                className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${emailError ? 'border-red-500/50' : 'border-white/10'}`}
+                className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${emailError ? 'border-red-500/50' : 'border-white/10'}`}
                 placeholder="tu@correo.com"
                 autoComplete="email"
               />
@@ -167,7 +169,7 @@ function LoginForm() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   onBlur={() => setTouched(t => ({ ...t, password: true }))}
-                  className={`w-full px-4 py-3 pr-12 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${passwordError ? 'border-red-500/50' : 'border-white/10'}`}
+                  className={`w-full px-4 py-3 pr-12 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${passwordError ? 'border-red-500/50' : 'border-white/10'}`}
                   placeholder="••••••••"
                   autoComplete="current-password"
                 />
@@ -201,7 +203,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading || !!minutosRestantes}
-              className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-on-accent font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -215,7 +217,7 @@ function LoginForm() {
             </button>
         </form>
 
-        {process.env.NODE_ENV !== 'production' && (
+        {proveedores?.has('dev-bypass') && (
           <button
             type="button"
             onClick={async () => {
@@ -228,7 +230,7 @@ function LoginForm() {
               if (result?.ok) { router.push('/dashboard'); router.refresh(); }
               else setError('Dev bypass falló — verifica que NODE_ENV=development.');
             }}
-            className="w-full mt-4 py-2.5 border border-dashed border-teal-500/30 text-teal-500/70 text-xs font-mono rounded-xl hover:bg-teal-500/5 transition-all"
+            className="w-full mt-4 py-2.5 border border-dashed border-teal-500/30 text-teal-400 text-xs font-mono rounded-xl hover:bg-teal-500/5 transition-all"
           >
             ⚡ Dev: entrar sin cuenta
           </button>
@@ -239,6 +241,7 @@ function LoginForm() {
           <Link href="/registro" className="text-teal-400 hover:underline font-medium">Regístrate gratis</Link>
         </p>
 
+        {proveedores?.has('google') && (
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -264,8 +267,9 @@ function LoginForm() {
             </button>
           </div>
         </div>
+        )}
 
-        <p className="text-xs text-gray-600 text-center mt-6 leading-relaxed">
+        <p className="text-xs text-ink-subtle text-center mt-6 leading-relaxed">
           Al iniciar sesión, aceptas nuestros{' '}
           <Link href="/terminos-uso" className="underline hover:text-gray-400">Términos de Servicio</Link> y{' '}
           <Link href="/politica-privacidad" className="underline hover:text-gray-400">Política de Privacidad</Link>.

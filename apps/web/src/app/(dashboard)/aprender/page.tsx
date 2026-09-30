@@ -30,7 +30,7 @@ export default async function AprenderPage() {
     <div className="space-y-6 max-w-2xl">
       <div>
         <h1 className="text-2xl font-black text-white mb-1">📚 Aprender</h1>
-        <p className="text-sm text-gray-500">Lecciones cortas + práctica real con la IA, en Pensar, Sentir y Actuar.</p>
+        <p className="text-sm text-ink-subtle">Lecciones cortas + práctica real con la IA, en Pensar, Sentir y Actuar.</p>
       </div>
 
       {/* Continue banner */}
@@ -72,10 +72,10 @@ export default async function AprenderPage() {
         return (
           <div key={cat.id}>
             <div className="mb-3">
-              <h2 className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <h2 className="text-xs font-bold text-ink-subtle uppercase tracking-wider mb-1 flex items-center gap-1.5">
                 <span>{cat.icono}</span>{cat.titulo}
               </h2>
-              <p className="text-[11px] text-gray-700 mt-0.5">{cat.descripcion}</p>
+              <p className="text-[11px] text-ink-subtle mt-0.5">{cat.descripcion}</p>
             </div>
             <div className="flex flex-col gap-3">
               {cursos.map(curso => {
@@ -97,9 +97,9 @@ export default async function AprenderPage() {
                           <CheckCircle2 className="w-3.5 h-3.5 text-teal-400 flex-shrink-0" />
                         )}
                       </div>
-                      <p className="text-xs text-gray-600 leading-relaxed line-clamp-1 mb-2">{curso.descripcion}</p>
+                      <p className="text-xs text-ink-subtle leading-relaxed line-clamp-1 mb-2">{curso.descripcion}</p>
                       <div className="flex items-center gap-3">
-                        <span className="text-[10px] text-gray-700">{total} pasos</span>
+                        <span className="text-[10px] text-ink-subtle">{total} pasos</span>
                         {completados.length > 0 && (
                           <span className="text-[10px] text-teal-500">{pct}% completado</span>
                         )}
@@ -113,7 +113,7 @@ export default async function AprenderPage() {
                         </div>
                       )}
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-700 group-hover:text-gray-500 transition-colors flex-shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-ink-subtle group-hover:text-ink-subtle transition-colors flex-shrink-0" />
                   </Link>
                 );
               })}

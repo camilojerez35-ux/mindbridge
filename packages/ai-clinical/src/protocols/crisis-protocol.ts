@@ -153,8 +153,7 @@ export function generarMensajeCrisis(nivel: NivelCrisis): string {
     return `Gracias por confiar en mí con algo tan importante. Lo que describes me preocupa profundamente, y quiero asegurarme de que estés seguro/a ahora mismo.
 
 Por favor comunícate de inmediato con:
-📞 **Línea 106** — Línea de Salud Mental de Bogotá (gratuita, 24 horas)
-📞 **800-1222-5555** — Línea Nacional de Salud Mental (gratuita)
+📞 **Línea 106** — Salud mental, desde cualquier celular o fijo del país (gratuita, 24 horas)
 📞 **123** — Emergencias (si estás en peligro inmediato)
 
 También puedes agendar ahora mismo una cita urgente con uno de nuestros psicólogos.

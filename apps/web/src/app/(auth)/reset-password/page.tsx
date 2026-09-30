@@ -173,7 +173,7 @@ export default function ResetPasswordPage() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pr-12 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all"
+                  className="w-full px-4 py-3 pr-12 bg-white/5 border border-white/10 rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all"
                   placeholder="••••••••"
                 />
                 <button
@@ -210,7 +210,7 @@ export default function ResetPasswordPage() {
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`w-full px-4 py-3 pr-12 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
+                  className={`w-full px-4 py-3 pr-12 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
                     confirmPassword && confirmPassword !== password ? 'border-red-500/50' : 'border-white/10'
                   }`}
                   placeholder="••••••••"
@@ -251,7 +251,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading || password.length < 8 || password !== confirmPassword}
-              className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-on-accent font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -276,7 +276,7 @@ export default function ResetPasswordPage() {
             </p>
             <Link
               href="/forgot-password"
-              className="inline-block py-2 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-all"
+              className="inline-block py-2 px-4 bg-teal-500 text-on-accent font-medium rounded-xl hover:bg-teal-600 transition-all"
             >
               Solicitar nuevo enlace
             </Link>
@@ -291,7 +291,7 @@ export default function ResetPasswordPage() {
         </div>
 
         {/* Privacy notice */}
-        <p className="text-xs text-gray-600 text-center mt-6 leading-relaxed">
+        <p className="text-xs text-ink-subtle text-center mt-6 leading-relaxed">
           Por tu seguridad, el enlace expira en 1 hora. No compartas este enlace con nadie.
         </p>
       </div>

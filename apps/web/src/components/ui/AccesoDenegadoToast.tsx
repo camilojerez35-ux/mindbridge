@@ -42,14 +42,14 @@ export default function AccesoDenegadoToast() {
       <span style={{ fontSize: '18px', flexShrink: 0 }}>🔒</span>
       <div style={{ flex: 1 }}>
         <p style={{ fontSize: '13px', fontWeight: '700', color: '#f87171', marginBottom: '2px' }}>Acceso denegado</p>
-        <p style={{ fontSize: '12px', color: '#8aab96', lineHeight: 1.4 }}>
+        <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
           {MENSAJES[requiere] ?? 'No tienes permiso para acceder a esa sección.'}
         </p>
       </div>
       <button
         onClick={() => setVisible(false)}
         aria-label="Cerrar"
-        style={{ background: 'none', border: 'none', color: '#5a8a6a', cursor: 'pointer', fontSize: '14px', padding: '0', lineHeight: 1, flexShrink: 0 }}
+        style={{ background: 'none', border: 'none', color: 'var(--ink-subtle)', cursor: 'pointer', fontSize: '14px', padding: '0', lineHeight: 1, flexShrink: 0 }}
       >
         ✕
       </button>

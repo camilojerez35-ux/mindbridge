@@ -77,8 +77,8 @@ export default function RachaBienestar() {
   }, []);
 
   if (cargando) return (
-    <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', minHeight: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: '13px', color: '#3d5c48' }}>Cargando progreso...</span>
+    <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', minHeight: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>Cargando progreso...</span>
     </div>
   );
 
@@ -105,7 +105,7 @@ export default function RachaBienestar() {
   const maxBarVal = Math.max(...ultimos7.map(d => d.valor ?? 0), 10);
   const barColor = (v: number) => v >= 7 ? '#2dd4bf' : v >= 4 ? '#fbbf24' : '#f87171';
 
-  const tendenciaColor = tendencia === null ? '#5a8a6a' : tendencia > 0 ? '#2dd4bf' : tendencia < 0 ? '#f87171' : '#fbbf24';
+  const tendenciaColor = tendencia === null ? '#7a9e87' : tendencia > 0 ? '#2dd4bf' : tendencia < 0 ? '#f87171' : '#fbbf24';
   const tendenciaIcon = tendencia === null ? '—' : tendencia > 0 ? '↑' : tendencia < 0 ? '↓' : '→';
   const tendenciaTexto = tendencia === null
     ? 'Sin datos semana anterior'
@@ -116,13 +116,13 @@ export default function RachaBienestar() {
         : 'Igual que la semana pasada';
 
   return (
-    <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div style={{ background: 'var(--surface)', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h2 style={{ fontSize: '15px', fontWeight: '700', color: 'white', marginBottom: '2px' }}>Racha y resumen semanal</h2>
-          <p style={{ fontSize: '12px', color: '#3d5c48' }}>Últimos 7 días</p>
+          <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>Últimos 7 días</p>
         </div>
         <Link href="/dashboard/progreso" style={{ fontSize: '12px', color: '#2dd4bf', textDecoration: 'none', fontWeight: '600' }}>
           Ver detalle →
@@ -135,24 +135,24 @@ export default function RachaBienestar() {
         {/* Racha */}
         <div style={{ background: '#0a130d', border: `1px solid ${racha >= 3 ? 'rgba(251,113,133,0.3)' : '#1a2e1f'}`, borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
           <div style={{ fontSize: '20px', marginBottom: '4px' }}>{racha >= 7 ? '🔥' : racha >= 3 ? '⚡' : '💫'}</div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: racha >= 3 ? '#fb7185' : '#5a8a6a', lineHeight: 1 }}>{racha}</div>
-          <div style={{ fontSize: '11px', color: '#3d5c48', marginTop: '3px' }}>día{racha !== 1 ? 's' : ''} de racha</div>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: racha >= 3 ? '#fb7185' : 'var(--ink-subtle)', lineHeight: 1 }}>{racha}</div>
+          <div style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '3px' }}>día{racha !== 1 ? 's' : ''} de racha</div>
         </div>
 
         {/* Promedio semanal */}
         <div style={{ background: '#0a130d', border: '1px solid #1a2e1f', borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
           <div style={{ fontSize: '20px', marginBottom: '4px' }}>📊</div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: semanaActual.promedio >= 7 ? '#2dd4bf' : semanaActual.promedio >= 4 ? '#fbbf24' : semanaActual.promedio > 0 ? '#f87171' : '#3d5c48', lineHeight: 1 }}>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: semanaActual.promedio >= 7 ? '#2dd4bf' : semanaActual.promedio >= 4 ? '#fbbf24' : semanaActual.promedio > 0 ? '#f87171' : 'var(--ink-subtle)', lineHeight: 1 }}>
             {semanaActual.promedio > 0 ? semanaActual.promedio : '—'}
           </div>
-          <div style={{ fontSize: '11px', color: '#3d5c48', marginTop: '3px' }}>promedio /10</div>
+          <div style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginTop: '3px' }}>promedio /10</div>
         </div>
 
         {/* Tendencia */}
         <div style={{ background: '#0a130d', border: '1px solid #1a2e1f', borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
           <div style={{ fontSize: '20px', marginBottom: '4px' }}>📈</div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: tendenciaColor, lineHeight: 1 }}>{tendenciaIcon}</div>
-          <div style={{ fontSize: '10px', color: '#3d5c48', marginTop: '3px', lineHeight: 1.3 }}>{tendenciaTexto}</div>
+          <div style={{ fontSize: '10px', color: 'var(--ink-subtle)', marginTop: '3px', lineHeight: 1.3 }}>{tendenciaTexto}</div>
         </div>
       </div>
 
@@ -178,14 +178,14 @@ export default function RachaBienestar() {
                   }}
                 />
               ) : (
-                <div style={{ width: '100%', height: '4px', background: '#1a2e1f', borderRadius: '2px' }} />
+                <div style={{ width: '100%', height: '4px', background: 'var(--surface-card)', borderRadius: '2px' }} />
               )}
             </div>
           ))}
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
           {ultimos7.map((d, i) => (
-            <div key={i} style={{ flex: 1, textAlign: 'center', fontSize: '10px', color: d.esHoy ? '#8aab96' : '#3d5c48', fontWeight: d.esHoy ? '700' : '400' }}>
+            <div key={i} style={{ flex: 1, textAlign: 'center', fontSize: '10px', color: d.esHoy ? 'var(--ink-muted)' : 'var(--ink-subtle)', fontWeight: d.esHoy ? '700' : '400' }}>
               {d.dia}
             </div>
           ))}
@@ -194,12 +194,12 @@ export default function RachaBienestar() {
 
       {/* Insight */}
       <div style={{ padding: '12px 16px', background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.12)', borderRadius: '10px' }}>
-        <p style={{ fontSize: '13px', color: '#8aab96', lineHeight: 1.6, margin: 0 }}>{insight}</p>
+        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6, margin: 0 }}>{insight}</p>
       </div>
 
       {/* CTA si no hay datos */}
       {registros.length === 0 && (
-        <p style={{ fontSize: '12px', color: '#3d5c48', textAlign: 'center' }}>
+        <p style={{ fontSize: '12px', color: 'var(--ink-subtle)', textAlign: 'center' }}>
           Registra tu primer ánimo para comenzar a ver tu racha.
         </p>
       )}

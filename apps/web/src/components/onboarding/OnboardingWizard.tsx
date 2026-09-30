@@ -68,7 +68,7 @@ export default function OnboardingWizard() {
         <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '8px' }}>
           Bienvenido/a a MenteBridge
         </h2>
-        <p style={{ fontSize: '14px', color: '#8aab96', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto' }}>
+        <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto' }}>
           Este es tu espacio seguro para el bienestar emocional. En 2 minutos te mostramos cómo sacarle el máximo provecho.
         </p>
       </div>
@@ -81,7 +81,7 @@ export default function OnboardingWizard() {
         ].map(({ icon, texto }) => (
           <div key={texto} style={{ display: 'flex', gap: '10px', alignItems: 'center', padding: '10px 14px', background: 'rgba(45,212,191,0.04)', border: '1px solid rgba(45,212,191,0.1)', borderRadius: '10px' }}>
             <span style={{ fontSize: '18px' }}>{icon}</span>
-            <span style={{ fontSize: '13px', color: '#8aab96' }}>{texto}</span>
+            <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>{texto}</span>
           </div>
         ))}
       </div>
@@ -93,7 +93,7 @@ export default function OnboardingWizard() {
         <h2 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>
           ¿Qué te trae a MenteBridge?
         </h2>
-        <p style={{ fontSize: '13px', color: '#5a8a6a' }}>
+        <p style={{ fontSize: '13px', color: 'var(--ink-subtle)' }}>
           Puedes elegir varias. Puedes cambiar esto en cualquier momento.
         </p>
       </div>
@@ -115,7 +115,7 @@ export default function OnboardingWizard() {
               <span style={{ fontSize: '22px', flexShrink: 0 }}>{o.icon}</span>
               <div style={{ flex: 1 }}>
                 <p style={{ fontSize: '14px', fontWeight: '700', color: sel ? '#2dd4bf' : 'white', marginBottom: '2px' }}>{o.label}</p>
-                <p style={{ fontSize: '12px', color: '#5a8a6a' }}>{o.desc}</p>
+                <p style={{ fontSize: '12px', color: 'var(--ink-subtle)' }}>{o.desc}</p>
               </div>
               <div style={{
                 width: '20px', height: '20px', borderRadius: '6px', flexShrink: 0,
@@ -124,7 +124,7 @@ export default function OnboardingWizard() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'all .15s',
               }}>
-                {sel && <span style={{ color: '#0d1a12', fontSize: '12px', fontWeight: '900', lineHeight: 1 }}>✓</span>}
+                {sel && <span style={{ color: 'var(--on-accent)', fontSize: '12px', fontWeight: '900', lineHeight: 1 }}>✓</span>}
               </div>
             </button>
           );
@@ -143,7 +143,7 @@ export default function OnboardingWizard() {
         <h2 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>
           Sobre la IA de MenteBridge
         </h2>
-        <p style={{ fontSize: '13px', color: '#5a8a6a', lineHeight: 1.5 }}>
+        <p style={{ fontSize: '13px', color: 'var(--ink-subtle)', lineHeight: 1.5 }}>
           Para usarla bien, es importante entender qué puede y qué no puede hacer.
         </p>
       </div>
@@ -159,14 +159,12 @@ export default function OnboardingWizard() {
         ].map(({ tipo, icon, texto }) => (
           <div key={texto} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', padding: '8px 0' }}>
             <span style={{ fontSize: '15px', flexShrink: 0, marginTop: '1px' }}>{icon}</span>
-            <span style={{ fontSize: '13px', color: tipo === 'si' ? '#8aab96' : '#f87171', lineHeight: 1.4 }}>{texto}</span>
+            <span style={{ fontSize: '13px', color: tipo === 'si' ? 'var(--ink-muted)' : '#f87171', lineHeight: 1.4 }}>{texto}</span>
           </div>
         ))}
         <div style={{ marginTop: '8px', padding: '10px 12px', background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.15)', borderRadius: '10px', fontSize: '12px', color: '#f87171' }}>
           🚨 En crisis real, llama ahora:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
-          {' · '}
-          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
           {' · '}
           <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
         </div>
@@ -194,7 +192,7 @@ export default function OnboardingWizard() {
             })}
           </div>
         )}
-        <p style={{ fontSize: '13px', color: '#8aab96', lineHeight: 1.6, maxWidth: '320px', margin: '0 auto' }}>
+        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6, maxWidth: '320px', margin: '0 auto' }}>
           {primerObjetivo ? 'Este es tu primer paso recomendado:' : 'Tu espacio está listo. Te recomendamos empezar por aquí:'}
         </p>
       </div>
@@ -214,7 +212,7 @@ export default function OnboardingWizard() {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <p style={{ fontSize: '11px', color: '#3d5c48', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700' }}>También puedes explorar</p>
+        <p style={{ fontSize: '11px', color: 'var(--ink-subtle)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700' }}>También puedes explorar</p>
         {[
           { href: '/dashboard/chat',       label: '🤖 Hablar con la IA' },
           { href: '/dashboard/ejercicios', label: '🧘 Hacer un ejercicio guiado' },
@@ -224,7 +222,7 @@ export default function OnboardingWizard() {
             key={l.href}
             href={l.href}
             onClick={completar}
-            style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.03)', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#8aab96', textDecoration: 'none', fontSize: '13px', display: 'block' }}
+            style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.03)', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-muted)', textDecoration: 'none', fontSize: '13px', display: 'block' }}
           >
             {l.label}
           </a>
@@ -250,7 +248,7 @@ export default function OnboardingWizard() {
       }}
     >
       <div style={{
-        background: '#0d1a12',
+        background: 'var(--surface)',
         border: '1px solid #1a6b4a',
         borderRadius: '20px',
         padding: '32px',
@@ -272,12 +270,12 @@ export default function OnboardingWizard() {
                 flex: i === paso ? 3 : 1,
                 height: '4px',
                 borderRadius: '2px',
-                background: i <= paso ? '#2dd4bf' : '#1a2e1f',
+                background: i <= paso ? '#2dd4bf' : 'var(--surface-card)',
                 transition: 'flex .3s, background .2s',
               }}
             />
           ))}
-          <span style={{ fontSize: '11px', color: '#3d5c48', marginLeft: '6px', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: '11px', color: 'var(--ink-subtle)', marginLeft: '6px', whiteSpace: 'nowrap' }}>
             {paso + 1} / {PASOS.length}
           </span>
         </div>
@@ -290,7 +288,7 @@ export default function OnboardingWizard() {
           {!esPrimerPaso && (
             <button
               onClick={() => setPaso(p => p - 1)}
-              style={{ padding: '11px 20px', background: 'transparent', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#5a8a6a', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
+              style={{ padding: '11px 20px', background: 'transparent', border: '1px solid #2a3d2e', borderRadius: '8px', color: 'var(--ink-subtle)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
             >
               ← Atrás
             </button>
@@ -302,8 +300,8 @@ export default function OnboardingWizard() {
               disabled={!puedeSiguiente}
               style={{
                 flex: 1, padding: '12px', borderRadius: '8px', border: 'none',
-                background: puedeSiguiente ? '#1a6b4a' : '#1a2e1f',
-                color: puedeSiguiente ? 'white' : '#3d5c48',
+                background: puedeSiguiente ? '#1a6b4a' : 'var(--surface-card)',
+                color: puedeSiguiente ? 'white' : 'var(--ink-subtle)',
                 cursor: puedeSiguiente ? 'pointer' : 'not-allowed',
                 fontSize: '14px', fontWeight: '700', fontFamily: 'inherit',
                 transition: 'background .15s',
@@ -327,7 +325,7 @@ export default function OnboardingWizard() {
         {!esUltimoPaso && (
           <button
             onClick={completar}
-            style={{ background: 'none', border: 'none', color: '#3d5c48', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center', padding: '0' }}
+            style={{ background: 'none', border: 'none', color: 'var(--ink-subtle)', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center', padding: '0' }}
           >
             Saltar introducción
           </button>

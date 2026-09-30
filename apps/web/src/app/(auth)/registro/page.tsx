@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { useProveedoresActivos } from '@/lib/auth/use-proveedores';
 import { Brain, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface ValidationState {
@@ -38,6 +39,7 @@ function maxFechaNacimiento(): string {
 export default function RegistroPage() {
   const router = useRouter();
   const [form, setForm] = useState<ValidationState>(initialState);
+  const proveedores = useProveedoresActivos();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -298,7 +300,7 @@ export default function RegistroPage() {
                 value={form.nombre.value}
                 onChange={(e) => updateField('nombre', e.target.value)}
                 onBlur={() => touchField('nombre')}
-                className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
+                className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
                   form.nombre.touched && form.nombre.error ? 'border-red-500/50' : 'border-white/10'
                 }`}
                 placeholder="Juan"
@@ -317,7 +319,7 @@ export default function RegistroPage() {
                 value={form.apellido.value}
                 onChange={(e) => updateField('apellido', e.target.value)}
                 onBlur={() => touchField('apellido')}
-                className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
+                className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
                   form.apellido.touched && form.apellido.error ? 'border-red-500/50' : 'border-white/10'
                 }`}
                 placeholder="Pérez"
@@ -338,7 +340,7 @@ export default function RegistroPage() {
               value={form.email.value}
               onChange={(e) => updateField('email', e.target.value)}
               onBlur={() => touchField('email')}
-              className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
+              className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
                 form.email.touched && form.email.error ? 'border-red-500/50' : 'border-white/10'
               }`}
               placeholder="tu@correo.com"
@@ -350,24 +352,25 @@ export default function RegistroPage() {
 
           {/* Fecha de nacimiento */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1.5">
+            <label htmlFor="registro-fecha-nacimiento" className="block text-sm font-medium text-gray-300 mb-1.5">
               Fecha de nacimiento <span className="text-red-400">*</span>
             </label>
             <input
+              id="registro-fecha-nacimiento"
               type="date"
               value={form.fechaNacimiento.value}
               onChange={(e) => updateField('fechaNacimiento', e.target.value)}
               onBlur={() => touchField('fechaNacimiento')}
               max={maxFechaNacimiento()}
               min="1900-01-01"
-              className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all [color-scheme:dark] ${
+              className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all [color-scheme:dark] ${
                 form.fechaNacimiento.touched && form.fechaNacimiento.error ? 'border-red-500/50' : 'border-white/10'
               }`}
             />
             {form.fechaNacimiento.touched && form.fechaNacimiento.error && (
               <p className="text-xs text-red-400 mt-1">{form.fechaNacimiento.error}</p>
             )}
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-ink-subtle mt-1">
               MenteBridge es una plataforma para mayores de 18 años (Ley 1581/2012).
             </p>
           </div>
@@ -383,7 +386,7 @@ export default function RegistroPage() {
                 value={form.password.value}
                 onChange={(e) => updateField('password', e.target.value)}
                 onBlur={() => touchField('password')}
-                className={`w-full px-4 py-3 pr-12 bg-white/5 border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
+                className={`w-full px-4 py-3 pr-12 bg-white/5 border rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all ${
                   form.password.touched && form.password.error ? 'border-red-500/50' : 'border-white/10'
                 }`}
                 placeholder="••••••••"
@@ -392,6 +395,7 @@ export default function RegistroPage() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -472,7 +476,7 @@ export default function RegistroPage() {
           <button
             type="submit"
             disabled={loading || !isFormValid}
-            className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-on-accent font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -496,13 +500,15 @@ export default function RegistroPage() {
           </Link>
         </p>
 
-        <p className="text-center text-sm text-gray-500 mt-3">
+        <p className="text-center text-sm text-ink-subtle mt-3">
           ¿Eres psicólogo?{' '}
           <Link href="/registro-psicologo" className="text-teal-400 hover:underline font-medium">
             Únete como profesional
           </Link>
         </p>
 
+        {proveedores?.has('google') && (
+          <>
         {/* OAuth buttons */}
         <div className="mt-6">
           <div className="relative">
@@ -530,9 +536,11 @@ export default function RegistroPage() {
             </button>
           </div>
         </div>
+          </>
+        )}
 
         {/* Privacy notice */}
-        <p className="text-xs text-gray-600 text-center mt-6 leading-relaxed">
+        <p className="text-xs text-ink-subtle text-center mt-6 leading-relaxed">
           Al registrarte, aceptas nuestros Términos de Servicio y Política de Privacidad.
           Tus datos están protegidos según la Ley 1581/2012 y la Resolución 2654/2019.
         </p>

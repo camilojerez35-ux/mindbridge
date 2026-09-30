@@ -80,8 +80,8 @@ export default function ConsejoDelDia() {
           {consejo.categoria}
         </span>
         <div className="ml-auto flex items-center gap-1.5">
-          <Sparkles className="w-3 h-3 text-gray-700" />
-          <span className="text-[10px] text-gray-700">Consejo del día</span>
+          <Sparkles className="w-3 h-3 text-ink-subtle" />
+          <span className="text-[10px] text-ink-subtle">Consejo del día</span>
         </div>
       </div>
 
@@ -107,7 +107,7 @@ export default function ConsejoDelDia() {
 
       {expandido && (
         <div className={`flex items-center justify-between mt-4 pt-3 border-t ${style.ring} flex-wrap gap-2`}>
-          <span className="text-xs text-gray-600">¿Te resultó útil?</span>
+          <span className="text-xs text-ink-subtle">¿Te resultó útil?</span>
           <div className="flex items-center gap-0.5">
             {[1, 2, 3, 4, 5].map(n => (
               <button
@@ -125,7 +125,7 @@ export default function ConsejoDelDia() {
           </div>
           <button
             onClick={cargar}
-            className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-400 transition-colors"
+            className="flex items-center gap-1 text-xs text-ink-subtle hover:text-gray-400 transition-colors"
           >
             <RefreshCw className="w-3 h-3" />Nuevo consejo
           </button>

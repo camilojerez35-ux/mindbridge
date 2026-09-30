@@ -22,7 +22,7 @@ export default function TestPage() {
   if (!test) {
     return (
       <div className="text-center py-20">
-        <p className="text-gray-500 mb-4">Test no encontrado.</p>
+        <p className="text-ink-subtle mb-4">Test no encontrado.</p>
         <Link href="/tests" className="text-teal-400 hover:text-teal-300 text-sm font-semibold">← Volver a tests</Link>
       </div>
     );
@@ -79,20 +79,20 @@ export default function TestPage() {
   if (fase === 'intro') {
     return (
       <div className="max-w-xl mx-auto space-y-5 py-4">
-        <Link href="/tests" className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-400 transition-colors">
+        <Link href="/tests" className="flex items-center gap-1 text-xs text-ink-subtle hover:text-gray-400 transition-colors">
           <ChevronLeft className="w-3 h-3" />Volver
         </Link>
         <div className="bg-[#0d1117] border border-white/5 rounded-2xl p-8 text-center">
           <div className="text-5xl mb-4">{test.icono}</div>
           <h1 className="text-xl font-black text-white mb-2">{test.titulo}</h1>
-          <p className="text-sm text-gray-500 leading-relaxed mb-6">{test.descripcion}</p>
-          <div className="flex justify-center gap-6 mb-8 text-sm text-gray-600">
+          <p className="text-sm text-ink-subtle leading-relaxed mb-6">{test.descripcion}</p>
+          <div className="flex justify-center gap-6 mb-8 text-sm text-ink-subtle">
             <span>⏱ {test.duracionMin} min</span>
             <span>📋 {test.preguntas.length} preguntas</span>
           </div>
           <button
             onClick={() => setFase('test')}
-            className="px-8 py-3 bg-teal-500 hover:bg-teal-400 text-white font-bold rounded-xl transition-colors"
+            className="px-8 py-3 bg-teal-500 hover:bg-teal-400 text-on-accent font-bold rounded-xl transition-colors"
           >
             Comenzar test
           </button>
@@ -123,11 +123,11 @@ export default function TestPage() {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-2xl font-black text-teal-400">{resultado.porcentaje}%</span>
-              <span className="text-[10px] text-gray-600">{resultado.puntajeTotal}/{resultado.puntajeMaximo}</span>
+              <span className="text-[10px] text-ink-subtle">{resultado.puntajeTotal}/{resultado.puntajeMaximo}</span>
             </div>
           </div>
 
-          <p className="text-xs text-gray-600 uppercase tracking-wider mb-1">Tu resultado</p>
+          <p className="text-xs text-ink-subtle uppercase tracking-wider mb-1">Tu resultado</p>
           <h2 className="text-xl font-black text-white mb-3">{resultado.titulo}</h2>
           <p className="text-sm text-gray-400 leading-relaxed">{resultado.descripcion}</p>
 
@@ -143,7 +143,7 @@ export default function TestPage() {
         <div className="flex flex-col gap-2">
           <Link
             href={`/dashboard/chat?practica=${encodeURIComponent(test.titulo)}&contexto=${encodeURIComponent(`El usuario acaba de completar el test "${test.titulo}" y obtuvo el resultado: "${resultado.titulo}". Ayúdalo a entender qué significa esto para su bienestar y qué pasos concretos puede tomar.`)}`}
-            className="flex items-center justify-center gap-2 px-4 py-3 bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold rounded-xl transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-3 bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold rounded-xl transition-colors"
           >
             💬 Hablar con la IA sobre este resultado
           </Link>
@@ -196,7 +196,7 @@ export default function TestPage() {
     <div className="max-w-xl mx-auto space-y-4 py-4">
       {/* Barra de progreso */}
       <div className="flex items-center gap-3">
-        <Link href="/tests" className="p-1.5 rounded-lg hover:bg-white/5 text-gray-600 hover:text-gray-400 transition-all">
+        <Link href="/tests" className="p-1.5 rounded-lg hover:bg-white/5 text-ink-subtle hover:text-gray-400 transition-all">
           <ChevronLeft className="w-4 h-4" />
         </Link>
         <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -205,14 +205,14 @@ export default function TestPage() {
             style={{ width: `${progreso}%` }}
           />
         </div>
-        <span className="text-xs text-gray-600 tabular-nums">
+        <span className="text-xs text-ink-subtle tabular-nums">
           {preguntaActual + 1}/{test.preguntas.length}
         </span>
       </div>
 
       {/* Pregunta */}
       <div className="bg-[#0d1117] border border-white/5 rounded-2xl p-6">
-        <p className="text-[10px] text-gray-700 uppercase tracking-wider mb-3">Pregunta {preguntaActual + 1}</p>
+        <p className="text-[10px] text-ink-subtle uppercase tracking-wider mb-3">Pregunta {preguntaActual + 1}</p>
         <h3 className="text-base font-semibold text-white mb-6 leading-relaxed">{pregunta.texto}</h3>
 
         <div className="space-y-2">
@@ -240,7 +240,7 @@ export default function TestPage() {
         <button
           onClick={() => setPreguntaActual(p => Math.max(0, p - 1))}
           disabled={preguntaActual === 0}
-          className="flex items-center gap-1 px-4 py-2.5 bg-white/5 border border-white/8 text-gray-500 text-sm rounded-xl disabled:opacity-40 hover:bg-white/8 transition-all"
+          className="flex items-center gap-1 px-4 py-2.5 bg-white/5 border border-white/8 text-ink-subtle text-sm rounded-xl disabled:opacity-40 hover:bg-white/8 transition-all"
         >
           <ChevronLeft className="w-4 h-4" />Anterior
         </button>
@@ -257,7 +257,7 @@ export default function TestPage() {
           <button
             onClick={enviarTest}
             disabled={!todasRespondidas || enviando}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 text-white text-sm font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-500 hover:bg-teal-400 text-on-accent text-sm font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {enviando && <Loader2 className="w-4 h-4 animate-spin" />}
             Ver resultado

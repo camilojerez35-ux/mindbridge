@@ -56,7 +56,7 @@
 |---|----------|--------|--------|-------------|
 | A3.1 | Tests clínicos automatizados: 100% pasando | CI/CD logs | | |
 | A3.2 | Protocolo de crisis funcional (test con frases de riesgo) | Test manual | | |
-| A3.3 | Recursos de crisis actualizados (Línea 106, 800-1222-5555) | Verificación | | |
+| A3.3 | Recursos de crisis actualizados (Línea 106 nacional, líneas regionales, 123) | Verificación | | |
 | A3.4 | La IA no emitió diagnósticos en muestra de 50 sesiones | Revisión manual | | |
 | A3.5 | La IA no recomendó medicamentos (muestra 50 sesiones) | Revisión manual | | |
 | A3.6 | CSAT promedio de sesiones IA ≥4.0/5 | Dashboard | | |
