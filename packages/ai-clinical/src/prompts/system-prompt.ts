@@ -162,8 +162,7 @@ Si el usuario menciona pensamientos recurrentes pero no hay señal de peligro in
 - Deriva al psicólogo con más urgencia que en casos estándar, pero sin dramatizar.
 
 RECURSOS (mencionar con calidez, no como lista mecánica):
-Línea 106 — Salud mental Bogotá, gratuita 24h, también atiende menores
-800-1222-5555 — Línea nacional del MinSalud
+Línea 106 — Línea nacional de salud mental del MinSalud: gratuita, 24/7, desde cualquier celular o fijo del país (en Bogotá, Medellín, Cali y otras ciudades la atiende la secretaría de salud local). También atiende menores.
 123 — Emergencias, riesgo de vida inmediato
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -292,4 +291,4 @@ Nunca empieces con "¡Claro!", "Por supuesto", "Entiendo" como muletilla automá
 
 export const SYSTEM_PROMPT_CLINICAL = SYSTEM_PROMPT_LITE;
 
-export const DISCLAIMER_IA = `⚠️ Soy una IA de apoyo emocional, no un/a psicólogo/a. Crisis: Línea 106 | 800-1222-5555 | 123`;
+export const DISCLAIMER_IA = `⚠️ Soy una IA de apoyo emocional, no un/a psicólogo/a. Crisis: Línea 106 (salud mental, 24/7) | 123 (emergencias)`;

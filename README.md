@@ -85,7 +85,7 @@ Ver `infrastructure/env/.env.example` para la lista completa.
 
 > Esta plataforma es una **herramienta de bienestar emocional**. NO realiza diagnósticos clínicos, NO prescribe medicamentos y NO reemplaza la atención médica o psicológica profesional.
 >
-> En caso de crisis: **Línea 106** (Bogotá) | **800-1222-5555** (Nacional) | **123** (Emergencias)
+> En caso de crisis: **Línea 106** (salud mental, nacional, 24/7) | **123** (Emergencias)
 
 **Cumplimiento normativo:**
 - Ley 2460/2025 — Salud Mental Colombia

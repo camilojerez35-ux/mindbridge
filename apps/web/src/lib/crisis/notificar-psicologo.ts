@@ -134,7 +134,7 @@ export async function notificarPsicologoAsignado(
             <p><strong>Recursos de emergencia:</strong></p>
             <ul>
               <li>Emergencias Colombia: <strong>123</strong></li>
-              <li>Línea Salud Mental: <strong>106</strong> (Bogotá) / <strong>800-112-5555</strong> (Nacional)</li>
+              <li>Línea Salud Mental: <strong>106</strong> (nacional, gratuita, 24/7)</li>
             </ul>
 
             ${nivel === 'CRITICO' ? `
