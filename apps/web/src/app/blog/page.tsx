@@ -44,8 +44,9 @@ function Tarjeta({ a }: { a: Articulo }) {
   );
 }
 
-export default function BlogPage({ searchParams }: { searchParams: { tipo?: string } }) {
-  const filtro = tipoDesdeParam(searchParams.tipo);
+export default async function BlogPage({ searchParams }: { searchParams: Promise<{ tipo?: string }> }) {
+  const { tipo } = await searchParams;
+  const filtro = tipoDesdeParam(tipo);
   const grupos = filtro ? [filtro] : TIPOS;
 
   return (

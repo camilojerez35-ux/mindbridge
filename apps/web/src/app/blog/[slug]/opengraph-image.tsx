@@ -1,8 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { ARTICULOS, TIPO_INFO, getArticulo } from '@/lib/blog/articulos';
 
-// Edge: la variante Node de @vercel/og en Next 14 falla en Windows (fileURLToPath); la de Edge funciona en todos lados
-export const runtime = 'edge';
 export const alt = 'Artículo del blog de MenteBridge';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';

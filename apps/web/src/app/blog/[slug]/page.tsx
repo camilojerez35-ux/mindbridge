@@ -26,8 +26,9 @@ export function generateStaticParams() {
   return ARTICULOS.map(a => ({ slug: a.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const a = getArticulo(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const a = getArticulo(slug);
   if (!a) return {};
   return {
     title: a.titulo,
@@ -44,8 +45,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function ArticuloPage({ params }: { params: { slug: string } }) {
-  const a = getArticulo(params.slug);
+export default async function ArticuloPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const a = getArticulo(slug);
   if (!a) notFound();
 
   const tipo = TIPO_INFO[a.tipo];
