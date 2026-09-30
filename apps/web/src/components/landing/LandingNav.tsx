@@ -62,6 +62,9 @@ export default function LandingNav() {
           <a href="#como-funciona" className="text-sm text-gray-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5">
             Cómo funciona
           </a>
+          <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5">
+            Blog
+          </Link>
           <a href="#precios" className="text-sm text-gray-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5">
             Precios
           </a>
@@ -70,7 +73,7 @@ export default function LandingNav() {
           </Link>
           <Link
             href="/registro"
-            className="ml-2 text-sm bg-teal-500 hover:bg-teal-400 text-white font-semibold px-4 py-2 rounded-lg transition-all shadow-md shadow-teal-500/20 hover:shadow-teal-500/30"
+            className="ml-2 text-sm bg-teal-500 hover:bg-teal-400 text-on-accent font-semibold px-4 py-2 rounded-lg transition-all shadow-md shadow-teal-500/20 hover:shadow-teal-500/30"
           >
             Empezar gratis
           </Link>
@@ -78,7 +81,7 @@ export default function LandingNav() {
 
         {/* Mobile: CTA pequeño + hamburger */}
         <div className="md:hidden flex items-center gap-2">
-          <Link href="/registro" className="text-xs bg-teal-500 hover:bg-teal-400 text-white font-semibold px-3 py-1.5 rounded-lg transition-colors">
+          <Link href="/registro" className="text-xs bg-teal-500 hover:bg-teal-400 text-on-accent font-semibold px-3 py-1.5 rounded-lg transition-colors">
             Gratis →
           </Link>
           <button
@@ -107,6 +110,7 @@ export default function LandingNav() {
               { href: '/psicologos', label: 'Psicólogos', external: false },
               { href: '#como-funciona', label: 'Cómo funciona', external: false },
               { href: '#precios', label: 'Precios', external: false },
+              { href: '/blog', label: 'Blog', external: false },
               { href: '/login', label: 'Iniciar sesión', external: false },
             ].map(item => (
               <Link
@@ -122,7 +126,7 @@ export default function LandingNav() {
               <Link
                 href="/registro"
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-center w-full py-3 bg-teal-500 hover:bg-teal-400 text-white font-bold text-sm rounded-xl transition-colors"
+                className="flex items-center justify-center w-full py-3 bg-teal-500 hover:bg-teal-400 text-on-accent font-bold text-sm rounded-xl transition-colors"
               >
                 Empezar gratis — sin tarjeta
               </Link>
