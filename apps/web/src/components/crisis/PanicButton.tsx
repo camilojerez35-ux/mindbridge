@@ -88,9 +88,9 @@ export default function PanicButton() {
       urgencia: 'primary' as const,
     },
     {
-      numero: '8001225555',
-      nombre: 'Línea Nacional Salud Mental',
-      desc: 'Gratuita · Horario extendido',
+      numero: '106',
+      nombre: 'Línea 106 — Salud Mental (nacional, MinSalud)',
+      desc: 'Gratuita · 24 horas · Desde cualquier celular o fijo',
       color: '#818cf8',
       urgencia: 'secondary' as const,
     },
@@ -185,7 +185,7 @@ export default function PanicButton() {
                 ref={cerrarBtnRef}
                 onClick={cerrar}
                 aria-label="Cerrar recursos de crisis"
-                style={{ background: 'none', border: 'none', color: '#5a8a6a', fontSize: '20px', cursor: 'pointer', padding: '4px', lineHeight: 1, flexShrink: 0 }}
+                style={{ background: 'none', border: 'none', color: '#7a9e87', fontSize: '20px', cursor: 'pointer', padding: '4px', lineHeight: 1, flexShrink: 0 }}
               >
                 ✕
               </button>
@@ -247,7 +247,7 @@ export default function PanicButton() {
                       {numero.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3').replace(/^(\d{3})$/, '$1')}
                     </p>
                     <p style={{ fontSize: '13px', color: 'white', fontWeight: '600', marginBottom: '2px' }}>{nombre}</p>
-                    <p style={{ fontSize: '11px', color: '#5a8a6a' }}>{desc}</p>
+                    <p style={{ fontSize: '11px', color: '#7a9e87' }}>{desc}</p>
                   </div>
                   <span style={{ color, fontSize: '16px' }} aria-hidden="true">›</span>
                 </a>
@@ -276,7 +276,7 @@ export default function PanicButton() {
                   fontSize: '14px', fontFamily: 'inherit', boxSizing: 'border-box',
                 }}
               />
-              <p id="crisis-contacto-hint" style={{ fontSize: '11px', color: '#5a8a6a', marginTop: '4px' }}>
+              <p id="crisis-contacto-hint" style={{ fontSize: '11px', color: '#7a9e87', marginTop: '4px' }}>
                 Solo visible para ti. No se guarda en el servidor.
               </p>
               {contactoEmergencia && (

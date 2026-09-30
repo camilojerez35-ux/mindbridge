@@ -11,7 +11,7 @@ export default function TratamientoDatosPage() {
       <h1 className="text-3xl font-black text-white mb-2">
         Aviso de Privacidad y Autorización de Tratamiento de Datos
       </h1>
-      <p className="text-sm text-gray-500 mb-3">
+      <p className="text-sm text-ink-subtle mb-3">
         Vigente desde: 1 de enero de 2026
       </p>
       <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 rounded-lg mb-10">
@@ -25,7 +25,7 @@ export default function TratamientoDatosPage() {
             <strong className="text-white">MenteBridge Colombia S.A.S.</strong><br />
             Domicilio: Bogotá D.C., Colombia<br />
             Correo:{' '}
-            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 underline underline-offset-2">privacidad@mentebridge.com</a>
           </p>
         </Seccion>
 
@@ -109,13 +109,13 @@ export default function TratamientoDatosPage() {
                   <tr key={enc}>
                     <td className="py-2.5 pr-4 text-gray-300 font-medium">{enc}</td>
                     <td className="py-2.5 pr-4 text-gray-400">{fin}</td>
-                    <td className="py-2.5 text-gray-500">{pais}</td>
+                    <td className="py-2.5 text-ink-subtle">{pais}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-gray-600 mt-3">
+          <p className="text-xs text-ink-subtle mt-3">
             Las transferencias a EE.UU. se realizan bajo cláusulas contractuales que garantizan protección equivalente a la Ley 1581/2012.
           </p>
         </Seccion>
@@ -134,14 +134,14 @@ export default function TratamientoDatosPage() {
                 <span className="text-base flex-shrink-0">{icon}</span>
                 <div>
                   <p className="font-semibold text-white text-xs">{titulo}</p>
-                  <p className="text-gray-500 text-xs">{desc}</p>
+                  <p className="text-ink-subtle text-xs">{desc}</p>
                 </div>
               </li>
             ))}
           </ul>
           <p className="mt-4">
             Para ejercer sus derechos:{' '}
-            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 underline underline-offset-2">privacidad@mentebridge.com</a>
             {' '}— Respondemos en máximo <strong className="text-white">10 días hábiles</strong>.
           </p>
         </Seccion>
@@ -149,8 +149,8 @@ export default function TratamientoDatosPage() {
         <Seccion titulo="Autoridad de Control">
           <p>
             <strong className="text-white">Superintendencia de Industria y Comercio (SIC)</strong><br />
-            🌐{' '}<a href="https://www.sic.gov.co" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:underline">www.sic.gov.co</a>
-            {' '}· 📞{' '}<a href="tel:6017920777" className="text-teal-400 hover:underline">601 792 0777</a>
+            🌐{' '}<a href="https://www.sic.gov.co" target="_blank" rel="noopener noreferrer" className="text-teal-400 underline underline-offset-2">www.sic.gov.co</a>
+            {' '}· 📞{' '}<a href="tel:6017920777" className="text-teal-400 underline underline-offset-2">601 792 0777</a>
           </p>
         </Seccion>
 

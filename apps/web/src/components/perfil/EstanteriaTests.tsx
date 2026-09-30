@@ -22,7 +22,7 @@ export default function EstanteriaTests() {
   }, []);
 
   if (cargando) {
-    return <div className="text-center py-10 text-gray-600 text-sm">Cargando...</div>;
+    return <div className="text-center py-10 text-ink-subtle text-sm">Cargando...</div>;
   }
 
   const porcentaje = Math.round((completados.size / CATALOGO_TESTS.length) * 100);
@@ -31,7 +31,7 @@ export default function EstanteriaTests() {
     <div className="flex flex-col gap-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-ink-subtle">
           Has completado{' '}
           <strong className="text-teal-400">{completados.size}</strong>
           {' '}de {CATALOGO_TESTS.length} autoevaluaciones
@@ -74,7 +74,7 @@ export default function EstanteriaTests() {
           <span className="text-base">🤖</span>
           <p className="text-sm font-bold text-white">Tu perfil de personalización</p>
         </div>
-        <p className="text-xs text-gray-600 leading-relaxed mb-3">
+        <p className="text-xs text-ink-subtle leading-relaxed mb-3">
           Cada test que completas ayuda a la IA a entenderte mejor y personalizar tu Consejo del día y tus conversaciones.
         </p>
         <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -83,7 +83,7 @@ export default function EstanteriaTests() {
             style={{ width: `${porcentaje}%` }}
           />
         </div>
-        <p className="text-[10px] text-gray-700 mt-1.5 text-right">{porcentaje}% completado</p>
+        <p className="text-[10px] text-ink-subtle mt-1.5 text-right">{porcentaje}% completado</p>
       </div>
     </div>
   );

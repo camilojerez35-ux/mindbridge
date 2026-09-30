@@ -8,31 +8,31 @@ export const metadata: Metadata = {
 
 export default function AvisoIAPage() {
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12 text-sm text-gray-800 leading-relaxed">
-      <h1 className="text-2xl font-bold mb-2">Aviso sobre el Uso de Inteligencia Artificial</h1>
-      <p className="text-gray-500 mb-8">Versión {VERSIONES_DOCUMENTOS.AVISO_IA} — Resolución 2654/2019 · Ley 2460/2025</p>
+    <main className="max-w-3xl mx-auto px-5 py-16 text-sm text-gray-300 leading-relaxed">
+      <h1 className="text-3xl font-black text-white mb-2">Aviso sobre el Uso de Inteligencia Artificial</h1>
+      <p className="text-ink-subtle mb-8">Versión {VERSIONES_DOCUMENTOS.AVISO_IA} — Resolución 2654/2019 · Ley 2460/2025</p>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
-        <p className="font-semibold text-amber-800">Aviso importante</p>
-        <p className="text-amber-700 mt-1">
-          La inteligencia artificial de MenteBridge <strong>no es un médico, psicólogo ni terapeuta.</strong>{' '}
+      <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 mb-8">
+        <p className="font-semibold text-amber-300">Aviso importante</p>
+        <p className="text-amber-100/90 mt-1">
+          La inteligencia artificial de MenteBridge <strong className="text-white">no es un médico, psicólogo ni terapeuta.</strong>{' '}
           No puede diagnosticar enfermedades mentales ni prescribir tratamientos. En caso de emergencia,
-          llama al <a href="tel:123" className="font-bold text-red-700 hover:underline">123</a> (emergencias)
-          o a la <a href="tel:106" className="font-bold text-amber-700 hover:underline">Línea 106</a> (salud mental, gratuita 24h).
+          llama al <a href="tel:123" className="font-bold text-red-400 underline underline-offset-2">123</a> (emergencias)
+          o a la <a href="tel:106" className="font-bold text-teal-300 underline underline-offset-2">Línea 106</a> (salud mental, nacional, gratuita 24h).
         </p>
       </div>
 
       <section className="mb-6">
-        <h2 className="font-semibold text-base mb-2">¿Qué IA usamos?</h2>
+        <h2 className="font-bold text-base text-white mb-2">¿Qué IA usamos?</h2>
         <p>
-          MenteBridge utiliza <strong>Claude</strong>, un modelo de lenguaje desarrollado por Anthropic, Inc. (EE.UU.).
+          MenteBridge utiliza <strong className="text-white">Claude</strong>, un modelo de lenguaje desarrollado por Anthropic, Inc. (EE.UU.).
           Este modelo ha sido configurado con protocolos clínicos validados por psicólogos colombianos
           especializados en salud mental.
         </p>
       </section>
 
       <section className="mb-6">
-        <h2 className="font-semibold text-base mb-2">Qué puede hacer la IA</h2>
+        <h2 className="font-bold text-base text-white mb-2">Qué puede hacer la IA</h2>
         <ul className="list-disc ml-5 space-y-1">
           <li>Ofrecer acompañamiento emocional y escucha activa.</li>
           <li>Enseñar técnicas de regulación emocional (respiración, grounding, mindfulness).</li>
@@ -43,39 +43,39 @@ export default function AvisoIAPage() {
       </section>
 
       <section className="mb-6">
-        <h2 className="font-semibold text-base mb-2">Qué NO puede hacer la IA</h2>
+        <h2 className="font-bold text-base text-white mb-2">Qué NO puede hacer la IA</h2>
         <ul className="list-disc ml-5 space-y-1">
-          <li><strong>Diagnosticar</strong> trastornos mentales (depresión, ansiedad, etc.).</li>
-          <li><strong>Prescribir</strong> medicamentos ni recomendar dosis.</li>
-          <li><strong>Reemplazar</strong> la psicoterapia profesional.</li>
-          <li><strong>Garantizar</strong> resultados clínicos.</li>
+          <li><strong className="text-white">Diagnosticar</strong> trastornos mentales (depresión, ansiedad, etc.).</li>
+          <li><strong className="text-white">Prescribir</strong> medicamentos ni recomendar dosis.</li>
+          <li><strong className="text-white">Reemplazar</strong> la psicoterapia profesional.</li>
+          <li><strong className="text-white">Garantizar</strong> resultados clínicos.</li>
           <li>Responder por errores derivados de información incompleta o imprecisa proporcionada por el usuario.</li>
         </ul>
       </section>
 
       <section className="mb-6">
-        <h2 className="font-semibold text-base mb-2">Supervisión Humana</h2>
+        <h2 className="font-bold text-base text-white mb-2">Supervisión Humana</h2>
         <p>
-          Conforme a la <strong>Resolución 2654 de 2019</strong> del Ministerio de Salud, todos los procesos de
+          Conforme a la <strong className="text-white">Resolución 2654 de 2019</strong> del Ministerio de Salud, todos los procesos de
           IA clínica en MenteBridge están supervisados por psicólogos certificados. Los psicólogos de la plataforma
           pueden revisar resúmenes de sesión con tu consentimiento previo para garantizar la calidad del servicio.
         </p>
       </section>
 
       <section className="mb-6">
-        <h2 className="font-semibold text-base mb-2">Tus Derechos frente a la IA (Ley 2460/2025)</h2>
+        <h2 className="font-bold text-base text-white mb-2">Tus Derechos frente a la IA (Ley 2460/2025)</h2>
         <ul className="list-disc ml-5 space-y-1">
-          <li><strong>Derecho a saber:</strong> siempre sabrás que estás interactuando con una IA, no con un humano.</li>
-          <li><strong>Derecho a la revisión humana:</strong> puedes solicitar que un psicólogo revise cualquier respuesta de la IA.</li>
-          <li><strong>Derecho a no ser evaluado solo por IA:</strong> las decisiones clínicas relevantes siempre involucran un profesional.</li>
-          <li><strong>Derecho a revocar:</strong> puedes desactivar el uso de IA en tu cuenta en cualquier momento desde Configuración.</li>
+          <li><strong className="text-white">Derecho a saber:</strong> siempre sabrás que estás interactuando con una IA, no con un humano.</li>
+          <li><strong className="text-white">Derecho a la revisión humana:</strong> puedes solicitar que un psicólogo revise cualquier respuesta de la IA.</li>
+          <li><strong className="text-white">Derecho a no ser evaluado solo por IA:</strong> las decisiones clínicas relevantes siempre involucran un profesional.</li>
+          <li><strong className="text-white">Derecho a revocar:</strong> puedes desactivar el uso de IA en tu cuenta en cualquier momento desde Configuración.</li>
         </ul>
       </section>
 
       <section>
-        <h2 className="font-semibold text-base mb-2">Preguntas o Reclamos</h2>
+        <h2 className="font-bold text-base text-white mb-2">Preguntas o Reclamos</h2>
         <p>
-          <a href="mailto:ia@mentebridge.com" className="text-blue-600 underline">ia@mentebridge.com</a>
+          <a href="mailto:ia@mentebridge.com" className="text-teal-400 underline underline-offset-2">ia@mentebridge.com</a>
         </p>
       </section>
     </main>

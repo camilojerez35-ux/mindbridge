@@ -10,7 +10,7 @@ export default function TerminosUsoPage() {
   return (
     <main className="max-w-3xl mx-auto px-5 py-16">
       <h1 className="text-3xl font-black text-white mb-2">Términos y Condiciones de Uso</h1>
-      <p className="text-sm text-gray-500 mb-10">
+      <p className="text-sm text-ink-subtle mb-10">
         Versión {VERSIONES_DOCUMENTOS.TERMINOS_USO} · Última actualización: 1 de enero de 2026
       </p>
 
@@ -111,7 +111,7 @@ export default function TerminosUsoPage() {
 
         <Seccion titulo="11. Contacto">
           <p>
-            <a href="mailto:legal@mentebridge.com" className="text-teal-400 hover:underline">legal@mentebridge.com</a>
+            <a href="mailto:legal@mentebridge.com" className="text-teal-400 underline underline-offset-2">legal@mentebridge.com</a>
             {' '}· MenteBridge Colombia S.A.S. · Bogotá D.C., Colombia
           </p>
         </Seccion>

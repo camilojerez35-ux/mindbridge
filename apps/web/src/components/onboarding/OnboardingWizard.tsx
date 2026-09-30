@@ -93,7 +93,7 @@ export default function OnboardingWizard() {
         <h2 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>
           ¿Qué te trae a MenteBridge?
         </h2>
-        <p style={{ fontSize: '13px', color: '#5a8a6a' }}>
+        <p style={{ fontSize: '13px', color: '#7a9e87' }}>
           Puedes elegir varias. Puedes cambiar esto en cualquier momento.
         </p>
       </div>
@@ -115,7 +115,7 @@ export default function OnboardingWizard() {
               <span style={{ fontSize: '22px', flexShrink: 0 }}>{o.icon}</span>
               <div style={{ flex: 1 }}>
                 <p style={{ fontSize: '14px', fontWeight: '700', color: sel ? '#2dd4bf' : 'white', marginBottom: '2px' }}>{o.label}</p>
-                <p style={{ fontSize: '12px', color: '#5a8a6a' }}>{o.desc}</p>
+                <p style={{ fontSize: '12px', color: '#7a9e87' }}>{o.desc}</p>
               </div>
               <div style={{
                 width: '20px', height: '20px', borderRadius: '6px', flexShrink: 0,
@@ -143,7 +143,7 @@ export default function OnboardingWizard() {
         <h2 style={{ fontSize: '20px', fontWeight: '900', color: 'white', marginBottom: '6px' }}>
           Sobre la IA de MenteBridge
         </h2>
-        <p style={{ fontSize: '13px', color: '#5a8a6a', lineHeight: 1.5 }}>
+        <p style={{ fontSize: '13px', color: '#7a9e87', lineHeight: 1.5 }}>
           Para usarla bien, es importante entender qué puede y qué no puede hacer.
         </p>
       </div>
@@ -165,8 +165,6 @@ export default function OnboardingWizard() {
         <div style={{ marginTop: '8px', padding: '10px 12px', background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.15)', borderRadius: '10px', fontSize: '12px', color: '#f87171' }}>
           🚨 En crisis real, llama ahora:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
-          {' · '}
-          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
           {' · '}
           <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
         </div>
@@ -214,7 +212,7 @@ export default function OnboardingWizard() {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <p style={{ fontSize: '11px', color: '#3d5c48', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700' }}>También puedes explorar</p>
+        <p style={{ fontSize: '11px', color: '#7a9e87', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '700' }}>También puedes explorar</p>
         {[
           { href: '/dashboard/chat',       label: '🤖 Hablar con la IA' },
           { href: '/dashboard/ejercicios', label: '🧘 Hacer un ejercicio guiado' },
@@ -277,7 +275,7 @@ export default function OnboardingWizard() {
               }}
             />
           ))}
-          <span style={{ fontSize: '11px', color: '#3d5c48', marginLeft: '6px', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: '11px', color: '#7a9e87', marginLeft: '6px', whiteSpace: 'nowrap' }}>
             {paso + 1} / {PASOS.length}
           </span>
         </div>
@@ -290,7 +288,7 @@ export default function OnboardingWizard() {
           {!esPrimerPaso && (
             <button
               onClick={() => setPaso(p => p - 1)}
-              style={{ padding: '11px 20px', background: 'transparent', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#5a8a6a', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
+              style={{ padding: '11px 20px', background: 'transparent', border: '1px solid #2a3d2e', borderRadius: '8px', color: '#7a9e87', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}
             >
               ← Atrás
             </button>
@@ -303,7 +301,7 @@ export default function OnboardingWizard() {
               style={{
                 flex: 1, padding: '12px', borderRadius: '8px', border: 'none',
                 background: puedeSiguiente ? '#1a6b4a' : '#1a2e1f',
-                color: puedeSiguiente ? 'white' : '#3d5c48',
+                color: puedeSiguiente ? 'white' : '#7a9e87',
                 cursor: puedeSiguiente ? 'pointer' : 'not-allowed',
                 fontSize: '14px', fontWeight: '700', fontFamily: 'inherit',
                 transition: 'background .15s',
@@ -327,7 +325,7 @@ export default function OnboardingWizard() {
         {!esUltimoPaso && (
           <button
             onClick={completar}
-            style={{ background: 'none', border: 'none', color: '#3d5c48', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center', padding: '0' }}
+            style={{ background: 'none', border: 'none', color: '#7a9e87', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center', padding: '0' }}
           >
             Saltar introducción
           </button>

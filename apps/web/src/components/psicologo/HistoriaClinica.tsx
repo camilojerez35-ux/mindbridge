@@ -66,13 +66,13 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
     <div className="space-y-4">
       <div>
         <h2 className="text-lg font-black text-white mb-1">Historia Clínica</h2>
-        <p className="text-xs text-gray-600">Selecciona un paciente para ver su historial completo</p>
+        <p className="text-xs text-ink-subtle">Selecciona un paciente para ver su historial completo</p>
       </div>
 
       {/* Selector de paciente */}
       <div className="flex flex-wrap gap-2">
         {pacientes.length === 0 && (
-          <p className="text-sm text-gray-600">Aún no tienes pacientes con citas registradas.</p>
+          <p className="text-sm text-ink-subtle">Aún no tienes pacientes con citas registradas.</p>
         )}
         {pacientes.map(p => {
           const nombre = [p.nombre, p.apellido].filter(Boolean).join(' ') || 'Paciente';
@@ -95,7 +95,7 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
       {cargando && (
         <div className="flex items-center justify-center py-10 gap-3">
           <Loader2 className="w-4 h-4 text-teal-400 animate-spin" />
-          <span className="text-sm text-gray-600">Cargando historia clínica...</span>
+          <span className="text-sm text-ink-subtle">Cargando historia clínica...</span>
         </div>
       )}
 
@@ -108,19 +108,19 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
                 <h3 className="text-base font-black text-white">
                   {[historia.paciente.nombre, historia.paciente.apellido].filter(Boolean).join(' ') || 'Paciente'}
                 </h3>
-                <p className="text-xs text-gray-600 mt-0.5">{historia.paciente.email}</p>
+                <p className="text-xs text-ink-subtle mt-0.5">{historia.paciente.email}</p>
                 {historia.paciente.ciudadColombia && (
-                  <p className="text-xs text-gray-600">{historia.paciente.ciudadColombia}</p>
+                  <p className="text-xs text-ink-subtle">{historia.paciente.ciudadColombia}</p>
                 )}
               </div>
-              <div className="text-right text-xs text-gray-600">
+              <div className="text-right text-xs text-ink-subtle">
                 <p>Plan: <span className="text-teal-400 font-semibold">{historia.paciente.planActual}</span></p>
                 <p>En plataforma desde {new Date(historia.paciente.createdAt).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' })}</p>
               </div>
             </div>
             {historia.paciente.motivoConsulta && (
               <div className="mt-3 pt-3 border-t border-white/5">
-                <p className="text-[11px] text-gray-600 uppercase tracking-wider mb-1">Motivo de consulta inicial</p>
+                <p className="text-[11px] text-ink-subtle uppercase tracking-wider mb-1">Motivo de consulta inicial</p>
                 <p className="text-sm text-gray-400 leading-relaxed">{historia.paciente.motivoConsulta}</p>
               </div>
             )}
@@ -137,7 +137,7 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
               <button
                 key={v}
                 onClick={() => setSeccion(v)}
-                className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all ${seccion === v ? 'bg-teal-600 text-white' : 'text-gray-500 hover:text-gray-300'}`}
+                className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all ${seccion === v ? 'bg-teal-700 text-white' : 'text-ink-subtle hover:text-gray-300'}`}
               >
                 {l}
               </button>
@@ -147,7 +147,7 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
           {/* Citas */}
           {seccion === 'citas' && (
             <div className="space-y-2">
-              {historia.citas.length === 0 && <p className="text-sm text-gray-600 text-center py-4">Sin citas registradas</p>}
+              {historia.citas.length === 0 && <p className="text-sm text-ink-subtle text-center py-4">Sin citas registradas</p>}
               {historia.citas.map(cita => (
                 <div key={cita.id} className="bg-[#0d1a12] border border-white/5 rounded-xl p-4">
                   <div className="flex items-start justify-between mb-2">
@@ -155,17 +155,17 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
                       <p className="text-sm font-bold text-white">
                         {new Date(cita.fechaHora).toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                       </p>
-                      <p className="text-xs text-gray-600 mt-0.5">
+                      <p className="text-xs text-ink-subtle mt-0.5">
                         {new Date(cita.fechaHora).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })} · {cita.duracionMinutos} min · {cita.modalidad}
                       </p>
                     </div>
-                    <span className={`text-[10px] px-2 py-1 rounded-lg font-bold ${cita.estado === 'COMPLETADA' ? 'bg-teal-500/10 text-teal-400' : 'bg-white/5 text-gray-500'}`}>
+                    <span className={`text-[10px] px-2 py-1 rounded-lg font-bold ${cita.estado === 'COMPLETADA' ? 'bg-teal-500/10 text-teal-400' : 'bg-white/5 text-ink-subtle'}`}>
                       {cita.estado.replace('_', ' ')}
                     </span>
                   </div>
                   {cita.notasClinicas && (
                     <div className="mt-2 pt-2 border-t border-white/5">
-                      <p className="text-[11px] text-gray-600 uppercase tracking-wider mb-1 flex items-center gap-1">
+                      <p className="text-[11px] text-ink-subtle uppercase tracking-wider mb-1 flex items-center gap-1">
                         <FileText className="w-3 h-3" />Notas clínicas
                       </p>
                       <p className="text-xs text-gray-400 leading-relaxed whitespace-pre-line line-clamp-4">{cita.notasClinicas}</p>
@@ -173,7 +173,7 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
                   )}
                   {cita.resena && (
                     <div className="mt-2 pt-2 border-t border-white/5 flex items-center gap-2">
-                      <span className="text-xs text-gray-600">Calificación del paciente:</span>
+                      <span className="text-xs text-ink-subtle">Calificación del paciente:</span>
                       <span className="text-sm font-bold text-amber-400">{'⭐'.repeat(cita.resena.calificacion)}</span>
                     </div>
                   )}
@@ -185,24 +185,24 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
           {/* Incidentes de crisis */}
           {seccion === 'incidentes' && (
             <div className="space-y-2">
-              {historia.incidentes.length === 0 && <p className="text-sm text-gray-600 text-center py-4">Sin incidentes de crisis registrados</p>}
+              {historia.incidentes.length === 0 && <p className="text-sm text-ink-subtle text-center py-4">Sin incidentes de crisis registrados</p>}
               {historia.incidentes.map(inc => (
                 <div key={inc.id} className="bg-[#0d1a12] border border-red-500/10 rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-2">
                     <AlertTriangle className="w-4 h-4 text-red-400" />
                     <span className={`text-xs font-bold px-2 py-0.5 rounded-lg ${NIVEL_COLOR[inc.nivel] ?? ''}`}>{inc.nivel}</span>
-                    <span className="text-xs text-gray-600">
+                    <span className="text-xs text-ink-subtle">
                       {new Date(inc.timestampDeteccion).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </span>
                   </div>
                   {inc.indicadoresDetectados.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-2">
                       {inc.indicadoresDetectados.map(i => (
-                        <span key={i} className="text-[10px] px-2 py-0.5 bg-white/5 text-gray-500 rounded">{i}</span>
+                        <span key={i} className="text-[10px] px-2 py-0.5 bg-white/5 text-ink-subtle rounded">{i}</span>
                       ))}
                     </div>
                   )}
-                  {inc.resolucion && <p className="text-xs text-gray-500">Resolución: {inc.resolucion}</p>}
+                  {inc.resolucion && <p className="text-xs text-ink-subtle">Resolución: {inc.resolucion}</p>}
                 </div>
               ))}
             </div>
@@ -211,18 +211,18 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
           {/* Tests */}
           {seccion === 'tests' && (
             <div className="space-y-2">
-              {historia.resultadosTest.length === 0 && <p className="text-sm text-gray-600 text-center py-4">Sin tests realizados</p>}
+              {historia.resultadosTest.length === 0 && <p className="text-sm text-ink-subtle text-center py-4">Sin tests realizados</p>}
               {historia.resultadosTest.map((t, i) => (
                 <div key={i} className="flex items-center justify-between p-3.5 bg-[#0d1a12] border border-white/5 rounded-xl">
                   <div>
                     <p className="text-sm text-white font-semibold flex items-center gap-2">
                       <FlaskConical className="w-3.5 h-3.5 text-purple-400" />{t.testId}
                     </p>
-                    <p className="text-xs text-gray-600 mt-0.5">{t.resultadoTitulo}</p>
+                    <p className="text-xs text-ink-subtle mt-0.5">{t.resultadoTitulo}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-teal-400">{t.puntajeTotal} pts</p>
-                    <p className="text-[11px] text-gray-700">
+                    <p className="text-[11px] text-ink-subtle">
                       {new Date(t.createdAt).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
                     </p>
                   </div>
@@ -234,16 +234,16 @@ export default function HistoriaClinica({ citasHoy }: { citasHoy: CitaResumen[] 
           {/* Tareas */}
           {seccion === 'tareas' && (
             <div className="space-y-2">
-              {historia.tareas.length === 0 && <p className="text-sm text-gray-600 text-center py-4">Sin tareas asignadas</p>}
+              {historia.tareas.length === 0 && <p className="text-sm text-ink-subtle text-center py-4">Sin tareas asignadas</p>}
               {historia.tareas.map((t, i) => (
                 <div key={i} className="flex items-center gap-3 p-3.5 bg-[#0d1a12] border border-white/5 rounded-xl">
                   {t.estado === 'COMPLETADA'
                     ? <CheckCircle2 className="w-4 h-4 text-teal-400 flex-shrink-0" />
-                    : <Clock className="w-4 h-4 text-gray-600 flex-shrink-0" />
+                    : <Clock className="w-4 h-4 text-ink-subtle flex-shrink-0" />
                   }
                   <div className="flex-1">
                     <p className="text-sm text-white font-semibold">{t.titulo}</p>
-                    <p className="text-[11px] text-gray-600 mt-0.5">
+                    <p className="text-[11px] text-ink-subtle mt-0.5">
                       {t.tipo} · {t.estado}
                       {t.completadaEn && ` · completada ${new Date(t.completadaEn).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}`}
                     </p>

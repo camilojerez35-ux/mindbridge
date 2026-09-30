@@ -34,19 +34,19 @@ export default function TestsSearch({ tests }: { tests: TestItem[] }) {
     <>
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 pointer-events-none" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-subtle pointer-events-none" />
         <input
           value={busqueda}
           onChange={e => setBusqueda(e.target.value)}
           placeholder="Buscar tests..."
-          className="w-full bg-[#0d1117] border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-gray-700 outline-none focus:border-teal-500/30 transition-colors"
+          className="w-full bg-[#0d1117] border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-ink-subtle outline-none focus:border-teal-500/30 transition-colors"
         />
       </div>
 
       {/* Categories + cards */}
       {porCategoria.map(cat => (
         <div key={cat.id}>
-          <h2 className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+          <h2 className="text-xs font-bold text-ink-subtle uppercase tracking-wider mb-3 flex items-center gap-1.5">
             <span>{cat.icono}</span>{cat.titulo}
           </h2>
           <div className="grid grid-cols-1 gap-3">
@@ -64,18 +64,18 @@ export default function TestsSearch({ tests }: { tests: TestItem[] }) {
                     <h3 className="text-sm font-bold text-white">{test.titulo}</h3>
                     {test.hecho && <CheckCircle2 className="w-3.5 h-3.5 text-teal-400 flex-shrink-0" />}
                   </div>
-                  <p className="text-xs text-gray-600 leading-relaxed line-clamp-1">{test.descripcion}</p>
+                  <p className="text-xs text-ink-subtle leading-relaxed line-clamp-1">{test.descripcion}</p>
                   <div className="flex items-center gap-3 mt-1.5">
-                    <span className="flex items-center gap-1 text-[10px] text-gray-700">
+                    <span className="flex items-center gap-1 text-[10px] text-ink-subtle">
                       <Clock className="w-3 h-3" />{test.duracionMin} min
                     </span>
-                    <span className="text-[10px] text-gray-700">{test.numPreguntas} preg.</span>
+                    <span className="text-[10px] text-ink-subtle">{test.numPreguntas} preg.</span>
                     {test.resultadoTitulo && (
                       <span className="text-[10px] text-teal-500 font-medium">{test.resultadoTitulo}</span>
                     )}
                   </div>
                 </div>
-                <span className="text-gray-700 group-hover:text-gray-500 transition-colors flex-shrink-0">→</span>
+                <span className="text-ink-subtle group-hover:text-ink-subtle transition-colors flex-shrink-0">→</span>
               </Link>
             ))}
           </div>

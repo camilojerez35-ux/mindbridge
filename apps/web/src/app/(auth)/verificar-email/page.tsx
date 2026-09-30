@@ -54,7 +54,7 @@ export default function VerificarEmailPage() {
           Te enviamos un enlace de verificación. Haz clic en él para activar tu cuenta.<br />
           El enlace es válido por <strong style={{ color: 'white' }}>24 horas</strong>.
         </p>
-        <p style={{ color: '#3d5c48', fontSize: '12px' }}>
+        <p style={{ color: '#7a9e87', fontSize: '12px' }}>
           ¿No lo recibiste? Revisa tu carpeta de spam o{' '}
           <ReenviarLink />
         </p>
@@ -74,7 +74,7 @@ function EnlaceInvalido({ esExpirado, mensaje }: { esExpirado: boolean; mensaje:
         {mensaje}
       </p>
       {esExpirado && (
-        <p style={{ color: '#5a8a6a', fontSize: '13px', marginBottom: '28px' }}>
+        <p style={{ color: '#7a9e87', fontSize: '13px', marginBottom: '28px' }}>
           Solicita un nuevo enlace de verificación:
         </p>
       )}
@@ -152,12 +152,12 @@ function Layout({ children }: { children: React.ReactNode }) {
       <div style={{ width: '100%', maxWidth: '440px' }}>
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <Link href="/" style={{ fontSize: '26px', fontWeight: '900', color: '#2dd4bf', textDecoration: 'none' }}>MenteBridge</Link>
-          <p style={{ fontSize: '12px', color: '#3d5c48', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
+          <p style={{ fontSize: '12px', color: '#7a9e87', marginTop: '4px' }}>🇨🇴 Colombia · Salud Mental Accesible</p>
         </div>
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid #1a2e1f', borderRadius: '18px', padding: '40px 36px' }}>
           {children}
         </div>
-        <p style={{ textAlign: 'center', fontSize: '11px', color: '#2a3d2e', marginTop: '20px' }}>
+        <p style={{ textAlign: 'center', fontSize: '11px', color: '#7a9e87', marginTop: '20px' }}>
           Crisis:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>Línea 106</a>
           {' · '}

@@ -14,7 +14,7 @@ export default function DashboardError({
       <h2 className="text-xl font-semibold text-gray-800 mb-2">
         Ocurrió un error en esta sección
       </h2>
-      <p className="text-gray-500 mb-6 max-w-sm">
+      <p className="text-ink-subtle mb-6 max-w-sm">
         El problema fue registrado automáticamente. Puedes intentar recargar la página.
       </p>
       {error.digest && (
@@ -23,7 +23,7 @@ export default function DashboardError({
       <div className="flex gap-3">
         <button
           onClick={reset}
-          className="bg-teal-600 text-white py-2 px-5 rounded-lg hover:bg-teal-700 transition-colors text-sm"
+          className="bg-teal-700 text-white py-2 px-5 rounded-lg hover:bg-teal-700 transition-colors text-sm"
         >
           Reintentar
         </button>

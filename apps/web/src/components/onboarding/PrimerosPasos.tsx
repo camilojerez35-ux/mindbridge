@@ -91,7 +91,7 @@ export default function PrimerosPasos({ completadosDB = [] }: Props) {
         <button
           onClick={cerrar}
           aria-label="Cerrar primeros pasos"
-          style={{ background: 'none', border: 'none', color: '#3d5c48', cursor: 'pointer', fontSize: '16px', padding: '2px', lineHeight: 1, flexShrink: 0 }}
+          style={{ background: 'none', border: 'none', color: '#7a9e87', cursor: 'pointer', fontSize: '16px', padding: '2px', lineHeight: 1, flexShrink: 0 }}
         >
           ✕
         </button>
@@ -132,13 +132,13 @@ export default function PrimerosPasos({ completadosDB = [] }: Props) {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{
                   fontSize: '13px', fontWeight: '600',
-                  color: hecho ? '#5a8a6a' : 'white',
+                  color: hecho ? '#7a9e87' : 'white',
                   textDecoration: hecho ? 'line-through' : 'none',
                   marginBottom: '2px',
                 }}>
                   {paso.label}
                 </p>
-                {!hecho && <p style={{ fontSize: '11px', color: '#3d5c48' }}>{paso.desc}</p>}
+                {!hecho && <p style={{ fontSize: '11px', color: '#7a9e87' }}>{paso.desc}</p>}
               </div>
 
               {!hecho && (

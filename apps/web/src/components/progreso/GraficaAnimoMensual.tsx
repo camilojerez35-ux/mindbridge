@@ -23,7 +23,7 @@ export default function GraficaAnimoMensual() {
 
   if (cargando) return (
     <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '16px', padding: '24px', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: '13px', color: '#3d5c48' }}>Cargando gráfica...</span>
+      <span style={{ fontSize: '13px', color: '#7a9e87' }}>Cargando gráfica...</span>
     </div>
   );
 
@@ -48,7 +48,7 @@ export default function GraficaAnimoMensual() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h2 style={{ fontSize: '15px', fontWeight: '700', color: 'white', marginBottom: '2px' }}>Tu ánimo — últimas 4 semanas</h2>
-          <p style={{ fontSize: '12px', color: '#3d5c48' }}>
+          <p style={{ fontSize: '12px', color: '#7a9e87' }}>
             {conDatos.length > 0
               ? `${conDatos.length} de 28 días registrados${promedioGeneral ? ` · promedio ${promedioGeneral}/10` : ''}`
               : 'Aún no hay registros en este período'}
@@ -82,7 +82,7 @@ export default function GraficaAnimoMensual() {
           ))}
         </div>
       ) : (
-        <p style={{ fontSize: '12px', color: '#3d5c48', textAlign: 'center', padding: '20px 0' }}>
+        <p style={{ fontSize: '12px', color: '#7a9e87', textAlign: 'center', padding: '20px 0' }}>
           Registra tu ánimo cada día para ver tu evolución del último mes.
         </p>
       )}

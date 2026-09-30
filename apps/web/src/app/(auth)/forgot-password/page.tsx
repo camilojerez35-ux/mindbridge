@@ -99,17 +99,17 @@ export default function ForgotPasswordPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 pl-11 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all"
+                  className="w-full px-4 py-3 pl-11 bg-white/5 border border-white/10 rounded-xl text-white placeholder-ink-subtle focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all"
                   placeholder="tu@correo.com"
                 />
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-subtle" />
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-on-accent font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -132,7 +132,7 @@ export default function ForgotPasswordPage() {
             <p className="text-gray-400 text-sm">
               Revisa tu bandeja de entrada (y spam) para encontrar el correo de recuperación.
             </p>
-            <p className="text-gray-500 text-xs">
+            <p className="text-ink-subtle text-xs">
               El enlace expirará en 1 hora. Si no lo recibes, intenta nuevamente.
             </p>
           </div>
@@ -147,7 +147,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         {/* Privacy notice */}
-        <p className="text-xs text-gray-600 text-center mt-6 leading-relaxed">
+        <p className="text-xs text-ink-subtle text-center mt-6 leading-relaxed">
           Por tu seguridad, el enlace de recuperación expira en 1 hora.
           Si no puedes acceder a tu correo, contacta a soporte.
         </p>

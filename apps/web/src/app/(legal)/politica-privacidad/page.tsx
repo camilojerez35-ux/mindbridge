@@ -10,7 +10,7 @@ export default function PoliticaPrivacidadPage() {
   return (
     <main className="max-w-3xl mx-auto px-5 py-16">
       <h1 className="text-3xl font-black text-white mb-2">Política de Privacidad</h1>
-      <p className="text-sm text-gray-500 mb-3">
+      <p className="text-sm text-ink-subtle mb-3">
         Versión {VERSIONES_DOCUMENTOS.POLITICA_PRIVACIDAD} · Última actualización: 1 de enero de 2026
       </p>
       <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 rounded-lg mb-10">
@@ -24,7 +24,7 @@ export default function PoliticaPrivacidadPage() {
             <strong className="text-white">MenteBridge Colombia S.A.S.</strong><br />
             Domicilio: Bogotá D.C., Colombia<br />
             Correo de contacto:{' '}
-            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 underline underline-offset-2">privacidad@mentebridge.com</a>
           </p>
         </Seccion>
 
@@ -94,12 +94,12 @@ export default function PoliticaPrivacidadPage() {
           <p className="mb-3">
             Puedes ejercer los derechos de <strong className="text-white">Conocer, Actualizar, Rectificar, Suprimir, Revocar y presentar Quejas</strong>{' '}
             escribiendo a{' '}
-            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 hover:underline">privacidad@mentebridge.com</a>.
+            <a href="mailto:privacidad@mentebridge.com" className="text-teal-400 underline underline-offset-2">privacidad@mentebridge.com</a>.
             Tiempo de respuesta: <strong className="text-white">10 días hábiles</strong>.
           </p>
           <p>
             También puedes acudir a la <strong className="text-white">Superintendencia de Industria y Comercio (SIC)</strong>:{' '}
-            <a href="https://www.sic.gov.co" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:underline">www.sic.gov.co</a>
+            <a href="https://www.sic.gov.co" target="_blank" rel="noopener noreferrer" className="text-teal-400 underline underline-offset-2">www.sic.gov.co</a>
           </p>
         </Seccion>
 

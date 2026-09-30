@@ -49,7 +49,7 @@ export default function AccesoDenegadoToast() {
       <button
         onClick={() => setVisible(false)}
         aria-label="Cerrar"
-        style={{ background: 'none', border: 'none', color: '#5a8a6a', cursor: 'pointer', fontSize: '14px', padding: '0', lineHeight: 1, flexShrink: 0 }}
+        style={{ background: 'none', border: 'none', color: '#7a9e87', cursor: 'pointer', fontSize: '14px', padding: '0', lineHeight: 1, flexShrink: 0 }}
       >
         ✕
       </button>

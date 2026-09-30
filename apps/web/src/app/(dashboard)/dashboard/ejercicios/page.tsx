@@ -103,7 +103,7 @@ export default function EjerciciosPage() {
       {/* Header */}
       <div>
         <h1 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>🧘 Ejercicios Guiados</h1>
-        <p style={{ fontSize: '13px', color: '#5a8a6a', marginTop: '4px' }}>Respiración, grounding, mindfulness y técnicas TCC basadas en evidencia</p>
+        <p style={{ fontSize: '13px', color: '#7a9e87', marginTop: '4px' }}>Respiración, grounding, mindfulness y técnicas TCC basadas en evidencia</p>
       </div>
 
       {/* Stats de práctica */}
@@ -118,7 +118,7 @@ export default function EjerciciosPage() {
               <span style={{ fontSize: '22px' }}>{s.icon}</span>
               <div>
                 <div style={{ fontSize: '20px', fontWeight: '900', color: s.color, lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: '11px', color: '#3d5c48', marginTop: '2px' }}>{s.label}</div>
+                <div style={{ fontSize: '11px', color: '#7a9e87', marginTop: '2px' }}>{s.label}</div>
               </div>
             </div>
           ))}
@@ -128,7 +128,7 @@ export default function EjerciciosPage() {
       {/* Filtros */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         {CATS.map(c => (
-          <button key={c} onClick={() => setCat(c)} style={{ padding: '8px 16px', borderRadius: '20px', border: `1px solid ${cat === c ? '#2dd4bf' : '#2a3d2e'}`, background: cat === c ? 'rgba(45,212,191,0.12)' : 'transparent', color: cat === c ? '#2dd4bf' : '#5a8a6a', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: cat === c ? '700' : '400' }}>
+          <button key={c} onClick={() => setCat(c)} style={{ padding: '8px 16px', borderRadius: '20px', border: `1px solid ${cat === c ? '#2dd4bf' : '#2a3d2e'}`, background: cat === c ? 'rgba(45,212,191,0.12)' : 'transparent', color: cat === c ? '#2dd4bf' : '#7a9e87', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: cat === c ? '700' : '400' }}>
             {c}
           </button>
         ))}
@@ -187,7 +187,7 @@ export default function EjerciciosPage() {
               <div style={{ padding: '28px' }}>
                 {/* Timer y progreso */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-                  <span style={{ fontSize: '13px', color: '#5a8a6a' }}>Paso {paso + 1} de {activo.pasos.length}</span>
+                  <span style={{ fontSize: '13px', color: '#7a9e87' }}>Paso {paso + 1} de {activo.pasos.length}</span>
                   <span style={{ fontSize: '20px', fontWeight: '900', color: activo.borderColor, fontFamily: 'monospace' }}>{fmt(segundos)}</span>
                 </div>
 
@@ -208,7 +208,7 @@ export default function EjerciciosPage() {
                       <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: i < paso ? activo.borderColor : i === paso ? activo.borderColor + '44' : '#1a2e1f', border: `1px solid ${activo.borderColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '700', color: 'white', flexShrink: 0 }}>
                         {i < paso ? '✓' : i + 1}
                       </div>
-                      <p style={{ fontSize: '12px', color: i <= paso ? '#8aab96' : '#3d5c48', lineHeight: 1.4 }}>{p}</p>
+                      <p style={{ fontSize: '12px', color: i <= paso ? '#8aab96' : '#7a9e87', lineHeight: 1.4 }}>{p}</p>
                     </div>
                   ))}
                 </div>
@@ -227,14 +227,14 @@ export default function EjerciciosPage() {
                 <div style={{ fontSize: '56px', marginBottom: '16px' }}>🎉</div>
                 <h3 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '8px' }}>¡Excelente trabajo!</h3>
                 <p style={{ color: '#8aab96', marginBottom: '4px' }}>Completaste "{activo.titulo}"</p>
-                <p style={{ fontSize: '13px', color: '#5a8a6a', marginBottom: '4px' }}>Tiempo: {fmt(segundos)}</p>
+                <p style={{ fontSize: '13px', color: '#7a9e87', marginBottom: '4px' }}>Tiempo: {fmt(segundos)}</p>
                 {conteo[activo.id] && (
                   <p style={{ fontSize: '13px', color: activo.borderColor, fontWeight: '700', marginBottom: '20px' }}>
                     🏅 Has hecho este ejercicio {conteo[activo.id]} {conteo[activo.id] === 1 ? 'vez' : 'veces'}
                   </p>
                 )}
                 {guardandoCompletado && (
-                  <p style={{ fontSize: '12px', color: '#3d5c48', marginBottom: '16px' }}>Guardando progreso...</p>
+                  <p style={{ fontSize: '12px', color: '#7a9e87', marginBottom: '16px' }}>Guardando progreso...</p>
                 )}
                 <p style={{ fontSize: '14px', color: '#8aab96', lineHeight: 1.6, marginBottom: '28px' }}>
                   La consistencia es clave. Practica este ejercicio regularmente para mejores resultados.

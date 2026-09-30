@@ -96,7 +96,7 @@ export default function DiarioPage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>📔 Diario Emocional</h1>
-          <p style={{ fontSize: '13px', color: '#5a8a6a', marginTop: '4px' }}>Registra y entiende tus emociones</p>
+          <p style={{ fontSize: '13px', color: '#7a9e87', marginTop: '4px' }}>Registra y entiende tus emociones</p>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button onClick={() => setVista('lista')} style={{ padding: '9px 18px', borderRadius: '8px', border: 'none', background: vista === 'lista' ? '#1a6b4a' : '#1a2e1f', color: 'white', cursor: 'pointer', fontSize: '13px', fontWeight: '600', fontFamily: 'inherit' }}>Ver entradas</button>
@@ -113,7 +113,7 @@ export default function DiarioPage() {
           <div>
             <label style={{ fontSize: '13px', color: '#8aab96', fontWeight: '600', display: 'block', marginBottom: '10px' }}>¿Cómo está tu ánimo hoy? {animoEmoji(form.animo)} {form.animo}/10</label>
             <input type="range" min={1} max={10} value={form.animo} onChange={e => setForm(p => ({ ...p, animo: +e.target.value }))} style={{ width: '100%', accentColor: animoColor(form.animo) }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#3d5c48', marginTop: '4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#7a9e87', marginTop: '4px' }}>
               <span>😢 Muy mal</span><span>😄 Excelente</span>
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function DiarioPage() {
             <label style={{ fontSize: '13px', color: '#8aab96', fontWeight: '600', display: 'block', marginBottom: '10px' }}>¿Qué emociones sientes? (elige las que apliquen)</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {EMOCIONES.map(e => (
-                <button key={e} onClick={() => toggleEmocion(e)} style={{ padding: '7px 14px', borderRadius: '20px', border: `1px solid ${form.emociones.includes(e) ? '#2dd4bf' : '#2a3d2e'}`, background: form.emociones.includes(e) ? 'rgba(45,212,191,0.15)' : 'transparent', color: form.emociones.includes(e) ? '#2dd4bf' : '#5a8a6a', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', transition: 'all .15s' }}>
+                <button key={e} onClick={() => toggleEmocion(e)} style={{ padding: '7px 14px', borderRadius: '20px', border: `1px solid ${form.emociones.includes(e) ? '#2dd4bf' : '#2a3d2e'}`, background: form.emociones.includes(e) ? 'rgba(45,212,191,0.15)' : 'transparent', color: form.emociones.includes(e) ? '#2dd4bf' : '#7a9e87', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit', transition: 'all .15s' }}>
                   {e}
                 </button>
               ))}
@@ -140,7 +140,7 @@ export default function DiarioPage() {
               rows={6}
               style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '14px', color: 'white', fontSize: '14px', resize: 'vertical', fontFamily: 'inherit', lineHeight: 1.7, outline: 'none' }}
             />
-            <p style={{ fontSize: '11px', color: '#3d5c48', marginTop: '4px' }}>{form.contenido.length} / 5000 caracteres · 🔒 Cifrado extremo a extremo</p>
+            <p style={{ fontSize: '11px', color: '#7a9e87', marginTop: '4px' }}>{form.contenido.length} / 5000 caracteres · 🔒 Cifrado extremo a extremo</p>
           </div>
 
           {/* Etiquetas */}
@@ -148,7 +148,7 @@ export default function DiarioPage() {
             <label style={{ fontSize: '13px', color: '#8aab96', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Etiquetas (opcional)</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {ETIQUETAS.map(e => (
-                <button key={e} onClick={() => toggleEtiqueta(e)} style={{ padding: '5px 12px', borderRadius: '20px', border: `1px solid ${form.etiquetas.includes(e) ? '#818cf8' : '#2a3d2e'}`, background: form.etiquetas.includes(e) ? 'rgba(129,140,248,0.15)' : 'transparent', color: form.etiquetas.includes(e) ? '#818cf8' : '#5a8a6a', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}>
+                <button key={e} onClick={() => toggleEtiqueta(e)} style={{ padding: '5px 12px', borderRadius: '20px', border: `1px solid ${form.etiquetas.includes(e) ? '#818cf8' : '#2a3d2e'}`, background: form.etiquetas.includes(e) ? 'rgba(129,140,248,0.15)' : 'transparent', color: form.etiquetas.includes(e) ? '#818cf8' : '#7a9e87', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}>
                   {e}
                 </button>
               ))}
@@ -166,8 +166,8 @@ export default function DiarioPage() {
             <button onClick={guardar} disabled={!form.contenido.trim() || guardando} style={{ background: '#1a6b4a', color: 'white', padding: '12px 28px', borderRadius: '8px', border: 'none', fontWeight: '700', fontSize: '14px', cursor: 'pointer', fontFamily: 'inherit', opacity: !form.contenido.trim() ? 0.5 : 1 }}>
               {guardando ? 'Guardando...' : guardado ? '✅ Guardado' : '💾 Guardar entrada'}
             </button>
-            <button onClick={() => setVista('lista')} style={{ background: '#1a2e1f', color: '#5a8a6a', padding: '12px 20px', borderRadius: '8px', border: '1px solid #2a3d2e', cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit' }}>Cancelar</button>
-            <label style={{ display: 'flex', gap: '8px', alignItems: 'center', cursor: 'pointer', marginLeft: 'auto', fontSize: '13px', color: '#5a8a6a' }}>
+            <button onClick={() => setVista('lista')} style={{ background: '#1a2e1f', color: '#7a9e87', padding: '12px 20px', borderRadius: '8px', border: '1px solid #2a3d2e', cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit' }}>Cancelar</button>
+            <label style={{ display: 'flex', gap: '8px', alignItems: 'center', cursor: 'pointer', marginLeft: 'auto', fontSize: '13px', color: '#7a9e87' }}>
               <input type="checkbox" checked={form.privado} onChange={e => setForm(p => ({ ...p, privado: e.target.checked }))} style={{ accentColor: '#2dd4bf' }} />
               🔒 Entrada privada
             </label>
@@ -179,7 +179,7 @@ export default function DiarioPage() {
       {vista === 'lista' && (
         <>
           {cargando && (
-            <div style={{ textAlign: 'center', padding: '40px', color: '#5a8a6a', fontSize: '14px' }}>Cargando entradas...</div>
+            <div style={{ textAlign: 'center', padding: '40px', color: '#7a9e87', fontSize: '14px' }}>Cargando entradas...</div>
           )}
 
           {!cargando && entradas.length === 0 && (
@@ -203,7 +203,7 @@ export default function DiarioPage() {
                   <div key={i} style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
                     <div style={{ fontSize: '22px', marginBottom: '6px' }}>{s.icon}</div>
                     <div style={{ fontSize: '22px', fontWeight: '900', color: s.color, lineHeight: 1 }}>{s.val}</div>
-                    <div style={{ fontSize: '11px', color: '#3d5c48', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</div>
+                    <div style={{ fontSize: '11px', color: '#7a9e87', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -217,7 +217,7 @@ export default function DiarioPage() {
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                          <span style={{ fontSize: '13px', color: '#5a8a6a' }}>{formatFecha(entrada.createdAt)}</span>
+                          <span style={{ fontSize: '13px', color: '#7a9e87' }}>{formatFecha(entrada.createdAt)}</span>
                           <span style={{ fontSize: '12px', fontWeight: '700', color: animoColor(entrada.estadoAnimo) }}>Ánimo: {entrada.estadoAnimo}/10</span>
                         </div>
                         <div style={{ display: 'flex', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
@@ -229,13 +229,13 @@ export default function DiarioPage() {
                           ))}
                         </div>
                       </div>
-                      <span style={{ color: '#3d5c48', fontSize: '18px', transition: 'transform .2s', transform: expandida === entrada.id ? 'rotate(180deg)' : 'none' }}>▾</span>
+                      <span style={{ color: '#7a9e87', fontSize: '18px', transition: 'transform .2s', transform: expandida === entrada.id ? 'rotate(180deg)' : 'none' }}>▾</span>
                     </div>
 
                     {expandida === entrada.id && (
                       <div style={{ padding: '0 20px 20px', borderTop: '1px solid #1a2e1f' }}>
                         {cargandoDetalle === entrada.id && (
-                          <p style={{ fontSize: '13px', color: '#5a8a6a', marginTop: '16px' }}>Cargando...</p>
+                          <p style={{ fontSize: '13px', color: '#7a9e87', marginTop: '16px' }}>Cargando...</p>
                         )}
                         {detalle[entrada.id] && (
                           <>

@@ -13,9 +13,8 @@ import {
 import CheckInDiario from '@/components/checkin/CheckInDiario';
 
 const RECURSOS_CRISIS = [
-  { nombre: 'Línea 106 — Línea de la Vida', numero: '106', descripcion: 'Atención en crisis, ideación suicida y emergencias de salud mental', disponibilidad: '24/7', gratuito: true },
+  { nombre: 'Línea 106 — Salud Mental (MinSalud)', numero: '106', descripcion: 'Línea nacional: escucha, primeros auxilios psicológicos e intervención en crisis. Desde cualquier celular o fijo', disponibilidad: '24/7', gratuito: true },
   { nombre: 'Línea de Emergencias', numero: '123', descripcion: 'Emergencias médicas y policiales', disponibilidad: '24/7', gratuito: true },
-  { nombre: 'Línea Nacional de Salud Mental', numero: '800-1222-5555', descripcion: 'Apoyo psicológico y orientación en salud mental', disponibilidad: '24/7', gratuito: true },
   { nombre: 'Cruz Roja Colombia', numero: '132', descripcion: 'Atención de urgencias y primeros auxilios', disponibilidad: '24/7', gratuito: true },
 ];
 
@@ -33,7 +32,7 @@ function ModalCrisis({ onCerrar }: { onCerrar: () => void }) {
               <p className="text-red-400 text-xs">Recursos de crisis disponibles 24/7</p>
             </div>
           </div>
-          <button onClick={onCerrar} className="p-1.5 text-gray-500 hover:text-gray-300 hover:bg-white/5 rounded-lg transition-all">
+          <button onClick={onCerrar} className="p-1.5 text-ink-subtle hover:text-gray-300 hover:bg-white/5 rounded-lg transition-all">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -54,7 +53,7 @@ function ModalCrisis({ onCerrar }: { onCerrar: () => void }) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-white font-bold text-sm">{r.nombre}</p>
-                <p className="text-gray-500 text-xs mt-0.5 line-clamp-1">{r.descripcion}</p>
+                <p className="text-ink-subtle text-xs mt-0.5 line-clamp-1">{r.descripcion}</p>
               </div>
               <span className="text-red-400 font-black text-lg flex-shrink-0">{r.numero}</span>
             </a>
@@ -62,7 +61,7 @@ function ModalCrisis({ onCerrar }: { onCerrar: () => void }) {
         </div>
 
         <div className="border-t border-white/5 pt-4">
-          <p className="text-gray-600 text-xs text-center leading-relaxed">
+          <p className="text-ink-subtle text-xs text-center leading-relaxed">
             Si estás en peligro inmediato, llama al <strong className="text-red-400">123</strong> o pide a alguien de confianza que te acompañe.
           </p>
         </div>
@@ -131,11 +130,11 @@ export default function DashboardClient({ children, userName, userPlan, userInit
             <span className="text-xl font-black bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
               MenteBridge
             </span>
-            <p className="text-[10px] text-gray-600 mt-0.5 uppercase tracking-widest">Colombia</p>
+            <p className="text-[10px] text-ink-subtle mt-0.5 uppercase tracking-widest">Colombia</p>
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="md:hidden p-1.5 text-gray-500 hover:text-gray-300 hover:bg-white/5 rounded-lg transition-all"
+            className="md:hidden p-1.5 text-ink-subtle hover:text-gray-300 hover:bg-white/5 rounded-lg transition-all"
           >
             <X className="w-4 h-4" />
           </button>
@@ -153,10 +152,10 @@ export default function DashboardClient({ children, userName, userPlan, userInit
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${
                   active
                     ? 'bg-teal-500/10 text-white font-semibold'
-                    : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
+                    : 'text-ink-subtle hover:text-gray-300 hover:bg-white/5'
                 }`}
               >
-                <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-teal-400' : 'text-gray-600 group-hover:text-gray-400'}`} />
+                <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-teal-400' : 'text-ink-subtle group-hover:text-gray-400'}`} />
                 {label}
                 {active && <ChevronRight className="w-3 h-3 ml-auto text-teal-500 opacity-60" />}
               </Link>
@@ -166,12 +165,12 @@ export default function DashboardClient({ children, userName, userPlan, userInit
           {/* Psicólogo */}
           {esPsicologo && (
             <div className="pt-3 mt-3 border-t border-white/5">
-              <p className="px-3 mb-1 text-[10px] text-gray-600 uppercase tracking-widest font-semibold">Psicólogo</p>
+              <p className="px-3 mb-1 text-[10px] text-ink-subtle uppercase tracking-widest font-semibold">Psicólogo</p>
               {[{ href: '/dashboard/psicologo', icon: Stethoscope, label: 'Mi Panel' }].map(({ href, icon: Icon, label }) => {
                 const active = pathname.startsWith(href);
                 return (
-                  <Link key={href} href={href} onClick={() => setSidebarOpen(false)} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${active ? 'bg-teal-500/10 text-white font-semibold' : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'}`}>
-                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-teal-400' : 'text-gray-600 group-hover:text-gray-400'}`} />
+                  <Link key={href} href={href} onClick={() => setSidebarOpen(false)} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${active ? 'bg-teal-500/10 text-white font-semibold' : 'text-ink-subtle hover:text-gray-300 hover:bg-white/5'}`}>
+                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-teal-400' : 'text-ink-subtle group-hover:text-gray-400'}`} />
                     {label}
                     {active && <ChevronRight className="w-3 h-3 ml-auto text-teal-500 opacity-60" />}
                   </Link>
@@ -183,12 +182,12 @@ export default function DashboardClient({ children, userName, userPlan, userInit
           {/* Admin */}
           {esAdmin && (
             <div className="pt-3 mt-3 border-t border-white/5">
-              <p className="px-3 mb-1 text-[10px] text-red-500/70 uppercase tracking-widest font-semibold">Administración</p>
+              <p className="px-3 mb-1 text-[10px] text-red-400 uppercase tracking-widest font-semibold">Administración</p>
               {[{ href: '/dashboard/admin', icon: ShieldCheck, label: 'Panel Admin' }].map(({ href, icon: Icon, label }) => {
                 const active = pathname.startsWith(href);
                 return (
                   <Link key={href} href={href} onClick={() => setSidebarOpen(false)} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${active ? 'bg-red-500/10 text-red-300 font-semibold' : 'text-red-400/70 hover:text-red-300 hover:bg-red-500/5'}`}>
-                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-red-400' : 'text-red-500/50 group-hover:text-red-400'}`} />
+                    <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-red-400' : 'text-red-400/80 group-hover:text-red-300'}`} />
                     {label}
                     {active && <ChevronRight className="w-3 h-3 ml-auto text-red-400 opacity-60" />}
                   </Link>
@@ -235,7 +234,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
             {/* Hamburger — solo mobile */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-1.5 text-gray-500 hover:text-gray-300 hover:bg-white/5 rounded-lg transition-all"
+              className="md:hidden p-1.5 text-ink-subtle hover:text-gray-300 hover:bg-white/5 rounded-lg transition-all"
               aria-label="Abrir menú"
             >
               <Menu className="w-5 h-5" />
@@ -249,14 +248,14 @@ export default function DashboardClient({ children, userName, userPlan, userInit
             {/* Fecha — desktop */}
             <div className="hidden md:flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-ink-subtle">
                 {new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' })}
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-2 md:gap-3">
-            <button className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-500 hover:text-gray-300 hover:bg-white/5 transition-all">
+            <button className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-subtle hover:text-gray-300 hover:bg-white/5 transition-all">
               <Bell className="w-4 h-4" />
             </button>
 
@@ -266,7 +265,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
                 onClick={() => setUserMenuOpen(o => !o)}
                 className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-white/5 transition-all"
               >
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-xs font-bold text-white">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-xs font-bold text-on-accent">
                   {userInitial}
                 </div>
                 <span className="hidden sm:inline text-sm text-gray-300 font-medium">{userName?.split(' ')[0] ?? 'Usuario'}</span>
@@ -310,7 +309,7 @@ export default function DashboardClient({ children, userName, userPlan, userInit
                 key={href}
                 href={href}
                 className={`flex flex-col items-center justify-center gap-1 transition-colors ${
-                  active ? 'text-teal-400' : 'text-gray-600 hover:text-gray-400'
+                  active ? 'text-teal-400' : 'text-ink-subtle hover:text-gray-400'
                 }`}
               >
                 <Icon className="w-5 h-5" />

@@ -220,18 +220,18 @@ export default function ProgresoPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-black text-white">📈 Seguimiento de Progreso</h1>
-          <p className="text-sm text-gray-600 mt-1">Monitorea tu bienestar emocional en el tiempo</p>
+          <p className="text-sm text-ink-subtle mt-1">Monitorea tu bienestar emocional en el tiempo</p>
         </div>
         <button
           onClick={() => setModalAnimo(true)}
-          className="px-5 py-2.5 bg-teal-600 hover:bg-teal-500 text-white text-sm font-bold rounded-xl transition-colors"
+          className="px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-bold rounded-xl transition-colors"
         >
           + Registrar ánimo
         </button>
       </div>
 
       {cargando && (
-        <div className="text-center py-10 text-gray-600 text-sm">Cargando datos...</div>
+        <div className="text-center py-10 text-ink-subtle text-sm">Cargando datos...</div>
       )}
 
       {!cargando && !tieneRegistros && (
@@ -262,7 +262,7 @@ export default function ProgresoPage() {
               <div key={i} className="bg-[#0d1a12] border border-white/5 rounded-xl p-4 text-center">
                 <div className="text-xl mb-1.5">{s.icon}</div>
                 <div className="text-xl font-black" style={{ color: s.color }}>{s.val}</div>
-                <div className="text-[10px] text-gray-700 mt-1 uppercase tracking-wider">{s.label}</div>
+                <div className="text-[10px] text-ink-subtle mt-1 uppercase tracking-wider">{s.label}</div>
               </div>
             ))}
           </div>
@@ -276,14 +276,14 @@ export default function ProgresoPage() {
                   <div className="text-2xl font-black" style={{ color: animoColor(comparacionSemanal.promEsta) }}>
                     {comparacionSemanal.promEsta.toFixed(1)}
                   </div>
-                  <div className="text-[11px] text-gray-600 mt-1">Esta semana</div>
+                  <div className="text-[11px] text-ink-subtle mt-1">Esta semana</div>
                 </div>
                 {comparacionSemanal.promPasada !== null && (
                   <>
-                    <div className="text-gray-700 text-lg">→</div>
+                    <div className="text-ink-subtle text-lg">→</div>
                     <div className="text-center">
-                      <div className="text-2xl font-black text-gray-500">{comparacionSemanal.promPasada.toFixed(1)}</div>
-                      <div className="text-[11px] text-gray-600 mt-1">Semana pasada</div>
+                      <div className="text-2xl font-black text-ink-subtle">{comparacionSemanal.promPasada.toFixed(1)}</div>
+                      <div className="text-[11px] text-ink-subtle mt-1">Semana pasada</div>
                     </div>
                     {comparacionSemanal.diferencia !== null && (
                       <div className={`px-3 py-1.5 rounded-xl text-sm font-bold ${comparacionSemanal.diferencia >= 0 ? 'bg-teal-500/10 text-teal-400' : 'bg-red-500/10 text-red-400'}`}>
@@ -293,7 +293,7 @@ export default function ProgresoPage() {
                   </>
                 )}
                 {comparacionSemanal.promPasada === null && (
-                  <p className="text-gray-600 text-sm">Registra más días para ver la comparación</p>
+                  <p className="text-ink-subtle text-sm">Registra más días para ver la comparación</p>
                 )}
               </div>
             </div>
@@ -308,7 +308,7 @@ export default function ProgresoPage() {
                   <button
                     key={n}
                     onClick={() => setRangoVista(n)}
-                    className={`px-3 py-1.5 text-xs font-semibold transition-colors ${rangoVista === n ? 'bg-teal-600 text-white' : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'}`}
+                    className={`px-3 py-1.5 text-xs font-semibold transition-colors ${rangoVista === n ? 'bg-teal-700 text-white' : 'text-ink-subtle hover:text-gray-300 hover:bg-white/5'}`}
                   >
                     {n}d
                   </button>
@@ -339,7 +339,7 @@ export default function ProgresoPage() {
             {/* Labels — solo mostrar algunos en vista de 30 días */}
             <div className="flex gap-1">
               {datosGrafica.map((d, i) => (
-                <div key={i} className="flex-1 text-center" style={{ fontSize: '9px', color: d.valor ? '#6b9e80' : '#2a3d2e' }}>
+                <div key={i} className="flex-1 text-center" style={{ fontSize: '9px', color: d.valor ? '#c9dccf' : '#7a9e87' }}>
                   {rangoVista === 7 ? d.dia : (i % 5 === 0 ? d.dia : '')}
                 </div>
               ))}
@@ -349,7 +349,7 @@ export default function ProgresoPage() {
               {([['#2dd4bf', '7-10 Bien'], ['#fbbf24', '4-6 Regular'], ['#f87171', '1-3 Difícil']] as [string, string][]).map(([c, l]) => (
                 <div key={l} className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-sm" style={{ background: c }} />
-                  <span className="text-[11px] text-gray-700">{l}</span>
+                  <span className="text-[11px] text-ink-subtle">{l}</span>
                 </div>
               ))}
             </div>
@@ -369,7 +369,7 @@ export default function ProgresoPage() {
                       <div key={emocion}>
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm text-gray-300">{emocion}</span>
-                          <span className="text-xs text-gray-600">{count}x</span>
+                          <span className="text-xs text-ink-subtle">{count}x</span>
                         </div>
                         <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                           <div
@@ -390,13 +390,13 @@ export default function ProgresoPage() {
               {correlaciones.length > 0 && (
                 <div className="bg-[#0d1a12] border border-white/5 rounded-xl p-5">
                   <h2 className="text-sm font-bold text-white mb-1">Cómo te afectan tus emociones</h2>
-                  <p className="text-xs text-gray-600 mb-4">Ánimo promedio cuando registras cada emoción</p>
+                  <p className="text-xs text-ink-subtle mb-4">Ánimo promedio cuando registras cada emoción</p>
                   <div className="space-y-3">
                     {correlaciones.map(({ emocion, promedio, veces }) => (
                       <div key={emocion} className="flex items-center justify-between">
                         <div>
                           <span className="text-sm text-gray-300">{emocion}</span>
-                          <span className="text-[11px] text-gray-700 ml-2">({veces} veces)</span>
+                          <span className="text-[11px] text-ink-subtle ml-2">({veces} veces)</span>
                         </div>
                         <span className="text-sm font-bold" style={{ color: animoColor(promedio) }}>
                           {animoEmoji(promedio)} {promedio}/10
@@ -421,11 +421,11 @@ export default function ProgresoPage() {
                   <div key={i} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
                     <div>
                       <p className="text-sm text-gray-300 font-medium">{r.testId}</p>
-                      <p className="text-xs text-gray-600 mt-0.5">{r.resultadoTitulo}</p>
+                      <p className="text-xs text-ink-subtle mt-0.5">{r.resultadoTitulo}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-bold text-teal-400">{r.puntajeTotal} pts</p>
-                      <p className="text-[11px] text-gray-700">
+                      <p className="text-[11px] text-ink-subtle">
                         {new Date(r.createdAt).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
                       </p>
                     </div>
@@ -441,14 +441,14 @@ export default function ProgresoPage() {
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                 <div>
                   <h2 className="text-sm font-bold text-white">Tendencia a largo plazo</h2>
-                  <p className="text-xs text-gray-600 mt-0.5">Promedio mensual de ánimo</p>
+                  <p className="text-xs text-ink-subtle mt-0.5">Promedio mensual de ánimo</p>
                 </div>
                 <div className="flex rounded-lg overflow-hidden border border-white/8">
                   {([90, 180] as const).map(n => (
                     <button
                       key={n}
                       onClick={() => setRangoLargo(n)}
-                      className={`px-3 py-1.5 text-xs font-semibold transition-colors ${rangoLargo === n ? 'bg-teal-600 text-white' : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'}`}
+                      className={`px-3 py-1.5 text-xs font-semibold transition-colors ${rangoLargo === n ? 'bg-teal-700 text-white' : 'text-ink-subtle hover:text-gray-300 hover:bg-white/5'}`}
                     >
                       {n === 90 ? '3 meses' : '6 meses'}
                     </button>
@@ -457,7 +457,7 @@ export default function ProgresoPage() {
               </div>
 
               {cargandoLargo ? (
-                <div className="h-28 flex items-center justify-center text-gray-600 text-sm">Cargando...</div>
+                <div className="h-28 flex items-center justify-center text-ink-subtle text-sm">Cargando...</div>
               ) : (
                 <>
                   {/* Indicador de tendencia global */}
@@ -490,7 +490,7 @@ export default function ProgresoPage() {
                   </div>
                   <div className="flex gap-2">
                     {promediosMensuales.map(m => (
-                      <div key={m.key} className="flex-1 text-center text-[9px] text-gray-700">{m.label}</div>
+                      <div key={m.key} className="flex-1 text-center text-[9px] text-ink-subtle">{m.label}</div>
                     ))}
                   </div>
                 </>
@@ -502,20 +502,20 @@ export default function ProgresoPage() {
           {tendenciaTests.length > 0 && (
             <div className="bg-[#0d1a12] border border-white/5 rounded-xl p-5">
               <h2 className="text-sm font-bold text-white mb-1">Evolución en tests psicológicos</h2>
-              <p className="text-xs text-gray-600 mb-4">Comparando tu primera y última aplicación</p>
+              <p className="text-xs text-ink-subtle mb-4">Comparando tu primera y última aplicación</p>
               <div className="space-y-4">
                 {tendenciaTests.map(({ testId, primero, ultimo, diff, veces }) => (
                   <div key={testId}>
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-sm text-gray-300 font-medium">{testId}</span>
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${diff < 0 ? 'bg-teal-500/10 text-teal-400' : diff > 0 ? 'bg-amber-500/10 text-amber-400' : 'bg-white/5 text-gray-500'}`}>
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${diff < 0 ? 'bg-teal-500/10 text-teal-400' : diff > 0 ? 'bg-amber-500/10 text-amber-400' : 'bg-white/5 text-ink-subtle'}`}>
                         {diff < 0 ? '↓' : diff > 0 ? '↑' : '='} {diff > 0 ? '+' : ''}{diff} pts · {veces} veces
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-center">
                         <div className="text-lg font-black text-gray-400">{primero.puntaje}</div>
-                        <div className="text-[9px] text-gray-700">
+                        <div className="text-[9px] text-ink-subtle">
                           {new Date(primero.fecha).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
                         </div>
                       </div>
@@ -531,10 +531,10 @@ export default function ProgresoPage() {
                         />
                       </div>
                       <div className="text-center">
-                        <div className="text-lg font-black" style={{ color: diff < 0 ? '#2dd4bf' : diff > 0 ? '#fbbf24' : '#6b7280' }}>
+                        <div className="text-lg font-black" style={{ color: diff < 0 ? '#2dd4bf' : diff > 0 ? '#fbbf24' : '#9ca3af' }}>
                           {ultimo.puntaje}
                         </div>
-                        <div className="text-[9px] text-gray-700">
+                        <div className="text-[9px] text-ink-subtle">
                           {new Date(ultimo.fecha).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
                         </div>
                       </div>
@@ -542,7 +542,7 @@ export default function ProgresoPage() {
                   </div>
                 ))}
               </div>
-              <p className="text-[10px] text-gray-700 mt-4 leading-relaxed">
+              <p className="text-[10px] text-ink-subtle mt-4 leading-relaxed">
                 * Para tests de síntomas (PHQ-9, GAD-7) una puntuación más baja indica mejoría. Para tests de recursos y fortalezas, una puntuación más alta es mejor.
               </p>
             </div>
@@ -551,7 +551,7 @@ export default function ProgresoPage() {
           {promediosMensuales.length < 2 && estadisticas.total >= 7 && (
             <div className="p-4 bg-indigo-500/5 border border-indigo-500/15 rounded-xl flex gap-3 items-center">
               <span className="text-xl">🗓️</span>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-ink-subtle leading-relaxed">
                 Las tendencias a largo plazo aparecerán cuando tengas datos de al menos <strong className="text-indigo-400">2 meses</strong>.
                 Llevas <strong className="text-indigo-400">{estadisticas.total} registros</strong> — ¡sigue así!
               </p>
@@ -561,7 +561,7 @@ export default function ProgresoPage() {
           {estadisticas.total < 7 && (
             <div className="p-4 bg-teal-500/5 border border-teal-500/15 rounded-xl flex gap-3 items-center">
               <span className="text-xl">💡</span>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-ink-subtle leading-relaxed">
                 Registra tu ánimo al menos 7 días para ver patrones y correlaciones.
                 Llevas <strong className="text-teal-400">{estadisticas.total} de 7</strong> días.
               </p>
@@ -581,7 +581,7 @@ export default function ProgresoPage() {
               <h2 className="text-sm font-bold text-white">Comunidad de pares — Próximamente</h2>
               <span className="text-[10px] font-bold px-2 py-0.5 bg-indigo-500/15 text-indigo-400 border border-indigo-500/25 rounded-full">Beta</span>
             </div>
-            <p className="text-xs text-gray-500 leading-relaxed mb-3">
+            <p className="text-xs text-ink-subtle leading-relaxed mb-3">
               Foros moderados por psicólogos donde podrás compartir experiencias, estrategias y apoyo mutuo con personas en situaciones similares. Tu privacidad siempre protegida.
             </p>
             <div className="flex gap-3 flex-wrap">
@@ -590,7 +590,7 @@ export default function ProgresoPage() {
                 { emoji: '🔒', label: 'Moderación clínica' },
                 { emoji: '🎭', label: 'Anonimato opcional' },
               ].map(({ emoji, label }) => (
-                <span key={label} className="inline-flex items-center gap-1.5 text-[11px] text-gray-600">
+                <span key={label} className="inline-flex items-center gap-1.5 text-[11px] text-ink-subtle">
                   <span>{emoji}</span>{label}
                 </span>
               ))}
@@ -607,7 +607,7 @@ export default function ProgresoPage() {
         >
           <div className="bg-[#0d1a12] border border-teal-500/30 rounded-2xl p-8 w-full max-w-sm">
             <h3 className="text-xl font-black text-white mb-1">¿Cómo estás ahora?</h3>
-            <p className="text-sm text-gray-600 mb-6">Registro rápido de ánimo</p>
+            <p className="text-sm text-ink-subtle mb-6">Registro rápido de ánimo</p>
 
             <div className="text-center mb-5">
               <div className="text-5xl mb-2">{animoEmoji(animoHoy)}</div>
@@ -629,7 +629,7 @@ export default function ProgresoPage() {
                   className={`px-3 py-1.5 rounded-full text-xs border transition-all ${
                     emocionHoy === e
                       ? 'bg-teal-500/15 border-teal-500/40 text-teal-400'
-                      : 'bg-white/3 border-white/8 text-gray-500 hover:text-gray-300'
+                      : 'bg-white/3 border-white/8 text-ink-subtle hover:text-gray-300'
                   }`}
                 >
                   {e}
@@ -645,13 +645,13 @@ export default function ProgresoPage() {
               <button
                 onClick={registrarAnimo}
                 disabled={guardando}
-                className="flex-1 py-3 bg-teal-600 hover:bg-teal-500 disabled:opacity-60 text-white font-bold rounded-xl transition-colors"
+                className="flex-1 py-3 bg-teal-700 hover:bg-teal-800 disabled:opacity-60 text-white font-bold rounded-xl transition-colors"
               >
                 {guardando ? 'Guardando...' : 'Guardar'}
               </button>
               <button
                 onClick={() => setModalAnimo(false)}
-                className="flex-1 py-3 bg-white/5 hover:bg-white/8 text-gray-500 rounded-xl border border-white/8 transition-colors"
+                className="flex-1 py-3 bg-white/5 hover:bg-white/8 text-ink-subtle rounded-xl border border-white/8 transition-colors"
               >
                 Cancelar
               </button>

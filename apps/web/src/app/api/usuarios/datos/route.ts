@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
 
 const COLOR_TEAL   = '#2dd4bf';
 const COLOR_DARK   = '#0d1a12';
-const COLOR_GRAY   = '#5a8a6a';
+const COLOR_GRAY   = '#7a9e87';
 const COLOR_WHITE  = '#ffffff';
 const COLOR_ACCENT = '#1a6b4a';
 

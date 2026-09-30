@@ -339,7 +339,7 @@ function CheckIcon() {
 
 function XIcon() {
   return (
-    <svg className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
+    <svg className="w-4 h-4 text-ink-subtle flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
       <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
@@ -382,7 +382,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-3.5 justify-center mb-10">
               <Link
                 href="/registro"
-                className="px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98]"
+                className="px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02] active:scale-[0.98]"
               >
                 Empezar gratis — sin tarjeta de crédito →
               </Link>
@@ -534,7 +534,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-4 items-center">
                 <Link
                   href="/psicologos"
-                  className="px-7 py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-sm shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
+                  className="px-7 py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-sm shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
                 >
                   Explorar Psicólogos Verificados →
                 </Link>
@@ -562,7 +562,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400" tabIndex={0} role="region" aria-label="Tabla comparativa (desliza para ver más)">
             <table className="w-full text-left border-collapse min-w-[600px]">
               <thead>
                 <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-gray-400">
@@ -621,7 +621,7 @@ export default function Home() {
           <div className="mt-12 text-center">
             <Link
               href="/registro"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-base shadow-lg shadow-teal-500/25 hover:scale-[1.02]"
             >
               Crear cuenta gratis →
             </Link>
@@ -701,7 +701,7 @@ export default function Home() {
               >
                 {plan.destacado && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg shadow-teal-500/30">
+                    <span className="bg-gradient-to-r from-teal-500 to-emerald-500 text-on-accent text-xs font-bold px-4 py-1 rounded-full shadow-lg shadow-teal-500/30">
                       ★ Más popular
                     </span>
                   </div>
@@ -721,7 +721,7 @@ export default function Home() {
                   href={plan.href}
                   className={`w-full py-3 rounded-xl font-semibold text-sm text-center transition-all ${
                     plan.destacado
-                      ? 'bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white shadow-lg shadow-teal-500/20 hover:scale-[1.01]'
+                      ? 'bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent shadow-lg shadow-teal-500/20 hover:scale-[1.01]'
                       : 'bg-white/6 hover:bg-white/12 border border-white/12 text-white hover:scale-[1.01]'
                   }`}
                 >
@@ -736,7 +736,7 @@ export default function Home() {
                     </li>
                   ))}
                   {plan.noFeatures.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-xs text-gray-500">
+                    <li key={f} className="flex items-start gap-2.5 text-xs text-ink-subtle">
                       <XIcon />
                       {f}
                     </li>
@@ -827,7 +827,7 @@ export default function Home() {
               </p>
               <Link
                 href="/registro"
-                className="inline-flex px-9 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02]"
+                className="inline-flex px-9 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold rounded-xl transition-all text-base shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-[1.02]"
               >
                 Crear cuenta gratis →
               </Link>
@@ -868,6 +868,7 @@ export default function Home() {
                   { href: '/psicologos', label: 'Psicólogos' },
                   { href: '#precios', label: 'Precios' },
                   { href: '/aprender', label: 'Aprender' },
+                  { href: '/blog', label: 'Blog de salud mental' },
                 ].map(l => (
                   <Link key={l.label} href={l.href} className="block text-xs text-gray-400 hover:text-teal-300 transition-colors">{l.label}</Link>
                 ))}
@@ -892,9 +893,8 @@ export default function Home() {
             <div>
               <p className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-3">🆘 Líneas de crisis 24h</p>
               <nav className="space-y-2">
-                <a href="tel:106" className="block text-xs text-teal-300 hover:text-teal-200 font-semibold transition-colors">Línea 106 — Salud Mental (Gratis)</a>
+                <a href="tel:106" className="block text-xs text-teal-300 hover:text-teal-200 font-semibold transition-colors">Línea 106 — Salud Mental (gratis, todo el país)</a>
                 <a href="tel:123" className="block text-xs text-rose-400 hover:text-rose-300 font-semibold transition-colors">123 — Emergencias</a>
-                <a href="tel:8001225555" className="block text-xs text-gray-400 hover:text-gray-200 transition-colors">800-122-5555 — Salud Mental</a>
                 <a href="tel:132" className="block text-xs text-gray-400 hover:text-gray-200 transition-colors">132 — Cruz Roja</a>
               </nav>
             </div>

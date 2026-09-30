@@ -110,7 +110,7 @@ export default function ChequeoEmocionalInteractivo() {
                 onClick={() => setSeleccionado(emo)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
                   activo
-                    ? 'bg-teal-500 text-white shadow-lg shadow-teal-500/25 scale-[1.02]'
+                    ? 'bg-teal-500 text-on-accent shadow-lg shadow-teal-500/25 scale-[1.02]'
                     : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/8 hover:border-white/15'
                 }`}
               >
@@ -142,7 +142,7 @@ export default function ChequeoEmocionalInteractivo() {
 
             <Link
               href="/registro"
-              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-teal-500/20 transition-all hover:scale-[1.02]"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-on-accent font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-teal-500/20 transition-all hover:scale-[1.02]"
             >
               Hablar sobre esto ahora — Gratis →
             </Link>
@@ -155,7 +155,7 @@ export default function ChequeoEmocionalInteractivo() {
                 <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
                 <span className="text-[11px] font-bold text-gray-300">Respuesta de tu Acompañante IA</span>
               </div>
-              <span className="text-[10px] text-gray-500">24/7 Confidencial</span>
+              <span className="text-[10px] text-ink-subtle">24/7 Confidencial</span>
             </div>
 
             {/* User message */}

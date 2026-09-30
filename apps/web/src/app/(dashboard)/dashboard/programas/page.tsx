@@ -70,7 +70,7 @@ export default function ProgramasPage() {
       <div style={{ fontSize: '56px' }}>🔒</div>
       <div>
         <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '8px' }}>Programas guiados — Plan Plus</h2>
-        <p style={{ fontSize: '14px', color: '#5a8a6a', lineHeight: 1.7, maxWidth: '400px' }}>
+        <p style={{ fontSize: '14px', color: '#7a9e87', lineHeight: 1.7, maxWidth: '400px' }}>
           Los programas estructurados de 3-5 semanas están disponibles a partir del plan Plus. Incluyen TCC, manejo de ansiedad, sueño, autoestima y más.
         </p>
       </div>
@@ -78,11 +78,11 @@ export default function ProgramasPage() {
         <Link href="/dashboard/perfil?tab=plan" style={{ background: '#2dd4bf', color: '#0d1a12', padding: '12px 28px', borderRadius: '10px', fontWeight: '800', fontSize: '14px', textDecoration: 'none' }}>
           Ver planes →
         </Link>
-        <Link href="/dashboard" style={{ background: 'transparent', color: '#5a8a6a', padding: '12px 24px', borderRadius: '10px', fontWeight: '600', fontSize: '14px', textDecoration: 'none', border: '1px solid #2a3d2e' }}>
+        <Link href="/dashboard" style={{ background: 'transparent', color: '#7a9e87', padding: '12px 24px', borderRadius: '10px', fontWeight: '600', fontSize: '14px', textDecoration: 'none', border: '1px solid #2a3d2e' }}>
           Volver al inicio
         </Link>
       </div>
-      <p style={{ fontSize: '12px', color: '#3d5c48' }}>Plan Plus desde <strong style={{ color: '#2dd4bf' }}>$25.000 COP/mes</strong> · Cancela cuando quieras</p>
+      <p style={{ fontSize: '12px', color: '#7a9e87' }}>Plan Plus desde <strong style={{ color: '#2dd4bf' }}>$25.000 COP/mes</strong> · Cancela cuando quieras</p>
     </div>
   );
   const [programaActivo, setProgramaActivo] = useState<typeof PROGRAMAS[0]|null>(null);
@@ -105,7 +105,7 @@ export default function ProgramasPage() {
       {/* Header */}
       <div>
         <h1 style={{ fontSize:'24px', fontWeight:'900', color:'white' }}>📚 Programas Guiados</h1>
-        <p style={{ fontSize:'13px', color:'#5a8a6a', marginTop:'4px' }}>Programas estructurados de 3-5 semanas basados en evidencia clínica</p>
+        <p style={{ fontSize:'13px', color:'#7a9e87', marginTop:'4px' }}>Programas estructurados de 3-5 semanas basados en evidencia clínica</p>
       </div>
 
       {/* Grid de programas */}
@@ -146,7 +146,7 @@ export default function ProgramasPage() {
       {programaActivo && (
         <div style={{ display:'flex', flexDirection:'column', gap:'16px' }}>
           {/* Nav */}
-          <button onClick={()=>setProgramaActivo(null)} style={{ background:'none', border:'none', color:'#5a8a6a', cursor:'pointer', fontSize:'14px', fontFamily:'inherit', alignSelf:'flex-start', display:'flex', alignItems:'center', gap:'6px' }}>
+          <button onClick={()=>setProgramaActivo(null)} style={{ background:'none', border:'none', color:'#7a9e87', cursor:'pointer', fontSize:'14px', fontFamily:'inherit', alignSelf:'flex-start', display:'flex', alignItems:'center', gap:'6px' }}>
             ← Todos los programas
           </button>
 
@@ -190,13 +190,13 @@ export default function ProgramasPage() {
                 <div key={idx} style={{ background:'#0d1a12', border:`1px solid ${activa?programaActivo.border:'#1a2e1f'}`, borderRadius:'12px', overflow:'hidden', cursor:'pointer' }} onClick={()=>setSemanaActiva(activa?-1:idx)}>
                   <div style={{ padding:'16px 20px', display:'flex', alignItems:'center', gap:'14px' }}>
                     <div style={{ width:'36px', height:'36px', borderRadius:'50%', background:completada?programaActivo.color:'#1a2e1f', border:`2px solid ${completada?programaActivo.border:'#2a3d2e'}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                      <span style={{ fontSize:'14px', fontWeight:'900', color:completada?programaActivo.border:'#3d5c48' }}>{completada?'✓':idx+1}</span>
+                      <span style={{ fontSize:'14px', fontWeight:'900', color:completada?programaActivo.border:'#7a9e87' }}>{completada?'✓':idx+1}</span>
                     </div>
                     <div style={{ flex:1 }}>
                       <p style={{ fontWeight:'700', color:'white', fontSize:'14px' }}>Semana {semana.n}: {semana.titulo}</p>
-                      <p style={{ fontSize:'12px', color:'#5a8a6a', marginTop:'2px' }}>{semana.temas.length} temas · {Math.ceil(semana.temas.length * 15)} min aprox.</p>
+                      <p style={{ fontSize:'12px', color:'#7a9e87', marginTop:'2px' }}>{semana.temas.length} temas · {Math.ceil(semana.temas.length * 15)} min aprox.</p>
                     </div>
-                    <span style={{ color:'#3d5c48', transition:'transform .2s', transform:activa?'rotate(180deg)':'none' }}>▾</span>
+                    <span style={{ color:'#7a9e87', transition:'transform .2s', transform:activa?'rotate(180deg)':'none' }}>▾</span>
                   </div>
                   {activa && (
                     <div style={{ padding:'0 20px 18px', borderTop:'1px solid #1a2e1f' }}>

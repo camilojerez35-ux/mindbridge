@@ -45,7 +45,7 @@ export default async function TestsPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-black text-white mb-1">🧪 Autoevaluaciones</h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-ink-subtle">
           {completados.size}/{CATALOGO_TESTS.length} completados · Los resultados personalizan tu Consejo del día y el Chat IA
         </p>
       </div>
@@ -79,7 +79,7 @@ export default async function TestsPage() {
             >
               {destacado.hecho ? 'Repetir test' : 'Comenzar test'} →
             </Link>
-            <span className="text-xs text-gray-600">⏱ {destacado.duracionMin} min · {destacado.numPreguntas} preguntas</span>
+            <span className="text-xs text-ink-subtle">⏱ {destacado.duracionMin} min · {destacado.numPreguntas} preguntas</span>
           </div>
         </div>
       )}

@@ -272,7 +272,7 @@ export default function PsicologoPage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>👨‍⚕️ Panel del Psicólogo</h1>
-          <p style={{ fontSize: '13px', color: '#5a8a6a', marginTop: '4px' }}>
+          <p style={{ fontSize: '13px', color: '#7a9e87', marginTop: '4px' }}>
             {form.nombreCompleto ? `Dr/a. ${form.nombreCompleto}` : 'MenteBridge'}
           </p>
         </div>
@@ -308,10 +308,10 @@ export default function PsicologoPage() {
               <div style={{ position: 'absolute', top: '48px', right: 0, width: '340px', background: '#0d1a12', border: '1px solid rgba(251,191,36,0.2)', borderRadius: '14px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', zIndex: 100, overflow: 'hidden' }}>
                 <div style={{ padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontWeight: '700', color: 'white', fontSize: '13px' }}>🔔 Notificaciones</span>
-                  <button onClick={() => setPanelNotifs(false)} style={{ background: 'none', border: 'none', color: '#5a8a6a', cursor: 'pointer', fontSize: '16px' }}>✕</button>
+                  <button onClick={() => setPanelNotifs(false)} style={{ background: 'none', border: 'none', color: '#7a9e87', cursor: 'pointer', fontSize: '16px' }}>✕</button>
                 </div>
                 {notifs.length === 0 ? (
-                  <p style={{ padding: '20px', color: '#3d5c48', fontSize: '13px', textAlign: 'center' }}>Sin notificaciones pendientes</p>
+                  <p style={{ padding: '20px', color: '#7a9e87', fontSize: '13px', textAlign: 'center' }}>Sin notificaciones pendientes</p>
                 ) : (
                   <div style={{ maxHeight: '320px', overflowY: 'auto' }}>
                     {notifs.map(n => (
@@ -354,7 +354,7 @@ export default function PsicologoPage() {
           <div key={i} style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
             <div style={{ fontSize: '22px', marginBottom: '6px' }}>{s.icon}</div>
             <div style={{ fontSize: '20px', fontWeight: '900', color: s.color, lineHeight: 1 }}>{s.val}</div>
-            <div style={{ fontSize: '11px', color: '#3d5c48', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</div>
+            <div style={{ fontSize: '11px', color: '#7a9e87', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -362,7 +362,7 @@ export default function PsicologoPage() {
       {/* Tabs */}
       <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', background: '#0d1a12', padding: '4px', borderRadius: '10px', border: '1px solid #1a2e1f' }}>
         {[['hoy', '📅 Hoy'], ['agenda', '🗓 Calendario'], ['pacientes', '👥 Pacientes'], ['tareas', '✅ Tareas'], ['pagos', '💰 Pagos'], ['perfil', '👤 Mi Perfil']].map(([v, l]) => (
-          <button key={v} onClick={() => setTab(v as any)} style={{ flex: 1, padding: '9px 8px', borderRadius: '7px', border: 'none', background: tab === v ? '#1a6b4a' : 'transparent', color: tab === v ? 'white' : '#5a8a6a', cursor: 'pointer', fontSize: '12px', fontWeight: tab === v ? '700' : '400', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{l}</button>
+          <button key={v} onClick={() => setTab(v as any)} style={{ flex: 1, padding: '9px 8px', borderRadius: '7px', border: 'none', background: tab === v ? '#1a6b4a' : 'transparent', color: tab === v ? 'white' : '#7a9e87', cursor: 'pointer', fontSize: '12px', fontWeight: tab === v ? '700' : '400', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{l}</button>
         ))}
       </div>
 
@@ -373,12 +373,12 @@ export default function PsicologoPage() {
             Citas de hoy — {new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' })}
           </h2>
 
-          {cargandoCitas && <p style={{ color: '#5a8a6a', fontSize: '14px' }}>Cargando citas...</p>}
+          {cargandoCitas && <p style={{ color: '#7a9e87', fontSize: '14px' }}>Cargando citas...</p>}
 
           {!cargandoCitas && citasHoy.length === 0 && (
             <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '32px', textAlign: 'center' }}>
               <p style={{ fontSize: '32px', marginBottom: '12px' }}>🌿</p>
-              <p style={{ color: '#5a8a6a', fontSize: '14px' }}>Sin citas programadas para hoy</p>
+              <p style={{ color: '#7a9e87', fontSize: '14px' }}>Sin citas programadas para hoy</p>
             </div>
           )}
 
@@ -388,19 +388,19 @@ export default function PsicologoPage() {
               <div key={cita.id} style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '20px', display: 'flex', gap: '16px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
                 <div style={{ textAlign: 'center', minWidth: '64px' }}>
                   <p style={{ fontSize: '18px', fontWeight: '900', color: '#2dd4bf' }}>{fmtHora(cita.fechaHora)}</p>
-                  <p style={{ fontSize: '11px', color: '#3d5c48' }}>{cita.duracionMinutos} min</p>
+                  <p style={{ fontSize: '11px', color: '#7a9e87' }}>{cita.duracionMinutos} min</p>
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: '700', color: 'white', fontSize: '15px', marginBottom: '4px' }}>{nombrePaciente(cita)}</p>
-                  <p style={{ fontSize: '13px', color: '#5a8a6a', marginBottom: '8px' }}>{cita.tipo.replace('_', ' ')} · {cita.modalidad}</p>
+                  <p style={{ fontSize: '13px', color: '#7a9e87', marginBottom: '8px' }}>{cita.tipo.replace('_', ' ')} · {cita.modalidad}</p>
                   {citaNotas === cita.id && (
                     <div style={{ marginTop: '14px', borderTop: '1px solid #1a2e1f', paddingTop: '14px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                        <span style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>📝 Notas clínicas</span>
-                        <span style={{ fontSize: '11px', color: '#3d5c48' }}>— solo visibles para ti</span>
+                        <span style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>📝 Notas clínicas</span>
+                        <span style={{ fontSize: '11px', color: '#7a9e87' }}>— solo visibles para ti</span>
                       </div>
                       {notasCargando ? (
-                        <p style={{ color: '#3d5c48', fontSize: '13px' }}>Cargando...</p>
+                        <p style={{ color: '#7a9e87', fontSize: '13px' }}>Cargando...</p>
                       ) : (
                         <>
                           <textarea
@@ -417,7 +417,7 @@ export default function PsicologoPage() {
                               style={{ background: notasGuardadas ? '#1a6b4a' : '#0d9488', color: 'white', padding: '8px 18px', borderRadius: '8px', border: 'none', cursor: notasGuardando ? 'wait' : 'pointer', fontSize: '13px', fontFamily: 'inherit', fontWeight: '700', opacity: notasGuardando ? 0.7 : 1 }}>
                               {notasGuardando ? 'Guardando...' : notasGuardadas ? '✅ Guardado' : 'Guardar notas'}
                             </button>
-                            <span style={{ fontSize: '12px', color: '#3d5c48' }}>
+                            <span style={{ fontSize: '12px', color: '#7a9e87' }}>
                               {notasCita.length}/10000 caracteres
                             </span>
                             {notasError && <span style={{ fontSize: '12px', color: '#f87171' }}>{notasError}</span>}
@@ -476,7 +476,7 @@ export default function PsicologoPage() {
             {/* Cabecera días semana */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: '2px', marginBottom: '6px' }}>
               {['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'].map(d => (
-                <div key={d} style={{ textAlign: 'center', fontSize: '11px', color: '#3d5c48', fontWeight: '700', padding: '4px 0' }}>{d}</div>
+                <div key={d} style={{ textAlign: 'center', fontSize: '11px', color: '#7a9e87', fontWeight: '700', padding: '4px 0' }}>{d}</div>
               ))}
             </div>
 
@@ -516,7 +516,7 @@ export default function PsicologoPage() {
               {[{ color: '#2dd4bf', label: 'Confirmada' }, { color: '#fbbf24', label: 'Pendiente' }, { color: '#f87171', label: 'Cancelada' }].map(({ color, label }) => (
                 <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: color, display: 'inline-block' }} />
-                  <span style={{ fontSize: '11px', color: '#5a8a6a' }}>{label}</span>
+                  <span style={{ fontSize: '11px', color: '#7a9e87' }}>{label}</span>
                 </div>
               ))}
             </div>
@@ -531,11 +531,11 @@ export default function PsicologoPage() {
             </h3>
 
             {!diaSeleccionado && (
-              <p style={{ color: '#3d5c48', fontSize: '13px' }}>Haz clic en un día del calendario para ver sus citas.</p>
+              <p style={{ color: '#7a9e87', fontSize: '13px' }}>Haz clic en un día del calendario para ver sus citas.</p>
             )}
 
             {diaSeleccionado && citasDiaSeleccionado.length === 0 && (
-              <p style={{ color: '#3d5c48', fontSize: '13px' }}>Sin citas para este día.</p>
+              <p style={{ color: '#7a9e87', fontSize: '13px' }}>Sin citas para este día.</p>
             )}
 
             {citasDiaSeleccionado.map(cita => {
@@ -547,7 +547,7 @@ export default function PsicologoPage() {
                     <span style={{ background: est.bg, color: est.color, border: `1px solid ${est.color}33`, borderRadius: '10px', padding: '3px 10px', fontSize: '11px', fontWeight: '700' }}>{est.label}</span>
                   </div>
                   <p style={{ color: 'white', fontWeight: '600', fontSize: '14px' }}>{nombrePaciente(cita)}</p>
-                  <p style={{ color: '#5a8a6a', fontSize: '12px' }}>{cita.tipo.replace('_', ' ')} · {cita.duracionMinutos} min · {cita.modalidad}</p>
+                  <p style={{ color: '#7a9e87', fontSize: '12px' }}>{cita.tipo.replace('_', ' ')} · {cita.duracionMinutos} min · {cita.modalidad}</p>
                   {cita.estado === 'PENDIENTE' && (
                     <div style={{ display: 'flex', gap: '8px' }}>
                       <button onClick={() => accionarCita(cita.id, 'CONFIRMAR')} disabled={accionando === cita.id}
@@ -573,7 +573,7 @@ export default function PsicologoPage() {
                   {citaNotas === cita.id && (
                     <div style={{ borderTop: '1px solid #1a2e1f', paddingTop: '12px' }}>
                       {notasCargando ? (
-                        <p style={{ color: '#3d5c48', fontSize: '13px' }}>Cargando...</p>
+                        <p style={{ color: '#7a9e87', fontSize: '13px' }}>Cargando...</p>
                       ) : (
                         <>
                           <textarea
@@ -624,7 +624,7 @@ export default function PsicologoPage() {
             ].map((s, i) => (
               <div key={i} style={{ background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '10px', padding: '16px', textAlign: 'center' }}>
                 <div style={{ fontSize: '20px', fontWeight: '900', color: s.color }}>{s.val}</div>
-                <div style={{ fontSize: '11px', color: '#3d5c48', marginTop: '4px' }}>{s.label}</div>
+                <div style={{ fontSize: '11px', color: '#7a9e87', marginTop: '4px' }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -636,7 +636,7 @@ export default function PsicologoPage() {
         <div style={{ background: '#0d1a12', border: '1px solid #1a2e1f', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <h2 style={{ fontSize: '16px', fontWeight: '700', color: 'white' }}>Mi perfil público</h2>
           {cargandoPerfil ? (
-            <p style={{ color: '#5a8a6a', fontSize: '14px' }}>Cargando perfil...</p>
+            <p style={{ color: '#7a9e87', fontSize: '14px' }}>Cargando perfil...</p>
           ) : (
             <>
               {([
@@ -649,14 +649,14 @@ export default function PsicologoPage() {
                 { k: 'formacion' as const,           label: 'Formación académica',                     ph: 'Psicólogo clínico, U. de los Andes (2018)' },
               ]).map(({ k, label, ph }) => (
                 <div key={k}>
-                  <label style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '600', display: 'block', marginBottom: '5px' }}>{label}</label>
+                  <label style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '600', display: 'block', marginBottom: '5px' }}>{label}</label>
                   <input value={form[k]} onChange={campo(k)} placeholder={ph}
                     type={k === 'tarifaCOP' || k === 'anosExperiencia' ? 'number' : 'text'}
                     style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit' }} />
                 </div>
               ))}
               <div>
-                <label style={{ fontSize: '12px', color: '#5a8a6a', fontWeight: '600', display: 'block', marginBottom: '5px' }}>Bio profesional</label>
+                <label style={{ fontSize: '12px', color: '#7a9e87', fontWeight: '600', display: 'block', marginBottom: '5px' }}>Bio profesional</label>
                 <textarea value={form.bio} onChange={campo('bio')} placeholder="Descripción breve de tu práctica, enfoque y experiencia..." rows={4}
                   style={{ width: '100%', background: '#141f17', border: '1px solid #2a3d2e', borderRadius: '8px', padding: '10px 12px', color: 'white', fontSize: '13px', outline: 'none', fontFamily: 'inherit', resize: 'vertical' }} />
               </div>

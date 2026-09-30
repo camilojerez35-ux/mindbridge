@@ -132,27 +132,25 @@ function ConsentimientoForm() {
             onChange={() => toggle('marketing')}
           >
             Acepto recibir contenido educativo sobre salud mental por email{' '}
-            <span className="text-gray-600">(opcional)</span>
+            <span className="text-ink-subtle">(opcional)</span>
           </ConsentCheck>
 
           <button
             type="submit"
             disabled={loading || !checks.privacidad || !checks.ia}
-            className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-2"
+            className="w-full py-3.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-on-accent font-semibold rounded-xl hover:from-teal-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-2"
           >
             {loading ? 'Guardando...' : 'Aceptar y continuar →'}
           </button>
         </form>
 
-        <p className="text-xs text-gray-600 text-center mt-6 leading-relaxed">
+        <p className="text-xs text-ink-subtle text-center mt-6 leading-relaxed">
           Puedes retirar tu consentimiento en Configuración → Privacidad.
           <br />
           Crisis:{' '}
-            <a href="tel:106" className="text-teal-600 font-bold hover:underline">106</a>
+            <a href="tel:106" className="text-teal-400 font-bold hover:underline">106</a>
             {' · '}
-            <a href="tel:8001225555" className="text-indigo-500 font-bold hover:underline">800-112-5555</a>
-            {' · '}
-            <a href="tel:123" className="text-red-500 font-bold hover:underline">123</a>
+            <a href="tel:123" className="text-red-400 font-bold hover:underline">123</a>
         </p>
       </div>
     </div>

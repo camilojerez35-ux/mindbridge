@@ -26,7 +26,7 @@ export default function EmptyState({
     }}>
       <div style={{ fontSize: '48px', lineHeight: 1, marginBottom: '4px' }}>{icon}</div>
       <h3 style={{ fontSize: '17px', fontWeight: '700', color: 'white', margin: 0 }}>{titulo}</h3>
-      <p style={{ fontSize: '13px', color: '#5a8a6a', lineHeight: 1.6, maxWidth: '320px', margin: 0 }}>{descripcion}</p>
+      <p style={{ fontSize: '13px', color: '#7a9e87', lineHeight: 1.6, maxWidth: '320px', margin: 0 }}>{descripcion}</p>
 
       {(accionLabel || secundarioLabel) && (
         <div style={{ display: 'flex', gap: '10px', marginTop: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -36,7 +36,7 @@ export default function EmptyState({
               : <button onClick={onAccion} style={{ padding: '10px 22px', background: '#1a6b4a', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: '700', fontFamily: 'inherit' }}>{accionLabel}</button>
           )}
           {secundarioLabel && (
-            <button onClick={onSecundario} style={{ padding: '10px 22px', background: 'transparent', color: '#5a8a6a', border: '1px solid #2a3d2e', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>{secundarioLabel}</button>
+            <button onClick={onSecundario} style={{ padding: '10px 22px', background: 'transparent', color: '#7a9e87', border: '1px solid #2a3d2e', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }}>{secundarioLabel}</button>
           )}
         </div>
       )}

@@ -13,7 +13,7 @@ export default function AuthError({ error, reset }: { error: Error & { digest?: 
         <h1 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '10px' }}>
           Algo salió mal
         </h1>
-        <p style={{ fontSize: '14px', color: '#5a8a6a', lineHeight: 1.7, marginBottom: '28px' }}>
+        <p style={{ fontSize: '14px', color: '#7a9e87', lineHeight: 1.7, marginBottom: '28px' }}>
           Ocurrió un error inesperado. Por favor intenta de nuevo o vuelve al inicio.
         </p>
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -27,11 +27,9 @@ export default function AuthError({ error, reset }: { error: Error & { digest?: 
             Ir al login
           </Link>
         </div>
-        <p style={{ marginTop: '32px', fontSize: '11px', color: '#2a3d2e' }}>
+        <p style={{ marginTop: '32px', fontSize: '11px', color: '#7a9e87' }}>
           Crisis:{' '}
           <a href="tel:106" style={{ color: '#2dd4bf', fontWeight: 700, textDecoration: 'none' }}>106</a>
-          {' · '}
-          <a href="tel:8001225555" style={{ color: '#818cf8', fontWeight: 700, textDecoration: 'none' }}>800-112-5555</a>
           {' · '}
           <a href="tel:123" style={{ color: '#f87171', fontWeight: 700, textDecoration: 'none' }}>123</a>
         </p>

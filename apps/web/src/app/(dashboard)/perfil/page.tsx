@@ -17,7 +17,7 @@ export default function PerfilPage() {
         </div>
         <div>
           <h1 className="text-xl font-black text-white">Camilo</h1>
-          <p className="text-xs text-teal-700">Plan Plus · Miembro desde Mayo 2026</p>
+          <p className="text-xs text-teal-300">Plan Plus · Miembro desde Mayo 2026</p>
         </div>
       </div>
 
@@ -28,7 +28,7 @@ export default function PerfilPage() {
           className={`pb-2.5 text-sm font-bold transition-colors border-b-2 ${
             tab === 'animo'
               ? 'text-white border-teal-400'
-              : 'text-gray-600 border-transparent hover:text-gray-400'
+              : 'text-ink-subtle border-transparent hover:text-gray-400'
           }`}
         >
           📊 Seguimiento del ánimo
@@ -38,7 +38,7 @@ export default function PerfilPage() {
           className={`pb-2.5 text-sm font-bold transition-colors border-b-2 ${
             tab === 'personalidad'
               ? 'text-white border-teal-400'
-              : 'text-gray-600 border-transparent hover:text-gray-400'
+              : 'text-ink-subtle border-transparent hover:text-gray-400'
           }`}
         >
           🎭 Personalidad

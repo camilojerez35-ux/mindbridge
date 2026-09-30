@@ -57,11 +57,11 @@ export async function POST(req: NextRequest) {
             Restablecer contraseña →
           </a>
         </div>
-        <p style="color:#3d5c48;font-size:12px;text-align:center;margin:0">
+        <p style="color:#7a9e87;font-size:12px;text-align:center;margin:0">
           Válido por <strong style="color:#8aab96">1 hora</strong>. Si no solicitaste esto, ignora este mensaje.
         </p>
       </div>
-      <p style="color:#2a3d2e;font-size:11px;text-align:center;margin-top:20px">
+      <p style="color:#7a9e87;font-size:11px;text-align:center;margin-top:20px">
         Crisis: <strong style="color:#2dd4bf">Línea 106 · 123</strong>
       </p>
     </td></tr>

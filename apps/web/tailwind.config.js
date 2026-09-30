@@ -22,6 +22,15 @@ module.exports = {
           900: '#0d1a12',
         },
         teal: { DEFAULT: '#2dd4bf' },
+        // Texto sobre superficies oscuras — todos ≥ 4.5:1 (WCAG AA) incluso sobre surface-card
+        ink: {
+          DEFAULT: '#ffffff',
+          soft:    '#c9dccf', // cuerpo de texto largo            (10.6:1 sobre surface)
+          muted:   '#8aab96', // texto secundario                 (7.1:1 sobre surface)
+          subtle:  '#7a9e87', // terciario: fechas, metadatos, ayudas (4.9:1 sobre surface-card)
+        },
+        // Texto sobre fondos de acento brillantes (teal-400/500, esmeralda) — 9.2:1 sobre teal-400
+        'on-accent': '#04201b',
       },
       fontFamily: {
         // Usa la variable CSS inyectada por next/font (sin request a Google Fonts en runtime)

@@ -266,7 +266,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <span style={{ fontSize: 18, fontWeight: 900, color: '#2dd4bf' }}>MenteBridge</span>
             <h2 style={{ color: 'white', fontSize: 22, fontWeight: 800, margin: '12px 0 4px' }}>Sala de espera</h2>
-            <p style={{ color: '#5a8a6a', fontSize: 14 }}>Hola, <strong style={{ color: '#8aab96' }}>{nombreUsuario}</strong></p>
+            <p style={{ color: '#7a9e87', fontSize: 14 }}>Hola, <strong style={{ color: '#8aab96' }}>{nombreUsuario}</strong></p>
           </div>
 
           {/* Preview de cámara */}
@@ -275,7 +275,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
             {!permisoConcedido && (
               <div style={{ textAlign: 'center', padding: 24 }}>
                 <div style={{ fontSize: 48, marginBottom: 12 }}>📷</div>
-                <p style={{ color: '#5a8a6a', fontSize: 14, margin: 0 }}>
+                <p style={{ color: '#7a9e87', fontSize: 14, margin: 0 }}>
                   {lobbyError ? '' : 'Tu cámara aparecerá aquí'}
                 </p>
               </div>
@@ -316,11 +316,11 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
               </button>
             )}
             {permisoConcedido && (
-              <button onClick={pedirPermiso} style={{ background: 'transparent', border: '1px solid #2a3d2e', color: '#5a8a6a', padding: '10px', borderRadius: 10, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+              <button onClick={pedirPermiso} style={{ background: 'transparent', border: '1px solid #2a3d2e', color: '#7a9e87', padding: '10px', borderRadius: 10, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
                 Cambiar dispositivos
               </button>
             )}
-            <a href="/dashboard/citas" style={{ textAlign: 'center', color: '#3d5c48', fontSize: 13, textDecoration: 'none', padding: '8px 0' }}>
+            <a href="/dashboard/citas" style={{ textAlign: 'center', color: '#7a9e87', fontSize: 13, textDecoration: 'none', padding: '8px 0' }}>
               Cancelar y volver a mis citas
             </a>
           </div>
@@ -335,7 +335,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
       <div style={{ textAlign: 'center', maxWidth: 400, padding: 40 }}>
         <div style={{ fontSize: 56, marginBottom: 16 }}>✅</div>
         <h2 style={{ color: 'white', fontSize: 24, fontWeight: 900, marginBottom: 8 }}>Sesión finalizada</h2>
-        <p style={{ color: '#5a8a6a', marginBottom: 8 }}>Duración: {fmt(duracion)}</p>
+        <p style={{ color: '#7a9e87', marginBottom: 8 }}>Duración: {fmt(duracion)}</p>
         <p style={{ color: '#8aab96', fontSize: 14, marginBottom: 28, lineHeight: 1.6 }}>
           ¡Buen trabajo! Recuerda que puedes hablar con la IA entre sesiones para mantener tu progreso.
         </p>
@@ -422,7 +422,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
             {estado === 'activo'     && `En sesión · ${fmt(duracion)}`}
           </span>
         </div>
-        <span style={{ fontSize: 13, color: '#5a8a6a' }}>{nombreUsuario}</span>
+        <span style={{ fontSize: 13, color: '#7a9e87' }}>{nombreUsuario}</span>
       </div>
 
       {/* Contenido: video + chat */}
@@ -460,13 +460,13 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
             {/* Header chat */}
             <div style={{ padding: '14px 16px', borderBottom: '1px solid #1a2e1f', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ color: 'white', fontWeight: 700, fontSize: 14 }}>💬 Chat de sesión</span>
-              <button onClick={() => setChatAbierto(false)} style={{ background: 'none', border: 'none', color: '#5a8a6a', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>×</button>
+              <button onClick={() => setChatAbierto(false)} style={{ background: 'none', border: 'none', color: '#7a9e87', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>×</button>
             </div>
 
             {/* Mensajes */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
               {mensajes.length === 0 && (
-                <p style={{ color: '#3d5c48', fontSize: 13, textAlign: 'center', marginTop: 24 }}>
+                <p style={{ color: '#7a9e87', fontSize: 13, textAlign: 'center', marginTop: 24 }}>
                   El chat es privado y solo visible durante la sesión.
                 </p>
               )}
@@ -475,7 +475,7 @@ export default function SalaVideollamada({ citaId, nombreUsuario, esIniciador, o
                   <div style={{ maxWidth: '85%', background: m.propio ? '#1a6b4a' : '#1a2e1f', border: `1px solid ${m.propio ? '#2a8a5a' : '#2a3d2e'}`, borderRadius: m.propio ? '12px 12px 4px 12px' : '12px 12px 12px 4px', padding: '8px 12px' }}>
                     <p style={{ margin: 0, color: 'white', fontSize: 13, lineHeight: 1.5, wordBreak: 'break-word' }}>{m.texto}</p>
                   </div>
-                  <span style={{ color: '#3d5c48', fontSize: 11, marginTop: 2 }}>{fmtHora(m.ts)}</span>
+                  <span style={{ color: '#7a9e87', fontSize: 11, marginTop: 2 }}>{fmtHora(m.ts)}</span>
                 </div>
               ))}
               <div ref={chatEndRef} />
